@@ -1,0 +1,12 @@
+__pycache__/
+*.png
+build/
+dist/
+develop-eggs/
+eggs/
+*.egg-info/
+*.egg
+.tox/
+.pytest_cache
+.coverage
+.vscode/
