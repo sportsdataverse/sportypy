@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 
-def circle(center = (0.0, 0.0), npoints = 1000.0, d = 2.0, start = 0.0,
+def circle(center = (0.0, 0.0), npoints = 1000, d = 2.0, start = 0.0,
            end = 2.0):
     """Create a set of x and y coordinates that form a circle or arc.
 
@@ -15,7 +15,7 @@ def circle(center = (0.0, 0.0), npoints = 1000.0, d = 2.0, start = 0.0,
     center : tuple (default: (0.0, 0.0)
         The (x, y) coordinates of the center of the circle
 
-    npoints : float (default: 1000.0)
+    npoints : int (default: 1000)
         The number of points with which to create the circle. This will also be
         the length of the resulting data frame
 
