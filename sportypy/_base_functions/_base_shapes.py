@@ -178,3 +178,42 @@ def diamond(height, width, center = (0.0, 0.0)):
     })
 
     return diamond_pts
+
+
+def triangle(base = 1.0, height = 1.0):
+    """Generate the boundary of a triangle.
+
+    Parameters
+    ----------
+    base : float (default: 1.0)
+        When the tip of the triangle is pointing upwards, this is the length of
+        the flat side (opposite the upward-pointing side)
+
+    height : float (default: 1.0)
+        When the tip of the triangle is pointing upwards, this is the distance
+        from the tip of the upward-pointing corner to the base
+
+    Returns
+    -------
+    triangle_pts : pandas.DataFrame
+        The triangle's bounding coordinates
+    """
+    # A triangle's bounding coordinates are described by going along the
+    # following path
+    triangle_pts = pd.DataFrame({
+        'x': [
+            0.0,
+            0.5 * base,
+            base,
+            0.0
+        ],
+
+        'y': [
+            0.0,
+            height,
+            0.0,
+            0.0
+        ]
+    })
+
+    return triangle_pts
