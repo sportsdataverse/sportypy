@@ -125,3 +125,33 @@ def test_diamond():
     )
 
     pdtest.assert_frame_equal(test_diamond, expected_diamond)
+
+
+def test_triangle():
+    """Test the triangle-drawing function.
+
+    This test should pass so long as the triangle() function draws a triangle
+    with base 1 and height 1.
+    """
+    expected_triangle = pd.DataFrame({
+        'x': [
+            0.0,
+            0.5,
+            1.0,
+            0.0
+        ],
+
+        'y': [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    })
+
+    test_triangle = shapes.triangle(
+        base = 1.0,
+        height = 1.0
+    )
+
+    pdtest.assert_frame_equal(test_triangle, expected_triangle)
