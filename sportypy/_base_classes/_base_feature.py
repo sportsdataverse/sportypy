@@ -409,6 +409,33 @@ class BaseFeature(ABC):
 
         return patch
 
+    def _reflect(self, df, over_x = False, over_y = True):
+        """Reflect a data frame's coordinates over the desired axes.
+
+        Parameters
+        ----------
+        df : pandas.DataFrame
+            A data frame with points to reflect
+
+        over_x : bool (default: False)
+            Whether or not to reflect the points over the x axis
+
+        over_y : bool (default: False)
+            Whether or not to reflect the points over the y axis
+
+        Returns
+        -------
+        out_df : pandas.DataFrame
+            The data frame with the appropriate reflections
+        """
+        out_df = df.copy()
+        if over_x:
+            out_df['y'] = -1 * df['y']
+        if over_y:
+            out_df['x'] = -1 * df['x']
+
+        return out_df
+
 
 class TeamLogo(BaseFeature):
     """A base class for a team's logo.
