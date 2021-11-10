@@ -57,9 +57,8 @@ class BaseFeature(ABC):
     """
 
     def __init__(self, feature_df = pd.DataFrame(), x_anchor = 0.0,
-                 y_anchor = 0.0, x_justify = 'center', y_justify = 'center',
-                 reflect_x = False, reflect_y = True, is_constrained = True,
-                 visible = True, **plot_kwargs):
+                 y_anchor = 0.0, reflect_x = False, reflect_y = True,
+                 is_constrained = True, visible = True, **plot_kwargs):
         """Initialize the attributes of the class.
 
         The attributes for features will be provided in the feature's
@@ -67,9 +66,7 @@ class BaseFeature(ABC):
         """
         # Set the x and y anchors as well as the anchor's position
         self.x_anchor = x_anchor
-        self.x_justify = x_justify
         self.y_anchor = y_anchor
-        self.y_justify = y_justify
 
         # If the feature is to be reflected over the x axis, set the reflection
         # factor to be -1
