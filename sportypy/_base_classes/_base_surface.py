@@ -94,6 +94,9 @@ class BaseSurface(ABC):
         # be set by each surface's _get_display_range_dict() method
         self._display_ranges = None
 
+        # Initialize the unit conversions
+        self._load_unit_conversions()
+
     @staticmethod
     def copy_(param):
         """Copy what's passed in (if possible).
