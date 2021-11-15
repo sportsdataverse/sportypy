@@ -1284,9 +1284,7 @@ class HockeyRink(BaseSurfacePlot):
 
         Returns
         -------
-        available_league_codes : list or None
-            A list of available league codes. If a user passes a league code
-            that doesn't ship with sportypy, then the return will be None
+        Nothing, but a message will be printed out
         """
         # Define all available league codes
         available_league_codes = [k for k in self.league_dimensions.keys()]
@@ -1304,8 +1302,6 @@ class HockeyRink(BaseSurfacePlot):
                 print(f'{league_code.upper()} comes with sportypy and is '
                       'ready to use!')
 
-                available_league_codes = [league_code]
-
             # Otherwise, alert the user that they will need to manually specify
             # the parameters of the league
             else:
@@ -1313,8 +1309,6 @@ class HockeyRink(BaseSurfacePlot):
                       'but may be parameterized. Use the '
                       'cani_change_dimensions() to check what parameters are '
                       'needed.')
-
-                available_league_codes = None
 
         # If no league code is provided, print out the list of all available
         else:
@@ -1326,14 +1320,16 @@ class HockeyRink(BaseSurfacePlot):
             for league_code in available_league_codes:
                 print(f'- {league_code.upper()}')
 
-        return available_league_codes
-
     def cani_color_features(self):
         """Determine what features of the rink can be colored.
 
         This function is a helper function for the user to aid in plot styling
         and customization. The printed result of this method will be the names
         of the features that are able to be colored
+
+        Returns
+        -------
+        Nothing, but a message will be printed out
         """
         # Preamble
         print('The following features can be colored via the colors_dict '
@@ -1354,6 +1350,10 @@ class HockeyRink(BaseSurfacePlot):
         names of the features that are able to be reparameterized. This method
         is also useful when defining new features and using an existing
         league's rink dimensions as a starting point
+
+        Returns
+        -------
+        Nothing, but a message will be printed out
         """
         # Preamble
         print('The following features can be reparameterized via the '
