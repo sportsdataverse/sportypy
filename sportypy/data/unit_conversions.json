@@ -1,0 +1,55 @@
+{
+    "feet": 1.0,
+    "foot": 1.0,
+    "ft": 1.0,
+
+    "inches": 12.0,
+    "inch": 12.0,
+    "in": 12.0,
+
+    "yards": 0.3333,
+    "yard": 0.3333,
+    "yd": 0.3333,
+    
+    "millimeters": 304.8,
+    "millimetres": 304.8,
+    "millimeter": 304.8,
+    "millimetre": 304.8,
+    "mm": 340.8,
+
+    "centimeters": 30.48,
+    "centimetres": 30.48,
+    "centimeter": 30.48,
+    "centimetre": 30.48,
+    "cm": 30.48,
+
+    "decimeters": 3.048,
+    "decimetres": 3.048,
+    "decimeter": 3.048,
+    "decimetre": 3.048,
+    "dm": 3.048,
+
+    "meters": 0.3048,
+    "metres": 0.3048,
+    "meter": 0.3048,
+    "metre": 0.3048,
+    "m": 0.3048,
+
+    "decameters": 0.03048,
+    "decametres": 0.03048,
+    "decameter": 0.03048,
+    "decametre": 0.03048,
+    "dam": 0.03048,
+
+    "hectometers": 0.003048,
+    "hectometres": 0.003048,
+    "hectometer": 0.003048,
+    "hectometre": 0.003048,
+    "hm": 0.003048,
+
+    "kilometers": 0.0003048,
+    "kilometres": 0.0003048,
+    "kilometer": 0.0003048,
+    "kilometre": 0.0003048,
+    "km": 0.0003048
+}
