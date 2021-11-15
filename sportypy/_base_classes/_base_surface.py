@@ -336,7 +336,7 @@ class BaseSurface(ABC):
             bounds of x to display. If None, then the value will be set by
             the surface's _get_plot_range_limits() method
 
-        xlim : float, tuple (float, float), or None (default: None)
+        ylim : float, tuple (float, float), or None (default: None)
             If a single float is passed, this will be the lower bound of y
             to display. If a tuple is passed, it will be the lower and upper
             bounds of y to display. If None, then the value will be set by
@@ -376,8 +376,16 @@ class BaseSurface(ABC):
         # correctly
         xs, ys = self.convert_xy(x + self.x_trans, y + self.y_trans)
 
-        # Set the x and y limits on the Axes object
-        ax.set_xlim(np.min(xs), np.max(xs))
-        ax.set_ylim(np.min(ys), np.max(ys))
+        # Set the x and y limits of the plot. User-supplied x and y limits will
+        # take precedence over the display_range parameter
+        if xlim:
+            ax.set_xlim(xlim)
+        else:
+            ax.set_xlim(np.min(xs), np.max(xs))
+        
+        if ylim:
+            ax.set_ylim(ylim)
+        else:
+            ax.set_ylim(np.min(ys), np.max(ys))
 
         return ax
