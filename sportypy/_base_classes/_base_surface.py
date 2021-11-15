@@ -2,8 +2,9 @@
 
 @author: Ross Drucker
 """
-
+import json
 import numpy as np
+import importlib.resources
 import matplotlib.pyplot as plt
 from abc import ABC, abstractmethod
 
@@ -69,11 +70,6 @@ class BaseSurface(ABC):
         # center at (0, 0)
         self.x_trans = 0.0
         self.y_trans = 0.0
-
-        # Initialize a default unit for the surface. This may be overridden in
-        # a sport's subclass, but allows for a user to specify their own units
-        # for easier alignment with their data
-        self.rulebook_unit = 'ft'
 
         # Initialize the angle through which the final plot will be rotated. A
         # value of 0 will correspond to "TV View," or how the surface would
@@ -389,3 +385,80 @@ class BaseSurface(ABC):
             ax.set_ylim(np.min(ys), np.max(ys))
 
         return ax
+
+    def _load_unit_conversions(self):
+        """Load in the unit-conversions file.
+
+        A user's desired units may not always be what is defined in the rule
+        book, and having pre-defined unit conversions (with feet as the base)
+        allows this conversion to occur for any surface
+        """
+        # Load in the units that are convertable
+        with importlib.resources.open_text(
+            'sportypy.data', 'unit_conversions.json'
+        ) as f:
+            self.unit_conversions = json.load(f)
+
+    def _load_preset_dimensions(self, sport):
+        """Load in pre-defined rink dimensions for various leagues of a sport.
+
+        Several leagues come published with this package, and this function
+        serves to load in the dimensions specific to these leagues.
+
+        Parameters
+        ----------
+        sport : str
+            The name of the sport whose leagues are to be loaded
+
+        Returns
+        -------
+        Nothing, but sets the league_dimensions attribute of the class that can
+        be called in the child classes to set league-defined parameters
+        """
+        # Load the pre-defined dimensions from the JSON file
+        with importlib.resources.open_text(
+                'sportypy.data', 'surface_dimensions.json'
+        ) as f:
+            dimensions = json.load(f)
+
+        # Retain only leagues in the desired sport
+        self.league_dimensions = dimensions[sport.lower()]
+
+    def _convert_units(self, value, start_unit, desired_unit):
+        """Convert the units of the surface as required by the user.
+
+        Units of the surface for pre-defined leagues are provided in the
+        surface_dimensions.json file of the module. Should a user want to
+        create the plot with different units to more easily align with the data
+        they wish to display, this method allows for the units to be easily
+        converted. This should NOT change the visual display of the plot, but
+        instead just change the underlying coordinate system
+
+        Parameters
+        ----------
+        value : float
+            The value whose units are to be converted. These correspond to
+            parameters of the rink
+
+        start_unit : str
+            The units that the parameterization is originally given in
+
+        desired_unit : str
+            The units that the parameterization should be converted to
+
+        Returns
+        -------
+        value : float
+            The parameter given in the desired unit
+        """
+        try:
+            value /= self.unit_conversions[start_unit]
+            value *= self.unit_conversions[desired_unit]
+
+        except TypeError:
+            pass
+
+        except KeyError:
+            print(f'{desired_unit} is not currently a supported unit')
+
+        return value

@@ -1,0 +1,553 @@
+{
+    "hockey": {
+        "ahl": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 28.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "nhl98",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        },
+
+        "echl": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 28.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "nhl98",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        },
+
+        "iihf": {
+            "rink_length": 60.0,
+            "rink_width": 30.0,
+            "rink_units": "ft",
+            "corner_radius": 8.5,
+            "board_thickness": 0.1,
+            "referee_crease_radius": 3.0,
+    
+            "nzone_length": 15.0,
+            "goal_line_to_boards": 4.0,
+    
+            "minor_line_thickness": 0.05,
+            "major_line_thickness": 0.3,
+    
+            "faceoff_circle_radius": 4.5,
+            "center_faceoff_spot_radius": 0.15,
+            "noncenter_faceoff_spot_radius": 0.3,
+            "nzone_faceoff_spot_to_zone_line": 1.5,
+            "odzone_faceoff_spot_to_boards": 10.0,
+            "noncenter_faceoff_spot_y": 7.0,
+            "noncenter_faceoff_spot_gap_width": 0.075,
+            "hashmark_width": 0.6,
+            "hashmark_ext_spacing": 1.8,
+    
+            "faceoff_line_dist_x": 0.6,
+            "faceoff_line_dist_y": 0.225,
+            "faceoff_line_length": 1.2,
+            "faceoff_line_width": 0.9,
+    
+            "has_trapezoid": true,
+            "short_base_width": 6.8,
+            "long_base_width": 8.6,
+    
+            "goal_crease_style": "nhl98",
+            "goal_crease_radius": 1.83,
+            "goal_crease_length": 1.22,
+            "goal_crease_width": 2.45,
+            "goal_crease_notch_dist_x": 1.22,
+            "goal_crease_notch_width": 0.2,
+    
+            "goal_mouth_width": 1.83,
+            "goal_back_width": 2.235,
+            "goal_depth": 1.0,
+            "goal_post_diameter": 0.05,
+            "goal_radius": 0.508,
+
+            "bench_length": 10.0,
+            "bench_depth": 1.5,
+            "bench_separation": 4.0,
+
+            "penalty_box_length": 4.0,
+            "penalty_box_depth": 1.5,
+            "penalty_box_separation": 10.0
+        },
+
+        "phf": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 28.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "nhl98",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        },
+
+        "ncaa": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 20.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "nhl98",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        },
+        
+        "nhl": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 28.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "nhl98",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        },
+
+        "ohl": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 28.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "nhl92",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        },
+       
+        "qmjhl": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 28.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "nhl98",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        },
+
+        "nwhl": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 28.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "nhl98",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        },
+
+        "ushl": {
+            "rink_length": 200.0,
+            "rink_width": 85.0,
+            "rink_units": "ft",
+            "corner_radius": 28.0,
+            "board_thickness": 0.3333,
+            "referee_crease_radius": 10.0,
+    
+            "nzone_length": 50.0,
+            "goal_line_to_boards": 11.0,
+    
+            "minor_line_thickness": 0.1666,
+            "major_line_thickness": 1.0,
+    
+            "faceoff_circle_radius": 15.0,
+            "center_faceoff_spot_radius": 0.5,
+            "noncenter_faceoff_spot_radius": 1.0,
+            "nzone_faceoff_spot_to_zone_line": 5.0,
+            "odzone_faceoff_spot_to_boards": 31.0,
+            "noncenter_faceoff_spot_y": 22.0,
+            "noncenter_faceoff_spot_gap_width": 0.25,
+            "hashmark_width": 2.0,
+            "hashmark_ext_spacing": 5.9166,
+    
+            "faceoff_line_dist_x": 2.0,
+            "faceoff_line_dist_y": 0.75,
+            "faceoff_line_length": 4.0,
+            "faceoff_line_width": 3.0,
+    
+            "has_trapezoid": true,
+            "short_base_width": 22.0,
+            "long_base_width": 28.0,
+    
+            "goal_crease_style": "ushl1",
+            "goal_crease_radius": 6.0,
+            "goal_crease_length": 4.5,
+            "goal_crease_width": 8.0,
+            "goal_crease_notch_dist_x": 4.0,
+            "goal_crease_notch_width": 0.4167,
+    
+            "goal_mouth_width": 6.0,
+            "goal_back_width": 7.3333,
+            "goal_depth": 3.3333,
+            "goal_post_diameter": 0.1979,
+            "goal_radius": 1.6666,
+
+            "bench_length": 30.0,
+            "bench_depth": 5.5,
+            "bench_separation": 3.3333,
+
+            "penalty_box_length": 8.0,
+            "penalty_box_depth": 5.0,
+            "penalty_box_separation": 8.0
+        }
+    }
+}
