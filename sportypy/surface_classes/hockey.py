@@ -1207,14 +1207,9 @@ class HockeyRink(BaseSurfacePlot):
         for feature in self._features:
             # Start by adding the feature to the current Axes object
             feature.draw(ax, transform)
-
-            try:
-                # Check the feature's visibility
-                visible = feature.visible
-            except AttributeError:
-                # If the feature doesn't have a visible attribute, set its
-                # visibility to be true by default
-                visible = True
+            
+            # Get the feature's visibility attribute
+            visible = feature.visible
 
             # Assuming the feature is visible (and is not the boards), get
             # the feature's x and y limits to ensure it lies within the
