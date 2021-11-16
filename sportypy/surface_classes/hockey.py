@@ -1215,42 +1215,41 @@ class HockeyRink(BaseSurfacePlot):
             # the feature's x and y limits to ensure it lies within the
             # bounds of the rink
             if visible and not isinstance(feature, hockey.Boards):
-                try:
-                    feature_df = feature._translate_feature()
+                feature_df = feature._translate_feature()
 
-                    # If the feature doesn't have a limitation on x, set its
-                    # limits to be its minimum and maximum values of x
-                    if self._feature_xlim is None:
-                        self._feature_xlim = [
-                            feature_df['x'].min(),
-                            feature_df['x'].max()
-                        ]
+                # If the feature doesn't have a limitation on x, set its
+                # limits to be its minimum and maximum values of x
+                if self._feature_xlim is None:
+                    self._feature_xlim = [
+                        feature_df['x'].min(),
+                        feature_df['x'].max()
+                    ]
 
-                    # Otherwise, set the limits to be the smaller of its
-                    # specified minimum and smallest x value or the larger
-                    # of its specified maximum and largest x value
-                    else:
-                        self._feature_xlim = [
-                            min(self._feature_xlim[0], feature_df['x'].min()),
-                            max(self._feature_xlim[0], feature_df['x'].max())
-                        ]
+                # Otherwise, set the limits to be the smaller of its
+                # specified minimum and smallest x value or the larger
+                # of its specified maximum and largest x value
+                else:
+                    self._feature_xlim = [
+                        min(self._feature_xlim[0], feature_df['x'].min()),
+                        max(self._feature_xlim[0], feature_df['x'].max())
+                    ]
 
-                    # If the feature doesn't have a limitation on y, set its
-                    # limits to be its minimum and maximum values of y
-                    if self._feature_ylim is None:
-                        self._feature_ylim = [
-                            feature_df['y'].min(),
-                            feature_df['y'].max()
-                        ]
+                # If the feature doesn't have a limitation on y, set its
+                # limits to be its minimum and maximum values of y
+                if self._feature_ylim is None:
+                    self._feature_ylim = [
+                        feature_df['y'].min(),
+                        feature_df['y'].max()
+                    ]
 
-                    # Otherwise, set the limits to be the smaller of its
-                    # specified minimum and smallest y value or the larger
-                    # of its specified maximum and largest y value
-                    else:
-                        self._feature_ylim = [
-                            min(self._feature_ylim[0], feature_df['y'].min()),
-                            max(self._feature_ylim[0], feature_df['y'].max())
-                        ]
+                # Otherwise, set the limits to be the smaller of its
+                # specified minimum and smallest y value or the larger
+                # of its specified maximum and largest y value
+                else:
+                    self._feature_ylim = [
+                        min(self._feature_ylim[0], feature_df['y'].min()),
+                        max(self._feature_ylim[0], feature_df['y'].max())
+                    ]
 
         # Set the plot's display range
         ax = self.set_plot_display_range(ax, display_range, xlim, ylim)
