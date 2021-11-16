@@ -637,7 +637,7 @@ class GoalLine(BaseHockeyFeature):
             try:
                 theta_start = math.asin(start_x / self.feature_radius) / np.pi
                 theta_end = math.asin(end_x / self.feature_radius) / np.pi
-            except ValueError:
+            except ZeroDivisionError:
                 theta_start = 0.0
                 theta_end = 0.0
 
