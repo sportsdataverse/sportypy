@@ -1488,7 +1488,7 @@ class HockeyRink(BaseSurfacePlot):
         experiencing such a change
         """
         # Re-instantiate the class with the default parameters
-        default_params = self.rink_dimensions[self.league_code]
+        default_params = self.league_dimensions[self.league_code]
 
         self.__init__(
             rink_updates = default_params,
