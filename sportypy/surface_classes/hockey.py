@@ -1342,7 +1342,7 @@ class HockeyRink(BaseSurfacePlot):
         # Footer
         print('\nThese colors may be updated with the update_colors() method')
 
-    def cani_change_dimension(self):
+    def cani_change_dimensions(self):
         """Determine what features of the rink can be re-parameterized.
 
         This function is a helper function for the user to aid in customizing
@@ -1413,7 +1413,7 @@ class HockeyRink(BaseSurfacePlot):
         ----------
         rink_updates : dict (default: {}; an empty dictionary)
             A dictionary where the keys correspond to the name of the parameter
-            of the rink that is to be updated (see cani_change_dimension()
+            of the rink that is to be updated (see cani_change_dimensions()
             method for a list of these parameters)
 
         Returns
