@@ -1252,11 +1252,6 @@ class HockeyRink(BaseSurfacePlot):
                             max(self._feature_ylim[0], feature_df['y'].max())
                         ]
 
-                except TypeError:
-                    # If there is an error with the above process, do not
-                    # set the x and y limits
-                    pass
-
         # Set the plot's display range
         ax = self.set_plot_display_range(ax, display_range, xlim, ylim)
 
