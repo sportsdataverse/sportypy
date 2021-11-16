@@ -634,12 +634,11 @@ class GoalLine(BaseHockeyFeature):
             # inverse sine of the starting and ending x positions, then
             # dividing by the corner's radius. Divide by pi to ensure that the
             # angles are correctly passed to the self.create_circle() method
-            try:
-                theta_start = math.asin(start_x / self.feature_radius) / np.pi
-                theta_end = math.asin(end_x / self.feature_radius) / np.pi
-            except ZeroDivisionError:
-                theta_start = 0.0
-                theta_end = 0.0
+            # NOTE: this does not need a special ZeroDivisionError handling
+            # since the feature radius and corner_arc_center_x parameters
+            # work in concert with each other
+            theta_start = math.asin(start_x / self.feature_radius) / np.pi
+            theta_end = math.asin(end_x / self.feature_radius) / np.pi
 
             # Now create the feature's data frame
             goal_line_df = pd.concat([
