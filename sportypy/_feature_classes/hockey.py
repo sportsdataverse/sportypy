@@ -1095,6 +1095,9 @@ class GoalCreaseFill(BaseHockeyFeature):
                 end = 1.5,
                 r = self.feature_radius - self.feature_thickness
             )
+        
+        else:
+            goal_crease_fill_df = pd.DataFrame()
 
         return goal_crease_fill_df
 
