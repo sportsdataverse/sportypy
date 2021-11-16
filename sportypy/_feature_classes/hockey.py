@@ -1001,7 +1001,10 @@ class GoalCreaseOutline(BaseHockeyFeature):
             ])
 
         else:
-            goal_crease_outline_df = pd.DataFrame()
+            goal_crease_outline_df = pd.DataFrame({
+                'x': [0.0],
+                'y': [0.0]
+            })
 
         return goal_crease_outline_df
 
@@ -1097,7 +1100,10 @@ class GoalCreaseFill(BaseHockeyFeature):
             )
         
         else:
-            goal_crease_fill_df = pd.DataFrame()
+            goal_crease_fill_df = pd.DataFrame({
+                'x': [0.0],
+                'y': [0.0]
+            })
 
         return goal_crease_fill_df
 
