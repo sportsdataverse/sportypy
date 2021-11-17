@@ -1207,7 +1207,7 @@ class HockeyRink(BaseSurfacePlot):
         for feature in self._features:
             # Start by adding the feature to the current Axes object
             feature.draw(ax, transform)
-            
+
             # Get the feature's visibility attribute
             visible = feature.visible
 
@@ -1517,7 +1517,7 @@ class HockeyRink(BaseSurfacePlot):
         # the boards)
         half_rink_length = (
             (self.rink_params.get('rink_length', 0.0) / 2.0) +
-            (self.rink_params.get('board_thickness', 0.0))
+            (3.0 * self.rink_params.get('board_thickness', 0.0))
         )
 
         half_rink_width = (
@@ -1526,7 +1526,7 @@ class HockeyRink(BaseSurfacePlot):
                 self.rink_params.get('bench_depth', 0.0),
                 self.rink_params.get('penalty_box_depth', 0.0)
             ) +
-            self.rink_params.get('board_thickness', 0.0)
+            (3.0 * self.rink_params.get('board_thickness', 0.0))
         )
 
         half_nzone_length = (
