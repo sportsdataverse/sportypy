@@ -5,7 +5,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 28.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
@@ -60,7 +60,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 28.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
@@ -115,7 +115,7 @@
             "rink_width": 30.0,
             "rink_units": "ft",
             "corner_radius": 8.5,
-            "board_thickness": 0.1,
+            "board_thickness": 0.1524,
             "referee_crease_radius": 3.0,
     
             "nzone_length": 15.0,
@@ -170,7 +170,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 28.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
@@ -225,7 +225,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 20.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
@@ -280,7 +280,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 28.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
@@ -335,7 +335,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 28.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
@@ -390,7 +390,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 28.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
@@ -445,7 +445,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 28.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
@@ -500,7 +500,7 @@
             "rink_width": 85.0,
             "rink_units": "ft",
             "corner_radius": 28.0,
-            "board_thickness": 0.3333,
+            "board_thickness": 0.4167,
             "referee_crease_radius": 10.0,
     
             "nzone_length": 50.0,
