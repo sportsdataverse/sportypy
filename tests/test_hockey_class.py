@@ -501,7 +501,6 @@ def test_unsupported_unit_conversions():
         'foots is not currently a supported unit\n'
         'foots is not currently a supported unit\n'
         'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
     )
 
     # Initialize the output-capture
