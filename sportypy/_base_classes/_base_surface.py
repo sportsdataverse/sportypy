@@ -454,6 +454,9 @@ class BaseSurface(ABC):
         value : float
             The parameter given in the desired unit
         """
+        if type(value) == bool:
+            return value
+
         try:
             value /= self.unit_conversions[start_unit]
             value *= self.unit_conversions[desired_unit]
