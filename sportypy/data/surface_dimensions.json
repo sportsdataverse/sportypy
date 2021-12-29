@@ -579,16 +579,14 @@
             "free_throw_line_to_backboard": 4.6,
 
             "lane_space_mark_lengths": [
-                [0.05, 0.4, 0.05, 0.05],
-                [0.0, 0.0, 0.0, 0.0]
+                [0.05, 0.4, 0.05, 0.05]
             ],
-            "lane_space_mark_widths": [0.1, 0.0],
+            "lane_space_mark_widths": 0.1,
             "lane_space_mark_separations": [
-                [0.55, 0.85, 0.85, 0.85],
-                [0.0, 0.0, 0.0, 0.0]
+                [0.55, 0.85, 0.85, 0.85]
             ],
 
-            "lane_space_mark_visibility": [true, true],
+            "lane_space_mark_visibility": true,
 
             "lane_lower_defensive_box_marks_visibility": false,
 
