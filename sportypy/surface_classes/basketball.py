@@ -98,6 +98,10 @@ class BasketballCourt(BaseSurfacePlot):
         to the outer edge of the circle. When providing a list (e.g. for the
         NBA), these values should go in decreasing order
 
+    * division_line_extension : float
+        The distance that the division line extends beyond the sidelines. This
+        may be omitted if the value is 0
+
     * basket_center_to_baseline : float
         The distance from the center of the basket ring to the inner edge of
         the baseline in the court's specified units
