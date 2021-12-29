@@ -1707,6 +1707,13 @@ class HockeyRink(BaseSurfacePlot):
         if ylim[0] > ylim[1]:
             ylim = (ylim[1], ylim[0])
 
+        # Set backup limits in case the limits are the same. This avoids a
+        # UserWarning
+        if xlim[0] == xlim[1] == 0:
+            xlim = (1, -1)
+        if ylim[0] == ylim[1] == 0:
+            ylim = (1, -1)
+
         # Constrain the limits from going beyond the end of the rink (plus one
         # additional unit of buffer)
         xlim = (
