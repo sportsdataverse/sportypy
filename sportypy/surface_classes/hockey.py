@@ -281,6 +281,8 @@ class HockeyRink(BaseSurfacePlot):
                     units.lower()
                 )
 
+            self.rink_params['rink_units'] = units.lower()
+
         # Set the rotation of the plot to be the supplied rotation value
         self._rotation = Affine2D().rotate_deg(rotation)
 
@@ -347,6 +349,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_justify': 'center',
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'feature_radius': self.rink_params.get('corner_radius', 0.0),
@@ -369,6 +372,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'nzone_length': self.rink_params.get('nzone_length', 0.0),
@@ -387,6 +391,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'feature_thickness': self.rink_params.get('nzone_length', 0.0),
@@ -404,6 +409,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'nzone_length': self.rink_params.get('nzone_length', 0.0),
@@ -429,6 +435,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'crease_length': self.rink_params.get('goal_crease_length', 0.0),
@@ -463,6 +470,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'goal_mouth_width': self.rink_params.get('goal_mouth_width', 0.0),
@@ -486,6 +494,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'goal_mouth_width': self.rink_params.get('goal_mouth_width', 0.0),
@@ -514,6 +523,7 @@ class HockeyRink(BaseSurfacePlot):
                 'y_anchor': 0.0,
                 'reflect_x': True,
                 'reflect_y': False,
+                'feature_units': self.rink_params.get('rink_units', 'ft'),
                 'short_base_width': self.rink_params.get(
                     'short_base_width',
                     0.0
@@ -544,6 +554,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'crease_length': self.rink_params.get('goal_crease_length', 0.0),
@@ -575,6 +586,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'feature_thickness': self.rink_params.get(
                 'minor_line_thickness',
                 0.0
@@ -602,6 +614,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'reflect_x': True,
             'reflect_y': True,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'feature_thickness': self.rink_params.get(
                 'minor_line_thickness',
                 0.0
@@ -629,6 +642,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'reflect_x': True,
             'reflect_y': True,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'gap_width': self.rink_params.get(
                 'noncenter_faceoff_spot_gap_width',
                 0.0
@@ -657,6 +671,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': self.rink_params.get('noncenter_faceoff_spot_y', 0.0),
             'reflect_x': True,
             'reflect_y': True,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'hashmark_width': self.rink_params.get('hashmark_width', 0.0),
             'hashmark_ext_spacing': self.rink_params.get(
                 'hashmark_ext_spacing',
@@ -689,6 +704,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'reflect_x': True,
             'reflect_y': True,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'feature_thickness': self.rink_params.get(
                 'minor_line_thickness',
                 0.0
@@ -716,6 +732,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'reflect_x': True,
             'reflect_y': True,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'gap_width': self.rink_params.get(
                 'noncenter_faceoff_spot_gap_width',
                 0.0
@@ -745,6 +762,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': self.rink_params.get('rink_width', 0.0) / 2.0,
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'bench_length': self.rink_params.get('bench_length', 0.0),
             'bench_depth': self.rink_params.get('bench_depth', 0.0),
             'feature_thickness': self.rink_params.get('board_thickness', 0.0),
@@ -765,6 +783,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': self.rink_params.get('rink_width', 0.0) / 2.0,
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'bench_length': self.rink_params.get('bench_length', 0.0),
             'bench_depth': self.rink_params.get('bench_depth', 0.0),
             'feature_thickness': self.rink_params.get('board_thickness', 0.0),
@@ -789,6 +808,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'penalty_box_length': self.rink_params.get(
                 'penalty_box_length',
                 0.0
@@ -823,6 +843,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'penalty_box_length': self.rink_params.get(
                 'penalty_box_length',
                 0.0
@@ -852,6 +873,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'officials_box_length': self.rink_params.get(
                 'penalty_box_separation',
                 0.0
@@ -878,6 +900,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'feature_thickness': self.rink_params.get(
                 'major_line_thickness',
@@ -896,6 +919,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'feature_thickness': self.rink_params.get(
                 'major_line_thickness',
@@ -917,6 +941,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'feature_thickness': self.rink_params.get(
@@ -937,6 +962,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': -self.rink_params.get('rink_width', 0.0) / 2.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_width': self.rink_params.get('rink_width', 0.0),
             'feature_thickness': self.rink_params.get(
                 'minor_line_thickness',
@@ -976,6 +1002,7 @@ class HockeyRink(BaseSurfacePlot):
                     ),
                     'reflect_x': True,
                     'reflect_y': True,
+                    'feature_units': self.rink_params.get('rink_units', 'ft'),
                     'over_x': over_x,
                     'over_y': over_y,
                     'faceoff_line_dist_x': self.rink_params.get(
@@ -1013,6 +1040,7 @@ class HockeyRink(BaseSurfacePlot):
             'class': hockey.CenterFaceoffSpot,
             'x_anchor': 0.0,
             'y_anchor': 0.0,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'feature_radius': self.rink_params.get(
                 'center_faceoff_spot_radius',
                 0.0
@@ -1036,6 +1064,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'is_constrained': False,
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
@@ -1054,6 +1083,7 @@ class HockeyRink(BaseSurfacePlot):
             'y_anchor': self.rink_params.get('rink_width', 0.0) / 2.0,
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'bench_length': self.rink_params.get('bench_length', 0.0),
             'bench_depth': self.rink_params.get('bench_depth', 0.0),
             'feature_thickness': self.rink_params.get('board_thickness', 0.0),
@@ -1073,6 +1103,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'reflect_x': True,
             'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
             'penalty_box_length': self.rink_params.get(
                 'penalty_box_length',
                 0.0
@@ -1675,6 +1706,13 @@ class HockeyRink(BaseSurfacePlot):
             xlim = (xlim[1], xlim[0])
         if ylim[0] > ylim[1]:
             ylim = (ylim[1], ylim[0])
+
+        # Set backup limits in case the limits are the same. This avoids a
+        # UserWarning
+        if xlim[0] == xlim[1] == 0:
+            xlim = (1, -1)
+        if ylim[0] == ylim[1] == 0:
+            ylim = (1, -1)
 
         # Constrain the limits from going beyond the end of the rink (plus one
         # additional unit of buffer)

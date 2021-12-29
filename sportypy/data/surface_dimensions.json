@@ -113,7 +113,7 @@
         "iihf": {
             "rink_length": 60.0,
             "rink_width": 30.0,
-            "rink_units": "ft",
+            "rink_units": "m",
             "corner_radius": 8.5,
             "board_thickness": 0.1524,
             "referee_crease_radius": 3.0,
