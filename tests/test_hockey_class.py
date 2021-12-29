@@ -449,6 +449,8 @@ def test_unit_conversions():
             'm'
         )
 
+    rink_params_to_convert['rink_units'] = 'm'
+
     assert rink_params_to_convert == nhl_rink_m.rink_params
 
 
