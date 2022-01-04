@@ -540,9 +540,11 @@ def test_rink_plot_tuple_xlim_and_ylim():
     test_rink = hockey_rinks.NHLRink()
     ax1 = test_rink.draw(xlim = (-15.0, 15.0), ylim = (-15.0, 15.0))
     ax2 = test_rink.draw(xlim = (15.0, -15.0), ylim = (15.0, -15.0))
+    ax3 = test_rink.draw(xlim = (0.0, 0.0), ylim = (0.0, 0.0))
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
+    assert isinstance(ax3, matplotlib.axes.SubplotBase)
 
 
 def test_supported_leagues():
