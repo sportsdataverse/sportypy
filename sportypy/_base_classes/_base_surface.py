@@ -379,13 +379,9 @@ class BaseSurface(ABC):
         # take precedence over the display_range parameter
         if xlim:
             ax.set_xlim(xlim)
-        else:
-            ax.set_xlim(np.min(xs), np.max(xs))
         
         if ylim:
             ax.set_ylim(ylim)
-        else:
-            ax.set_ylim(np.min(ys), np.max(ys))
 
         return ax
 
