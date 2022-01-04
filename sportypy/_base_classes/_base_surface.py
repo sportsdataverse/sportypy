@@ -346,10 +346,6 @@ class BaseSurface(ABC):
         ax : matplotlib.Axes
             A matplotlib Axes object with the surface drawn on it
         """
-        # If no Axes object is provided, create one
-        if ax is None:
-            ax = plt.gca()
-
         # Set the display limits
         xlim, ylim = self._get_plot_range_limits(display_range, xlim, ylim)
 
