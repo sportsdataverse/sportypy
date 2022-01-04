@@ -346,10 +346,6 @@ class BaseSurface(ABC):
         ax : matplotlib.Axes
             A matplotlib Axes object with the surface drawn on it
         """
-        # If no Axes object is provided, create one
-        if ax is None:
-            ax = plt.gca()
-
         # Set the display limits
         xlim, ylim = self._get_plot_range_limits(display_range, xlim, ylim)
 
@@ -379,13 +375,9 @@ class BaseSurface(ABC):
         # take precedence over the display_range parameter
         if xlim:
             ax.set_xlim(xlim)
-        else:
-            ax.set_xlim(np.min(xs), np.max(xs))
         
         if ylim:
             ax.set_ylim(ylim)
-        else:
-            ax.set_ylim(np.min(ys), np.max(ys))
 
         return ax
 
@@ -403,7 +395,7 @@ class BaseSurface(ABC):
             self.unit_conversions = json.load(f)
 
     def _load_preset_dimensions(self, sport):
-        """Load in pre-defined rink dimensions for various leagues of a sport.
+        """Load in pre-defined dimensions for various leagues of a sport.
 
         Several leagues come published with this package, and this function
         serves to load in the dimensions specific to these leagues.
@@ -441,7 +433,7 @@ class BaseSurface(ABC):
         ----------
         value : float
             The value whose units are to be converted. These correspond to
-            parameters of the rink
+            parameters of the surface
 
         start_unit : str
             The units that the parameterization is originally given in
