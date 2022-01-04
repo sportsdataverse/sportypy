@@ -490,7 +490,7 @@ class SoccerPitch(BaseSurfacePlot):
             'class': soccer.Goal,
             'x_anchor': (
                 (self.pitch_params.get('pitch_length', 0.0) / 2.0) -
-                self.pitch_params.get('line_thickness')
+                self.pitch_params.get('line_thickness', 0.0)
             ),
             'y_anchor': 0.0,
             'reflect_x': True,
