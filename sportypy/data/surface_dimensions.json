@@ -930,5 +930,143 @@
             "basket_ring_connector_extension": 0.5,
             "basket_ring_thickness": 0.0656
         }
+    },
+
+    "soccer": {
+        "epl": {
+            "pitch_units": "m",
+            "pitch_length": 120.0,
+            "pitch_width": 90.0,
+            "line_thickness": 0.12,
+
+            "center_circle_radius": 9.15,
+            "center_mark_radius": 0.3048,
+
+            "corner_arc_radius": 1.0,
+            "goal_line_defensive_mark_visible": true,
+            "touchline_defensive_mark_visible": true,
+            "defensive_mark_depth": 0.5,
+            "defensive_mark_distance": 9.15,
+
+            "penalty_box_length": 16.5,
+            "penalty_circle_radius": 9.15,
+            "penalty_mark_dist": 11.0,
+            "interior_of_goal_post_to_penalty_box": 16.5,
+            "interior_of_goal_post_to_goal_box": 5.5,
+            "goal_box_length": 5.5,
+            "penalty_mark_radius": 0.1524,
+
+            "goal_width": 7.32,
+            "goal_depth": 1.7
+        },
+
+        "fifa": {
+            "pitch_units": "m",
+            "pitch_length": 120.0,
+            "pitch_width": 90.0,
+            "line_thickness": 0.12,
+
+            "center_circle_radius": 9.15,
+            "center_mark_radius": 0.3048,
+
+            "corner_arc_radius": 1.0,
+            "goal_line_defensive_mark_visible": true,
+            "touchline_defensive_mark_visible": true,
+            "defensive_mark_depth": 0.5,
+            "defensive_mark_distance": 9.15,
+
+            "penalty_box_length": 16.5,
+            "penalty_circle_radius": 9.15,
+            "penalty_mark_dist": 11.0,
+            "interior_of_goal_post_to_penalty_box": 16.5,
+            "interior_of_goal_post_to_goal_box": 5.5,
+            "goal_box_length": 5.5,
+            "penalty_mark_radius": 0.1524,
+
+            "goal_width": 7.32,
+            "goal_depth": 1.7
+        },
+
+        "mls": {
+            "pitch_units": "yd",
+            "pitch_length": 110.0,
+            "pitch_width": 70.0,
+            "line_thickness": 0.139,
+
+            "center_circle_radius": 10.0,
+            "center_mark_radius": 0.333,
+
+            "corner_arc_radius": 1.0,
+            "goal_line_defensive_mark_visible": true,
+            "touchline_defensive_mark_visible": true,
+            "defensive_mark_depth": 0.5,
+            "defensive_mark_distance": 10.0,
+
+            "penalty_box_length": 18.0,
+            "penalty_circle_radius": 10.0,
+            "penalty_mark_dist": 12.0,
+            "interior_of_goal_post_to_penalty_box": 18.0,
+            "interior_of_goal_post_to_goal_box": 6.0,
+            "goal_box_length": 6.0,
+            "penalty_mark_radius": 0.1667,
+
+            "goal_width": 8.0,
+            "goal_depth": 1.86
+        },
+
+        "ncaa": {
+            "pitch_units": "yd",
+            "pitch_length": 120.0,
+            "pitch_width": 75.0,
+            "line_thickness": 0.139,
+
+            "center_circle_radius": 10.0,
+            "center_mark_radius": 0.333,
+
+            "corner_arc_radius": 1.0,
+            "goal_line_defensive_mark_visible": true,
+            "touchline_defensive_mark_visible": false,
+            "defensive_mark_depth": 1.0,
+            "defensive_mark_distance": 10.0,
+            "defensive_mark_separation_from_line": 0.1667,
+
+            "penalty_box_length": 18.0,
+            "penalty_circle_radius": 10.0,
+            "penalty_mark_dist": 12.0,
+            "interior_of_goal_post_to_penalty_box": 18.0,
+            "interior_of_goal_post_to_goal_box": 6.0,
+            "goal_box_length": 6.0,
+            "penalty_mark_radius": 0.125,
+
+            "goal_width": 8.0,
+            "goal_depth": 1.86
+        },
+
+        "nwsl": {
+            "pitch_units": "yd",
+            "pitch_length": 110.0,
+            "pitch_width": 70.0,
+            "line_thickness": 0.139,
+
+            "center_circle_radius": 10.0,
+            "center_mark_radius": 0.333,
+
+            "corner_arc_radius": 1.0,
+            "goal_line_defensive_mark_visible": true,
+            "touchline_defensive_mark_visible": true,
+            "defensive_mark_depth": 0.5,
+            "defensive_mark_distance": 10.0,
+
+            "penalty_box_length": 18.0,
+            "penalty_circle_radius": 10.0,
+            "penalty_mark_dist": 12.0,
+            "interior_of_goal_post_to_penalty_box": 18.0,
+            "interior_of_goal_post_to_goal_box": 6.0,
+            "goal_box_length": 6.0,
+            "penalty_mark_radius": 0.1667,
+
+            "goal_width": 8.0,
+            "goal_depth": 1.86
+        }
     }
 }
