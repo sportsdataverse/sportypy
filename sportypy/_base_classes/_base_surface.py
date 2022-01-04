@@ -395,7 +395,7 @@ class BaseSurface(ABC):
             self.unit_conversions = json.load(f)
 
     def _load_preset_dimensions(self, sport):
-        """Load in pre-defined rink dimensions for various leagues of a sport.
+        """Load in pre-defined dimensions for various leagues of a sport.
 
         Several leagues come published with this package, and this function
         serves to load in the dimensions specific to these leagues.
@@ -433,7 +433,7 @@ class BaseSurface(ABC):
         ----------
         value : float
             The value whose units are to be converted. These correspond to
-            parameters of the rink
+            parameters of the surface
 
         start_unit : str
             The units that the parameterization is originally given in
