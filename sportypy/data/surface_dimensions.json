@@ -380,6 +380,488 @@
         }
     },
 
+    "football": {
+        "cfl": {
+            "field_units": "yd",
+            "field_length": 110.0,
+            "field_width": 65,
+            "endzone_length": 20.0,
+
+            "minor_line_thickness": 0.1111,
+            "goal_line_thickness": 0.1111,
+            "boundary_line_thickness": 0.1111,
+            "minor_yard_line_height": 0.6667,
+            "field_border_thickness": 1.3333,
+            "field_border_behind_bench": true,
+
+            "major_yard_line_distance": 5.0,
+            
+            "sideline_to_major_yard_line": 0.1111,
+            "inbound_cross_hashmark_length": 0.2778,
+            "inbound_hashmark_separation": 15.6667,
+            "inbound_cross_hashmark_separation": 17.0,
+
+            "sideline_to_outer_yard_line": 0.1111,
+
+            "sideline_to_bottom_of_numbers": 7.0,
+            "number_height": 2.0,
+
+            "arrow_line_dist": 10.0,
+            "yard_line_to_arrow": 1.8333,
+            "top_number_to_arrow": 0.4167,
+            "arrow_base": 0.5,
+            "arrow_length": 0.9682,
+            "number_to_yard_line": 0.3333,
+            "number_width": 1.3333,
+
+            "numbers_bottom": [
+                "1", "0",
+                "2", "0",
+                "3", "0",
+                "4", "0",
+                "5", "0",
+                "C",
+                "5", "0",
+                "4", "0",
+                "3", "0",
+                "2", "0",
+                "1", "0"
+            ],
+
+            "numbers_top": [
+                "0", "1",
+                "0", "2",
+                "0", "3",
+                "0", "4",
+                "0", "5",
+                "C",
+                "0", "5",
+                "0", "4",
+                "0", "3",
+                "0", "2",
+                "0", "1"
+            ],
+
+            "number_font": "Clarendon-Regular",
+
+            "additional_minor_yard_lines": [-5.0, -10.0, -15.0],
+
+            "restricted_area_width": 0.5,
+            "coaching_box_width": 0.5,
+            "team_bench_width": 4.0,
+            "team_bench_length_field_side": 30.0,
+            "team_bench_length_back_side": 30.0,
+            "team_bench_area_border_thickness": 0.1111,
+            "bench_shape": "rectangular",
+        "field_bordered": false},
+
+        "ncaa": {
+            "field_units": "yd",
+            "field_length": 100.0,
+            "field_width": 53.3333,
+            "endzone_length": 10.0,
+            "field_border_thickness": 1.3333,
+            "field_border_behind_bench": true,
+
+            "minor_line_thickness": 0.1111,
+            "goal_line_thickness": 0.1111,
+            "boundary_line_thickness": 0.1111,
+            "minor_yard_line_height": 0.6667,
+
+            "major_yard_line_distance": 5.0,
+            
+            "sideline_to_major_yard_line": 0.1111,
+            "inbound_cross_hashmark_length": 0.2778,
+            "inbound_hashmark_separation": 13.3333,
+            "inbound_cross_hashmark_separation": 13.3333,
+
+            "sideline_to_outer_yard_line": 0.1111,
+
+            "sideline_to_bottom_of_numbers": 7.0,
+            "number_height": 2.0,
+
+            "try_mark_distance": 3.0,
+            "try_mark_width": 1.0,
+
+            "arrow_line_dist": 10.0,
+            "yard_line_to_arrow": 1.8333,
+            "top_number_to_arrow": 0.4167,
+            "arrow_base": 0.5,
+            "arrow_length": 0.9682,
+            "number_to_yard_line": 0.3333,
+            "number_width": 1.3333,
+
+            "numbers_bottom": [
+                "1", "0",
+                "2", "0",
+                "3", "0",
+                "4", "0",
+                "5", "0",
+                "4", "0",
+                "3", "0",
+                "2", "0",
+                "1", "0"
+            ],
+
+            "numbers_top": [
+                "0", "1",
+                "0", "2",
+                "0", "3",
+                "0", "4",
+                "0", "5",
+                "0", "4",
+                "0", "3",
+                "0", "2",
+                "0", "1"
+            ],
+
+            "number_font": "Clarendon-Regular",
+
+            "restricted_area_width": 2.0,
+            "coaching_box_width": 2.0,
+            "team_bench_width": 4.0,
+            "team_bench_length_field_side": 50.0,
+            "team_bench_length_back_side": 50.0,
+            "team_bench_area_border_thickness": 0.1111,
+            "bench_shape": "rectangular",
+        "field_bordered": false},
+
+        "nfhs11": {
+            "field_units": "yd",
+            "field_length": 100.0,
+            "field_width": 53.3333,
+            "endzone_length": 10.0,
+
+            "minor_line_thickness": 0.1111,
+            "goal_line_thickness": 0.2222,
+            "boundary_line_thickness": 2.0,
+            "minor_yard_line_height": 0.6667,
+
+            "major_yard_line_distance": 5.0,
+            
+            "sideline_to_major_yard_line": 0.2222,
+            "inbound_cross_hashmark_length": 0.2778,
+            "inbound_hashmark_separation": 17.7778,
+            "inbound_cross_hashmark_separation": 17.7778,
+
+            "sideline_to_outer_yard_line": 0.2222,
+
+            "sideline_to_bottom_of_numbers": 7.0,
+            "number_height": 2.0,
+
+            "try_mark_distance": 3.0,
+            "try_mark_width": 1.0,
+
+            "arrow_line_dist": 10.0,
+            "yard_line_to_arrow": 1.8333,
+            "top_number_to_arrow": 0.4167,
+            "arrow_base": 0.5,
+            "arrow_length": 0.9682,
+            "number_to_yard_line": 0.3333,
+            "number_width": 1.3333,
+
+            "numbers_bottom": [
+                "1", "0",
+                "2", "0",
+                "3", "0",
+                "4", "0",
+                "5", "0",
+                "4", "0",
+                "3", "0",
+                "2", "0",
+                "1", "0"
+            ],
+
+            "numbers_top": [
+                "0", "1",
+                "0", "2",
+                "0", "3",
+                "0", "4",
+                "0", "5",
+                "0", "4",
+                "0", "3",
+                "0", "2",
+                "0", "1"
+            ],
+
+            "number_font": "Clarendon-Regular",
+
+            "restricted_area_width": 2.0,
+            "coaching_box_width": 2.0,
+            "team_bench_width": 4.0,
+            "team_bench_length_field_side": 50.0,
+            "team_bench_length_back_side": 50.0,
+            "team_bench_area_border_thickness": 0.1111,
+            "bench_shape": "rectangular",
+        "field_bordered": false},
+
+        "nfhs9": {
+            "field_units": "yd",
+            "field_length": 80.0,
+            "field_width": 40.0,
+            "endzone_length": 10.0,
+
+            "minor_line_thickness": 0.1111,
+            "goal_line_thickness": 0.2222,
+            "boundary_line_thickness": 2.0,
+            "minor_yard_line_height": 0.6667,
+
+            "major_yard_line_distance": 5.0,
+            
+            "sideline_to_major_yard_line": 0.2222,
+            "inbound_cross_hashmark_length": 0.2778,
+            "inbound_hashmark_separation": 7.7778,
+            "inbound_cross_hashmark_separation": 7.7778,
+
+            "sideline_to_outer_yard_line": 0.2222,
+
+            "sideline_to_bottom_of_numbers": 5.0,
+            "number_height": 2.0,
+
+            "try_mark_distance": 3.0,
+            "try_mark_width": 1.0,
+
+            "arrow_line_dist": 10.0,
+            "yard_line_to_arrow": 1.8333,
+            "top_number_to_arrow": 0.4167,
+            "arrow_base": 0.5,
+            "arrow_length": 0.9682,
+            "number_to_yard_line": 0.3333,
+            "number_width": 1.3333,
+
+            "numbers_bottom": [
+                "1", "0",
+                "2", "0",
+                "3", "0",
+                "4", "0",
+                "3", "0",
+                "2", "0",
+                "1", "0"
+            ],
+
+            "numbers_top": [
+                "0", "1",
+                "0", "2",
+                "0", "3",
+                "0", "4",
+                "0", "3",
+                "0", "2",
+                "0", "1"
+            ],
+
+            "number_font": "Clarendon-Regular",
+
+            "restricted_area_width": 2.0,
+            "coaching_box_width": 2.0,
+            "team_bench_width": 4.0,
+            "team_bench_length_field_side": 30.0,
+            "team_bench_length_back_side": 30.0,
+            "team_bench_area_border_thickness": 0.1111,
+            "bench_shape": "rectangular",
+        "field_bordered": false},
+
+        "nfhs8": {
+            "field_units": "yd",
+            "field_length": 80.0,
+            "field_width": 40.0,
+            "endzone_length": 10.0,
+
+            "minor_line_thickness": 0.1111,
+            "goal_line_thickness": 0.2222,
+            "boundary_line_thickness": 2.0,
+            "minor_yard_line_height": 0.6667,
+
+            "major_yard_line_distance": 5.0,
+            
+            "sideline_to_major_yard_line": 0.2222,
+            "inbound_cross_hashmark_length": 0.2778,
+            "inbound_hashmark_separation": 10.0,
+            "inbound_cross_hashmark_separation": 10.0,
+
+            "sideline_to_outer_yard_line": 0.2222,
+
+            "sideline_to_bottom_of_numbers": 5.0,
+            "number_height": 2.0,
+
+            "try_mark_distance": 2.0,
+            "try_mark_width": 1.0,
+
+            "arrow_line_dist": 10.0,
+            "yard_line_to_arrow": 1.8333,
+            "top_number_to_arrow": 0.4167,
+            "arrow_base": 0.5,
+            "arrow_length": 0.9682,
+            "number_to_yard_line": 0.3333,
+            "number_width": 1.3333,
+
+            "numbers_bottom": [
+                "1", "0",
+                "2", "0",
+                "3", "0",
+                "4", "0",
+                "3", "0",
+                "2", "0",
+                "1", "0"
+            ],
+
+            "numbers_top": [
+                "0", "1",
+                "0", "2",
+                "0", "3",
+                "0", "4",
+                "0", "3",
+                "0", "2",
+                "0", "1"
+            ],
+
+            "number_font": "Clarendon-Regular",
+
+            "restricted_area_width": 2.0,
+            "coaching_box_width": 2.0,
+            "team_bench_width": 4.0,
+            "team_bench_length_field_side": 30.0,
+            "team_bench_length_back_side": 30.0,
+            "team_bench_area_border_thickness": 0.1111,
+            "bench_shape": "rectangular",
+        "field_bordered": false},
+
+        "nfhs6": {
+            "field_units": "yd",
+            "field_length": 80.0,
+            "field_width": 40.0,
+            "endzone_length": 10.0,
+
+            "minor_line_thickness": 0.1111,
+            "goal_line_thickness": 0.2222,
+            "boundary_line_thickness": 2.0,
+            "minor_yard_line_height": 0.6667,
+
+            "major_yard_line_distance": 5.0,
+            
+            "sideline_to_major_yard_line": 0.2222,
+            "inbound_cross_hashmark_length": 0.2778,
+            "inbound_hashmark_separation": 10.0,
+            "inbound_cross_hashmark_separation": 10.0,
+
+            "sideline_to_outer_yard_line": 0.2222,
+
+            "sideline_to_bottom_of_numbers": 5.0,
+            "number_height": 2.0,
+
+            "try_mark_distance": 2.0,
+            "try_mark_width": 1.0,
+
+            "arrow_line_dist": 10.0,
+            "yard_line_to_arrow": 1.8333,
+            "top_number_to_arrow": 0.4167,
+            "arrow_base": 0.5,
+            "arrow_length": 0.9682,
+            "number_to_yard_line": 0.3333,
+            "number_width": 1.3333,
+
+            "numbers_bottom": [
+                "1", "0",
+                "2", "0",
+                "3", "0",
+                "4", "0",
+                "3", "0",
+                "2", "0",
+                "1", "0"
+            ],
+
+            "numbers_top": [
+                "0", "1",
+                "0", "2",
+                "0", "3",
+                "0", "4",
+                "0", "3",
+                "0", "2",
+                "0", "1"
+            ],
+
+            "number_font": "Clarendon-Regular",
+
+            "restricted_area_width": 2.0,
+            "coaching_box_width": 2.0,
+            "team_bench_width": 4.0,
+            "team_bench_length_field_side": 30.0,
+            "team_bench_length_back_side": 30.0,
+            "team_bench_area_border_thickness": 0.1111,
+            "bench_shape": "rectangular",
+        "field_bordered": false},
+
+        "nfl": {
+            "field_units": "yd",
+            "field_length": 100.0,
+            "field_width": 53.3333,
+            "endzone_length": 10.0,
+
+            "minor_line_thickness": 0.1111,
+            "goal_line_thickness": 0.2222,
+            "boundary_line_thickness": 2.0,
+            "minor_yard_line_height": 0.6667,
+            "field_border_thickness": 1.3333,
+            "field_border_behind_bench": true,
+
+            "major_yard_line_distance": 5.0,
+            
+            "sideline_to_major_yard_line": 0.2222,
+            "inbound_cross_hashmark_length": 0.2778,
+            "inbound_hashmark_separation": 6.1667,
+            "inbound_cross_hashmark_separation": 6.1667,
+
+            "sideline_to_outer_yard_line": 0.2222,
+
+            "sideline_to_bottom_of_numbers": 12.0,
+            "number_height": 2.0,
+
+            "try_mark_distance": 2.0,
+            "try_mark_width": 1.0,
+
+            "arrow_line_dist": 10.0,
+            "yard_line_to_arrow": 1.8333,
+            "top_number_to_arrow": 0.4167,
+            "arrow_base": 0.5,
+            "arrow_length": 0.9682,
+            "number_to_yard_line": 0.3333,
+            "number_width": 1.3333,
+
+            "numbers_bottom": [
+                "1", "0",
+                "2", "0",
+                "3", "0",
+                "4", "0",
+                "5", "0",
+                "4", "0",
+                "3", "0",
+                "2", "0",
+                "1", "0"
+            ],
+
+            "numbers_top": [
+                "0", "1",
+                "0", "2",
+                "0", "3",
+                "0", "4",
+                "0", "5",
+                "0", "4",
+                "0", "3",
+                "0", "2",
+                "0", "1"
+            ],
+
+            "number_font": "Clarendon-Regular",
+
+            "restricted_area_width": 2.0,
+            "coaching_box_width": 2.0,
+            "team_bench_width": 6.0,
+            "team_bench_length_field_side": 44.9861,
+            "team_bench_length_back_side": 37.2639,
+            "team_bench_area_border_thickness": 0.1111,
+            "bench_shape": "trapezoid",
+        "field_bordered": false}
+    },
+
     "hockey": {
         "ahl": {
             "rink_length": 200.0,
