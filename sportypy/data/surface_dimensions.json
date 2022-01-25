@@ -453,7 +453,8 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-        "field_bordered": false},
+            "field_bordered": false
+        },
 
         "ncaa": {
             "field_units": "yd",
@@ -524,7 +525,8 @@
             "team_bench_length_back_side": 50.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-        "field_bordered": false},
+            "field_bordered": false
+        },
 
         "nfhs11": {
             "field_units": "yd",
@@ -593,7 +595,8 @@
             "team_bench_length_back_side": 50.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-        "field_bordered": false},
+            "field_bordered": false
+        },
 
         "nfhs9": {
             "field_units": "yd",
@@ -658,7 +661,8 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-        "field_bordered": false},
+            "field_bordered": false
+        },
 
         "nfhs8": {
             "field_units": "yd",
@@ -723,7 +727,8 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-        "field_bordered": false},
+            "field_bordered": false
+        },
 
         "nfhs6": {
             "field_units": "yd",
@@ -788,7 +793,8 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-        "field_bordered": false},
+            "field_bordered": false
+        },
 
         "nfl": {
             "field_units": "yd",
@@ -859,7 +865,8 @@
             "team_bench_length_back_side": 37.2639,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "trapezoid",
-        "field_bordered": false}
+            "field_bordered": false
+        }
     },
 
     "hockey": {
