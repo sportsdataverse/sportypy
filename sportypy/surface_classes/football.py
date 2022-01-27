@@ -1680,7 +1680,7 @@ class NFHSField(FootballField):
         else:
             self.n_players = 11
         super().__init__(
-            league_code = f'nfhs{n_players}',
+            league_code = f'nfhs{self.n_players}',
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1699,10 +1699,17 @@ class NFLField(FootballField):
             'coaching_box_line': '#ffcb05'
         }
 
+        if 'colors_dict' in kwargs.keys():
+            kwargs['colors_dict'] = {
+                **colors_dict,
+                **kwargs['colors_dict']
+            }
+        else:
+            kwargs['colors_dict'] = colors_dict
+
         super().__init__(
             league_code = 'nfl',
             field_updates = field_updates,
-            colors_dict = colors_dict,
             *args,
             **kwargs
         )
