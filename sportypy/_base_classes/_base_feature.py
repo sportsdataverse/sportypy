@@ -8,6 +8,7 @@ building blocks of each surface's features.
 @author: Ross Drucker
 """
 
+import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -432,3 +433,48 @@ class BaseFeature(ABC):
             out_df['x'] = -1 * df['x']
 
         return out_df
+
+    def _rotate(self, df, rotation_dir = 'ccw', angle = 0.25):
+        """Mathematical rotation about (0.0, 0.0).
+
+        This rotation is given as:
+            x' = x * cos(theta) - y * sin(theta)
+            y' = x * sin(theta) + y * cos(theta)
+
+        Parameters
+        ----------
+        df : pandas.DataFrame
+            A data frame with points to rotate
+
+        rotation_dir : str (default: 'ccw')
+            The direction of rotation direction. 'ccw' corresponds to
+            counterclockwise
+
+        angle : float (default: 0.5)
+            The angle (in radians) by which to rotate the coordinates, divided
+            by pi
+
+        Returns
+        -------
+        rotated : pandas.DataFrame
+            The data frame rotated around the origin
+        """
+        # If the rotation direction is clockwise, take the negative of the
+        # angle
+        if rotation_dir.lower() not in ['ccw', 'counter', 'counterclockwise']:
+            angle *= -1.0
+
+        # Set theta to be the angle of rotation
+        theta = angle * np.pi
+
+        rotated = df.copy()
+        rotated['x'] = (
+            (df['x'] * math.cos(theta)) -
+            (df['y'] * math.sin(theta))
+        )
+        rotated['y'] = (
+            (df['x'] * math.sin(theta)) +
+            (df['y'] * math.cos(theta))
+        )
+
+        return rotated
