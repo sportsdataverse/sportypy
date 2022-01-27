@@ -248,17 +248,6 @@ class FootballField(BaseSurfacePlot):
         # attribute
         self.field_params = field_params
 
-        # Convert the field's units if needed
-        if units.lower() != 'default':
-            for k, v in field_params.items():
-                self.field_params[k] = self._convert_units(
-                    v,
-                    self.field_params['field_units'],
-                    units.lower()
-                )
-
-            self.field_params['field_units'] = units.lower()
-
         # Set the rotation of the plot to be the supplied rotation value
         self._rotation = Affine2D().rotate_deg(rotation)
 
