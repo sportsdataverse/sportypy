@@ -290,8 +290,8 @@ def test_cani_change_dimensions():
 def test_cani_color_features():
     """Test cani_color_features() method will return appropriate message.
 
-    When called, this should return a list of the ice court's features and
-    their default/standard colors
+    When called, this should return a list of the court's features and their
+    default/standard colors
     """
     # Create a BasketballCourt() object to use for testing
     test_court = basketball_courts.BasketballCourt()
@@ -346,7 +346,6 @@ def test_update_colors():
 
     # So long as the updated colors dictionary isn't identical to the standard
     # colors dictionary, this method is working
-
     assert standard_colors != updated_colors
 
 
@@ -505,9 +504,9 @@ def test_supported_leagues():
 
     else:
         for league in league_class_dict.keys():
-            test_rink = league_class_dict[league]
+            test_court = league_class_dict[league]
 
-            assert isinstance(test_rink, basketball_courts.BasketballCourt)
+            assert isinstance(test_court, basketball_courts.BasketballCourt)
 
 
 def test_custom_court_params():
@@ -769,7 +768,7 @@ def test_court_plot_singular_xlim_and_ylim():
 
 
 def test_additional_feature():
-    """Test that additional features can be added to the rink.
+    """Test that additional features can be added to the court.
 
     This test should pass so long as an additional feature may be added to the
     court plot. The additional feature tested here is arbitrarily selected to
