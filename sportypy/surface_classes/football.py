@@ -650,7 +650,7 @@ class FootballField(BaseSurfacePlot):
         # Initialize the goal lines
         goal_line_params = {
             'class': football.GoalLine,
-            'x_anchor': major_line,
+            'x_anchor': self.field_params.get('field_length', 0.0) / 2.0,
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
@@ -825,7 +825,7 @@ class FootballField(BaseSurfacePlot):
         marked_lines = np.repeat(marked_lines, 2)
 
         # Handle cases like CFL where a "C" is required at the midfield line
-        if 0.0 not in marked_lines:
+        if 0.0 not in marked_lines and len(marked_lines) > 0.0:
             marked_lines = np.append(marked_lines, 0.0)
             marked_lines = np.sort(marked_lines)
 
