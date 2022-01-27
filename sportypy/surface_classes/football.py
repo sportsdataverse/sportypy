@@ -248,17 +248,6 @@ class FootballField(BaseSurfacePlot):
         # attribute
         self.field_params = field_params
 
-        # Convert the field's units if needed
-        if units.lower() != 'default':
-            for k, v in field_params.items():
-                self.field_params[k] = self._convert_units(
-                    v,
-                    self.field_params['field_units'],
-                    units.lower()
-                )
-
-            self.field_params['field_units'] = units.lower()
-
         # Set the rotation of the plot to be the supplied rotation value
         self._rotation = Affine2D().rotate_deg(rotation)
 
@@ -650,7 +639,7 @@ class FootballField(BaseSurfacePlot):
         # Initialize the goal lines
         goal_line_params = {
             'class': football.GoalLine,
-            'x_anchor': major_line,
+            'x_anchor': self.field_params.get('field_length', 0.0) / 2.0,
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
@@ -825,7 +814,7 @@ class FootballField(BaseSurfacePlot):
         marked_lines = np.repeat(marked_lines, 2)
 
         # Handle cases like CFL where a "C" is required at the midfield line
-        if 0.0 not in marked_lines:
+        if 0.0 not in marked_lines and len(marked_lines) > 0.0:
             marked_lines = np.append(marked_lines, 0.0)
             marked_lines = np.sort(marked_lines)
 
@@ -1680,7 +1669,7 @@ class NFHSField(FootballField):
         else:
             self.n_players = 11
         super().__init__(
-            league_code = f'nfhs{n_players}',
+            league_code = f'nfhs{self.n_players}',
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1699,10 +1688,17 @@ class NFLField(FootballField):
             'coaching_box_line': '#ffcb05'
         }
 
+        if 'colors_dict' in kwargs.keys():
+            kwargs['colors_dict'] = {
+                **colors_dict,
+                **kwargs['colors_dict']
+            }
+        else:
+            kwargs['colors_dict'] = colors_dict
+
         super().__init__(
             league_code = 'nfl',
             field_updates = field_updates,
-            colors_dict = colors_dict,
             *args,
             **kwargs
         )
