@@ -1,4 +1,242 @@
 {
+    "baseball": {
+        "little_league": {
+            "field_units": "ft",
+
+            "left_field_distance": 200.0,
+            "right_field_distance": 200.0,
+            "center_field_distance": 200.0,
+
+            "baseline_distance": 60.0,
+
+            "running_lane_start_distance": 30.0,
+            "running_lane_depth": 2.5,
+            "running_lane_length": 30.0,
+
+            "pitchers_mound_center_to_home_plate": 46.0,
+            "pitchers_mound_radius": 5.0,
+            "pitchers_plate_front_to_home_plate": 47.0,
+            "pitchers_plate_width": 0.5,
+            "pitchers_plate_length": 2.0,
+
+            "base_side_length": 1.25,
+            "home_plate_edge_length": 1.4167,
+
+            "infield_arc_radius": 50.0,
+            "base_anchor_to_infield_grass_radius": 9.0,
+
+            "line_width": 0.1667,
+            "foul_line_to_infield_grass": 1.5,
+            "foul_line_to_foul_grass": 2.5,
+
+            "batters_box_length": 7.0,
+            "batters_box_width": 3.0,
+            "batters_box_y_adj": 1.1792,
+            "home_plate_side_to_batters_box": 0.3333,
+            "catchers_box_shape": "trapezoid",
+            "catchers_box_depth": 6.3640,
+            
+            "backstop_radius": 30.0,
+            "home_plate_circle_radius": 9.0
+        },
+
+        "milb": {
+            "field_units": "ft",
+
+            "left_field_distance": 355.0,
+            "right_field_distance": 355.0,
+            "center_field_distance": 400.0,
+
+            "baseline_distance": 90.0,
+
+            "running_lane_start_distance": 45.0,
+            "running_lane_depth": 3.0,
+            "running_lane_length": 48.0,
+
+            "pitchers_mound_center_to_home_plate": 59.0,
+            "pitchers_mound_radius": 9.0,
+            "pitchers_plate_front_to_home_plate": 60.5,
+            "pitchers_plate_width": 0.5,
+            "pitchers_plate_length": 2.0,
+
+            "base_side_length": 1.25,
+            "home_plate_edge_length": 1.4167,
+
+            "infield_arc_radius": 95.0,
+            "base_anchor_to_infield_grass_radius": 13.0,
+
+            "line_width": 0.1667,
+            "foul_line_to_infield_grass": 3.0,
+            "foul_line_to_foul_grass": 3.0,
+
+            "batters_box_length": 6.0,
+            "batters_box_width": 4.0,
+            "batters_box_y_adj": 0.7083,
+            "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_depth": 8.0,
+            "catchers_box_width": 3.5833,
+            
+            "backstop_radius": 60.0,
+            "home_plate_circle_radius": 13.0
+        },
+        
+        "mlb": {
+            "field_units": "ft",
+
+            "left_field_distance": 355.0,
+            "right_field_distance": 355.0,
+            "center_field_distance": 400.0,
+
+            "baseline_distance": 90.0,
+
+            "running_lane_start_distance": 45.0,
+            "running_lane_depth": 3.0,
+            "running_lane_length": 48.0,
+
+            "pitchers_mound_center_to_home_plate": 59.0,
+            "pitchers_mound_radius": 9.0,
+            "pitchers_plate_front_to_home_plate": 60.5,
+            "pitchers_plate_width": 0.5,
+            "pitchers_plate_length": 2.0,
+
+            "base_side_length": 1.25,
+            "home_plate_edge_length": 1.4167,
+
+            "infield_arc_radius": 95.0,
+            "base_anchor_to_infield_grass_radius": 13.0,
+
+            "line_width": 0.25,
+            "foul_line_to_infield_grass": 3.0,
+            "foul_line_to_foul_grass": 3.0,
+
+            "batters_box_length": 6.0,
+            "batters_box_width": 4.0,
+            "batters_box_y_adj": 0.7083,
+            "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_depth": 8.0,
+            "catchers_box_width": 3.5833,
+            
+            "backstop_radius": 60.0,
+            "home_plate_circle_radius": 13.0
+        },
+
+        "ncaa": {
+            "field_units": "ft",
+
+            "left_field_distance": 355.0,
+            "right_field_distance": 355.0,
+            "center_field_distance": 400.0,
+
+            "baseline_distance": 90.0,
+
+            "running_lane_start_distance": 45.0,
+            "running_lane_depth": 3.0,
+            "running_lane_length": 48.0,
+
+            "pitchers_mound_center_to_home_plate": 59.0,
+            "pitchers_mound_radius": 9.0,
+            "pitchers_plate_front_to_home_plate": 60.5,
+            "pitchers_plate_width": 0.5,
+            "pitchers_plate_length": 2.0,
+
+            "base_side_length": 1.25,
+            "home_plate_edge_length": 1.4167,
+
+            "infield_arc_radius": 95.0,
+            "base_anchor_to_infield_grass_radius": 13.0,
+
+            "line_width": 0.25,
+            "foul_line_to_infield_grass": 3.0,
+            "foul_line_to_foul_grass": 3.0,
+
+            "batters_box_length": 6.0,
+            "batters_box_width": 4.0,
+            "batters_box_y_adj": 0.7083,
+            "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_depth": 8.0,
+            "catchers_box_width": 3.5833,
+            
+            "backstop_radius": 60.0,
+            "home_plate_circle_radius": 13.0
+        },
+        
+        "nfhs": {
+            "field_units": "ft",
+
+            "left_field_distance": 355.0,
+            "right_field_distance": 355.0,
+            "center_field_distance": 400.0,
+
+            "baseline_distance": 90.0,
+
+            "running_lane_start_distance": 45.0,
+            "running_lane_depth": 3.0,
+            "running_lane_length": 45.0,
+
+            "pitchers_mound_center_to_home_plate": 59.0,
+            "pitchers_mound_radius": 9.0,
+            "pitchers_plate_front_to_home_plate": 60.5,
+            "pitchers_plate_width": 0.5,
+            "pitchers_plate_length": 2.0,
+
+            "base_side_length": 1.25,
+            "home_plate_edge_length": 1.4167,
+
+            "infield_arc_radius": 90.0,
+            "base_anchor_to_infield_grass_radius": 13.0,
+
+            "line_width": 0.2083,
+            "foul_line_to_infield_grass": 3.0,
+            "foul_line_to_foul_grass": 3.0,
+
+            "batters_box_length": 6.0,
+            "batters_box_width": 4.0,
+            "batters_box_y_adj": 0.7083,
+            "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_depth": 8.0,
+            "catchers_box_width": 3.5833,
+            
+            "backstop_radius": 60.0,
+            "home_plate_circle_radius": 13.0
+        },
+
+        "pony": {
+            "field_units": "ft",
+
+            "left_field_distance": 265.0,
+            "right_field_distance": 265.0,
+            "center_field_distance": 315.0,
+
+            "baseline_distance": 80.0,
+
+            "pitchers_mound_center_to_home_plate": 53.0,
+            "pitchers_mound_radius": 7.5,
+            "pitchers_plate_front_to_home_plate": 54.0,
+            "pitchers_plate_width": 0.5,
+            "pitchers_plate_length": 2.0,
+
+            "base_side_length": 1.25,
+            "home_plate_edge_length": 1.4167,
+
+            "infield_arc_radius": 80.0,
+            "base_anchor_to_infield_grass_radius": 12.0,
+
+            "line_width": 0.1667,
+            "foul_line_to_infield_grass": 3.0,
+            "foul_line_to_foul_grass": 3.0,
+
+            "batters_box_length": 6.0,
+            "batters_box_width": 4.0,
+            "batters_box_y_adj": 0.7083,
+            "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_depth": 8.0,
+            "catchers_box_width": 3.5833,
+            
+            "backstop_radius": 60.0,
+            "home_plate_circle_radius": 13.0
+        }
+    },
+
     "basketball": {
         "fiba": {
             "court_length": 28.0,
