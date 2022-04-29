@@ -936,7 +936,16 @@ class BaseballField(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            'plot_background': '#ffffff'
+            'plot_background': '#395d33',
+            'infield_dirt': '#9b7653',
+            'infield_grass': '#395d33',
+            'pitchers_mound': '#9b7653',
+            'base': '#ffffff',
+            'pitchers_plate': '#ffffff',
+            'batters_box': '#ffffff',
+            'catchers_box': '#ffffff',
+            'foul_line': '#ffffff',
+            'running_lane': '#ffffff'
         }
 
         self.__init__(
