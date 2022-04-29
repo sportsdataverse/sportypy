@@ -106,11 +106,22 @@ class InfieldDirt(BaseBaseballFeature):
             home_plate_x0
         ])
 
-        home_plate_x = home_plate_roots[home_plate_roots < 0][0]
+        try:
+            home_plate_x = home_plate_roots[home_plate_roots < 0][0]
 
-        home_plate_start_theta = math.acos(
-            home_plate_x / self.home_plate_circle_radius
-        ) / np.pi
+        except:
+            home_plate_x = self.home_plate_circle_radius
+
+        try:
+            home_plate_start_theta = math.acos(
+                home_plate_x / self.home_plate_circle_radius
+            ) / np.pi
+
+        except ValueError:
+            home_plate_start_theta = 1.0
+
+        except ZeroDivisionError:
+            home_plate_start_theta = 1.0
 
         home_plate_end_theta = 3.0 - home_plate_start_theta
 
@@ -131,9 +142,16 @@ class InfieldDirt(BaseBaseballFeature):
 
         infield_x = infield_roots[infield_roots > 0][0]
 
-        infield_theta = math.acos(
-            infield_x / self.infield_arc_radius
-        ) / np.pi
+        try:
+            infield_theta = math.acos(
+                infield_x / self.infield_arc_radius
+            ) / np.pi
+
+        except ValueError:
+            infield_theta = 0.25
+
+        except ZeroDivisionError:
+            infield_theta = 0.25
 
         infield_dirt_df = pd.concat([
             self.create_circle(
@@ -189,11 +207,22 @@ class InfieldGrass(BaseBaseballFeature):
             home_plate_1b_x0
         ])
 
-        home_plate_1b_x = home_plate_1b_roots[home_plate_1b_roots > 0][0]
+        try:
+            home_plate_1b_x = home_plate_1b_roots[home_plate_1b_roots > 0][0]
 
-        home_plate_1b_theta = math.acos(
-            home_plate_1b_x / self.home_plate_circle_radius
-        ) / np.pi
+        except:
+            home_plate_1b_x = self.home_plate_circle_radius
+
+        try:
+            home_plate_1b_theta = math.acos(
+                home_plate_1b_x / self.home_plate_circle_radius
+            ) / np.pi
+
+        except ValueError:
+            home_plate_1b_theta = 0.0
+
+        except ZeroDivisionError:
+            home_plate_1b_theta = 0.0
 
         home_plate_3b_x2 = 2.0
         home_plate_3b_x1 = -2.0 * self.foul_line_to_infield_grass
@@ -208,11 +237,22 @@ class InfieldGrass(BaseBaseballFeature):
             home_plate_3b_x0
         ])
 
-        home_plate_3b_x = home_plate_3b_roots[home_plate_3b_roots < 0][0]
+        try:
+            home_plate_3b_x = home_plate_3b_roots[home_plate_3b_roots < 0][0]
 
-        home_plate_3b_theta = math.acos(
-            home_plate_3b_x / self.home_plate_circle_radius
-        ) / np.pi
+        except:
+            home_plate_3b_x = self.home_plate_circle_radius
+
+        try:
+            home_plate_3b_theta = math.acos(
+                home_plate_3b_x / self.home_plate_circle_radius
+            ) / np.pi
+
+        except ValueError:
+            home_plate_3b_theta = 1.0
+
+        except ZeroDivisionError:
+            home_plate_3b_theta = 1.0
 
         first_base_x2 = 2.0
         first_base_x1 = (
@@ -245,9 +285,13 @@ class InfieldGrass(BaseBaseballFeature):
             (self.baseline_distance * math.cos(np.pi / 4.0))
         )
 
-        first_base_theta = math.acos(
-            first_base_delta / self.feature_radius
-        ) / np.pi
+        try:
+            first_base_theta = math.acos(
+                first_base_delta / self.feature_radius
+            ) / np.pi
+
+        except ValueError:
+            first_base_theta = 0.0
 
         first_base_start_theta = 1.0 + first_base_theta
         first_base_end_theta = 1.0 - first_base_theta
