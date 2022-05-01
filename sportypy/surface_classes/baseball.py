@@ -42,8 +42,8 @@ class BaseballField(BaseSurfacePlot):
     ----------
     - league_code : str (default: '')
         The league for which the plot should be drawn. This is case-insensitive
-        but should be the shortened name of the league (e.g. "National Baseball
-        League" should be either "MLB" or "mlb")
+        but should be the shortened name of the league (e.g. "Major League
+        Baseball" should be either "MLB" or "mlb")
 
     - rotation : float (default: 0.0)
         The angle (in degrees) through which to rotate the final plot
