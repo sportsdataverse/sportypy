@@ -1795,5 +1795,72 @@
             "goal_width": 8.0,
             "goal_depth": 1.86
         }
+    },
+
+    "tennis": {
+        "ita": {
+            "court_length": 78.0,
+            "singles_width": 27.0,
+            "court_units": "ft",
+            "doubles_width": 36.0,
+            "serviceline_distance": 21.0,
+            "center_mark_length": 0.3333,
+            "net_length": 42.0,
+            "line_thickness": 0.1667,
+            "backstop_distance": 21.0,
+            "sidestop_distance": 12.0
+        },
+        
+        "itf": {
+            "court_length": 78.0,
+            "singles_width": 27.0,
+            "court_units": "ft",
+            "doubles_width": 36.0,
+            "serviceline_distance": 21.0,
+            "center_mark_length": 0.3333,
+            "net_length": 42.0,
+            "line_thickness": 0.1667,
+            "backstop_distance": 21.0,
+            "sidestop_distance": 12.0
+        },
+
+        "ncaa": {
+            "court_length": 78.0,
+            "singles_width": 27.0,
+            "court_units": "ft",
+            "doubles_width": 36.0,
+            "serviceline_distance": 21.0,
+            "center_mark_length": 0.3333,
+            "net_length": 42.0,
+            "line_thickness": 0.1667,
+            "backstop_distance": 21.0,
+            "sidestop_distance": 12.0
+        },
+
+        "usta": {
+            "court_length": 78.0,
+            "singles_width": 27.0,
+            "court_units": "ft",
+            "doubles_width": 36.0,
+            "serviceline_distance": 21.0,
+            "center_mark_length": 0.3333,
+            "net_length": 42.0,
+            "line_thickness": 0.1667,
+            "backstop_distance": 21.0,
+            "sidestop_distance": 12.0
+        },
+
+        "wta": {
+            "court_length": 78.0,
+            "singles_width": 27.0,
+            "court_units": "ft",
+            "doubles_width": 36.0,
+            "serviceline_distance": 21.0,
+            "center_mark_length": 0.3333,
+            "net_length": 42.0,
+            "line_thickness": 0.1667,
+            "backstop_distance": 21.0,
+            "sidestop_distance": 12.0
+        }
     }
 }
