@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import sportypy.surface_classes.baseball as baseball_fields
 import sportypy._feature_classes.baseball as baseball_features
 
+
 def test_base_class_no_league():
     """Test that the base class, BaseballField, can be instantiated.
 
@@ -66,7 +67,7 @@ def test_mlb_params():
         "home_plate_side_to_batters_box": 0.5,
         "catchers_box_depth": 8.0,
         "catchers_box_width": 3.5833,
-        
+
         "backstop_radius": 60.0,
         "home_plate_circle_radius": 13.0
     }
@@ -507,7 +508,7 @@ def test_custom_field_params():
         "catchers_box_shape": "trapezoid",
         "catchers_box_depth": 8.0,
         "catchers_box_width": 3.5833,
-        
+
         "backstop_radius": 60.0,
         "home_plate_circle_radius": 9.0
     }
@@ -655,3 +656,16 @@ def test_field_plot_with_xlim_ylim():
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
+
+
+def test_rotated_surface_plot():
+    """Test that the field may be properly rotated about the origin.
+
+    This test should pass so long as there are no errors when drawing a rotated
+    plot of the surface
+    """
+    ax = baseball_fields.MLBField(rotation = 90).draw(
+        display_range = 'infield'
+    )
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)

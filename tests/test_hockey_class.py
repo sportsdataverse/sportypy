@@ -726,3 +726,16 @@ def test_additional_feature():
     ).draw()
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_rotated_surface_plot():
+    """Test that the field may be properly rotated about the origin.
+
+    This test should pass so long as there are no errors when drawing a rotated
+    plot of the surface
+    """
+    ax = hockey_rinks.NHLRink(rotation = 90).draw(
+        display_range = 'ozone'
+    )
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)

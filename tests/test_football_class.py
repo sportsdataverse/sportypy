@@ -44,7 +44,7 @@ def test_nfl_params():
         "field_border_behind_bench": True,
 
         "major_yard_line_distance": 5.0,
-        
+
         "sideline_to_major_yard_line": 0.2222,
         "inbound_cross_hashmark_length": 0.2778,
         "inbound_hashmark_separation": 6.1667,
@@ -499,7 +499,7 @@ def test_custom_field_params():
         "minor_yard_line_height": 0.6667,
 
         "major_yard_line_distance": 5.0,
-        
+
         "sideline_to_major_yard_line": 0.1111,
         "inbound_cross_hashmark_length": 0.2778,
         "inbound_hashmark_separation": 13.3333,
@@ -695,7 +695,7 @@ def test_alternate_numeral_font():
         "minor_yard_line_height": 0.6667,
 
         "major_yard_line_distance": 5.0,
-        
+
         "sideline_to_major_yard_line": 0.1111,
         "inbound_cross_hashmark_length": 0.2778,
         "inbound_hashmark_separation": 13.3333,
@@ -761,5 +761,18 @@ def test_alternate_numeral_font():
     ax = test_field.draw()
 
     plt.close('all')
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_rotated_surface_plot():
+    """Test that the field may be properly rotated about the origin.
+
+    This test should pass so long as there are no errors when drawing a rotated
+    plot of the surface
+    """
+    ax = football_fields.NFLField(rotation = 90).draw(
+        display_range = 'offense'
+    )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)

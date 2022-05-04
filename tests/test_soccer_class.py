@@ -31,31 +31,31 @@ def test_epl_params():
     instantiated with the correct parameters.
     """
     epl_params = {
-            "pitch_units": "m",
-            "pitch_length": 120.0,
-            "pitch_width": 90.0,
-            "line_thickness": 0.12,
+        "pitch_units": "m",
+        "pitch_length": 120.0,
+        "pitch_width": 90.0,
+        "line_thickness": 0.12,
 
-            "center_circle_radius": 9.15,
-            "center_mark_radius": 0.3048,
+        "center_circle_radius": 9.15,
+        "center_mark_radius": 0.3048,
 
-            "corner_arc_radius": 1.0,
-            "goal_line_defensive_mark_visible": True,
-            "touchline_defensive_mark_visible": True,
-            "defensive_mark_depth": 0.5,
-            "defensive_mark_distance": 9.15,
+        "corner_arc_radius": 1.0,
+        "goal_line_defensive_mark_visible": True,
+        "touchline_defensive_mark_visible": True,
+        "defensive_mark_depth": 0.5,
+        "defensive_mark_distance": 9.15,
 
-            "penalty_box_length": 16.5,
-            "penalty_circle_radius": 9.15,
-            "penalty_mark_dist": 11.0,
-            "interior_of_goal_post_to_penalty_box": 16.5,
-            "interior_of_goal_post_to_goal_box": 5.5,
-            "goal_box_length": 5.5,
-            "penalty_mark_radius": 0.1524,
+        "penalty_box_length": 16.5,
+        "penalty_circle_radius": 9.15,
+        "penalty_mark_dist": 11.0,
+        "interior_of_goal_post_to_penalty_box": 16.5,
+        "interior_of_goal_post_to_goal_box": 5.5,
+        "goal_box_length": 5.5,
+        "penalty_mark_radius": 0.1524,
 
-            "goal_width": 7.32,
-            "goal_depth": 1.7
-        }
+        "goal_width": 7.32,
+        "goal_depth": 1.7
+    }
 
     test_params = soccer_pitches.EPLPitch().pitch_params
 
@@ -619,3 +619,14 @@ def test_pitch_plot_with_xlim_ylim():
     )
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
+
+
+def test_rotated_surface_plot():
+    """Test that the field may be properly rotated about the origin.
+
+    This test should pass so long as there are no errors when drawing a rotated
+    plot of the surface
+    """
+    ax = soccer_pitches.EPLPitch(rotation = 90).draw()
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)

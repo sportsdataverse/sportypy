@@ -715,3 +715,16 @@ def test_court_plot_with_xlim_ylim():
     )
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
+
+
+def test_rotated_surface_plot():
+    """Test that the field may be properly rotated about the origin.
+
+    This test should pass so long as there are no errors when drawing a rotated
+    plot of the surface
+    """
+    ax = tennis_courts.NCAACourt(rotation = 90).draw(
+        display_range = 'serve'
+    )
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)
