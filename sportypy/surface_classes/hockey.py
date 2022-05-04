@@ -345,8 +345,6 @@ class HockeyRink(BaseSurfacePlot):
             'class': hockey.BoardsConstraint,
             'x_anchor': 0.0,
             'y_anchor': 0.0,
-            'x_justify': 'center',
-            'y_justify': 'center',
             'reflect_x': False,
             'reflect_y': False,
             'feature_units': self.rink_params.get('rink_units', 'ft'),

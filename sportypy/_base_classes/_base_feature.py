@@ -34,16 +34,6 @@ class BaseFeature(ABC):
         The y coordinate corresponding to the feature's anchored position in
         the surface's coordinate system
 
-    x_justify : str (default: 'center')
-        The position of the x anchor relative to the rest of the feature.
-        Viable options are 'center', 'left_edge', or 'right_edge'. This will be
-        used to anchor the feature to its given location
-
-    y_justify : str (default: 'center')
-        The position of the y anchor relative to the rest of the feature.
-        Viable options are 'center', 'top', or 'bottom'. This will be used to
-        anchor the feature to its given location
-
     reflected_over_x : bool (default: False)
         Whether or not the feature should be reflected over the x axis
 

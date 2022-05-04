@@ -267,8 +267,6 @@ class BaseballField(BaseSurfacePlot):
             'class': baseball.FieldConstraint,
             'x_anchor': 0.0,
             'y_anchor': 0.0,
-            'x_justify': 'center',
-            'y_justify': 'center',
             'reflect_x': False,
             'reflect_y': False,
             'feature_units': self.field_params.get('field_units', 'ft'),
