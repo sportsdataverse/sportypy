@@ -9,6 +9,9 @@ the attributes of the class.
 
 @author: Ross Drucker
 """
+import math
+import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
 import sportypy._feature_classes.hockey as hockey
@@ -284,6 +287,7 @@ class HockeyRink(BaseSurfacePlot):
             self.rink_params['rink_units'] = units.lower()
 
         # Set the rotation of the plot to be the supplied rotation value
+        self.rotation_amt = rotation
         self._rotation = Affine2D().rotate_deg(rotation)
 
         # Set the rink's necessary shifts. This will overwrite the default
@@ -1723,6 +1727,44 @@ class HockeyRink(BaseSurfacePlot):
             max(ylim[0], -half_rink_width),
             min(ylim[1], half_rink_width)
         )
+
+        # If there is a rotation, apply it to the limits as well
+        if self.rotation_amt != 0.0:
+            bbox = pd.DataFrame({
+                'x': [
+                    xlim[0],
+                    xlim[1],
+                    xlim[1],
+                    xlim[0]
+                ],
+
+                'y': [
+                    ylim[0],
+                    ylim[0],
+                    ylim[1],
+                    ylim[1]
+                ]
+            })
+
+            bbox_rotated = pd.DataFrame()
+            bbox_rotated['x'] = (
+                (bbox['x'] * math.cos(self.rotation_amt * np.pi / 180.0)) -
+                (bbox['y'] * math.sin(self.rotation_amt * np.pi / 180.0))
+            )
+            bbox_rotated['y'] = (
+                (bbox['x'] * math.sin(self.rotation_amt * np.pi / 180.0)) +
+                (bbox['y'] * math.cos(self.rotation_amt * np.pi / 180.0))
+            )
+
+            xlim = (
+                bbox_rotated['x'].min(),
+                bbox_rotated['x'].max()
+            )
+
+            ylim = (
+                bbox_rotated['y'].min(),
+                bbox_rotated['y'].max()
+            )
 
         return xlim, ylim
 
