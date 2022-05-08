@@ -1075,7 +1075,7 @@ class BasketRing(BaseBasketballFeature):
                     -self.backboard_face_to_basket_center +
                     (
                         (self.feature_radius + self.feature_thickness) *
-                        math.cos(start_angle)
+                        math.cos(start_angle * np.pi)
                     )
                 ],
 
@@ -1097,7 +1097,7 @@ class BasketRing(BaseBasketballFeature):
                     -self.backboard_face_to_basket_center +
                     (
                         (self.feature_radius + self.feature_thickness) *
-                        math.cos(start_angle)
+                        math.cos(start_angle * np.pi)
                     ),
                     0.0,
                     0.0
