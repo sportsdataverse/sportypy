@@ -10,7 +10,7 @@ import numpy as np
 from functools import wraps
 import matplotlib.pyplot as plt
 from sportypy._base_classes._base_surface import BaseSurface
-
+from scipy.stats import binned_statistic_2d
 
 class BaseSurfacePlot(BaseSurface):
     """A plot of a sport's/league's surface.
@@ -35,15 +35,15 @@ class BaseSurfacePlot(BaseSurface):
 
         @wraps(plot_function)
         def wrapper(self, x, y, *, values = None, plot_range = None,
-                    plot_xlim = None, plot_ylim = None, **kwargs):
+                    plot_xlim = None, plot_ylim = None, for_plot = False,
+                    for_display = True, **kwargs):
             # Get the values to use for a hexbin plot. This controls how the
             # hexagons are defined in a hexbin
             C = kwargs.pop('C', None)
 
             # If no values are supplied, use the binning parameter C described
             # above
-            if not values:
-                values = C
+            values = C if values is None else values
 
             # Make a copy of the values so as not to overwrite the original
             # values
@@ -51,7 +51,7 @@ class BaseSurfacePlot(BaseSurface):
 
             # If there are no values, make a series of 1s to serve as
             # placeholders that is the same shape as the x and y values
-            if not values:
+            if values is None:
                 values = np.ones(x.shape)
 
             # Otherwise, use the actual values and flatten them (if necessary)
@@ -67,9 +67,6 @@ class BaseSurfacePlot(BaseSurface):
             if len(x) != len(y) or len(x) != len(values):
                 raise Exception('x, y, and values must all be of same length')
 
-            if plot_range is None and plot_xlim is None and plot_ylim is None:
-                plot_xlim, plot_ylim = self._get_limits('full')
-
             # Initialize the mask to be be false. The mask will indicate
             # whether a point lies within the defined limits for the plot
             mask = False
@@ -77,16 +74,22 @@ class BaseSurfacePlot(BaseSurface):
             # If no plot_range is specified, and no x or y limitations are
             # imposed, set the plot limits to that of a full-surface plot
             if plot_range is None and plot_xlim is None and plot_ylim is None:
-                plot_xlim, plot_ylim = self._get_limits('full')
+                plot_xlim, plot_ylim = self._get_plot_range_limits(
+                    'full',
+                    for_plot = True,
+                    for_display = False
+                )
 
             # Otherwise, get the limits of the plot based on the supplied
             # values and set the mask to identify points who are outside of its
             # bounds
             else:
-                plot_xlim, plot_ylim = self.get_limits(
+                plot_xlim, plot_ylim = self._get_plot_range_limits(
                     plot_range,
                     self.copy_(plot_xlim),
-                    self.copy_(plot_ylim)
+                    self.copy_(plot_ylim),
+                    for_plot = True,
+                    for_display = False
                 )
 
                 # The mask finds points that are below the minimum allowable x
@@ -99,7 +102,8 @@ class BaseSurfacePlot(BaseSurface):
             # If the plot is constrained to exclude values outside its bounds,
             # then values outside of the boundaries of the surface should be
             # set to be nan
-            if kwargs.get('is_constrained', True):
+            is_constrained = kwargs.get('is_constrained', True)
+            if is_constrained:
                 values = self._outside_surface_to_nan(x, y, values)
 
             # Create the final mask to exclude points that are outside the
@@ -111,6 +115,10 @@ class BaseSurfacePlot(BaseSurface):
             x = x[~mask]
             y = y[~mask]
             values = values[~mask]
+
+            if not is_constrained:
+                plot_xlim = [min([*plot_xlim, *x]), max([*plot_xlim, *x])]
+                plot_ylim = [min([*plot_ylim, *y]), max([*plot_ylim, *y])]
 
             return plot_function(
                 self,
@@ -161,9 +169,16 @@ class BaseSurfacePlot(BaseSurface):
                         args[i] * (-1 if is_y else 1)
                     ))
 
-                args[i] = args[i] - (self.y_shift if is_y else self.x_shift)
+                args[i] = args[i] - (self.y_trans if is_y else self.x_trans)
 
             kwargs['transform'] = self._get_transform(kwargs['ax'])
+            kwargs['clip_on'] = kwargs.get(
+                'clip_on',
+                kwargs.get(
+                    'is_constrained',
+                    True
+                )
+            )
 
             args = tuple(args)
 
@@ -232,6 +247,8 @@ class BaseSurfacePlot(BaseSurface):
             The default is 0.0, which corresponds to the corners' center points
             being located at the actual corner
 
+            NOTE: This is passed from the constraint's definition
+
         Returns
         -------
         values : numpy.ndarray
@@ -257,9 +274,9 @@ class BaseSurfacePlot(BaseSurface):
         # or more than half way across the width of a surface (e.g. outside
         # the benches of an NHL rink)
         mask = (
-            ((x > center_x)) & (y > center_y) &
-            ((center_x - x ** 2)) + ((center_y - y) ** 2) >
-            (self._surface_constraint ** 2)
+            ((x > center_x) & (y > center_y) &
+            ((center_x - x) ** 2 + (center_y - y) ** 2 >
+            self._surface_constraint.feature_radius ** 2))
         )
 
         # Apply the mask
@@ -267,3 +284,824 @@ class BaseSurfacePlot(BaseSurface):
 
         # Return the values with the mask applied
         return values
+
+    def _update_display_range(self, x, y, ax):
+        """Update xlim and ylim for features not constrained to the surface.
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            The x values of the coordinates to be plotted onto the surface
+
+        y: numpy.ndarray
+            The y values of the coordinates to be plotted onto the surface
+
+        ax : matplotlib.Axes
+            The axes object onto which the features should be added
+
+        Returns
+        -------
+        Nothing, but updates the x and y limits appropriately
+        """
+        # Perform a rotation of the coordinates as necessary
+        x, y = self._rotate_xy(x, y)
+
+        # Get the current limits
+        current_xlim = ax.get_xlim()
+        current_ylim = ax.get_ylim()
+
+        # Get the full limits of x and y
+        full_xlim = [*current_xlim, *x]
+        full_ylim = [*current_ylim, *y]
+
+        # Update appropriately
+        ax.set_xlim(min(full_xlim), max(full_xlim))
+        ax.set_ylim(min(full_ylim), max(full_ylim))
+
+    def _bound_surface(self, x, y, plot_features, ax, transform,
+                       is_constrained, update_display_range):
+        """Update the constraints and bounding limits of the resulting plot.
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            The x values of the coordinates to be plotted onto the surface
+
+        y: numpy.ndarray
+            The y values of the coordinates to be plotted onto the surface
+
+        plot_features: list
+            The list of features to add to the plot
+
+        ax : matplotlib.Axes
+            The axes object onto which the features should be added
+
+        transform : matplotlib.Transform
+            The relevant coordinate transform to apply to the features of the
+            surface
+
+        is_constrained : boolean
+            Whether or not the surface is constrained
+
+        update_display_range : boolean
+            Whether or not to allow the plotted points to update the x and y
+            limits of the plot
+        """
+        # If the surface is constrained, enforce the constraint
+        if is_constrained:
+            self._constrain_plot(plot_features, ax, transform)
+        
+        # Otherwise, if a coordinate should be allowed to be plotted outside
+        # of the boundary of the surface (e.g. a home run's landing spot in
+        # a baseball plot), update the display correctly
+        else:
+            if update_display_range:
+                self._update_display_range(x, y, ax)
+
+    @staticmethod
+    def binned_stat_2d(x, y, values, statistic = "sum", xlim = None,
+                       ylim = None, binsize = 1, bins = None):
+        """Create a two-dimensional binned statistic via scipy
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            A sequence of values to be binned along in the first dimension
+
+        y: numpy.ndarray
+            A sequence of values to be binned along in the second dimension
+
+        values : numpy.ndarray
+            The data on which the statistic will be computed. This must have
+            the same shape as x, or a list of sequences that each have the same
+            shape as x
+
+        statistic : string or callable (default: "sum")
+            The statistic to compute via scipy. Per scipy, the following are
+            available:
+                - "count": the number of points inside each bin
+                - "max": the maximum for points inside each bin
+                - "mean": the mean of values for points inside each bin
+                - "median": the median for points inside each bin
+                - "min": the minimum for points inside each bin
+                - "std": the standard deviation for points inside each bin
+                - "sum": the sum of the values for points inside each bin
+                - {function}: a user-defined function that utilizes a
+                    1-dimensional array of values and outputs a single
+                    numerical statistic
+
+        xlim : tuple of floats (optional)
+            The lower and upper bounds of the x coordinates that should be
+            included. This is only used if the bins argument is None
+
+        ylim : tuple of floats (optional)
+            The lower and upper bounds of the y coordinates that should be
+            included. This is only used if the bins argument is None
+
+        binsize : float or tuple of floats (optional)
+            The size of the bins for any given portion of the surface:
+            - a single float: the size of the bins for both dimension
+            - a tuple of floats: the size of the bins in each dimension
+
+        bins : int or tuple of ints or numpy.ndarray or tuple of numpy.ndarray
+            (optional)
+            The specifications of each bin:
+                - a single int: the number of bins for both dimensions
+                - a tuple of ints: the number of bins in each dimension
+                - a numpy.ndarray: the bin edges for both dimensions
+                - a tuple of numpy.ndarrays: the bin edges in each dimension
+
+        Returns
+        -------
+            stat: (nx, ny) numpy.ndarray
+                The values of the selected statistic in each of the two-dimensional
+                bins
+
+            x_edge: (nx + 1) numpy.ndarray
+                The bin edges along the first dimension
+
+            y_edge: (ny + 1) numpy.ndarray
+                The bin edges along the second dimension
+        """
+        # If no bins are provided, try to iterate through the binsizes
+        if bins is None:
+            try:
+                iter(binsize)
+            except TypeError:
+                binsize = (binsize, binsize)
+
+            # Get the coordinates of the center of each bin
+            x_edge = np.arange(
+                xlim[0] - binsize[0] / 2.0,
+                xlim[1] + binsize[0],
+                binsize[0]
+            )
+            y_edge = np.arange(
+                ylim[0] - binsize[1] / 2.0,
+                ylim[1] + binsize[1],
+                binsize[1]
+            )
+
+            # Define the bins
+            bins = [x_edge, y_edge]
+
+        # Compute the statistic
+        stat, x_edge, y_edge, _ = binned_statistic_2d(
+            x,
+            y,
+            values,
+            statistic = statistic,
+            bins = bins
+        )
+
+        # Get the transpose of each statistic
+        stat = stat.T
+
+        return stat, x_edge, y_edge
+
+    def constrain_plot(self, ax = None, collection = None):
+        """Constrain a collection object to only display inside the surface.
+
+        Parameters
+        ----------
+        ax : matplotlib.Axes
+            The axes object onto which the plot should be added. If not
+            provided, it will use the currently active axes
+
+        collection : matplotlib.Collection or iterable of matplotlib.Collection
+            The collection to be constrained
+
+        Returns
+        -------
+        Nothing, but enforces the constaints via the _constrain_plot method
+        """
+        # Create a matplotlib Axes object if one isn't provided
+        if ax is None:
+            ax = plt.gca()
+
+        # Identify the transform of the plot
+        transform = self._get_transform(ax)
+
+        # If there is no collection passed, apply to all collections found on
+        # the Axes object
+        if collection is None:
+            collection = ax.collections
+
+        # Constrain the plot
+        self._constrain_plot(collection, ax, transform)
+
+    @_validate_plot
+    def plot(self, x, y, *, is_constrained = True,
+             update_display_range = True, zorder = 100, ax = None, **kwargs):
+        """Wrapper for all matplotlib plot functions sportypy supports.
+
+        This will plot to areas out of view when the full surface isn't
+        displayed, but the xlim and ylim arguments will constrain the plot's
+        display.
+
+        All parameters other than x and y require keywords
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            The x values used in the plot
+
+        y: numpy.ndarray
+            The y values used in the plot
+
+        is_constrained : boolean (default: True)
+            Whether or not the plot should be constrained by the surface's
+            boundary
+
+        update_display_range : boolean (default: False)
+            Whether or not to allow the plotted points to update the x and y
+            limits of the plot. This is only used when is_constrained == False
+
+        zorder : float (default: 100)
+            Determine the layer onto which the plot will be drawn. It's
+            recommended that this value not be lower than 100
+
+        ax : matplotlib.Axes
+            The axes object onto which the plot should be added. If not
+            provided, it will use the currently active axes
+
+        Returns
+        -------
+        A list of matplotlib.Line2D objects
+        """
+        # Plot the data onto the Axes object
+        img = ax.plot(x, y, zorder = zorder, **kwargs)
+
+        # Bound the plot to be contained inside the surface
+        self._bound_surface(
+            x,
+            y,
+            img,
+            ax,
+            kwargs['transform'],
+            is_constrained,
+            update_display_range
+        )
+
+        return img
+
+    @_validate_plot
+    def scatter(self, x, y, *, is_constrained = True,
+                update_display_range = True, symmetrize = False, zorder = 20,
+                ax = None, **kwargs):
+        scatter_plot = ax.scatter(x, y, zorder = zorder, **kwargs)
+        self._bound_surface(
+            x,
+            y,
+            scatter_plot,
+            ax,
+            kwargs['transform'],
+            is_constrained,
+            update_display_range
+        )
+        return scatter_plot
+    
+    @_validate_plot
+    def arrow(self, x1, y1, x2, y2, *, is_constrained = True,
+              update_display_range = True, length_includes_head = True,
+              head_width = 1, zorder = 100, ax = None, **kwargs):
+        """Wrapper for arrow function from matplotlib.
+
+        This will plot to areas out of view when the full surface isn't
+        displayed, but the xlim and ylim arguments will constrain the plot's
+        display.
+
+        All parameters other than x1, y1, x2, and y2 require keywords
+
+        Parameters
+        ----------
+        x1 : numpy.ndarray
+            The starting x-coordinates of the arrows
+
+        y1 : numpy.ndarray
+            The starting y-coordinates of the arrows
+
+        x2 : numpy.ndarray
+            The ending x-coordinates of the arrows
+
+        y2 : numpy.ndarray
+            The ending y-coordinates of the arrows
+
+        is_constrained : boolean (default: True)
+            Whether or not the plot should be constrained by the surface's
+            boundary
+
+        update_display_range : boolean (default: False)
+            Whether or not to allow the plotted points to update the x and y
+            limits of the plot. This is only used when is_constrained == False
+
+        length_includes_head : boolean (default: True)
+            Whether or not the head of the arrow is to be included in
+            calculating the length of the arrow
+
+        head_width : float (default: 1)
+            Total width of the full head of the arrow
+
+        zorder : float (default: 100)
+            Determine the layer onto which the plot will be drawn. It's
+            recommended that this value not be lower than 100
+
+        ax : matplotlib.Axes
+            The axes object onto which the plot should be added. If not
+            provided, it will use the currently active axes
+
+        **kwargs : dictionary (optional)
+            Any other matplotlib arrow properties
+        
+        Returns
+        -------
+        A list of matplotlib.FancyArrow objects
+        """
+        # Compute the distance between the ending and starting points
+        dx = x2 - x1
+        dy = y2 - y1
+
+        # Define a container for the arrows
+        arrows = []
+
+        # Create the arrows
+        for i in range(len(x1)):
+            arrows.append(
+                ax.arrow(
+                    x1[i],
+                    y1[i],
+                    dx[i],
+                    dy[i],
+                    zorder = zorder,
+                    head_width = head_width,
+                    length_includes_head = length_includes_head,
+                    **kwargs
+                )
+            )
+
+        # Bound the resulting plot to be inside the surface
+        self._bound_surface(
+            [*x1, *x2],
+            [*y1, *y2],
+            arrows,
+            ax,
+            kwargs['transform'],
+            is_constrained,
+            update_display_range
+        )
+
+        return arrows
+
+    @_validate_plot
+    @_validate_values
+    def hexbin(self, x, y, *, values = None, is_constrained = True,
+                update_display_range = True, symmetrize = False,
+                plot_range = None, plot_xlim = None, plot_ylim = None,
+                gridsize = None, binsize = 1, zorder = 50, clip_on = True,
+                ax = None, **kwargs):
+        """Wrapper for hexbin function from matplotlib.
+
+        This will plot to areas out of view when the full surface isn't
+        displayed, but the xlim and ylim arguments will constrain the plot's
+        display.
+
+        All parameters other than x and y require keywords
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            A sequence of values to be binned along in the first dimension
+
+        y: numpy.ndarray
+            A sequence of values to be binned along in the second dimension
+
+        values : numpy.ndarray
+            The data to use for each hexbin. If None, then values of 1 will be
+            assigned to each (x, y) coordinate
+
+        is_constrained : boolean (default: True)
+            Whether or not the plot should be constrained by the surface's
+            boundary
+
+        update_display_range : boolean (default: False)
+            Whether or not to allow the plotted points to update the x and y
+            limits of the plot. This is only used when is_constrained == False
+
+        symmetrize : boolean (default: False)
+            Whether or not to reflect coordinates and values across the y axis
+
+        plot_range : string (optional)
+            Restrict the portion of the surface that can be plotted to.
+
+            This is achieved by removing values outside of the given range in
+            each surface's draw() method. See the surface draw() method for
+            viable options. This will only affect the x-coordinates and can be
+            used in conjunction with ylim, but will be superceded so long as
+            xlim is provided
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        plot_xlim : float or tuple of floats (optional)
+            The range of x coordinates to include in the plot:
+                - a single float: the lower bound of the x coordinates
+                - a tuple of floats: the lower and upper bounds of the x
+                  coordinates
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        plot_ylim : float or tuple of floats (optional)
+            The range of y coordinates to include in the plot:
+                - a single float: the lower bound of the y coordinates
+                - a tuple of floats: the lower and upper bounds of the y
+                  coordinates
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        gridsize : int or tuple of ints (optional)
+            The grid specification. If passed as a single integer, this is the
+            number of hexagons in the x direction. The number of hexagons in
+            the y direction is then chosen such that each hexagon is
+            approximately regular. If passed as a tuple, the first integer will
+            be the number of hexagons in the x direction, and the second will
+            be the number of hexagons in the y direction
+
+        binsize : float or tuple of floats (optional)
+            The size of the bins for any given portion of the surface:
+            - a single float: the size of the bins for both dimension
+            - a tuple of floats: the size of the bins in each dimension
+
+        zorder : float (default: 100)
+            Determine the layer onto which the plot will be drawn. It's
+            recommended that this value not be lower than 50
+
+        clip_on : boolean (default: True)
+            Whether or not the matplotlib artist uses clipping. Other plotting
+            features will automatically be set to the same value as
+            is_constrained, but this may result in oddities specific to hexbin
+
+        ax : matplotlib.Axes
+            The axes object onto which the plot should be added. If not
+            provided, it will use the currently active axes
+
+        **kwargs : dictionary (optional)
+            Any other matplotlib hexbin properties
+        
+        Returns
+        -------
+        A matplotlib.PolyCollection object of the hexbins
+        """
+        # Set the value of clip_on, defaulting to True if not passed
+        kwargs["clip_on"] = kwargs.get('clip_on', True)
+
+        # Try to determine the binsize
+        try:
+            iter(binsize)
+        except:
+            binsize = (binsize, binsize)
+
+        # Set the default grid size to be uniform in both the x and y
+        # directions. If a gridsize is passed, it will be used
+        if not gridsize:
+            gridsize = (
+                int((plot_xlim[1] - plot_xlim[0]) / binsize[0]),
+                int((plot_ylim[1] - plot_ylim[0]) / binsize[1])
+            )
+
+        # Add the hexagons to the plot
+        hexbin_plot = ax.hexbin(
+            x,
+            y,
+            C = values,
+            gridsize = gridsize,
+            zorder = zorder,
+            **kwargs
+        )
+
+        # Bound the resulting plot to be inside the surface
+        self._bound_surface(
+            x,
+            y,
+            hexbin_plot,
+            ax,
+            kwargs['transform'],
+            is_constrained,
+            update_display_range
+        )
+
+        return hexbin_plot
+
+    @_validate_plot
+    @_validate_values
+    def heatmap(self, x, y, *, values = None, is_constrained = True,
+                update_display_range = True, symmetrize = False,
+                plot_range = None, plot_xlim = None, plot_ylim = None,
+                statistic = 'sum', binsize = 1, bins = None, zorder = 50,
+                ax = None, **kwargs):
+        """Wrapper for pcolormesh function from matplotlib.
+
+        This will plot to areas out of view when the full surface isn't
+        displayed, but the xlim and ylim arguments will constrain the plot's
+        display.
+
+        All parameters other than x and y require keywords
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            A sequence of values to be binned along in the first dimension
+
+        y: numpy.ndarray
+            A sequence of values to be binned along in the second dimension
+
+        values : numpy.ndarray
+            The data to use for color-mapping. If None, then values of 1 will
+            be assigned to each (x, y) coordinate
+
+        is_constrained : boolean (default: True)
+            Whether or not the plot should be constrained by the surface's
+            boundary
+
+        update_display_range : boolean (default: False)
+            Whether or not to allow the plotted points to update the x and y
+            limits of the plot. This is only used when is_constrained == False
+
+        symmetrize : boolean (default: False)
+            Whether or not to reflect coordinates and values across the y axis
+
+        plot_range : string (optional)
+            Restrict the portion of the surface that can be plotted to.
+
+            This is achieved by removing values outside of the given range in
+            each surface's draw() method. See the surface draw() method for
+            viable options. This will only affect the x-coordinates and can be
+            used in conjunction with ylim, but will be superceded so long as
+            xlim is provided
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        plot_xlim : float or tuple of floats (optional)
+            The range of x coordinates to include in the plot:
+                - a single float: the lower bound of the x coordinates
+                - a tuple of floats: the lower and upper bounds of the x
+                  coordinates
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        plot_ylim : float or tuple of floats (optional)
+            The range of y coordinates to include in the plot:
+                - a single float: the lower bound of the y coordinates
+                - a tuple of floats: the lower and upper bounds of the y
+                  coordinates
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        statistic : string or callable (default: "sum")
+            The statistic to compute via scipy. Per scipy, the following are
+            available:
+                - "count": the number of points inside each bin
+                - "max": the maximum for points inside each bin
+                - "mean": the mean of values for points inside each bin
+                - "median": the median for points inside each bin
+                - "min": the minimum for points inside each bin
+                - "std": the standard deviation for points inside each bin
+                - "sum": the sum of the values for points inside each bin
+                - {function}: a user-defined function that utilizes a
+                    1-dimensional array of values and outputs a single
+                    numerical statistic
+
+        binsize : float or tuple of floats (optional)
+            The size of the bins for any given portion of the surface:
+            - a single float: the size of the bins for both dimension
+            - a tuple of floats: the size of the bins in each dimension
+
+        bins : int or tuple of ints or numpy.ndarray or tuple of numpy.ndarray
+            (optional)
+            The specifications of each bin:
+                - a single int: the number of bins for both dimensions
+                - a tuple of ints: the number of bins in each dimension
+                - a numpy.ndarray: the bin edges for both dimensions
+                - a tuple of numpy.ndarrays: the bin edges in each dimension
+
+        zorder : float (default: 100)
+            Determine the layer onto which the heatmap will be drawn. It's
+            recommended that this value not be lower than 50
+
+        ax : matplotlib.Axes
+            The axes object onto which the heatmap should be added. If not
+            provided, it will use the currently active axes
+
+        **kwargs : dictionary (optional)
+            Any other matplotlib heatmap properties
+        
+        Returns
+        -------
+        A matplotlib.QuadMesh object of the heat map
+        """
+        # Compute the statistic for the heatmap
+        stat, x_edge, y_edge = self.binned_stat_2d(
+            x,
+            y,
+            values,
+            statistic,
+            plot_xlim,
+            plot_ylim,
+            binsize,
+            bins
+        )
+
+        # Add the heatmap to the the plot
+        heatmap_plot = ax.pcolormesh(
+            x_edge,
+            y_edge,
+            stat,
+            zorder = zorder,
+            **kwargs
+        )
+
+        # Bound the resulting plot to be inside the surface
+        self._bound_surface(
+            x,
+            y,
+            heatmap_plot,
+            ax,
+            kwargs['transform'],
+            is_constrained,
+            update_display_range
+        )
+
+        return heatmap_plot
+
+    @_validate_plot
+    @_validate_values
+    def contour(self, x, y, *, values = None, fill = True,
+                is_constrained = True, update_display_range = True,
+                symmetrize = False, plot_range = None, plot_xlim = None,
+                plot_ylim = None, statistic = 'sum', binsize = 1, bins = None,
+                zorder = 50, ax = None, **kwargs):
+        """Wrapper for matplotlib contour and contourf functions.
+
+        This will plot to areas out of view when the full surface isn't
+        displayed, but the xlim and ylim arguments will constrain the plot's
+        display.
+
+        All parameters other than x and y require keywords
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            A sequence of values to be binned along in the first dimension
+
+        y: numpy.ndarray
+            A sequence of values to be binned along in the second dimension
+
+        values : numpy.ndarray
+            The data to use for color-mapping. If None, then values of 1 will
+            be assigned to each (x, y) coordinate
+
+        fill : boolean (default: True)
+            Whether or not to fill in the contours
+
+        is_constrained : boolean (default: True)
+            Whether or not the plot should be constrained by the surface's
+            boundary
+
+        update_display_range : boolean (default: False)
+            Whether or not to allow the plotted points to update the x and y
+            limits of the plot. This is only used when is_constrained == False
+
+        symmetrize : boolean (default: False)
+            Whether or not to reflect coordinates and values across the y axis
+
+        plot_range : string (optional)
+            Restrict the portion of the surface that can be plotted to.
+
+            This is achieved by removing values outside of the given range in
+            each surface's draw() method. See the surface draw() method for
+            viable options. This will only affect the x-coordinates and can be
+            used in conjunction with ylim, but will be superceded so long as
+            xlim is provided
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        plot_xlim : float or tuple of floats (optional)
+            The range of x coordinates to include in the plot:
+                - a single float: the lower bound of the x coordinates
+                - a tuple of floats: the lower and upper bounds of the x
+                  coordinates
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        plot_ylim : float or tuple of floats (optional)
+            The range of y coordinates to include in the plot:
+                - a single float: the lower bound of the y coordinates
+                - a tuple of floats: the lower and upper bounds of the y
+                  coordinates
+
+            If no values are passed for plot_range, plot_xlim, and plot_ylim,
+            all coordinate values will be used
+
+        statistic : string or callable (default: "sum")
+            The statistic to compute via scipy. Per scipy, the following are
+            available:
+                - "count": the number of points inside each bin
+                - "max": the maximum for points inside each bin
+                - "mean": the mean of values for points inside each bin
+                - "median": the median for points inside each bin
+                - "min": the minimum for points inside each bin
+                - "std": the standard deviation for points inside each bin
+                - "sum": the sum of the values for points inside each bin
+                - {function}: a user-defined function that utilizes a
+                    1-dimensional array of values and outputs a single
+                    numerical statistic
+
+        binsize : float or tuple of floats (optional)
+            The size of the bins for any given portion of the surface:
+            - a single float: the size of the bins for both dimension
+            - a tuple of floats: the size of the bins in each dimension
+
+        bins : int or tuple of ints or numpy.ndarray or tuple of numpy.ndarray
+            (optional)
+            The specifications of each bin:
+                - a single int: the number of bins for both dimensions
+                - a tuple of ints: the number of bins in each dimension
+                - a numpy.ndarray: the bin edges for both dimensions
+                - a tuple of numpy.ndarrays: the bin edges in each dimension
+
+        zorder : float (default: 50)
+            Determine the layer onto which the plot will be drawn. It's
+            recommended that this value not be lower than 50
+
+        ax : matplotlib.Axes
+            The axes object onto which the plot should be added. If not
+            provided, it will use the currently active axes
+
+        **kwargs : dictionary (optional)
+            Any other matplotlib contour properties
+        
+        Returns
+        -------
+        A matplotlib.QuadContourSet object of the contour plot
+        """
+        # Compute the statistic for the heatmap
+        stat, x_edge, y_edge = self.binned_stat_2d(
+            x,
+            y,
+            values,
+            statistic,
+            plot_xlim,
+            plot_ylim,
+            binsize,
+            bins
+        )
+
+        # Define the centers of the x and y edges
+        x_centers = (x_edge[:-1] + x_edge[1:]) / 2.0
+        y_centers = (y_edge[:-1] + y_edge[1:]) / 2.0
+
+        # Enforce the plot limits
+        if plot_xlim is not None:
+            x_centers[-1] = max(x_centers[-1], plot_xlim[1])
+        if plot_ylim is not None:
+            y_centers[-1] = max(y_centers[-1], plot_ylim[1])
+
+        # Create the contour plot
+        if fill:
+            contour_plot = ax.contourf(
+                x_centers,
+                y_centers,
+                stat,
+                zorder = zorder,
+                **kwargs
+            )
+        else:
+            contour_plot = ax.contour(
+                x_centers,
+                y_centers,
+                stat,
+                zorder = zorder,
+                **kwargs
+            )
+
+        # Bound the resulting plot to be inside the surface
+        self._bound_surface(
+            x,
+            y,
+            contour_plot.collections,
+            ax,
+            kwargs['transform'],
+            is_constrained,
+            update_display_range
+        )
+
+        return contour_plot
+
+    # Define the alias for contour
+    contourf = contour
