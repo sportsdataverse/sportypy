@@ -10,3 +10,4 @@ eggs/
 .pytest_cache
 .coverage
 .vscode/
+htmlcov/
