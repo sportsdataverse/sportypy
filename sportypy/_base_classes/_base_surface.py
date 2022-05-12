@@ -5,7 +5,6 @@
 import json
 import numpy as np
 import importlib.resources
-import matplotlib.pyplot as plt
 from abc import ABC, abstractmethod
 
 
@@ -231,7 +230,7 @@ class BaseSurface(ABC):
         # Return the constraint's polygon
         return constraint
 
-    def _get_transform(self, ax, transform = None):
+    def _get_transform(self, ax):
         """Get a matplotlib.Transform to apply to the features of the surface.
 
         Rather than having to rotate every point, it's much more
@@ -255,6 +254,26 @@ class BaseSurface(ABC):
         transform = self._rotation + ax.transData
 
         return transform
+
+    def _rotate_xy(self, x, y):
+        """Rotate the x and y coordinates with surface rotation.
+
+        Parameters
+        ----------
+        x : float
+            The x coordinate(s)
+
+        y : float
+            The y coordinate(s)
+
+        Returns
+        -------
+        The rotated x and y coordinates
+        """
+        if self._rotation:
+            xy = self._rotation.transform(tuple(zip(x, y)))
+            x, y = xy[:, 0], xy[:, 1]
+        return x, y
 
     def convert_xy(self, x, y):
         """Reposition and scale the x and y coordinates.
@@ -288,11 +307,7 @@ class BaseSurface(ABC):
         y = np.ravel(y) - self.y_trans
 
         # If the surface's plot needs to be rotated, perform the rotation
-        if self._rotation:
-            xy = self._rotation.transform(tuple(zip(x, y)))
-            x, y = xy[:, 0], xy[:, 1]
-
-        return x, y
+        return self._rotate_xy(x, y)
 
     @abstractmethod
     def _get_plot_range_limits(self):
@@ -313,7 +328,8 @@ class BaseSurface(ABC):
         pass
 
     def set_plot_display_range(self, ax = None, display_range = 'full',
-                               xlim = None, ylim = None):
+                               xlim = None, ylim = None, for_plot = False,
+                               for_display = True):
         """Set the x and y limits for the matplotlib Axes object for the plot.
 
         Parameters
@@ -347,7 +363,13 @@ class BaseSurface(ABC):
             A matplotlib Axes object with the surface drawn on it
         """
         # Set the display limits
-        xlim, ylim = self._get_plot_range_limits(display_range, xlim, ylim)
+        xlim, ylim = self._get_plot_range_limits(
+            display_range,
+            xlim,
+            ylim,
+            for_plot = for_plot,
+            for_display = for_display
+        )
 
         # Get the constraining feature's polygon's x and y coordinates
         constraint_df = self._surface_constraint._get_centered_feature()
@@ -373,11 +395,8 @@ class BaseSurface(ABC):
 
         # Set the x and y limits of the plot. User-supplied x and y limits will
         # take precedence over the display_range parameter
-        if xlim:
-            ax.set_xlim(xlim)
-        
-        if ylim:
-            ax.set_ylim(ylim)
+        ax.set_xlim(np.min(xs), np.max(xs))
+        ax.set_ylim(np.min(ys), np.max(ys))
 
         return ax
 
