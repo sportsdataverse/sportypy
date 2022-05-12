@@ -178,6 +178,12 @@ class BoardsConstraint(BaseHockeyFeature):
         As stated in the above class documentation, this corresponds only to
         the interior edge of the boards
         """
+        # Define the length and width of the rink as length and width
+        # attributes. These will be used to constrain plotted points to be
+        # defined inside the surface
+        self.length = self.rink_length
+        self.width = self.rink_width
+
         # Specify the half-dimensions of the rink
         half_length = self.rink_length / 2.0
         half_width = self.rink_width / 2.0
