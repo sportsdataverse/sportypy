@@ -70,6 +70,12 @@ class FieldConstraint(BaseFootballFeature):
         This is done to constrain any features from extending needlessly beyond
         the edge of the field
         """
+        # Define the length and width of the field as length and width
+        # attributes. These will be used to constrain plotted points to be
+        # defined inside the surface
+        self.length = self.field_length
+        self.width = self.field_width
+
         field_constraint_df = self.create_rectangle(
             x_min = -self.field_length / 2.0,
             x_max = self.field_length / 2.0,
