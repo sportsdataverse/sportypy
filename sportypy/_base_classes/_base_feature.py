@@ -76,6 +76,9 @@ class BaseFeature(ABC):
         # Set the feature's visibility
         self.visible = visible
 
+        # Set each feature to be constrained
+        self.is_constrained = is_constrained
+
         # Set the rest of the arguments that will be passed to the matplotlib
         # plotting functions
         self.plot_kwargs = plot_kwargs
@@ -120,8 +123,8 @@ class BaseFeature(ABC):
         feature_df = self._get_centered_feature()
 
         # Then, reflect and shift all values as appropriate
-        feature_df['x'] = (feature_df['x'] * self.x_reflection) + self.x_anchor
-        feature_df['y'] = (feature_df['y'] * self.y_reflection) + self.y_anchor
+        feature_df['x'] = feature_df['x'] * self.x_reflection + self.x_anchor
+        feature_df['y'] = feature_df['y'] * self.y_reflection + self.y_anchor
 
         return feature_df
 
