@@ -284,7 +284,6 @@ class HockeyRink(BaseSurfacePlot):
             self.rink_params['rink_units'] = units.lower()
 
         # Set the rotation of the plot to be the supplied rotation value
-        self.rotation_amt = rotation
         self._rotation = Affine2D().rotate_deg(rotation)
 
         # Set the rink's necessary shifts. This will overwrite the default
