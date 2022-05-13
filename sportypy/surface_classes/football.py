@@ -326,6 +326,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'is_constrained': False,
             'field_length': self.field_params.get('field_length', 0.0),
             'field_width': self.field_params.get('field_width', 0.0),
             'endzone_length': self.field_params.get('endzone_length', 0.0),
@@ -346,6 +347,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'is_constrained': False,
             'field_length': self.field_params.get('field_length', 0.0),
             'field_width': self.field_params.get('field_width', 0.0),
             'endzone_length': self.field_params.get('endzone_length', 0.0),
@@ -369,6 +371,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'is_constrained': False,
             'field_length': self.field_params.get('field_length', 0.0),
             'field_width': self.field_params.get('field_width', 0.0),
             'endzone_length': self.field_params.get('endzone_length', 0.0),
@@ -391,6 +394,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'is_constrained': False,
             'field_length': self.field_params.get('field_length', 0.0),
             'field_width': self.field_params.get('field_width', 0.0),
             'endzone_length': self.field_params.get('endzone_length', 0.0),
@@ -414,6 +418,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'field_length': self.field_params.get('field_length', 0.0),
             'field_width': self.field_params.get('field_width', 0.0),
             'feature_thickness': self.field_params.get(
@@ -433,6 +438,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': self.field_params.get('field_width', 0.0) / 2.0,
             'reflect_x': False,
             'reflect_y': True,
+            'is_constrained': False,
             'field_length': self.field_params.get('field_length', 0.0),
             'field_width': self.field_params.get('field_width', 0.0),
             'endzone_length': self.field_params.get('endzone_length', 0.0),
@@ -453,6 +459,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'visible': self.field_params.get('field_bordered', False),
             'field_length': self.field_params.get('field_length', 0.0),
             'field_width': self.field_params.get('field_width', 0.0),
@@ -518,6 +525,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'visible': self.field_params.get('field_bordered', False),
             'field_length': self.field_params.get('field_length', 0.0),
             'field_width': self.field_params.get('field_width', 0.0),
@@ -645,6 +653,7 @@ class FootballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'feature_thickness': self.field_params.get(
                 'goal_line_thickness',
                 0.0
@@ -897,6 +906,7 @@ class FootballField(BaseSurfacePlot):
             ),
             'reflect_x': False,
             'reflect_y': True,
+            'is_constrained': False,
             'feature_thickness': self.field_params.get(
                 'restricted_area_width',
                 0.0
@@ -924,6 +934,7 @@ class FootballField(BaseSurfacePlot):
             ),
             'reflect_x': False,
             'reflect_y': True,
+            'is_constrained': False,
             'feature_thickness': self.field_params.get(
                 'coaching_box_width',
                 0.0
@@ -952,6 +963,7 @@ class FootballField(BaseSurfacePlot):
             ),
             'reflect_x': False,
             'reflect_y': True,
+            'is_constrained': False,
             'feature_thickness': self.field_params.get(
                 'team_bench_width',
                 0.0
@@ -983,6 +995,7 @@ class FootballField(BaseSurfacePlot):
             ),
             'reflect_x': False,
             'reflect_y': True,
+            'is_constrained': False,
             'restricted_area_length': self.field_params.get(
                 'team_bench_length_field_side',
                 0.0
@@ -1035,6 +1048,7 @@ class FootballField(BaseSurfacePlot):
             ),
             'reflect_x': False,
             'reflect_y': True,
+            'is_constrained': False,
             'feature_thickness': self.field_params.get(
                 'minor_line_thickness',
                 0.0
