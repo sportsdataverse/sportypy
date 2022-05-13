@@ -68,6 +68,12 @@ class CourtConstraint(BaseBasketballFeature):
         the edge of the court. Lines are considered out, so this should only
         trace the interior
         """
+        # Define the length and width of the court as length and width
+        # attributes. These will be used to constrain plotted points to be
+        # defined inside the surface
+        self.length = self.court_length
+        self.width = self.court_width
+
         court_constraint_df = self.create_rectangle(
             x_min = -self.court_length / 2.0,
             x_max = self.court_length / 2.0,
@@ -604,45 +610,16 @@ class FreeThrowCircleOutline(BaseBasketballFeature):
     The provided radius should be to the free-throw circle's exterior
     """
 
-    def __init__(self, overhang = 0.0, *args, **kwargs):
-        # Initialize the attributes unique to this feature
-        self.overhang = overhang
-        super().__init__(*args, **kwargs)
-
     def _get_centered_feature(self):
         """Generate the points comprising the outline of a free-throw circle.
 
         The interior of this area will be created separately via the
         FreeThrowCircleFill class
         """
-        # The angle theta must be calculated to determine where to start
-        # drawing the free-throw circle. It's possible that an arc length may
-        # be needed to be added on the side of the free-throw line closest to
-        # the basket. The starting angle can be determined via the relationship
-        # s = r*theta, where s is the arc length, r is the radius, and theta is
-        # the angle (in radians)
-
-        # If there is an arc length to be added to the side of the free-throw
-        # line closest to the basket, it should be included here. Setting this
-        # to zero will result in the starting angle being 0.5 * pi
-        s = self.overhang
-
-        # Get the (outer) radius of the circle being drawn
-        r = self.feature_radius
-
-        # Compute the starting angle to draw the free-throw circle. Since the
-        # self.create_circle() method requires the starting angle to be passed
-        # in radians / pi, this must be divided out
-        try:
-            theta = (s / r) / np.pi
-
-        except ZeroDivisionError:
-            theta = 0.0
-
         # The starting and ending angles are thus given as 0.5 +/- the theta
         # calculated above
-        start_angle = 0.5 - theta
-        end_angle = 1.5 + theta
+        start_angle = 0.5
+        end_angle = 1.5
 
         free_throw_circle_outline_df = pd.concat([
             self.create_circle(
