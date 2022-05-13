@@ -2,15 +2,11 @@
 
 @author: Ross Drucker
 """
-import warnings
 import matplotlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sportypy.surface_classes.hockey import NHLRink, PHFRink
-
-# Filter warnings
-warnings.filterwarnings('ignore')
 
 
 def test_scatter():
@@ -95,7 +91,7 @@ def test_arrow():
         passes['Y Coordinate'],
         passes['X Coordinate 2'],
         passes['Y Coordinate 2'],
-        color = '#e84a27' # Orange so they stand out
+        color = '#e84a27'  # Orange so they stand out
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
@@ -166,7 +162,7 @@ def test_contour():
         values = shots['goal'],
         ax = axs[1],
         cmap = 'magma',
-        plot_xlim = (25, 89), # offensive-side blue line to the goal line
+        plot_xlim = (25, 89),  # offensive-side blue line to the goal line
         statistic = 'mean',
         vmax = 0.2,
         binsize = 3
