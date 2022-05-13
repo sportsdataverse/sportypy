@@ -704,56 +704,78 @@ class BaseballField(BaseSurfacePlot):
         # Get the transformation to apply
         transform = self._get_transform(ax)
 
+        # Define the surface's constraint
+        constraint = self._add_surface_constraint(ax, transform)
+
         # Add each feature
         for feature in self._features:
             # Start by adding the feature to the current Axes object
-            feature.draw(ax, transform)
+            drawn_feature = feature.draw(ax, transform)
 
-            # Get the feature's visibility attribute
-            visible = feature.visible
+            if feature.is_constrained:
+                try:
+                    drawn_feature.set_clip_path(constraint)
+                except AttributeError:
+                    pass
 
-            # Assuming the feature is visible (and is not the boards), get
-            # the feature's x and y limits to ensure it lies within the
-            # bounds of the field
-            if visible and not isinstance(feature, baseball.FieldConstraint):
-                feature_df = feature._translate_feature()
+            else:
+                # Get the feature's visibility attribute
+                try:
+                    visible = feature.visible
+                except AttributeError:
+                    visible = True
 
-                # If the feature doesn't have a limitation on x, set its
-                # limits to be its minimum and maximum values of x
-                if self._feature_xlim is None:
-                    self._feature_xlim = [
-                        feature_df['x'].min(),
-                        feature_df['x'].max()
-                    ]
+                # Assuming the feature is visible (and is not the field
+                # constraint), get the feature's x and y limits to ensure it
+                # lies within the bounds of the field
+                if visible and not isinstance(
+                    feature, baseball.FieldConstraint
+                ):
+                    feature_df = feature._translate_feature()
 
-                # Otherwise, set the limits to be the smaller of its
-                # specified minimum and smallest x value or the larger
-                # of its specified maximum and largest x value
-                else:
-                    self._feature_xlim = [
-                        min(self._feature_xlim[0], feature_df['x'].min()),
-                        max(self._feature_xlim[0], feature_df['x'].max())
-                    ]
+                    # If the feature doesn't have a limitation on x, set its
+                    # limits to be its minimum and maximum values of x
+                    if self._feature_xlim is None:
+                        self._feature_xlim = [
+                            feature_df['x'].min(),
+                            feature_df['x'].max()
+                        ]
 
-                # If the feature doesn't have a limitation on y, set its
-                # limits to be its minimum and maximum values of y
-                if self._feature_ylim is None:
-                    self._feature_ylim = [
-                        feature_df['y'].min(),
-                        feature_df['y'].max()
-                    ]
+                    # Otherwise, set the limits to be the smaller of its
+                    # specified minimum and smallest x value or the larger
+                    # of its specified maximum and largest x value
+                    else:
+                        self._feature_xlim = [
+                            min(self._feature_xlim[0], feature_df['x'].min()),
+                            max(self._feature_xlim[1], feature_df['x'].max())
+                        ]
 
-                # Otherwise, set the limits to be the smaller of its
-                # specified minimum and smallest y value or the larger
-                # of its specified maximum and largest y value
-                else:
-                    self._feature_ylim = [
-                        min(self._feature_ylim[0], feature_df['y'].min()),
-                        max(self._feature_ylim[0], feature_df['y'].max())
-                    ]
+                    # If the feature doesn't have a limitation on y, set its
+                    # limits to be its minimum and maximum values of y
+                    if self._feature_ylim is None:
+                        self._feature_ylim = [
+                            feature_df['y'].min(),
+                            feature_df['y'].max()
+                        ]
+
+                    # Otherwise, set the limits to be the smaller of its
+                    # specified minimum and smallest y value or the larger
+                    # of its specified maximum and largest y value
+                    else:
+                        self._feature_ylim = [
+                            min(self._feature_ylim[0], feature_df['y'].min()),
+                            max(self._feature_ylim[1], feature_df['y'].max())
+                        ]
 
         # Set the plot's display range
-        ax = self.set_plot_display_range(ax, display_range, xlim, ylim)
+        ax = self.set_plot_display_range(
+            ax,
+            display_range,
+            xlim,
+            ylim,
+            for_plot = False,
+            for_display = True
+        )
 
         return ax
 
@@ -971,7 +993,8 @@ class BaseballField(BaseSurfacePlot):
         )
 
     def _get_plot_range_limits(self, display_range = 'full', xlim = None,
-                               ylim = None):
+                               ylim = None, for_plot = False,
+                               for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
@@ -994,10 +1017,89 @@ class BaseballField(BaseSurfacePlot):
         ylim : tuple
             The y-directional limits for displaying the plot
         """
+        # Make the display_range full if an empty string is passed
+        if display_range == '' or display_range is None:
+            display_range = 'full'
+
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
         xlim = self.copy_(xlim)
         ylim = self.copy_(ylim)
+
+        # If the limits are being gotten for plotting purposes, use the
+        # dimensions that are internal to the surface
+        if for_plot:
+            left_field_distance_x = (
+                self.field_params.get('left_field_distance', 0.0) *
+                math.cos(3.0 * np.pi / 4.0)
+            )
+            right_field_distance_x = (
+                self.field_params.get('right_field_distance', 0.0) *
+                math.cos(np.pi / 4.0)
+            )
+            left_infield_distance_x = (
+                -self.field_params.get('infield_arc_radius', 0.0)
+            )
+            right_infield_distance_x = (
+                self.field_params.get('infield_arc_radius', 0.0)
+            )
+            backstop_radius_y = -self.field_params.get('backstop_radius', 0.0)
+            center_field_distance_y = self.field_params.get(
+                'center_field_distance',
+                0.0
+            )
+            home_plate_circle_y = -self.field_params.get(
+                'home_plate_circle_radius',
+                0.0
+            )
+            infield_arc_y = (
+                self.field_params.get(
+                    'pitchers_plate_front_to_home_plate',
+                    0.0
+                ) +
+                self.field_params.get('infield_arc_radius', 0.0)
+            )
+
+        # If it's for display (e.g. the draw() method), add in the necessary
+        # thicknesses of external features (e.g. running lane and other out of
+        # play features)
+        if for_display:
+            left_field_distance_x = (
+                self.field_params.get('left_field_distance', 0.0) *
+                math.cos(3.0 * np.pi / 4.0)
+            ) + 5.0
+            right_field_distance_x = (
+                self.field_params.get('right_field_distance', 0.0) *
+                math.cos(np.pi / 4.0)
+            ) + 5.0
+            left_infield_distance_x = (
+                -self.field_params.get('infield_arc_radius', 0.0)
+            ) + 5.0
+            right_infield_distance_x = (
+                self.field_params.get('infield_arc_radius', 0.0)
+            ) + 5.0
+            backstop_radius_y = -(
+                self.field_params.get('backstop_radius', 0.0) +
+                5.0
+            )
+            center_field_distance_y = self.field_params.get(
+                'center_field_distance',
+                0.0
+            ) + 5.0
+            home_plate_circle_y = -(
+                self.field_params.get(
+                    'home_plate_circle_radius',
+                    0.0
+                ) + 5.0
+            )
+            infield_arc_y = (
+                self.field_params.get(
+                    'pitchers_plate_front_to_home_plate',
+                    0.0
+                ) +
+                self.field_params.get('infield_arc_radius', 0.0) +
+                5.0
+            )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
@@ -1007,36 +1109,15 @@ class BaseballField(BaseSurfacePlot):
             # Get the limits from the viable display ranges
             xlims = {
                 # Full surface (default)
-                'full': (
-                    (
-                        self.field_params.get('left_field_distance', 0.0) *
-                        math.cos(3.0 * np.pi / 4.0)
-                    ),
-                    (
-                        self.field_params.get('right_field_distance', 0.0) *
-                        math.cos(np.pi / 4.0)
-                    )
-                ),
-                'infield': (
-                    -(self.field_params.get('infield_arc_radius', 0.0) + 5.0),
-                    self.field_params.get('infield_arc_radius', 0.0) + 5.0,
-                )
+                'full': (left_field_distance_x, right_field_distance_x),
+                'infield': (left_infield_distance_x, right_infield_distance_x)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
             # field
             xlim = xlims.get(
                 display_range,
-                (
-                    (
-                        self.field_params.get('left_field_distance', 0.0) *
-                        math.cos(3.0 * np.pi / 4.0)
-                    ),
-                    (
-                        self.field_params.get('right_field_distance', 0.0) *
-                        math.cos(np.pi / 4.0)
-                    )
-                )
+                (left_field_distance_x, right_field_distance_x)
             )
 
         # If an x limit is provided, try to use it
@@ -1054,23 +1135,11 @@ class BaseballField(BaseSurfacePlot):
 
                 # If the provided value for the x limit is beyond the end of
                 # the field, display the entire field
-                if xlim >= (
-                    self.field_params.get('right_field_distance', 0.0) *
-                    math.cos(np.pi / 4.0)
-                ):
-                    xlim = -(
-                        self.field_params.get('left_field_distance', 0.0) *
-                        math.cos(np.pi / 4.0)
-                    )
+                if xlim >= right_field_distance_x:
+                    xlim = -left_field_distance_x
 
                 # Set the x limit to be a tuple as described above
-                xlim = (
-                    xlim,
-                    (
-                        self.field_params.get('left_field_distance', 0.0) *
-                        math.cos(np.pi / 4.0)
-                    )
-                )
+                xlim = (xlim, left_field_distance_x)
 
         # Set the y limits of the plot if they are not provided. The default
         # will be the entire width of the field. Additional view regions may be
@@ -1082,37 +1151,15 @@ class BaseballField(BaseSurfacePlot):
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                'full': (
-                    -(self.field_params.get('backstop_radius', 0.0) + 5.0),
-                    self.field_params.get('center_field_distance', 0.0) + 5.0
-                ),
-                'infield': (
-                    -(
-                        self.field_params.get(
-                            'home_plate_circle_radius',
-                            0.0
-                        ) +
-                        5.0
-                    ),
-                    (
-                        self.field_params.get(
-                            'pitchers_plate_front_to_home_plate',
-                            0.0
-                        ) +
-                        self.field_params.get('infield_arc_radius', 0.0) +
-                        5.0
-                    )
-                )
+                'full': (backstop_radius_y, center_field_distance_y),
+                'infield': (home_plate_circle_y, infield_arc_y)
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
             # field
             ylim = ylims.get(
                 display_range,
-                (
-                    -(self.field_params.get('backstop_radius', 0.0) + 5.0),
-                    self.field_params.get('center_field_distance', 0.0) + 5.0
-                )
+                (backstop_radius_y, center_field_distance_y)
             )
 
         # Otherwise, repeat the process above but for y
@@ -1123,19 +1170,10 @@ class BaseballField(BaseSurfacePlot):
             except TypeError:
                 ylim = ylim - self.y_trans
 
-                if ylim >= (
-                    self.field_params.get('center_field_distance', 0.0) +
-                    5.0
-                ):
-                    ylim = -(
-                        self.field_params.get('backstop_radius', 0.0) +
-                        5.0
-                    )
+                if ylim >= center_field_distance_y:
+                    ylim = backstop_radius_y
 
-                ylim = (
-                    ylim,
-                    self.field_params.get('center_field_distance', 0.0) + 5.0
-                )
+                ylim = (ylim, center_field_distance_y)
 
         # Smaller coordinate should always go first
         if xlim[0] > xlim[1]:
@@ -1153,73 +1191,14 @@ class BaseballField(BaseSurfacePlot):
         # Constrain the limits from going beyond the end of the field (plus one
         # additional unit of buffer)
         xlim = (
-            max(
-                xlim[0],
-                (
-                    self.field_params.get('left_field_distance', 0.0) *
-                    math.cos(3.0 * np.pi / 4.0)
-                )
-            ),
-            min(
-                xlim[1],
-                (
-                    self.field_params.get('left_field_distance', 0.0) *
-                    math.cos(np.pi / 4.0)
-                )
-            )
+            max(xlim[0], left_field_distance_x),
+            min(xlim[1], right_field_distance_x)
         )
 
         ylim = (
-            max(
-                ylim[0],
-                -(
-                    self.field_params.get('backstop_radius', 0.0) +
-                    5.0
-                )
-            ),
-            min(
-                ylim[1],
-                self.field_params.get('center_field_distance', 0.0) + 5.0
-            )
+            max(ylim[0], backstop_radius_y),
+            min(ylim[1], center_field_distance_y)
         )
-
-        # If there is a rotation, apply it to the limits as well
-        if self.rotation_amt != 0.0:
-            bbox = pd.DataFrame({
-                'x': [
-                    xlim[0],
-                    xlim[1],
-                    xlim[1],
-                    xlim[0]
-                ],
-
-                'y': [
-                    ylim[0],
-                    ylim[0],
-                    ylim[1],
-                    ylim[1]
-                ]
-            })
-
-            bbox_rotated = pd.DataFrame()
-            bbox_rotated['x'] = (
-                (bbox['x'] * math.cos(self.rotation_amt * np.pi / 180.0)) -
-                (bbox['y'] * math.sin(self.rotation_amt * np.pi / 180.0))
-            )
-            bbox_rotated['y'] = (
-                (bbox['x'] * math.sin(self.rotation_amt * np.pi / 180.0)) +
-                (bbox['y'] * math.cos(self.rotation_amt * np.pi / 180.0))
-            )
-
-            xlim = (
-                bbox_rotated['x'].min(),
-                bbox_rotated['x'].max()
-            )
-
-            ylim = (
-                bbox_rotated['y'].min(),
-                bbox_rotated['y'].max()
-            )
 
         return xlim, ylim
 
