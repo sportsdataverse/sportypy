@@ -713,17 +713,11 @@ class BaseballField(BaseSurfacePlot):
             drawn_feature = feature.draw(ax, transform)
 
             if feature.is_constrained:
-                try:
-                    drawn_feature.set_clip_path(constraint)
-                except AttributeError:
-                    pass
+                drawn_feature.set_clip_path(constraint)
 
             else:
                 # Get the feature's visibility attribute
-                try:
-                    visible = feature.visible
-                except AttributeError:
-                    visible = True
+                visible = feature.visible
 
                 # Assuming the feature is visible (and is not the field
                 # constraint), get the feature's x and y limits to ensure it
