@@ -1563,6 +1563,7 @@ class HockeyRink(BaseSurfacePlot):
         # Make the display_range full if an empty string is passed
         if display_range == '' or display_range is None:
             display_range = 'full'
+
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
         xlim = self.copy_(xlim)
