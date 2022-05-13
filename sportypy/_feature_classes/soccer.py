@@ -68,6 +68,12 @@ class PitchConstraint(BaseSoccerFeature):
         the edge of the pitch. Lines are considered in, so this should include
         the interior of the touchlines and goal lines
         """
+        # Define the length and width of the pitch as length and width
+        # attributes. These will be used to constrain plotted points to be
+        # defined inside the surface
+        self.length = self.rink_length
+        self.width = self.rink_width
+
         pitch_constraint_df = self.create_rectangle(
             x_min = -self.pitch_length / 2.0,
             x_max = self.pitch_length / 2.0,
