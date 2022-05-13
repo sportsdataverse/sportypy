@@ -9,9 +9,6 @@ the attributes of the class.
 
 @author: Ross Drucker
 """
-import math
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
 import sportypy._feature_classes.soccer as soccer
@@ -863,7 +860,8 @@ class SoccerPitch(BaseSurfacePlot):
         )
 
     def _get_plot_range_limits(self, display_range = 'full', xlim = None,
-                               ylim = None):
+                               ylim = None, for_plot = False,
+                               for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
