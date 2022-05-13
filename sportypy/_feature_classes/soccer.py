@@ -71,8 +71,8 @@ class PitchConstraint(BaseSoccerFeature):
         # Define the length and width of the pitch as length and width
         # attributes. These will be used to constrain plotted points to be
         # defined inside the surface
-        self.length = self.rink_length
-        self.width = self.rink_width
+        self.length = self.pitch_length
+        self.width = self.pitch_width
 
         pitch_constraint_df = self.create_rectangle(
             x_min = -self.pitch_length / 2.0,
