@@ -2044,8 +2044,8 @@ class BasketballCourt(BaseSurfacePlot):
         # If the limits are being gotten for plotting purposes, use the
         # dimensions that are internal to the surface
         if for_plot:
-            half_court_length = self.rink_params.get('court_length', 0.0) / 2.0
-            half_court_width = self.rink_params.get('court_width', 0.0) / 2.0
+            half_court_length = self.court_params.get('court_length', 0.0) / 2.0
+            half_court_width = self.court_params.get('court_width', 0.0) / 2.0
 
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. team bench areas and
