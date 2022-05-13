@@ -1543,7 +1543,7 @@ class FootballField(BaseSurfacePlot):
             half_field_width = self.field_params.get('field_width', 0.0) / 2.0
 
         # If it's for display (e.g. the draw() method), add in the necessary
-        # thicknesses of external features (e.g. penalty boxes and boards)
+        # thicknesses of external features (e.g. sidelines and boundaries)
         if for_display:
             # Determine the length of half of the field (including the
             # thickness of the field)
