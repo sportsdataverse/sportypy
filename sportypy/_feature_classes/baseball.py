@@ -61,12 +61,25 @@ class FieldConstraint(BaseBaseballFeature):
     """
 
     def _get_centered_feature(self):
-        return self.create_rectangle(
+        """Generate the coordinates that constrain a baseball field's interior.
+
+        As of right now, this is just a square since no outfield wall is
+        applied. This should change once walls are included
+        """
+        # Define the length and width of the field as length and width
+        # attributes. These will be used to constrain plotted points to be
+        # defined inside the surface
+        self.length = 400
+        self.width = 525
+
+        field_constraint_df = self.create_rectangle(
             x_min = -200.0,
             x_max = 200.0,
             y_min = -75.0,
             y_max = 450.0
         )
+
+        return field_constraint_df
 
 
 class InfieldDirt(BaseBaseballFeature):
