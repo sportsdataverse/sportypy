@@ -422,6 +422,7 @@ class BasketballCourt(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('court_width', 0.0),
             'court_apron_endline': self.court_params.get(
@@ -555,6 +556,7 @@ class BasketballCourt(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'is_constrained': False,
             'division_line_extension': self.court_params.get(
                 'division_line_extension',
                 0.0
@@ -1055,10 +1057,6 @@ class BasketballCourt(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
-            'overhang': self.court_params.get(
-                'free_throw_circle_overhang',
-                0.0
-            ),
             'feature_radius': self.court_params.get(
                 'free_throw_circle_radius',
                 0.0
@@ -1094,6 +1092,41 @@ class BasketballCourt(BaseSurfacePlot):
             'zorder': 10
         }
         self._initialize_feature(free_throw_circle_fill_params)
+
+        # Initialize the overhanging component of the free-throw circle
+        overhang_s = self.court_params.get('free_throw_circle_overhang', 0.0)
+        overhang_r = self.court_params.get('free_throw_circle_radius', 0.0)
+        try:
+            end_theta = (overhang_s / overhang_r) / np.pi
+        except ZeroDivisionError:
+            end_theta = 0.0
+
+        end_theta = 0.5 - end_theta
+
+        free_throw_circle_overhang_params = {
+            'class': basketball.FreeThrowCircleOutlineDash,
+            'x_anchor': (
+                (self.court_params.get('court_length', 0.0) / 2.0) -
+                self.court_params.get('backboard_face_to_baseline', 0.0) -
+                self.court_params.get('free_throw_line_to_backboard', 0.0)
+            ),
+            'y_anchor': 0.0,
+            'reflect_x': True,
+            'reflect_y': True,
+            'feature_radius': self.court_params.get(
+                'free_throw_circle_radius',
+                0.0
+            ),
+            'feature_thickness': self.court_params.get('line_thickness', 0.0),
+            'court_length': self.court_params.get('court_length', 0.0),
+            'court_width': self.court_params.get('court_width', 0.0),
+            'start_angle': 0.5,
+            'end_angle': end_theta,
+            'facecolor': self.feature_colors['free_throw_circle_dash'],
+            'edgecolor': None,
+            'zorder': 100
+        }
+        self._initialize_feature(free_throw_circle_overhang_params)
 
         # Initialize the dashed component of the free-throw circle
         n_dashes = self.court_params.get('n_free_throw_circle_dashes', 0.0)
@@ -1188,6 +1221,7 @@ class BasketballCourt(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('court_width', 0.0),
@@ -1204,6 +1238,7 @@ class BasketballCourt(BaseSurfacePlot):
             'y_anchor': self.court_params.get('court_width', 0.0) / 2.0,
             'reflect_x': False,
             'reflect_y': True,
+            'is_constrained': False,
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('court_width', 0.0),
@@ -1417,6 +1452,7 @@ class BasketballCourt(BaseSurfacePlot):
                 ),
                 'reflect_x': True,
                 'reflect_y': dims['symmetric_inbounding_line'],
+                'is_constrained': False,
                 'feature_thickness': self.court_params.get(
                     'line_thickness',
                     0.0
@@ -1452,6 +1488,7 @@ class BasketballCourt(BaseSurfacePlot):
             ),
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'substitution_line_width': self.court_params.get(
                 'substitution_line_width',
@@ -1478,6 +1515,7 @@ class BasketballCourt(BaseSurfacePlot):
             ),
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'extension': self.court_params.get('team_bench_line_ext', 0.0),
             'drawn_direction': drawn_direction,
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
@@ -1674,48 +1712,79 @@ class BasketballCourt(BaseSurfacePlot):
             # Get the feature's visibility attribute
             visible = feature.visible
 
-            # Assuming the feature is visible (and is not the court
-            # constraint), get the feature's x and y limits to ensure it lies
-            # within the bounds of the court
-            if visible and not isinstance(feature, basketball.CourtConstraint):
-                feature_df = feature._translate_feature()
+            # Define the surface's constraint
+        constraint = self._add_surface_constraint(ax, transform)
 
-                # If the feature doesn't have a limitation on x, set its
-                # limits to be its minimum and maximum values of x
-                if self._feature_xlim is None:
-                    self._feature_xlim = [
-                        feature_df['x'].min(),
-                        feature_df['x'].max()
-                    ]
+        # Add each feature
+        for feature in self._features:
+            # Start by adding the feature to the current Axes object
+            drawn_feature = feature.draw(ax, transform)
 
-                # Otherwise, set the limits to be the smaller of its
-                # specified minimum and smallest x value or the larger
-                # of its specified maximum and largest x value
-                else:
-                    self._feature_xlim = [
-                        min(self._feature_xlim[0], feature_df['x'].min()),
-                        max(self._feature_xlim[0], feature_df['x'].max())
-                    ]
+            if feature.is_constrained:
+                try:
+                    drawn_feature.set_clip_path(constraint)
+                except AttributeError:
+                    pass
 
-                # If the feature doesn't have a limitation on y, set its
-                # limits to be its minimum and maximum values of y
-                if self._feature_ylim is None:
-                    self._feature_ylim = [
-                        feature_df['y'].min(),
-                        feature_df['y'].max()
-                    ]
+            else:
+                # Get the feature's visibility attribute
+                try:
+                    visible = feature.visible
+                except AttributeError:
+                    visible = True
 
-                # Otherwise, set the limits to be the smaller of its
-                # specified minimum and smallest y value or the larger
-                # of its specified maximum and largest y value
-                else:
-                    self._feature_ylim = [
-                        min(self._feature_ylim[0], feature_df['y'].min()),
-                        max(self._feature_ylim[0], feature_df['y'].max())
-                    ]
+                # Assuming the feature is visible (and is not the court
+                # constraint), get the feature's x and y limits to ensure it
+                # lies within the bounds of the court
+                if visible and not isinstance(
+                    feature,
+                    basketball.CourtConstraint
+                ):
+                    feature_df = feature._translate_feature()
+
+                    # If the feature doesn't have a limitation on x, set its
+                    # limits to be its minimum and maximum values of x
+                    if self._feature_xlim is None:
+                        self._feature_xlim = [
+                            feature_df['x'].min(),
+                            feature_df['x'].max()
+                        ]
+
+                    # Otherwise, set the limits to be the smaller of its
+                    # specified minimum and smallest x value or the larger
+                    # of its specified maximum and largest x value
+                    else:
+                        self._feature_xlim = [
+                            min(self._feature_xlim[0], feature_df['x'].min()),
+                            max(self._feature_xlim[1], feature_df['x'].max())
+                        ]
+
+                    # If the feature doesn't have a limitation on y, set its
+                    # limits to be its minimum and maximum values of y
+                    if self._feature_ylim is None:
+                        self._feature_ylim = [
+                            feature_df['y'].min(),
+                            feature_df['y'].max()
+                        ]
+
+                    # Otherwise, set the limits to be the smaller of its
+                    # specified minimum and smallest y value or the larger
+                    # of its specified maximum and largest y value
+                    else:
+                        self._feature_ylim = [
+                            min(self._feature_ylim[0], feature_df['y'].min()),
+                            max(self._feature_ylim[1], feature_df['y'].max())
+                        ]
 
         # Set the plot's display range
-        ax = self.set_plot_display_range(ax, display_range, xlim, ylim)
+        ax = self.set_plot_display_range(
+            ax,
+            display_range,
+            xlim,
+            ylim,
+            for_plot = False,
+            for_display = True
+        )
 
         return ax
 
@@ -1949,7 +2018,8 @@ class BasketballCourt(BaseSurfacePlot):
         )
 
     def _get_plot_range_limits(self, display_range = 'full', xlim = None,
-                               ylim = None):
+                               ylim = None, for_plot = False,
+                               for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
@@ -1977,17 +2047,25 @@ class BasketballCourt(BaseSurfacePlot):
         xlim = self.copy_(xlim)
         ylim = self.copy_(ylim)
 
-        # Determine the length of half of the court (including the thickness of
-        # the court)
-        half_court_length = (
-            (self.court_params.get('court_length', 0.0) / 2.0) +
-            self.court_params.get('court_apron_endline', 0.0)
-        )
+        # If the limits are being gotten for plotting purposes, use the
+        # dimensions that are internal to the surface
+        if for_plot:
+            half_court_length = self.rink_params.get('court_length', 0.0) / 2.0
+            half_court_width = self.rink_params.get('court_width', 0.0) / 2.0
 
-        half_court_width = (
-            (self.court_params.get('court_width', 0.0) / 2.0) +
-            self.court_params.get('court_apron_sideline', 0.0)
-        )
+        # If it's for display (e.g. the draw() method), add in the necessary
+        # thicknesses of external features (e.g. team bench areas and
+        # substitution areas)
+        if for_display:
+            half_court_length = (
+                (self.court_params.get('court_length', 0.0) / 2.0) +
+                self.court_params.get('court_apron_endline', 0.0)
+            )
+
+            half_court_width = (
+                (self.court_params.get('court_width', 0.0) / 2.0) +
+                self.court_params.get('court_apron_sideline', 0.0)
+            )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
@@ -2400,44 +2478,6 @@ class BasketballCourt(BaseSurfacePlot):
             max(ylim[0], -half_court_width),
             min(ylim[1], half_court_width)
         )
-
-        # If there is a rotation, apply it to the limits as well
-        if self.rotation_amt != 0.0:
-            bbox = pd.DataFrame({
-                'x': [
-                    xlim[0],
-                    xlim[1],
-                    xlim[1],
-                    xlim[0]
-                ],
-
-                'y': [
-                    ylim[0],
-                    ylim[0],
-                    ylim[1],
-                    ylim[1]
-                ]
-            })
-
-            bbox_rotated = pd.DataFrame()
-            bbox_rotated['x'] = (
-                (bbox['x'] * math.cos(self.rotation_amt * np.pi / 180.0)) -
-                (bbox['y'] * math.sin(self.rotation_amt * np.pi / 180.0))
-            )
-            bbox_rotated['y'] = (
-                (bbox['x'] * math.sin(self.rotation_amt * np.pi / 180.0)) +
-                (bbox['y'] * math.cos(self.rotation_amt * np.pi / 180.0))
-            )
-
-            xlim = (
-                bbox_rotated['x'].min(),
-                bbox_rotated['x'].max()
-            )
-
-            ylim = (
-                bbox_rotated['y'].min(),
-                bbox_rotated['y'].max()
-            )
 
         return xlim, ylim
 
