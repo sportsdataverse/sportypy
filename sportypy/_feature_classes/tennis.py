@@ -65,6 +65,12 @@ class CourtConstraint(BaseTennisFeature):
         the edge of the court. Lines are considered out, so this should only
         trace the interior
         """
+        # Define the length and width of the court as length and width
+        # attributes. These will be used to constrain plotted points to be
+        # defined inside the surface
+        self.length = self.court_length
+        self.width = self.court_width
+
         court_constraint_df = self.create_rectangle(
             x_min = -self.court_length / 2.0,
             x_max = self.court_length / 2.0,
@@ -89,10 +95,10 @@ class Baseline(BaseTennisFeature):
         lie along y = {court_length / 2.0}
         """
         baseline_df = self.create_rectangle(
-            x_min = -self.court_width / 2.0,
-            x_max = self.court_width / 2.0,
-            y_min = -self.feature_thickness,
-            y_max = 0.0
+            x_min = -self.feature_thickness,
+            x_max = 0.0,
+            y_min = -self.court_width / 2.0,
+            y_max = self.court_width / 2.0
         )
 
         return baseline_df
@@ -111,10 +117,10 @@ class Sideline(BaseTennisFeature):
         lie along x = {court_width / 2.0}
         """
         sideline_df = self.create_rectangle(
-            x_min = -self.feature_thickness,
-            x_max = 0.0,
-            y_min = -self.court_length / 2.0,
-            y_max = self.court_length / 2.0
+            x_min = -self.court_length / 2.0,
+            x_max = self.court_length / 2.0,
+            y_min = -self.feature_thickness,
+            y_max = 0.0
         )
 
         return sideline_df
@@ -139,10 +145,10 @@ class ServiceLine(BaseTennisFeature):
         extend to the doubles sidelines)
         """
         serviceline_df = self.create_rectangle(
-            x_min = -self.singles_width / 2.0,
-            x_max = self.singles_width / 2.0,
-            y_min = -self.feature_thickness,
-            y_max = 0.0
+            x_min = -self.feature_thickness,
+            x_max = 0.0,
+            y_min = -self.singles_width / 2.0,
+            y_max = self.singles_width / 2.0
         )
 
         return serviceline_df
@@ -167,10 +173,10 @@ class CenterServiceline(BaseTennisFeature):
         is centered on the line x = 0.0
         """
         center_serviceline_df = self.create_rectangle(
-            x_min = -self.feature_thickness / 2.0,
-            x_max = self.feature_thickness / 2.0,
-            y_min = 0.0,
-            y_max = self.center_serviceline_length
+            x_min = 0.0,
+            x_max = self.center_serviceline_length,
+            y_min = -self.feature_thickness / 2.0,
+            y_max = self.feature_thickness / 2.0
         )
 
         return center_serviceline_df
@@ -193,10 +199,10 @@ class CenterMark(BaseTennisFeature):
         This line should extend towards the net
         """
         center_mark_df = self.create_rectangle(
-            x_min = -self.feature_thickness / 2.0,
-            x_max = self.feature_thickness / 2.0,
-            y_min = -self.center_mark_length,
-            y_max = 0.0
+            x_min = -self.center_mark_length,
+            x_max = 0.0,
+            y_min = -self.feature_thickness / 2.0,
+            y_max = self.feature_thickness / 2.0
         )
 
         return center_mark_df
@@ -222,10 +228,10 @@ class FrontcourtHalf(BaseTennisFeature):
         This feature is constrained by the singles sideline and the serviceline
         """
         frontcourt_half_df = self.create_rectangle(
-            x_min = -self.singles_width / 4.0,
-            x_max = self.singles_width / 4.0,
-            y_min = 0.0,
-            y_max = self.serviceline_distance
+            x_min = 0.0,
+            x_max = self.serviceline_distance,
+            y_min = -self.singles_width / 4.0,
+            y_max = self.singles_width / 4.0
         )
 
         return frontcourt_half_df
@@ -251,10 +257,10 @@ class Backcourt(BaseTennisFeature):
         This feature is constrained by the singles sideline and the serviceline
         """
         backcourt_df = self.create_rectangle(
-            x_min = -self.singles_width / 2.0,
-            x_max = self.singles_width / 2.0,
-            y_min = 0.0,
-            y_max = (self.court_length / 2.0) - self.serviceline_distance
+            x_min = 0.0,
+            x_max = (self.court_length / 2.0) - self.serviceline_distance,
+            y_min = -self.singles_width / 2.0,
+            y_max = self.singles_width / 2.0
         )
 
         return backcourt_df
@@ -269,10 +275,10 @@ class DoublesAlley(BaseTennisFeature):
 
     def _get_centered_feature(self):
         doubles_alley_df = self.create_rectangle(
-            x_min = 0.0,
-            x_max = self.feature_thickness,
-            y_min = -self.court_length / 2.0,
-            y_max = self.court_length / 2.0
+            x_min = -self.court_length / 2.0,
+            x_max = self.court_length / 2.0,
+            y_min = 0.0,
+            y_max = self.feature_thickness
         )
 
         return doubles_alley_df
@@ -295,10 +301,10 @@ class Net(BaseTennisFeature):
         This does not include the net posts
         """
         net_df = self.create_rectangle(
-            x_min = -self.net_length / 2.0,
-            x_max = self.net_length / 2.0,
-            y_min = -self.feature_thickness / 2.0,
-            y_max = self.feature_thickness / 2.0
+            x_min = -self.feature_thickness / 2.0,
+            x_max = self.feature_thickness / 2.0,
+            y_min = -self.net_length / 2.0,
+            y_max = self.net_length / 2.0
         )
 
         return net_df

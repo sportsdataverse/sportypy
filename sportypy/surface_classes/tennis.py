@@ -9,9 +9,6 @@ the attributes of the class.
 
 @author: Ross Drucker
 """
-import math
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
 import sportypy._feature_classes.tennis as tennis
@@ -38,10 +35,6 @@ class TennisCourt(BaseSurfacePlot):
     specified via the court_updates dictionary as these parameters are specific
     to each league. Attributes prefixed with a hyphen (-) are specified at the
     time that the surface class is created.
-
-    It is also worth noting that while the rest of sportypy uses "length" to be
-    the distance from left to right, in this case length will run from bottom
-    to top
 
     Attributes
     ----------
@@ -201,7 +194,7 @@ class TennisCourt(BaseSurfacePlot):
             'reflect_x': False,
             'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
+            'court_width': self.court_params.get('doubles_width', 0.0),
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'visible': False
         }
@@ -213,8 +206,8 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the ad court
         ad_court_lower_params = {
             'class': tennis.FrontcourtHalf,
-            'x_anchor': -self.court_params.get('singles_width', 0.0) / 4.0,
-            'y_anchor': -self.court_params.get('serviceline_distance', 0.0),
+            'x_anchor': -self.court_params.get('serviceline_distance', 0.0),
+            'y_anchor': -self.court_params.get('singles_width', 0.0) / 4.0,
             'reflect_x': False,
             'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
@@ -232,8 +225,8 @@ class TennisCourt(BaseSurfacePlot):
 
         ad_court_upper_params = {
             'class': tennis.FrontcourtHalf,
-            'x_anchor': self.court_params.get('singles_width', 0.0) / 4.0,
-            'y_anchor': 0.0,
+            'x_anchor': 0.0,
+            'y_anchor': self.court_params.get('singles_width', 0.0) / 4.0,
             'reflect_x': False,
             'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
@@ -252,8 +245,8 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the deuce court
         deuce_court_lower_params = {
             'class': tennis.FrontcourtHalf,
-            'x_anchor': self.court_params.get('singles_width', 0.0) / 4.0,
-            'y_anchor': -self.court_params.get('serviceline_distance', 0.0),
+            'x_anchor': -self.court_params.get('serviceline_distance', 0.0),
+            'y_anchor': self.court_params.get('singles_width', 0.0) / 4.0,
             'reflect_x': False,
             'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
@@ -271,8 +264,8 @@ class TennisCourt(BaseSurfacePlot):
 
         deuce_court_upper_params = {
             'class': tennis.FrontcourtHalf,
-            'x_anchor': -self.court_params.get('singles_width', 0.0) / 4.0,
-            'y_anchor': 0.0,
+            'x_anchor': 0.0,
+            'y_anchor': -self.court_params.get('singles_width', 0.0) / 4.0,
             'reflect_x': False,
             'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
@@ -291,13 +284,13 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the backcourt
         backcourt_params = {
             'class': tennis.Backcourt,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get(
+            'x_anchor': self.court_params.get(
                 'serviceline_distance',
                 0.0
             ),
-            'reflect_x': False,
-            'reflect_y': True,
+            'y_anchor': 0.0,
+            'reflect_x': True,
+            'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('doubles_width', 0.0),
             'singles_width': self.court_params.get('singles_width', 0.0),
@@ -314,10 +307,10 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the doubles alley
         doubles_alley_params = {
             'class': tennis.DoublesAlley,
-            'x_anchor': self.court_params.get('singles_width', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
+            'x_anchor': 0.0,
+            'y_anchor': self.court_params.get('singles_width', 0.0) / 2.0,
+            'reflect_x': False,
+            'reflect_y': True,
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('doubles_width', 0.0),
             'feature_thickness': (
@@ -333,10 +326,10 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the baselines
         baseline_params = {
             'class': tennis.Baseline,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get('court_length', 0.0) / 2.0,
-            'reflect_x': False,
-            'reflect_y': True,
+            'x_anchor': self.court_params.get('court_length', 0.0) / 2.0,
+            'y_anchor': 0.0,
+            'reflect_x': True,
+            'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('doubles_width', 0.0),
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
@@ -349,8 +342,8 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the singles sideline
         singles_sideline_params = {
             'class': tennis.Sideline,
-            'x_anchor': self.court_params.get('singles_width', 0.0) / 2.0,
-            'y_anchor': 0.0,
+            'x_anchor': 0.0,
+            'y_anchor': self.court_params.get('singles_width', 0.0) / 2.0,
             'reflect_x': True,
             'reflect_y': True,
             'court_length': self.court_params.get('court_length', 0.0),
@@ -365,8 +358,8 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the doubles sideline
         doubles_sideline_params = {
             'class': tennis.Sideline,
-            'x_anchor': self.court_params.get('doubles_width', 0.0) / 2.0,
-            'y_anchor': 0.0,
+            'x_anchor': 0.0,
+            'y_anchor': self.court_params.get('doubles_width', 0.0) / 2.0,
             'reflect_x': True,
             'reflect_y': True,
             'court_length': self.court_params.get('court_length', 0.0),
@@ -381,10 +374,10 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the serviceline
         serviceline_params = {
             'class': tennis.ServiceLine,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get('serviceline_distance', 0.0),
-            'reflect_x': False,
-            'reflect_y': True,
+            'x_anchor': self.court_params.get('serviceline_distance', 0.0),
+            'y_anchor': 0.0,
+            'reflect_x': True,
+            'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('doubles_width', 0.0),
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
@@ -400,8 +393,8 @@ class TennisCourt(BaseSurfacePlot):
             'class': tennis.CenterServiceline,
             'x_anchor': 0.0,
             'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': True,
+            'reflect_x': True,
+            'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('doubles_width', 0.0),
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
@@ -418,10 +411,10 @@ class TennisCourt(BaseSurfacePlot):
         # Initialize the center mark
         center_mark_params = {
             'class': tennis.CenterMark,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get('court_length', 0.0) / 2.0,
-            'reflect_x': False,
-            'reflect_y': True,
+            'x_anchor': self.court_params.get('court_length', 0.0) / 2.0,
+            'y_anchor': 0.0,
+            'reflect_x': True,
+            'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('doubles_width', 0.0),
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
@@ -444,6 +437,7 @@ class TennisCourt(BaseSurfacePlot):
             'reflect_y': False,
             'court_length': self.court_params.get('court_length', 0.0),
             'court_width': self.court_params.get('doubles_width', 0.0),
+            'is_constrained': False,
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'net_length': self.court_params.get('net_length', 0.0),
             'facecolor': self.feature_colors['net'],
@@ -516,56 +510,76 @@ class TennisCourt(BaseSurfacePlot):
         # Get the transformation to apply
         transform = self._get_transform(ax)
 
+        # Define the surface's constraint
+        constraint = self._add_surface_constraint(ax, transform)
+
         # Add each feature
         for feature in self._features:
             # Start by adding the feature to the current Axes object
-            feature.draw(ax, transform)
+            drawn_feature = feature.draw(ax, transform)
 
-            # Get the feature's visibility attribute
-            visible = feature.visible
+            if feature.is_constrained:
+                try:
+                    drawn_feature.set_clip_path(constraint)
+                except AttributeError:
+                    pass
 
-            # Assuming the feature is visible (and is not the court
-            # constraint), get the feature's x and y limits to ensure it lies
-            # within the bounds of the court
-            if visible and not isinstance(feature, tennis.CourtConstraint):
-                feature_df = feature._translate_feature()
+            else:
+                # Get the feature's visibility attribute
+                try:
+                    visible = feature.visible
+                except AttributeError:
+                    visible = True
 
-                # If the feature doesn't have a limitation on x, set its
-                # limits to be its minimum and maximum values of x
-                if self._feature_xlim is None:
-                    self._feature_xlim = [
-                        feature_df['x'].min(),
-                        feature_df['x'].max()
-                    ]
+                # Assuming the feature is visible (and is not the court
+                # constraint), get the feature's x and y limits to ensure it
+                # lies within the bounds of the court
+                if visible and not isinstance(feature, tennis.CourtConstraint):
+                    feature_df = feature._translate_feature()
 
-                # Otherwise, set the limits to be the smaller of its
-                # specified minimum and smallest x value or the larger
-                # of its specified maximum and largest x value
-                else:
-                    self._feature_xlim = [
-                        min(self._feature_xlim[0], feature_df['x'].min()),
-                        max(self._feature_xlim[0], feature_df['x'].max())
-                    ]
+                    # If the feature doesn't have a limitation on x, set its
+                    # limits to be its minimum and maximum values of x
+                    if self._feature_xlim is None:
+                        self._feature_xlim = [
+                            feature_df['x'].min(),
+                            feature_df['x'].max()
+                        ]
 
-                # If the feature doesn't have a limitation on y, set its
-                # limits to be its minimum and maximum values of y
-                if self._feature_ylim is None:
-                    self._feature_ylim = [
-                        feature_df['y'].min(),
-                        feature_df['y'].max()
-                    ]
+                    # Otherwise, set the limits to be the smaller of its
+                    # specified minimum and smallest x value or the larger
+                    # of its specified maximum and largest x value
+                    else:
+                        self._feature_xlim = [
+                            min(self._feature_xlim[0], feature_df['x'].min()),
+                            max(self._feature_xlim[1], feature_df['x'].max())
+                        ]
 
-                # Otherwise, set the limits to be the smaller of its
-                # specified minimum and smallest y value or the larger
-                # of its specified maximum and largest y value
-                else:
-                    self._feature_ylim = [
-                        min(self._feature_ylim[0], feature_df['y'].min()),
-                        max(self._feature_ylim[0], feature_df['y'].max())
-                    ]
+                    # If the feature doesn't have a limitation on y, set its
+                    # limits to be its minimum and maximum values of y
+                    if self._feature_ylim is None:
+                        self._feature_ylim = [
+                            feature_df['y'].min(),
+                            feature_df['y'].max()
+                        ]
+
+                    # Otherwise, set the limits to be the smaller of its
+                    # specified minimum and smallest y value or the larger
+                    # of its specified maximum and largest y value
+                    else:
+                        self._feature_ylim = [
+                            min(self._feature_ylim[0], feature_df['y'].min()),
+                            max(self._feature_ylim[1], feature_df['y'].max())
+                        ]
 
         # Set the plot's display range
-        ax = self.set_plot_display_range(ax, display_range, xlim, ylim)
+        ax = self.set_plot_display_range(
+            ax,
+            display_range,
+            xlim,
+            ylim,
+            for_plot = False,
+            for_display = True
+        )
 
         return ax
 
@@ -785,7 +799,8 @@ class TennisCourt(BaseSurfacePlot):
         )
 
     def _get_plot_range_limits(self, display_range = 'full', xlim = None,
-                               ylim = None):
+                               ylim = None, for_plot = False,
+                               for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
@@ -808,22 +823,46 @@ class TennisCourt(BaseSurfacePlot):
         ylim : tuple
             The y-directional limits for displaying the plot
         """
+        # Make the display_range full if an empty string is passed
+        if display_range == '' or display_range is None:
+            display_range = 'full'
+
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
         xlim = self.copy_(xlim)
         ylim = self.copy_(ylim)
 
-        # Determine the length of half of the court (including the thickness of
-        # the court)
-        half_court_length = (
-            (self.court_params.get('court_length', 0.0) / 2.0) +
-            self.court_params.get('backstop_distance', 20.0)
-        )
+        # If the limits are being gotten for plotting purposes, use the
+        # dimensions that are internal to the surface
+        if for_plot:
+            half_court_length = (
+                (self.court_params.get('court_length', 0.0) / 2.0) +
+                # Add in backstop distance since many shots are taken beyond
+                # baseline
+                (self.court_params.get('backstop_distance', 20.0))
+            )
 
-        half_court_width = (
-            (self.court_params.get('doubles_width', 0.0) / 2.0) +
-            self.court_params.get('sidestop_distance', 10.0)
-        )
+            half_court_width = (
+                (self.court_params.get('doubles_width', 0.0) / 2.0) +
+                # Add in sidestop distance since many shots are taken outside
+                # of the doubles boundary but are still considered legal
+                (self.court_params.get('sidestop_distance', 10.0))
+            )
+
+        # If it's for display (e.g. the draw() method), add in the necessary
+        # thicknesses of external features (e.g. constraining features)
+        if for_display:
+            half_court_length = (
+                (self.court_params.get('court_length', 0.0) / 2.0) +
+                self.court_params.get('backstop_distance', 20.0) +
+                5.0
+            )
+
+            half_court_width = (
+                (self.court_params.get('doubles_width', 0.0) / 2.0) +
+                self.court_params.get('sidestop_distance', 10.0) +
+                5.0
+            )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
@@ -833,21 +872,21 @@ class TennisCourt(BaseSurfacePlot):
             # Get the limits from the viable display ranges
             xlims = {
                 # Full surface (default)
-                'full': (-half_court_width, half_court_width),
+                'full': (-half_court_length, half_court_length),
 
                 # Serving
-                'serve': (-half_court_width, half_court_width),
-                'serving': (-half_court_width, half_court_width),
-                'servinghalf': (-half_court_width, half_court_width),
-                'servicehalf': (-half_court_width, half_court_width),
-                'serving_half': (-half_court_width, half_court_width),
-                'service_half': (-half_court_width, half_court_width),
+                'serve': (-half_court_length, half_court_length),
+                'serving': (-half_court_length, half_court_length),
+                'servinghalf': (-half_court_length, half_court_length),
+                'servicehalf': (-half_court_length, half_court_length),
+                'serving_half': (-half_court_length, half_court_length),
+                'service_half': (-half_court_length, half_court_length),
 
                 # Receiving
-                'receive': (-half_court_width, half_court_width),
-                'receiving': (-half_court_width, half_court_width),
-                'receivinghalf': (-half_court_width, half_court_width),
-                'receiving_half': (-half_court_width, half_court_width)
+                'receive': (-half_court_length, half_court_length),
+                'receiving': (-half_court_length, half_court_length),
+                'receivinghalf': (-half_court_length, half_court_length),
+                'receiving_half': (-half_court_length, half_court_length)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -872,11 +911,11 @@ class TennisCourt(BaseSurfacePlot):
 
                 # If the provided value for the x limit is beyond the end of
                 # the court, display the entire court
-                if xlim >= half_court_width:
-                    xlim = -half_court_width
+                if xlim >= half_court_length:
+                    xlim = -half_court_length
 
                 # Set the x limit to be a tuple as described above
-                xlim = (xlim, half_court_width)
+                xlim = (xlim, half_court_length)
 
         # Set the y limits of the plot if they are not provided. The default
         # will be the entire width of the court. Additional view regions may be
@@ -888,21 +927,21 @@ class TennisCourt(BaseSurfacePlot):
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                'full': (-(half_court_length), half_court_length),
+                'full': (-half_court_width, half_court_width),
 
                 # Serving
-                'serve': (-half_court_length, 1.5),
-                'serving': (-half_court_length, 1.5),
-                'servinghalf': (-half_court_length, 1.5),
-                'servicehalf': (-half_court_length, 1.5),
-                'serving_half': (-half_court_length, 1.5),
-                'service_half': (-half_court_length, 1.5),
+                'serve': (-half_court_width, 1.5),
+                'serving': (-half_court_width, 1.5),
+                'servinghalf': (-half_court_width, 1.5),
+                'servicehalf': (-half_court_width, 1.5),
+                'serving_half': (-half_court_width, 1.5),
+                'service_half': (-half_court_width, 1.5),
 
                 # Receiving
-                'receive': (-1.5, half_court_length),
-                'receiving': (-1.5, half_court_length),
-                'receivinghalf': (-1.5, half_court_length),
-                'receiving_half': (-1.5, half_court_length)
+                'receive': (-1.5, half_court_width),
+                'receiving': (-1.5, half_court_width),
+                'receivinghalf': (-1.5, half_court_width),
+                'receiving_half': (-1.5, half_court_width)
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
@@ -920,10 +959,10 @@ class TennisCourt(BaseSurfacePlot):
             except TypeError:
                 ylim = ylim - self.y_trans
 
-                if ylim >= half_court_length:
-                    ylim = -half_court_length
+                if ylim >= half_court_width:
+                    ylim = -half_court_width
 
-                ylim = (ylim, half_court_length)
+                ylim = (ylim, half_court_width)
 
         # Smaller coordinate should always go first
         if xlim[0] > xlim[1]:
@@ -941,52 +980,14 @@ class TennisCourt(BaseSurfacePlot):
         # Constrain the limits from going beyond the end of the court (plus one
         # additional unit of buffer)
         xlim = (
-            max(xlim[0], -half_court_width),
-            min(xlim[1], half_court_width)
+            max(xlim[0], -half_court_length),
+            min(xlim[1], half_court_length)
         )
 
         ylim = (
-            max(ylim[0], -half_court_length),
-            min(ylim[1], half_court_length)
+            max(ylim[0], -half_court_width),
+            min(ylim[1], half_court_width)
         )
-
-        # If there is a rotation, apply it to the limits as well
-        if self.rotation_amt != 0.0:
-            bbox = pd.DataFrame({
-                'x': [
-                    xlim[0],
-                    xlim[1],
-                    xlim[1],
-                    xlim[0]
-                ],
-
-                'y': [
-                    ylim[0],
-                    ylim[0],
-                    ylim[1],
-                    ylim[1]
-                ]
-            })
-
-            bbox_rotated = pd.DataFrame()
-            bbox_rotated['x'] = (
-                (bbox['x'] * math.cos(self.rotation_amt * np.pi / 180.0)) -
-                (bbox['y'] * math.sin(self.rotation_amt * np.pi / 180.0))
-            )
-            bbox_rotated['y'] = (
-                (bbox['x'] * math.sin(self.rotation_amt * np.pi / 180.0)) +
-                (bbox['y'] * math.cos(self.rotation_amt * np.pi / 180.0))
-            )
-
-            xlim = (
-                bbox_rotated['x'].min(),
-                bbox_rotated['x'].max()
-            )
-
-            ylim = (
-                bbox_rotated['y'].min(),
-                bbox_rotated['y'].max()
-            )
 
         return xlim, ylim
 
