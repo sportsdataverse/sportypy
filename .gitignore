@@ -11,3 +11,4 @@ eggs/
 .coverage
 .vscode/
 htmlcov/
+coverage.xml
