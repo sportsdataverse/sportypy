@@ -1012,6 +1012,22 @@ class TennisCourt(BaseSurfacePlot):
         return xlim, ylim
 
 
+class ATPCourt(TennisCourt):
+    """A subclass of TennisCourt specific to the ATP.
+
+    See TennisCourt class documentation for full description.
+    """
+
+    def __init__(self, court_updates = {}, *args, **kwargs):
+        # Initialize the TennisCourt class with the relevant parameters
+        super().__init__(
+            league_code = 'atp',
+            court_updates = court_updates,
+            *args,
+            **kwargs
+        )
+
+
 class ITACourt(TennisCourt):
     """A subclass of TennisCourt specific to the ITA.
 
