@@ -7,6 +7,7 @@ the features themselves will be consistent across all tennis surfaces.
 
 @author: Ross Drucker
 """
+import pandas as pd
 from sportypy._base_classes._base_feature import BaseFeature
 
 
@@ -282,6 +283,54 @@ class DoublesAlley(BaseTennisFeature):
         )
 
         return doubles_alley_df
+
+
+class CourtApron(BaseTennisFeature):
+    """The boundary that surrounds the tennis court.
+
+    This is the backstop and the sidestop
+    """
+
+    def __init__(self, backstop_distance = 0.0, sidestop_distance = 0.0, *args,
+                 **kwargs):
+        # Initialize the attributes unique to this feature
+        self.backstop_distance = backstop_distance
+        self.sidestop_distance = sidestop_distance
+        super().__init__(*args, **kwargs)
+
+    def _get_centered_feature(self):
+        """Generate the points that comprise the court apron.
+
+        This is entirely outside of the playing court, but legal shots made
+        here are considered in play
+        """
+        court_apron_df = pd.DataFrame({
+            'x': [
+                0.0,
+                self.court_length / 2.0,
+                self.court_length / 2.0,
+                0.0,
+                0.0,
+                (self.court_length / 2.0) + self.backstop_distance,
+                (self.court_length / 2.0) + self.backstop_distance,
+                0.0,
+                0.0
+            ],
+
+            'y': [
+                self.court_width / 2.0,
+                self.court_width / 2.0,
+                -self.court_width / 2.0,
+                -self.court_width / 2.0,
+                -((self.court_width / 2.0) + self.sidestop_distance),
+                -((self.court_width / 2.0) + self.sidestop_distance),
+                (self.court_width / 2.0) + self.sidestop_distance,
+                (self.court_width / 2.0) + self.sidestop_distance,
+                self.court_width / 2.0
+            ]
+        })
+
+        return court_apron_df
 
 
 class Net(BaseTennisFeature):

@@ -171,6 +171,7 @@ class TennisCourt(BaseSurfacePlot):
             'deuce_court': '#395d33',
             'backcourt': '#395d33',
             'doubles_alley': '#395d33',
+            'court_apron': '#395d33',
             'net': '#d3d3d3'
         }
 
@@ -427,6 +428,30 @@ class TennisCourt(BaseSurfacePlot):
             'zorder': 10
         }
         self._initialize_feature(center_mark_params)
+
+        # Initialize the court apron
+        court_apron_params = {
+            'class': tennis.CourtApron,
+            'x_anchor': 0.0,
+            'y_anchor': 0.0,
+            'reflect_x': True,
+            'reflect_y': False,
+            'court_length': self.court_params.get('court_length', 0.0),
+            'court_width': self.court_params.get('doubles_width', 0.0),
+            'backstop_distance': self.court_params.get(
+                'backstop_distance',
+                0.0
+            ),
+            'is_constrained': False,
+            'sidestop_distance': self.court_params.get(
+                'sidestop_distance',
+                0.0
+            ),
+            'facecolor': self.feature_colors['court_apron'],
+            'edgecolor': None,
+            'zorder': 10
+        }
+        self._initialize_feature(court_apron_params)
 
         # Initialize the net
         net_params = {
@@ -767,6 +792,7 @@ class TennisCourt(BaseSurfacePlot):
             'deuce_court': '#395d33',
             'backcourt': '#395d33',
             'doubles_alley': '#395d33',
+            'court_apron': '#395d33',
             'net': '#d3d3d3'
         }
 
