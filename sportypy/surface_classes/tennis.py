@@ -895,25 +895,25 @@ class TennisCourt(BaseSurfacePlot):
                 'full': (-half_court_length, half_court_length),
 
                 # Serving
-                'serve': (-half_court_length, half_court_length),
-                'serving': (-half_court_length, half_court_length),
-                'servinghalf': (-half_court_length, half_court_length),
-                'servicehalf': (-half_court_length, half_court_length),
-                'serving_half': (-half_court_length, half_court_length),
-                'service_half': (-half_court_length, half_court_length),
+                'serve': (-half_court_length, 1.5),
+                'serving': (-half_court_length, 1.5),
+                'servinghalf': (-half_court_length, 1.5),
+                'servicehalf': (-half_court_length, 1.5),
+                'serving_half': (-half_court_length, 1.5),
+                'service_half': (-half_court_length, 1.5),
 
                 # Receiving
-                'receive': (-half_court_length, half_court_length),
-                'receiving': (-half_court_length, half_court_length),
-                'receivinghalf': (-half_court_length, half_court_length),
-                'receiving_half': (-half_court_length, half_court_length)
+                'receive': (-1.5, half_court_length),
+                'receiving': (-1.5, half_court_length),
+                'receivinghalf': (-1.5, half_court_length),
+                'receiving_half': (-1.5, half_court_length)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
             # court
             xlim = xlims.get(
                 display_range,
-                (-half_court_width, half_court_width)
+                (-half_court_length, half_court_length)
             )
 
         # If an x limit is provided, try to use it
@@ -950,25 +950,25 @@ class TennisCourt(BaseSurfacePlot):
                 'full': (-half_court_width, half_court_width),
 
                 # Serving
-                'serve': (-half_court_width, 1.5),
-                'serving': (-half_court_width, 1.5),
-                'servinghalf': (-half_court_width, 1.5),
-                'servicehalf': (-half_court_width, 1.5),
-                'serving_half': (-half_court_width, 1.5),
-                'service_half': (-half_court_width, 1.5),
+                'serve': (-half_court_width, half_court_width),
+                'serving': (-half_court_width, half_court_width),
+                'servinghalf': (-half_court_width, half_court_width),
+                'servicehalf': (-half_court_width, half_court_width),
+                'serving_half': (-half_court_width, half_court_width),
+                'service_half': (-half_court_width, half_court_width),
 
                 # Receiving
-                'receive': (-1.5, half_court_width),
-                'receiving': (-1.5, half_court_width),
-                'receivinghalf': (-1.5, half_court_width),
-                'receiving_half': (-1.5, half_court_width)
+                'receive': (-half_court_width, half_court_width),
+                'receiving': (-half_court_width, half_court_width),
+                'receivinghalf': (-half_court_width, half_court_width),
+                'receiving_half': (-half_court_width, half_court_width)
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
             # court
             ylim = ylims.get(
                 display_range,
-                (-half_court_length, half_court_length)
+                (-half_court_width, half_court_width)
             )
 
         # Otherwise, repeat the process above but for y
