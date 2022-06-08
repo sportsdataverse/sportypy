@@ -336,7 +336,7 @@ class TennisCourt(BaseSurfacePlot):
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'facecolor': self.feature_colors['baseline'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 15
         }
         self._initialize_feature(baseline_params)
 
@@ -352,7 +352,7 @@ class TennisCourt(BaseSurfacePlot):
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'facecolor': self.feature_colors['singles_sideline'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 15
         }
         self._initialize_feature(singles_sideline_params)
 
@@ -368,7 +368,7 @@ class TennisCourt(BaseSurfacePlot):
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'facecolor': self.feature_colors['doubles_sideline'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 15
         }
         self._initialize_feature(doubles_sideline_params)
 
@@ -385,7 +385,7 @@ class TennisCourt(BaseSurfacePlot):
             'singles_width': self.court_params.get('singles_width', 0.0),
             'facecolor': self.feature_colors['serviceline'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 15
         }
         self._initialize_feature(serviceline_params)
 
@@ -405,7 +405,7 @@ class TennisCourt(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['center_serviceline'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 15
         }
         self._initialize_feature(center_serviceline_params)
 
@@ -425,7 +425,7 @@ class TennisCourt(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['center_mark'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 15
         }
         self._initialize_feature(center_mark_params)
 
@@ -449,7 +449,7 @@ class TennisCourt(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['court_apron'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 15
         }
         self._initialize_feature(court_apron_params)
 
@@ -467,7 +467,7 @@ class TennisCourt(BaseSurfacePlot):
             'net_length': self.court_params.get('net_length', 0.0),
             'facecolor': self.feature_colors['net'],
             'edgecolor': None,
-            'zorder': 15
+            'zorder': 16
         }
         self._initialize_feature(net_params)
 

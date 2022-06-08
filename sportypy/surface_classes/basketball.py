@@ -396,7 +396,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['defensive_half_court'],
             'edgecolor': None,
-            'zorder': 1
+            'zorder': 5
         }
         self._initialize_feature(defensive_half_court_params)
 
@@ -411,7 +411,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['offensive_half_court'],
             'edgecolor': None,
-            'zorder': 1
+            'zorder': 5
         }
         self._initialize_feature(offensive_half_court_params)
 
@@ -440,7 +440,7 @@ class BasketballCourt(BaseSurfacePlot):
             'feature_thickness': self.court_params.get('line_thickness', 0.0),
             'facecolor': self.feature_colors['court_apron'],
             'edgecolor': None,
-            'zorder': 1
+            'zorder': 5
         }
         self._initialize_feature(court_apron_params)
 
@@ -528,7 +528,7 @@ class BasketballCourt(BaseSurfacePlot):
                 ),
                 'facecolor': circle['center_circle_outline_color'],
                 'edgecolor': None,
-                'zorder': 10
+                'zorder': 16
             }
             self._initialize_feature(center_circle_outline_params)
 
@@ -545,7 +545,7 @@ class BasketballCourt(BaseSurfacePlot):
                 ),
                 'facecolor': circle['center_circle_fill_color'],
                 'edgecolor': None,
-                'zorder': 10
+                'zorder': 6
             }
             self._initialize_feature(center_circle_fill_params)
 
@@ -566,7 +566,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['division_line'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 16
         }
         self._initialize_feature(division_line_params)
 
@@ -708,7 +708,7 @@ class BasketballCourt(BaseSurfacePlot):
                 'court_width': self.court_params.get('court_width', 0.0),
                 'facecolor': arc_dims['two_point_range_color'],
                 'edgecolor': None,
-                'zorder': 10
+                'zorder': 6
             }
             self._initialize_feature(two_point_range_params)
 
@@ -738,7 +738,7 @@ class BasketballCourt(BaseSurfacePlot):
                 'court_width': self.court_params.get('court_width', 0.0),
                 'facecolor': arc_dims['three_point_line_color'],
                 'edgecolor': None,
-                'zorder': 15
+                'zorder': 17
             }
             self._initialize_feature(three_point_line_params)
 
@@ -876,7 +876,7 @@ class BasketballCourt(BaseSurfacePlot):
                 'paint_margin': dims['paint_margin'],
                 'facecolor': self.feature_colors['painted_area'],
                 'edgecolor': None,
-                'zorder': 15
+                'zorder': 7
             }
             self._initialize_feature(painted_area_params)
 
@@ -897,7 +897,7 @@ class BasketballCourt(BaseSurfacePlot):
                 'lane_width': dims['lane_width'],
                 'facecolor': self.feature_colors['lane_boundary'],
                 'edgecolor': None,
-                'zorder': 15
+                'zorder': 16
             }
             self._initialize_feature(lane_boundary_params)
 
@@ -1038,7 +1038,7 @@ class BasketballCourt(BaseSurfacePlot):
                     'mark_depth': mark_depth,
                     'facecolor': self.feature_colors['lane_space_mark'],
                     'edgecolor': None,
-                    'zorder': 20
+                    'zorder': 16
                 }
                 self._initialize_feature(mark_params)
 
@@ -1066,7 +1066,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['free_throw_circle_outline'],
             'edgecolor': None,
-            'zorder': 15
+            'zorder': 17
         }
         self._initialize_feature(free_throw_circle_outline_params)
 
@@ -1089,7 +1089,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['free_throw_circle_fill'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 7
         }
         self._initialize_feature(free_throw_circle_fill_params)
 
@@ -1124,7 +1124,7 @@ class BasketballCourt(BaseSurfacePlot):
             'end_angle': end_theta,
             'facecolor': self.feature_colors['free_throw_circle_dash'],
             'edgecolor': None,
-            'zorder': 100
+            'zorder': 17
         }
         self._initialize_feature(free_throw_circle_overhang_params)
 
@@ -1204,15 +1204,11 @@ class BasketballCourt(BaseSurfacePlot):
                         0.0
                     ),
                     'facecolor': self.feature_colors['free_throw_circle_dash'],
-                    'zorder': 15
+                    'zorder': 17
                 }
                 self._initialize_feature(free_throw_circle_dash_params)
 
                 start_angle = start_angle - theta_dashes - theta_spaces
-
-        #######################################################################
-        #                             zorder = 25                             #
-        #######################################################################
 
         # Initialize the end lines
         endline_params = {
@@ -1227,7 +1223,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['endline'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(endline_params)
 
@@ -1244,7 +1240,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['sideline'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(sideline_params)
 
@@ -1268,7 +1264,7 @@ class BasketballCourt(BaseSurfacePlot):
             'drawn_direction': 'left_to_right',
             'facecolor': self.feature_colors['baseline_lower_defensive_box'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 17
         }
         self._initialize_feature(baseline_lower_defensive_box_mark_params)
 
@@ -1301,7 +1297,7 @@ class BasketballCourt(BaseSurfacePlot):
             'drawn_direction': 'top_down',
             'facecolor': self.feature_colors['lane_lower_defensive_box'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 17
         }
         self._initialize_feature(lane_lower_defensive_box_mark_params)
 
@@ -1464,7 +1460,7 @@ class BasketballCourt(BaseSurfacePlot):
                 'court_width': self.court_params.get('court_width', 0.0),
                 'facecolor': self.feature_colors['inbounding_line'],
                 'edgecolor': None,
-                'zorder': 25
+                'zorder': 18
             }
             self._initialize_feature(inbounding_line_params)
 
@@ -1499,7 +1495,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['substitution_line'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 18
         }
         self._initialize_feature(substitution_line_params)
 
@@ -1523,7 +1519,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['team_bench_line'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 18
         }
         self._initialize_feature(team_bench_line_params)
 
@@ -1576,7 +1572,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['backboard'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(backboard_params)
 
@@ -1614,7 +1610,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['basket_ring'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 18
         }
         self._initialize_feature(basket_ring_params)
 
@@ -1636,7 +1632,7 @@ class BasketballCourt(BaseSurfacePlot):
             'court_width': self.court_params.get('court_width', 0.0),
             'facecolor': self.feature_colors['net'],
             'edgecolor': None,
-            'zorder': 30
+            'zorder': 19
         }
         self._initialize_feature(net_params)
 

@@ -359,10 +359,6 @@ class HockeyRink(BaseSurfacePlot):
         # Set this feature to be the surface's constraint
         self._surface_constraint = self._features.pop(-1)
 
-        #######################################################################
-        #                              zorder = 1                             #
-        #######################################################################
-
         # Initialize the defensive zone
         dzone_params = {
             'class': hockey.DefensiveZone,
@@ -378,7 +374,7 @@ class HockeyRink(BaseSurfacePlot):
             'visible': True,
             'facecolor': self.feature_colors['dzone_ice'],
             'edgecolor': self.feature_colors['dzone_ice'],
-            'zorder': 1
+            'zorder': 5
         }
         self._initialize_feature(dzone_params)
 
@@ -396,7 +392,7 @@ class HockeyRink(BaseSurfacePlot):
             'visible': True,
             'facecolor': self.feature_colors['nzone_ice'],
             'edgecolor': self.feature_colors['nzone_ice'],
-            'zorder': 1
+            'zorder': 5
         }
         self._initialize_feature(nzone_params)
 
@@ -415,17 +411,51 @@ class HockeyRink(BaseSurfacePlot):
             'visible': True,
             'facecolor': self.feature_colors['ozone_ice'],
             'edgecolor': self.feature_colors['ozone_ice'],
-            'zorder': 1
+            'zorder': 5
         }
         self._initialize_feature(ozone_params)
 
-        #######################################################################
-        #                             zorder = 10                             #
-        #######################################################################
+        # Initialize the center (red) line
+        center_line_params = {
+            'class': hockey.CenterLine,
+            'x_anchor': 0.0,
+            'y_anchor': 0.0,
+            'reflect_x': False,
+            'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'rink_width': self.rink_params.get('rink_width', 0.0),
+            'feature_thickness': self.rink_params.get(
+                'major_line_thickness',
+                0.0
+            ),
+            'facecolor': self.feature_colors['center_line'],
+            'edgecolor': self.feature_colors['center_line'],
+            'zorder': 16
+        }
+        self._initialize_feature(center_line_params)
 
-        # Initialize the goal crease's filled-in interior
-        goal_crease_fill_params = {
-            'class': hockey.GoalCreaseFill,
+        # Initialize the zone (blue) lines
+        zone_line_params = {
+            'class': hockey.ZoneLine,
+            'x_anchor': self.rink_params.get('nzone_length', 0.0) / 2.0,
+            'y_anchor': 0.0,
+            'reflect_x': True,
+            'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'rink_width': self.rink_params.get('rink_width', 0.0),
+            'feature_thickness': self.rink_params.get(
+                'major_line_thickness',
+                0.0
+            ),
+            'facecolor': self.feature_colors['zone_line'],
+            'edgecolor': self.feature_colors['zone_line'],
+            'zorder': 16
+        }
+        self._initialize_feature(zone_line_params)
+
+        # Initialize the goal lines
+        goal_line_params = {
+            'class': hockey.GoalLine,
             'x_anchor': (
                 (self.rink_params.get('rink_length', 0.0) / 2.0) -
                 self.rink_params.get('goal_line_to_boards', 0.0)
@@ -436,79 +466,16 @@ class HockeyRink(BaseSurfacePlot):
             'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_length': self.rink_params.get('rink_length', 0.0),
             'rink_width': self.rink_params.get('rink_width', 0.0),
-            'crease_length': self.rink_params.get('goal_crease_length', 0.0),
-            'crease_width': self.rink_params.get('goal_crease_width', 0.0),
-            'notch_dist_x': self.rink_params.get(
-                'goal_crease_notch_dist_x',
-                0.0
-            ),
-            'notch_width': self.rink_params.get(
-                'goal_crease_notch_width',
-                0.0
-            ),
             'feature_thickness': self.rink_params.get(
                 'minor_line_thickness',
                 0.0
             ),
-            'crease_style': self.rink_params.get('goal_crease_style', 'nhl98'),
-            'feature_radius': self.rink_params.get('goal_crease_radius', 0.0),
-            'facecolor': self.feature_colors['goal_crease_fill'],
-            'edgecolor': self.feature_colors['goal_crease_fill'],
-            'zorder': 10
+            'feature_radius': self.rink_params.get('corner_radius', 0.0),
+            'facecolor': self.feature_colors['goal_line'],
+            'edgecolor': self.feature_colors['goal_line'],
+            'zorder': 16
         }
-        self._initialize_feature(goal_crease_fill_params)
-
-        # Initialize the goal frame
-        goal_frame_params = {
-            'class': hockey.GoalFrame,
-            'x_anchor': (
-                (self.rink_params.get('rink_length', 0.0) / 2.0) -
-                self.rink_params.get('goal_line_to_boards', 0.0)
-            ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'rink_length': self.rink_params.get('rink_length', 0.0),
-            'rink_width': self.rink_params.get('rink_width', 0.0),
-            'goal_mouth_width': self.rink_params.get('goal_mouth_width', 0.0),
-            'goal_back_width': self.rink_params.get('goal_back_width', 0.0),
-            'goal_depth': self.rink_params.get('goal_depth', 0.0),
-            'post_diameter': self.rink_params.get('goal_post_diameter', 0.0),
-            'feature_radius': self.rink_params.get('goal_radius', 0.0),
-            'facecolor': self.feature_colors['goal_frame'],
-            'edgecolor': self.feature_colors['goal_frame'],
-            'zorder': 10
-        }
-        self._initialize_feature(goal_frame_params)
-
-        # Initialize the goal frame's filled-in interior
-        goal_frame_fill_params = {
-            'class': hockey.GoalFrameFill,
-            'x_anchor': (
-                (self.rink_params.get('rink_length', 0.0) / 2.0) -
-                self.rink_params.get('goal_line_to_boards', 0.0)
-            ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'rink_length': self.rink_params.get('rink_length', 0.0),
-            'rink_width': self.rink_params.get('rink_width', 0.0),
-            'goal_mouth_width': self.rink_params.get('goal_mouth_width', 0.0),
-            'goal_back_width': self.rink_params.get('goal_back_width', 0.0),
-            'goal_depth': self.rink_params.get('goal_depth', 0.0),
-            'post_diameter': self.rink_params.get('goal_post_diameter', 0.0),
-            'feature_radius': self.rink_params.get('goal_radius', 0.0),
-            'facecolor': self.feature_colors['goal_fill'],
-            'edgecolor': self.feature_colors['goal_fill'],
-            'zorder': 10
-        }
-        self._initialize_feature(goal_frame_fill_params)
-
-        #######################################################################
-        #                             zorder = 15                             #
-        #######################################################################
+        self._initialize_feature(goal_line_params)
 
         # Initialize the goalkeeper's restricted area (if it's required)
         if self.rink_params.get('has_trapezoid', False):
@@ -538,7 +505,7 @@ class HockeyRink(BaseSurfacePlot):
                 ),
                 'facecolor': self.feature_colors['restricted_trapezoid'],
                 'edgecolor': self.feature_colors['restricted_trapezoid'],
-                'zorder': 15
+                'zorder': 16
             }
             self._initialize_feature(goaltenders_restricted_area_params)
 
@@ -573,91 +540,92 @@ class HockeyRink(BaseSurfacePlot):
             'feature_radius': self.rink_params.get('goal_crease_radius', 0.0),
             'facecolor': self.feature_colors['goal_crease_outline'],
             'edgecolor': self.feature_colors['goal_crease_outline'],
-            'zorder': 15
+            'zorder': 16
         }
         self._initialize_feature(goal_crease_outline_params)
 
-        # Initialize the center faceoff circle
-        center_faceoff_circle_params = {
-            'class': hockey.CenterFaceoffCircle,
-            'x_anchor': 0.0,
+        # Initialize the goal crease's filled-in interior
+        goal_crease_fill_params = {
+            'class': hockey.GoalCreaseFill,
+            'x_anchor': (
+                (self.rink_params.get('rink_length', 0.0) / 2.0) -
+                self.rink_params.get('goal_line_to_boards', 0.0)
+            ),
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
             'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'rink_length': self.rink_params.get('rink_length', 0.0),
+            'rink_width': self.rink_params.get('rink_width', 0.0),
+            'crease_length': self.rink_params.get('goal_crease_length', 0.0),
+            'crease_width': self.rink_params.get('goal_crease_width', 0.0),
+            'notch_dist_x': self.rink_params.get(
+                'goal_crease_notch_dist_x',
+                0.0
+            ),
+            'notch_width': self.rink_params.get(
+                'goal_crease_notch_width',
+                0.0
+            ),
             'feature_thickness': self.rink_params.get(
                 'minor_line_thickness',
                 0.0
             ),
-            'feature_radius': self.rink_params.get(
-                'faceoff_circle_radius',
-                0.0
-            ),
-            'facecolor': self.feature_colors['center_faceoff_circle'],
-            'edgecolor': self.feature_colors['center_faceoff_circle'],
-            'zorder': 15
+            'crease_style': self.rink_params.get('goal_crease_style', 'nhl98'),
+            'feature_radius': self.rink_params.get('goal_crease_radius', 0.0),
+            'facecolor': self.feature_colors['goal_crease_fill'],
+            'edgecolor': self.feature_colors['goal_crease_fill'],
+            'zorder': 16
         }
-        self._initialize_feature(center_faceoff_circle_params)
+        self._initialize_feature(goal_crease_fill_params)
 
-        # Initialize the faceoff spots in the neutral zone
-        nzone_faceoff_spot_ring_params = {
-            'class': hockey.NODZoneFaceoffSpotRing,
+        # Initialize the goal frame
+        goal_frame_params = {
+            'class': hockey.GoalFrame,
             'x_anchor': (
-                (self.rink_params.get('nzone_length', 0.0) / 2.0) -
-                self.rink_params.get('nzone_faceoff_spot_to_zone_line', 0.0)
+                (self.rink_params.get('rink_length', 0.0) / 2.0) -
+                self.rink_params.get('goal_line_to_boards', 0.0)
             ),
-            'y_anchor': self.rink_params.get(
-                'noncenter_faceoff_spot_y',
-                0.0
-            ),
+            'y_anchor': 0.0,
             'reflect_x': True,
-            'reflect_y': True,
+            'reflect_y': False,
             'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'feature_thickness': self.rink_params.get(
-                'minor_line_thickness',
-                0.0
-            ),
-            'feature_radius': self.rink_params.get(
-                'noncenter_faceoff_spot_radius',
-                0.0
-            ),
-            'facecolor': self.feature_colors['faceoff_spot_ring'],
-            'edgecolor': self.feature_colors['faceoff_spot_ring'],
-            'zorder': 15
+            'rink_length': self.rink_params.get('rink_length', 0.0),
+            'rink_width': self.rink_params.get('rink_width', 0.0),
+            'goal_mouth_width': self.rink_params.get('goal_mouth_width', 0.0),
+            'goal_back_width': self.rink_params.get('goal_back_width', 0.0),
+            'goal_depth': self.rink_params.get('goal_depth', 0.0),
+            'post_diameter': self.rink_params.get('goal_post_diameter', 0.0),
+            'feature_radius': self.rink_params.get('goal_radius', 0.0),
+            'facecolor': self.feature_colors['goal_frame'],
+            'edgecolor': self.feature_colors['goal_frame'],
+            'zorder': 16
         }
-        self._initialize_feature(nzone_faceoff_spot_ring_params)
+        self._initialize_feature(goal_frame_params)
 
-        # Initialize the faceoff spot stripes in the neutral zone
-        nzone_faceoff_spot_stripe_params = {
-            'class': hockey.NODZoneFaceoffSpotStripe,
+        # Initialize the goal frame's filled-in interior
+        goal_frame_fill_params = {
+            'class': hockey.GoalFrameFill,
             'x_anchor': (
-                (self.rink_params.get('nzone_length', 0.0) / 2.0) -
-                self.rink_params.get('nzone_faceoff_spot_to_zone_line', 0.0)
+                (self.rink_params.get('rink_length', 0.0) / 2.0) -
+                self.rink_params.get('goal_line_to_boards', 0.0)
             ),
-            'y_anchor': self.rink_params.get(
-                'noncenter_faceoff_spot_y',
-                0.0
-            ),
+            'y_anchor': 0.0,
             'reflect_x': True,
-            'reflect_y': True,
+            'reflect_y': False,
             'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'gap_width': self.rink_params.get(
-                'noncenter_faceoff_spot_gap_width',
-                0.0
-            ),
-            'feature_thickness': self.rink_params.get(
-                'minor_line_thickness',
-                0.0
-            ),
-            'feature_radius': self.rink_params.get(
-                'noncenter_faceoff_spot_radius',
-                0.0
-            ),
-            'facecolor': self.feature_colors['faceoff_spot_stripe'],
-            'edgecolor': self.feature_colors['faceoff_spot_stripe'],
-            'zorder': 15
+            'rink_length': self.rink_params.get('rink_length', 0.0),
+            'rink_width': self.rink_params.get('rink_width', 0.0),
+            'goal_mouth_width': self.rink_params.get('goal_mouth_width', 0.0),
+            'goal_back_width': self.rink_params.get('goal_back_width', 0.0),
+            'goal_depth': self.rink_params.get('goal_depth', 0.0),
+            'post_diameter': self.rink_params.get('goal_post_diameter', 0.0),
+            'feature_radius': self.rink_params.get('goal_radius', 0.0),
+            'facecolor': self.feature_colors['goal_fill'],
+            'edgecolor': self.feature_colors['goal_fill'],
+            'zorder': 16
         }
-        self._initialize_feature(nzone_faceoff_spot_stripe_params)
+        self._initialize_feature(goal_frame_fill_params)
 
         # Initialize the faceoff circles in the offensive/defensive zones
         odzone_faceoff_circle_params = {
@@ -685,7 +653,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['odzone_faceoff_circle'],
             'edgecolor': self.feature_colors['odzone_faceoff_circle'],
-            'zorder': 15
+            'zorder': 16
         }
         self._initialize_feature(odzone_faceoff_circle_params)
 
@@ -713,7 +681,7 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['faceoff_spot_ring'],
             'edgecolor': self.feature_colors['faceoff_spot_ring'],
-            'zorder': 15
+            'zorder': 16
         }
         self._initialize_feature(odzone_faceoff_spot_ring_params)
 
@@ -745,236 +713,9 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['faceoff_spot_stripe'],
             'edgecolor': self.feature_colors['faceoff_spot_stripe'],
-            'zorder': 15
+            'zorder': 16
         }
         self._initialize_feature(odzone_faceoff_spot_stripe_params)
-
-        # Initialize the bench for Team A. This will be located on the TV-left
-        # team bench area
-        team_a_bench_params = {
-            'class': hockey.PlayerBenchFill,
-            'x_anchor': -(
-                (self.rink_params.get('bench_separation', 0.0) / 2.0) +
-                (self.rink_params.get('bench_length', 0.0) / 2.0)
-            ),
-            'y_anchor': self.rink_params.get('rink_width', 0.0) / 2.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'bench_length': self.rink_params.get('bench_length', 0.0),
-            'bench_depth': self.rink_params.get('bench_depth', 0.0),
-            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
-            'facecolor': self.feature_colors['team_a_bench'],
-            'edgecolor': self.feature_colors['team_a_bench'],
-            'zorder': 15
-        }
-        self._initialize_feature(team_a_bench_params)
-
-        # Initialize the bench for Team B. This will be located on the TV-right
-        # team bench area
-        team_b_bench_params = {
-            'class': hockey.PlayerBenchFill,
-            'x_anchor': (
-                (self.rink_params.get('bench_separation', 0.0) / 2.0) +
-                (self.rink_params.get('bench_length', 0.0) / 2.0)
-            ),
-            'y_anchor': self.rink_params.get('rink_width', 0.0) / 2.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'bench_length': self.rink_params.get('bench_length', 0.0),
-            'bench_depth': self.rink_params.get('bench_depth', 0.0),
-            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
-            'facecolor': self.feature_colors['team_b_bench'],
-            'edgecolor': self.feature_colors['team_b_bench'],
-            'zorder': 15
-        }
-        self._initialize_feature(team_b_bench_params)
-
-        # Initialize the penalty box for Team A. This will be located on the
-        # TV-left team bench area
-        team_a_penalty_box_params = {
-            'class': hockey.PenaltyBoxFill,
-            'x_anchor': -(
-                (self.rink_params.get('penalty_box_separation', 0.0) / 2.0) +
-                self.rink_params.get('board_thickness', 0.0) +
-                (self.rink_params.get('penalty_box_length', 0.0) / 2.0)
-            ),
-            'y_anchor': -(
-                (self.rink_params.get('rink_width', 0.0) / 2.0) -
-                self.rink_params.get('board_thickness', 0.0)
-            ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'penalty_box_length': self.rink_params.get(
-                'penalty_box_length',
-                0.0
-            ),
-            'penalty_box_depth': self.rink_params.get(
-                'penalty_box_depth',
-                0.0
-            ),
-            'penalty_box_separation': self.rink_params.get(
-                'penalty_box_separation',
-                0.0
-            ),
-            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
-            'facecolor': self.feature_colors['team_a_penalty_box'],
-            'edgecolor': self.feature_colors['team_a_penalty_box'],
-            'zorder': 15
-        }
-        self._initialize_feature(team_a_penalty_box_params)
-
-        # Initialize the penalty box for Team B. This will be located on the
-        # TV-right team bench area
-        team_b_penalty_box_params = {
-            'class': hockey.PenaltyBoxFill,
-            'x_anchor': (
-                (self.rink_params.get('penalty_box_separation', 0.0) / 2.0) +
-                self.rink_params.get('board_thickness', 0.0) +
-                (self.rink_params.get('penalty_box_length', 0.0) / 2.0)
-            ),
-            'y_anchor': -(
-                (self.rink_params.get('rink_width', 0.0) / 2.0) -
-                self.rink_params.get('board_thickness', 0.0)
-            ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'penalty_box_length': self.rink_params.get(
-                'penalty_box_length',
-                0.0
-            ),
-            'penalty_box_depth': self.rink_params.get(
-                'penalty_box_depth',
-                0.0
-            ),
-            'penalty_box_separation': self.rink_params.get(
-                'penalty_box_separation',
-                0.0
-            ),
-            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
-            'facecolor': self.feature_colors['team_b_penalty_box'],
-            'edgecolor': self.feature_colors['team_b_penalty_box'],
-            'zorder': 15
-        }
-        self._initialize_feature(team_b_penalty_box_params)
-
-        # Initialize the off-ice officials' box
-        off_ice_officials_box_params = {
-            'class': hockey.OffIceOfficialsBox,
-            'x_anchor': 0.0,
-            'y_anchor': -(
-                (self.rink_params.get('rink_width', 0.0) / 2.0) -
-                self.rink_params.get('board_thickness', 0.0)
-            ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'officials_box_length': self.rink_params.get(
-                'penalty_box_separation',
-                0.0
-            ),
-            'officials_box_depth': self.rink_params.get(
-                'penalty_box_depth',
-                0.0
-            ),
-            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
-            'facecolor': self.feature_colors['off_ice_officials_box'],
-            'edgecolor': self.feature_colors['off_ice_officials_box'],
-            'zorder': 15
-        }
-        self._initialize_feature(off_ice_officials_box_params)
-
-        #######################################################################
-        #                             zorder = 20                             #
-        #######################################################################
-
-        # Initialize the center (red) line
-        center_line_params = {
-            'class': hockey.CenterLine,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'rink_width': self.rink_params.get('rink_width', 0.0),
-            'feature_thickness': self.rink_params.get(
-                'major_line_thickness',
-                0.0
-            ),
-            'facecolor': self.feature_colors['center_line'],
-            'edgecolor': self.feature_colors['center_line'],
-            'zorder': 20
-        }
-        self._initialize_feature(center_line_params)
-
-        # Initialize the zone (blue) lines
-        zone_line_params = {
-            'class': hockey.ZoneLine,
-            'x_anchor': self.rink_params.get('nzone_length', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'rink_width': self.rink_params.get('rink_width', 0.0),
-            'feature_thickness': self.rink_params.get(
-                'major_line_thickness',
-                0.0
-            ),
-            'facecolor': self.feature_colors['zone_line'],
-            'edgecolor': self.feature_colors['zone_line'],
-            'zorder': 20
-        }
-        self._initialize_feature(zone_line_params)
-
-        # Initialize the goal lines
-        goal_line_params = {
-            'class': hockey.GoalLine,
-            'x_anchor': (
-                (self.rink_params.get('rink_length', 0.0) / 2.0) -
-                self.rink_params.get('goal_line_to_boards', 0.0)
-            ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'rink_length': self.rink_params.get('rink_length', 0.0),
-            'rink_width': self.rink_params.get('rink_width', 0.0),
-            'feature_thickness': self.rink_params.get(
-                'minor_line_thickness',
-                0.0
-            ),
-            'feature_radius': self.rink_params.get('corner_radius', 0.0),
-            'facecolor': self.feature_colors['goal_line'],
-            'edgecolor': self.feature_colors['goal_line'],
-            'zorder': 20
-        }
-        self._initialize_feature(goal_line_params)
-
-        # Initialize the referee's crease
-        referee_crease_params = {
-            'class': hockey.RefereeCrease,
-            'x_anchor': 0.0,
-            'y_anchor': -self.rink_params.get('rink_width', 0.0) / 2.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_units': self.rink_params.get('rink_units', 'ft'),
-            'rink_width': self.rink_params.get('rink_width', 0.0),
-            'feature_thickness': self.rink_params.get(
-                'minor_line_thickness',
-                0.0
-            ),
-            'feature_radius': self.rink_params.get(
-                'referee_crease_radius',
-                0.0
-            ),
-            'facecolor': self.feature_colors['referee_crease'],
-            'edgecolor': self.feature_colors['referee_crease'],
-            'zorder': 20
-        }
-        self._initialize_feature(referee_crease_params)
 
         # Initialize the faceoff lines. These are the L's located around the
         # offensive/defensive zone faceoff spots. Each L is created
@@ -1025,13 +766,114 @@ class HockeyRink(BaseSurfacePlot):
                     ),
                     'facecolor': self.feature_colors['faceoff_line'],
                     'edgecolor': self.feature_colors['faceoff_line'],
-                    'zorder': 20
+                    'zorder': 16
                 }
                 self._initialize_feature(odzone_faceoff_line_params)
 
-        #######################################################################
-        #                             zorder = 25                             #
-        #######################################################################
+        # Initialize the faceoff spots in the neutral zone
+        nzone_faceoff_spot_ring_params = {
+            'class': hockey.NODZoneFaceoffSpotRing,
+            'x_anchor': (
+                (self.rink_params.get('nzone_length', 0.0) / 2.0) -
+                self.rink_params.get('nzone_faceoff_spot_to_zone_line', 0.0)
+            ),
+            'y_anchor': self.rink_params.get(
+                'noncenter_faceoff_spot_y',
+                0.0
+            ),
+            'reflect_x': True,
+            'reflect_y': True,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'feature_thickness': self.rink_params.get(
+                'minor_line_thickness',
+                0.0
+            ),
+            'feature_radius': self.rink_params.get(
+                'noncenter_faceoff_spot_radius',
+                0.0
+            ),
+            'facecolor': self.feature_colors['faceoff_spot_ring'],
+            'edgecolor': self.feature_colors['faceoff_spot_ring'],
+            'zorder': 16
+        }
+        self._initialize_feature(nzone_faceoff_spot_ring_params)
+
+        # Initialize the faceoff spot stripes in the neutral zone
+        nzone_faceoff_spot_stripe_params = {
+            'class': hockey.NODZoneFaceoffSpotStripe,
+            'x_anchor': (
+                (self.rink_params.get('nzone_length', 0.0) / 2.0) -
+                self.rink_params.get('nzone_faceoff_spot_to_zone_line', 0.0)
+            ),
+            'y_anchor': self.rink_params.get(
+                'noncenter_faceoff_spot_y',
+                0.0
+            ),
+            'reflect_x': True,
+            'reflect_y': True,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'gap_width': self.rink_params.get(
+                'noncenter_faceoff_spot_gap_width',
+                0.0
+            ),
+            'feature_thickness': self.rink_params.get(
+                'minor_line_thickness',
+                0.0
+            ),
+            'feature_radius': self.rink_params.get(
+                'noncenter_faceoff_spot_radius',
+                0.0
+            ),
+            'facecolor': self.feature_colors['faceoff_spot_stripe'],
+            'edgecolor': self.feature_colors['faceoff_spot_stripe'],
+            'zorder': 16
+        }
+        self._initialize_feature(nzone_faceoff_spot_stripe_params)
+
+        # Initialize the center faceoff circle
+        center_faceoff_circle_params = {
+            'class': hockey.CenterFaceoffCircle,
+            'x_anchor': 0.0,
+            'y_anchor': 0.0,
+            'reflect_x': True,
+            'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'feature_thickness': self.rink_params.get(
+                'minor_line_thickness',
+                0.0
+            ),
+            'feature_radius': self.rink_params.get(
+                'faceoff_circle_radius',
+                0.0
+            ),
+            'facecolor': self.feature_colors['center_faceoff_circle'],
+            'edgecolor': self.feature_colors['center_faceoff_circle'],
+            'zorder': 17
+        }
+        self._initialize_feature(center_faceoff_circle_params)
+
+        # Initialize the referee's crease
+        referee_crease_params = {
+            'class': hockey.RefereeCrease,
+            'x_anchor': 0.0,
+            'y_anchor': -self.rink_params.get('rink_width', 0.0) / 2.0,
+            'reflect_x': True,
+            'reflect_y': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'rink_width': self.rink_params.get('rink_width', 0.0),
+            'feature_thickness': self.rink_params.get(
+                'minor_line_thickness',
+                0.0
+            ),
+            'feature_radius': self.rink_params.get(
+                'referee_crease_radius',
+                0.0
+            ),
+            'facecolor': self.feature_colors['referee_crease'],
+            'edgecolor': self.feature_colors['referee_crease'],
+            'zorder': 17
+        }
+        self._initialize_feature(referee_crease_params)
 
         # Initialize the center faceoff spot
         center_faceoff_spot_params = {
@@ -1045,13 +887,152 @@ class HockeyRink(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['center_faceoff_spot'],
             'edgecolor': self.feature_colors['center_faceoff_spot'],
-            'zorder': 25
+            'zorder': 17
         }
         self._initialize_feature(center_faceoff_spot_params)
 
-        #######################################################################
-        #                             zorder = 100                            #
-        #######################################################################
+        # Initialize the bench for Team A. This will be located on the TV-left
+        # team bench area
+        team_a_bench_params = {
+            'class': hockey.PlayerBenchFill,
+            'x_anchor': -(
+                (self.rink_params.get('bench_separation', 0.0) / 2.0) +
+                (self.rink_params.get('bench_length', 0.0) / 2.0)
+            ),
+            'y_anchor': self.rink_params.get('rink_width', 0.0) / 2.0,
+            'reflect_x': False,
+            'reflect_y': False,
+            'is_constrained': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'bench_length': self.rink_params.get('bench_length', 0.0),
+            'bench_depth': self.rink_params.get('bench_depth', 0.0),
+            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
+            'facecolor': self.feature_colors['team_a_bench'],
+            'edgecolor': self.feature_colors['team_a_bench'],
+            'zorder': 18
+        }
+        self._initialize_feature(team_a_bench_params)
+
+        # Initialize the bench for Team B. This will be located on the TV-right
+        # team bench area
+        team_b_bench_params = {
+            'class': hockey.PlayerBenchFill,
+            'x_anchor': (
+                (self.rink_params.get('bench_separation', 0.0) / 2.0) +
+                (self.rink_params.get('bench_length', 0.0) / 2.0)
+            ),
+            'y_anchor': self.rink_params.get('rink_width', 0.0) / 2.0,
+            'reflect_x': False,
+            'reflect_y': False,
+            'is_constrained': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'bench_length': self.rink_params.get('bench_length', 0.0),
+            'bench_depth': self.rink_params.get('bench_depth', 0.0),
+            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
+            'facecolor': self.feature_colors['team_b_bench'],
+            'edgecolor': self.feature_colors['team_b_bench'],
+            'zorder': 18
+        }
+        self._initialize_feature(team_b_bench_params)
+
+        # Initialize the penalty box for Team A. This will be located on the
+        # TV-left team bench area
+        team_a_penalty_box_params = {
+            'class': hockey.PenaltyBoxFill,
+            'x_anchor': -(
+                (self.rink_params.get('penalty_box_separation', 0.0) / 2.0) +
+                self.rink_params.get('board_thickness', 0.0) +
+                (self.rink_params.get('penalty_box_length', 0.0) / 2.0)
+            ),
+            'y_anchor': -(
+                (self.rink_params.get('rink_width', 0.0) / 2.0) -
+                self.rink_params.get('board_thickness', 0.0)
+            ),
+            'reflect_x': False,
+            'reflect_y': False,
+            'is_constrained': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'penalty_box_length': self.rink_params.get(
+                'penalty_box_length',
+                0.0
+            ),
+            'penalty_box_depth': self.rink_params.get(
+                'penalty_box_depth',
+                0.0
+            ),
+            'penalty_box_separation': self.rink_params.get(
+                'penalty_box_separation',
+                0.0
+            ),
+            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
+            'facecolor': self.feature_colors['team_a_penalty_box'],
+            'edgecolor': self.feature_colors['team_a_penalty_box'],
+            'zorder': 18
+        }
+        self._initialize_feature(team_a_penalty_box_params)
+
+        # Initialize the penalty box for Team B. This will be located on the
+        # TV-right team bench area
+        team_b_penalty_box_params = {
+            'class': hockey.PenaltyBoxFill,
+            'x_anchor': (
+                (self.rink_params.get('penalty_box_separation', 0.0) / 2.0) +
+                self.rink_params.get('board_thickness', 0.0) +
+                (self.rink_params.get('penalty_box_length', 0.0) / 2.0)
+            ),
+            'y_anchor': -(
+                (self.rink_params.get('rink_width', 0.0) / 2.0) -
+                self.rink_params.get('board_thickness', 0.0)
+            ),
+            'reflect_x': False,
+            'reflect_y': False,
+            'is_constrained': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'penalty_box_length': self.rink_params.get(
+                'penalty_box_length',
+                0.0
+            ),
+            'penalty_box_depth': self.rink_params.get(
+                'penalty_box_depth',
+                0.0
+            ),
+            'penalty_box_separation': self.rink_params.get(
+                'penalty_box_separation',
+                0.0
+            ),
+            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
+            'facecolor': self.feature_colors['team_b_penalty_box'],
+            'edgecolor': self.feature_colors['team_b_penalty_box'],
+            'zorder': 18
+        }
+        self._initialize_feature(team_b_penalty_box_params)
+
+        # Initialize the off-ice officials' box
+        off_ice_officials_box_params = {
+            'class': hockey.OffIceOfficialsBox,
+            'x_anchor': 0.0,
+            'y_anchor': -(
+                (self.rink_params.get('rink_width', 0.0) / 2.0) -
+                self.rink_params.get('board_thickness', 0.0)
+            ),
+            'reflect_x': False,
+            'reflect_y': False,
+            'is_constrained': False,
+            'feature_units': self.rink_params.get('rink_units', 'ft'),
+            'officials_box_length': self.rink_params.get(
+                'penalty_box_separation',
+                0.0
+            ),
+            'officials_box_depth': self.rink_params.get(
+                'penalty_box_depth',
+                0.0
+            ),
+            'feature_thickness': self.rink_params.get('board_thickness', 0.0),
+            'facecolor': self.feature_colors['off_ice_officials_box'],
+            'edgecolor': self.feature_colors['off_ice_officials_box'],
+            'zorder': 18
+        }
+        self._initialize_feature(off_ice_officials_box_params)
 
         # Initialize the boards of the rink. NOTE: the zorder is set to be the
         # highest here to be plotted over any other features that it may
@@ -1070,12 +1051,12 @@ class HockeyRink(BaseSurfacePlot):
             'feature_thickness': self.rink_params.get('board_thickness', 0.0),
             'facecolor': self.feature_colors['boards'],
             'edgecolor': self.feature_colors['boards'],
-            'zorder': 100
+            'zorder': 20
         }
         self._initialize_feature(board_params)
 
-        # Initialize the player benches
-        bench_params = {
+        # Initialize the player benches outline
+        bench_outline_params = {
             'class': hockey.PlayerBenchOutline,
             'x_anchor': self.rink_params.get('bench_separation', 0.0) / 2.0,
             'y_anchor': self.rink_params.get('rink_width', 0.0) / 2.0,
@@ -1088,12 +1069,12 @@ class HockeyRink(BaseSurfacePlot):
             'feature_thickness': self.rink_params.get('board_thickness', 0.0),
             'facecolor': self.feature_colors['boards'],
             'edgecolor': self.feature_colors['boards'],
-            'zorder': 100
+            'zorder': 20
         }
-        self._initialize_feature(bench_params)
+        self._initialize_feature(bench_outline_params)
 
-        # Initialize the penalty boxes
-        penalty_box_params = {
+        # Initialize the penalty box outlines
+        penalty_box_outline_params = {
             'class': hockey.PenaltyBoxOutline,
             'x_anchor': 0.0,
             'y_anchor': -(
@@ -1119,9 +1100,9 @@ class HockeyRink(BaseSurfacePlot):
             'feature_thickness': self.rink_params.get('board_thickness', 0.0),
             'facecolor': self.feature_colors['boards'],
             'edgecolor': self.feature_colors['boards'],
-            'zorder': 100
+            'zorder': 20
         }
-        self._initialize_feature(penalty_box_params)
+        self._initialize_feature(penalty_box_outline_params)
 
         # Initialize all other features passed as keyword arguments
         for added_feature in added_features.values():

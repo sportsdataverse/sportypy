@@ -307,7 +307,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['infield_dirt'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 5
         }
         self._initialize_feature(infield_dirt_params)
 
@@ -337,7 +337,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['infield_grass'],
             'edgecolor': None,
-            'zorder': 10
+            'zorder': 6
         }
         self._initialize_feature(infield_grass_params)
 
@@ -358,7 +358,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['pitchers_mound'],
             'edgecolor': None,
-            'zorder': 20
+            'zorder': 7
         }
         self._initialize_feature(pitchers_mound_params)
 
@@ -376,7 +376,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['base'],
             'edgecolor': None,
-            'zorder': 20
+            'zorder': 16
         }
         self._initialize_feature(home_plate_params)
 
@@ -398,7 +398,7 @@ class BaseballField(BaseSurfacePlot):
             'adjust_x_left': True,
             'facecolor': self.feature_colors['base'],
             'edgecolor': None,
-            'zorder': 20
+            'zorder': 16
         }
         self._initialize_feature(first_base_params)
 
@@ -417,7 +417,7 @@ class BaseballField(BaseSurfacePlot):
             'adjust_x_left': False,
             'facecolor': self.feature_colors['base'],
             'edgecolor': None,
-            'zorder': 20
+            'zorder': 16
         }
         self._initialize_feature(second_base_params)
 
@@ -439,7 +439,7 @@ class BaseballField(BaseSurfacePlot):
             'adjust_x_right': True,
             'facecolor': self.feature_colors['base'],
             'edgecolor': None,
-            'zorder': 20
+            'zorder': 16
         }
         self._initialize_feature(third_base_params)
 
@@ -463,7 +463,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['pitchers_plate'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(pitchers_plate_params)
 
@@ -478,6 +478,7 @@ class BaseballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'feature_units': self.field_params.get('field_units', 'ft'),
             'feature_thickness': self.field_params.get('line_width', 0.0),
             'batters_box_length': self.field_params.get(
@@ -494,7 +495,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['batters_box'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(batters_box_params)
 
@@ -505,6 +506,7 @@ class BaseballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'is_constrained': False,
             'feature_units': self.field_params.get('field_units', 'ft'),
             'feature_thickness': self.field_params.get('line_width', 0.0),
             'feature_radius': self.field_params.get(
@@ -533,7 +535,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['catchers_box'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(catchers_box_params)
 
@@ -569,7 +571,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['foul_line'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 17
         }
         self._initialize_feature(left_field_foul_line_params)
 
@@ -605,7 +607,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['foul_line'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 17
         }
         self._initialize_feature(right_field_foul_line_params)
 
@@ -616,6 +618,7 @@ class BaseballField(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': False,
             'reflect_y': False,
+            'is_constrained': False,
             'feature_units': self.field_params.get('field_units', 'ft'),
             'feature_thickness': self.field_params.get('line_width', 0.0),
             'running_lane_start_distance': self.field_params.get(
@@ -632,7 +635,7 @@ class BaseballField(BaseSurfacePlot):
             ),
             'facecolor': self.feature_colors['running_lane'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 18
         }
         self._initialize_feature(running_lane_params)
 

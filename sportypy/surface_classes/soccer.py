@@ -257,7 +257,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['touchline'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(touchline_params)
 
@@ -273,7 +273,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['goal_line'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(goal_line_params)
 
@@ -296,7 +296,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['goal_line'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(corner_arc_params)
 
@@ -312,7 +312,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['halfway_line'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(halfway_line_params)
 
@@ -342,7 +342,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['penalty_box'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(penalty_box_params)
 
@@ -364,7 +364,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['goal_box'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(goal_box_params)
 
@@ -384,7 +384,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['center_circle'],
             'edgecolor': None,
-            'zorder': 25
+            'zorder': 16
         }
         self._initialize_feature(center_circle_params)
 
@@ -407,7 +407,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['penalty_mark'],
             'edgecolor': None,
-            'zorder': 30
+            'zorder': 16
         }
         self._initialize_feature(penalty_mark_params)
 
@@ -424,7 +424,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['center_mark'],
             'edgecolor': None,
-            'zorder': 30
+            'zorder': 17
         }
         self._initialize_feature(center_mark_params)
 
@@ -453,7 +453,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['corner_defensive_mark'],
             'edgecolor': None,
-            'zorder': 30
+            'zorder': 16
         }
         self._initialize_feature(touchline_corner_defensive_mark_params)
 
@@ -482,7 +482,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['corner_defensive_mark'],
             'edgecolor': None,
-            'zorder': 30
+            'zorder': 16
         }
         self._initialize_feature(goal_line_corner_defensive_mark_params)
 
@@ -496,6 +496,7 @@ class SoccerPitch(BaseSurfacePlot):
             'y_anchor': 0.0,
             'reflect_x': True,
             'reflect_y': False,
+            'is_constrained': False,
             'visible': True,
             'goal_width': self.pitch_params.get('goal_width', 0.0),
             'goal_depth': self.pitch_params.get('goal_depth', 0.0),
@@ -504,7 +505,7 @@ class SoccerPitch(BaseSurfacePlot):
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['goal'],
             'edgecolor': None,
-            'zorder': 30
+            'zorder': 16
         }
         self._initialize_feature(goal_params)
 
