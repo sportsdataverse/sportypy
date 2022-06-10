@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from sportypy._base_classes._base_surface import BaseSurface
 from scipy.stats import binned_statistic_2d
 
+
 class BaseSurfacePlot(BaseSurface):
     """A plot of a sport's/league's surface.
 
@@ -75,7 +76,6 @@ class BaseSurfacePlot(BaseSurface):
             # imposed, set the plot limits to that of a full-surface plot
             if plot_range is None and plot_xlim is None and plot_ylim is None:
                 plot_xlim, plot_ylim = self._get_plot_range_limits(
-                    'full',
                     for_plot = True,
                     for_display = False
                 )
@@ -275,8 +275,8 @@ class BaseSurfacePlot(BaseSurface):
         # the benches of an NHL rink)
         mask = (
             ((x > center_x) & (y > center_y) &
-            ((center_x - x) ** 2 + (center_y - y) ** 2 >
-            self._surface_constraint.feature_radius ** 2))
+             ((center_x - x) ** 2 + (center_y - y) ** 2 >
+             self._surface_constraint.feature_radius ** 2))
         )
 
         # Apply the mask
@@ -350,7 +350,7 @@ class BaseSurfacePlot(BaseSurface):
         # If the surface is constrained, enforce the constraint
         if is_constrained:
             self._constrain_plot(plot_features, ax, transform)
-        
+
         # Otherwise, if a coordinate should be allowed to be plotted outside
         # of the boundary of the surface (e.g. a home run's landing spot in
         # a baseball plot), update the display correctly
@@ -361,7 +361,7 @@ class BaseSurfacePlot(BaseSurface):
     @staticmethod
     def binned_stat_2d(x, y, values, statistic = "sum", xlim = None,
                        ylim = None, binsize = 1, bins = None):
-        """Create a two-dimensional binned statistic via scipy
+        """Create a two-dimensional binned statistic via scipy.
 
         Parameters
         ----------
@@ -414,8 +414,8 @@ class BaseSurfacePlot(BaseSurface):
         Returns
         -------
             stat: (nx, ny) numpy.ndarray
-                The values of the selected statistic in each of the two-dimensional
-                bins
+                The values of the selected statistic in each of the
+                two-dimensional bins
 
             x_edge: (nx + 1) numpy.ndarray
                 The bin edges along the first dimension
@@ -458,37 +458,6 @@ class BaseSurfacePlot(BaseSurface):
         stat = stat.T
 
         return stat, x_edge, y_edge
-
-    def constrain_plot(self, ax = None, collection = None):
-        """Constrain a collection object to only display inside the surface.
-
-        Parameters
-        ----------
-        ax : matplotlib.Axes
-            The axes object onto which the plot should be added. If not
-            provided, it will use the currently active axes
-
-        collection : matplotlib.Collection or iterable of matplotlib.Collection
-            The collection to be constrained
-
-        Returns
-        -------
-        Nothing, but enforces the constaints via the _constrain_plot method
-        """
-        # Create a matplotlib Axes object if one isn't provided
-        if ax is None:
-            ax = plt.gca()
-
-        # Identify the transform of the plot
-        transform = self._get_transform(ax)
-
-        # If there is no collection passed, apply to all collections found on
-        # the Axes object
-        if collection is None:
-            collection = ax.collections
-
-        # Constrain the plot
-        self._constrain_plot(collection, ax, transform)
 
     @_validate_plot
     def plot(self, x, y, *, is_constrained = True,
@@ -547,8 +516,43 @@ class BaseSurfacePlot(BaseSurface):
 
     @_validate_plot
     def scatter(self, x, y, *, is_constrained = True,
-                update_display_range = True, symmetrize = False, zorder = 20,
+                update_display_range = True, symmetrize = False, zorder = 21,
                 ax = None, **kwargs):
+        """Wrapper for matplotlib's scatter function.
+
+        This will create a scatterplot on top of the displayed surface.
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            The x values used in the plot
+
+        y: numpy.ndarray
+            The y values used in the plot
+
+        is_constrained : boolean (default: True)
+            Whether or not the plot should be constrained by the surface's
+            boundary
+
+        update_display_range : boolean (default: False)
+            Whether or not to allow the plotted points to update the x and y
+            limits of the plot. This is only used when is_constrained == False
+
+        symmetrize : boolean (default: False)
+            Whether or not to reflect coordinates across the y axis
+
+        zorder : float (default: 21)
+            Determine the layer onto which the plot will be drawn. It's
+            recommended that this value not be lower than 21
+
+        ax : matplotlib.Axes
+            The axes object onto which the plot should be added. If not
+            provided, it will use the currently active axes
+
+        Returns
+        -------
+        A scatterplot of the data
+        """
         scatter_plot = ax.scatter(x, y, zorder = zorder, **kwargs)
         self._bound_surface(
             x,
@@ -560,11 +564,11 @@ class BaseSurfacePlot(BaseSurface):
             update_display_range
         )
         return scatter_plot
-    
+
     @_validate_plot
     def arrow(self, x1, y1, x2, y2, *, is_constrained = True,
               update_display_range = True, length_includes_head = True,
-              head_width = 1, zorder = 100, ax = None, **kwargs):
+              head_width = 1, zorder = 21, ax = None, **kwargs):
         """Wrapper for arrow function from matplotlib.
 
         This will plot to areas out of view when the full surface isn't
@@ -602,9 +606,9 @@ class BaseSurfacePlot(BaseSurface):
         head_width : float (default: 1)
             Total width of the full head of the arrow
 
-        zorder : float (default: 100)
+        zorder : float (default: 21)
             Determine the layer onto which the plot will be drawn. It's
-            recommended that this value not be lower than 100
+            recommended that this value not be lower than 21
 
         ax : matplotlib.Axes
             The axes object onto which the plot should be added. If not
@@ -612,7 +616,7 @@ class BaseSurfacePlot(BaseSurface):
 
         **kwargs : dictionary (optional)
             Any other matplotlib arrow properties
-        
+
         Returns
         -------
         A list of matplotlib.FancyArrow objects
@@ -657,7 +661,7 @@ class BaseSurfacePlot(BaseSurface):
     def hexbin(self, x, y, *, values = None, is_constrained = True,
                 update_display_range = True, symmetrize = False,
                 plot_range = None, plot_xlim = None, plot_ylim = None,
-                gridsize = None, binsize = 1, zorder = 50, clip_on = True,
+                gridsize = None, binsize = 1, zorder = 11, clip_on = True,
                 ax = None, **kwargs):
         """Wrapper for hexbin function from matplotlib.
 
@@ -733,9 +737,9 @@ class BaseSurfacePlot(BaseSurface):
             - a single float: the size of the bins for both dimension
             - a tuple of floats: the size of the bins in each dimension
 
-        zorder : float (default: 100)
+        zorder : float (default: 11)
             Determine the layer onto which the plot will be drawn. It's
-            recommended that this value not be lower than 50
+            recommended that this value not be lower than 11 or higher than 15
 
         clip_on : boolean (default: True)
             Whether or not the matplotlib artist uses clipping. Other plotting
@@ -748,7 +752,7 @@ class BaseSurfacePlot(BaseSurface):
 
         **kwargs : dictionary (optional)
             Any other matplotlib hexbin properties
-        
+
         Returns
         -------
         A matplotlib.PolyCollection object of the hexbins
@@ -759,7 +763,7 @@ class BaseSurfacePlot(BaseSurface):
         # Try to determine the binsize
         try:
             iter(binsize)
-        except:
+        except TypeError:
             binsize = (binsize, binsize)
 
         # Set the default grid size to be uniform in both the x and y
@@ -780,6 +784,12 @@ class BaseSurfacePlot(BaseSurface):
             **kwargs
         )
 
+        # Correct the rotation of the hexbins
+        transform = kwargs['transform'] - ax.transData
+        hexes = hexbin_plot.get_paths()[0]
+        hexes.vertices = transform.transform(hexes.vertices)
+        hexbin_plot.set_offsets(transform.transform(hexbin_plot.get_offsets()))
+
         # Bound the resulting plot to be inside the surface
         self._bound_surface(
             x,
@@ -798,7 +808,7 @@ class BaseSurfacePlot(BaseSurface):
     def heatmap(self, x, y, *, values = None, is_constrained = True,
                 update_display_range = True, symmetrize = False,
                 plot_range = None, plot_xlim = None, plot_ylim = None,
-                statistic = 'sum', binsize = 1, bins = None, zorder = 50,
+                statistic = 'sum', binsize = 1, bins = None, zorder = 11,
                 ax = None, **kwargs):
         """Wrapper for pcolormesh function from matplotlib.
 
@@ -888,9 +898,9 @@ class BaseSurfacePlot(BaseSurface):
                 - a numpy.ndarray: the bin edges for both dimensions
                 - a tuple of numpy.ndarrays: the bin edges in each dimension
 
-        zorder : float (default: 100)
+        zorder : float (default: 11)
             Determine the layer onto which the heatmap will be drawn. It's
-            recommended that this value not be lower than 50
+            recommended that this value not be lower than 11 or higher than 15
 
         ax : matplotlib.Axes
             The axes object onto which the heatmap should be added. If not
@@ -898,7 +908,7 @@ class BaseSurfacePlot(BaseSurface):
 
         **kwargs : dictionary (optional)
             Any other matplotlib heatmap properties
-        
+
         Returns
         -------
         A matplotlib.QuadMesh object of the heat map
@@ -943,7 +953,7 @@ class BaseSurfacePlot(BaseSurface):
                 is_constrained = True, update_display_range = True,
                 symmetrize = False, plot_range = None, plot_xlim = None,
                 plot_ylim = None, statistic = 'sum', binsize = 1, bins = None,
-                zorder = 50, ax = None, **kwargs):
+                zorder = 11, ax = None, **kwargs):
         """Wrapper for matplotlib contour and contourf functions.
 
         This will plot to areas out of view when the full surface isn't
@@ -1035,9 +1045,9 @@ class BaseSurfacePlot(BaseSurface):
                 - a numpy.ndarray: the bin edges for both dimensions
                 - a tuple of numpy.ndarrays: the bin edges in each dimension
 
-        zorder : float (default: 50)
+        zorder : float (default: 11)
             Determine the layer onto which the plot will be drawn. It's
-            recommended that this value not be lower than 50
+            recommended that this value not be lower than 11 or higher than 15
 
         ax : matplotlib.Axes
             The axes object onto which the plot should be added. If not
@@ -1045,7 +1055,7 @@ class BaseSurfacePlot(BaseSurface):
 
         **kwargs : dictionary (optional)
             Any other matplotlib contour properties
-        
+
         Returns
         -------
         A matplotlib.QuadContourSet object of the contour plot
