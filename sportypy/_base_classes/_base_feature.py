@@ -344,25 +344,25 @@ class BaseFeature(ABC):
         # (-0.5,  0.0)
         # ( 0.0, -0.5)
         # ( 0.5,  0.0)
-        # ( 0.0, -0.5)
+        # ( 0.0,  0.5)
         # (-0.5,  0.0)
         #
         # This is the path that a diamond feature will also trace, with the
         # appropriate height and width
         diamond_pts = pd.DataFrame({
             'x': [
-                center[0] - width / 2,
+                center[0] - (width / 2.0),
                 center[0],
-                center[0] + width / 2,
+                center[0] + (width / 2.0),
                 center[0],
-                center[0] - width / 2
+                center[0] - (width / 2.0)
             ],
 
             'y': [
                 center[1],
-                center[1] - height / 2,
+                center[1] - (height / 2.0),
                 center[1],
-                center[1] + height / 2,
+                center[1] + (height / 2.0),
                 center[1]
             ]
         })
@@ -387,7 +387,7 @@ class BaseFeature(ABC):
         """
         # Set the transformation to be data coordinates if none is passed
         if not transform:
-            transform = ax.transData
+            transform = ax.transData # pragma: no cover
 
         # Get the feature's matplotlib.Polygon
         patch = self.create_feature_mpl_polygon()
@@ -427,7 +427,7 @@ class BaseFeature(ABC):
 
         return out_df
 
-    def _rotate(self, df, rotation_dir = 'ccw', angle = 0.25):
+    def _rotate(self, df, angle = 0.25):
         """Mathematical rotation about (0.0, 0.0).
 
         This rotation is given as:
@@ -439,10 +439,6 @@ class BaseFeature(ABC):
         df : pandas.DataFrame
             A data frame with points to rotate
 
-        rotation_dir : str (default: 'ccw')
-            The direction of rotation direction. 'ccw' corresponds to
-            counterclockwise
-
         angle : float (default: 0.5)
             The angle (in radians) by which to rotate the coordinates, divided
             by pi
@@ -452,11 +448,6 @@ class BaseFeature(ABC):
         rotated : pandas.DataFrame
             The data frame rotated around the origin
         """
-        # If the rotation direction is clockwise, take the negative of the
-        # angle
-        if rotation_dir.lower() not in ['ccw', 'counter', 'counterclockwise']:
-            angle *= -1.0
-
         # Set theta to be the angle of rotation
         theta = angle * np.pi
 
