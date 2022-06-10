@@ -218,7 +218,7 @@ class BaseSurface(ABC):
         if transform:
             transform = transform
         else:
-            transform = ax.transData
+            transform = ax.transData # pragma: no cover
 
         # Set the constraining polygon
         constraint = self._surface_constraint.create_feature_mpl_polygon()
