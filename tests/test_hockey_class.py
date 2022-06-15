@@ -602,9 +602,9 @@ def test_rectangular_goal_lines():
         rink_updates = {'goal_line_to_boards': 35.0}
     )
 
-    # The goal line is the 43rd and 44th features instantiated in the
+    # The goal line is the 7th and 8th (1-indexed) features instantiated in the
     # HockeyRink class
-    goal_line_df = test_rink._features[43]._get_centered_feature()
+    goal_line_df = test_rink._features[7]._get_centered_feature()
 
     # If rectangular, this should have beenc reated via the create_rectangle()
     # method of the BaseFeature class, which has exactly five points
@@ -650,7 +650,7 @@ def test_rink_plot_singular_xlim_and_ylim():
     """
     test_rink = hockey_rinks.NHLRink()
     ax1 = test_rink.draw(xlim = 10.0, ylim = 10.0)
-    ax2 = test_rink.draw(xlim = 150.0, ylim = 50.0)
+    ax2 = test_rink.draw(xlim = 150.0, ylim = 150.0)
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -739,3 +739,16 @@ def test_rotated_surface_plot():
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_display_range_none_empty_string():
+    """Test that the rink defaults to display_range == 'full' if None passed.
+
+    This test should pass so long as there are no erros when drawing a rink
+    with no specified display range
+    """
+    ax1 = hockey_rinks.NHLRink().draw(display_range = None)
+    ax2 = hockey_rinks.NHLRink().draw(display_range = '')
+
+    assert isinstance(ax1, matplotlib.axes.SubplotBase)
+    assert isinstance(ax2, matplotlib.axes.SubplotBase)

@@ -718,7 +718,7 @@ def test_court_plot_with_xlim_ylim():
 
 
 def test_rotated_surface_plot():
-    """Test that the field may be properly rotated about the origin.
+    """Test that the court may be properly rotated about the origin.
 
     This test should pass so long as there are no errors when drawing a rotated
     plot of the surface
@@ -728,3 +728,16 @@ def test_rotated_surface_plot():
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_display_range_none_empty_string():
+    """Test that the court defaults to display_range == 'full' if None passed.
+
+    This test should pass so long as there are no erros when drawing a court
+    with no specified display range
+    """
+    ax1 = tennis_courts.ITFCourt().draw(display_range = None)
+    ax2 = tennis_courts.ITFCourt().draw(display_range = '')
+
+    assert isinstance(ax1, matplotlib.axes.SubplotBase)
+    assert isinstance(ax2, matplotlib.axes.SubplotBase)

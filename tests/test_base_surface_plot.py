@@ -2,11 +2,49 @@
 
 @author: Ross Drucker
 """
+import os
+import pytest
 import matplotlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sportypy.surface_classes.soccer import EPLPitch
+from sportypy.surface_classes.tennis import ATPCourt
+from sportypy.surface_classes.football import NFLField
+from sportypy.surface_classes.basketball import NBACourt
 from sportypy.surface_classes.hockey import NHLRink, PHFRink
+
+
+def test_plot():
+    """Test the plot() method of the BaseSurfacePlot.
+
+    Data is NWHL (now PHF) data from the 2021 Big Data Cup. Mimics the example
+    in the-bucketless/hockey_rink and sportsdataverse/sportyR on GitHub
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Read in the Big Data Cup (BDC) data from 2021
+    bdc = pd.read_csv(os.path.join('tests', 'data', 'bdc_2021_data.csv'))
+
+    # Filter to only be shots
+    shots = bdc.loc[bdc['Event'].isin(['Shot', 'Goal'])]
+
+    # Separate shots by team
+    bos_shots = shots[shots['Team'] == 'Boston Pride']
+    min_shots = shots[shots['Team'] == 'Minnesota Whitecaps']
+
+    # Instantiate a PHF rink, adjusting the coordinates to match the data
+    # (The coordinate (0, 0) is in the bottom-left of the plot)
+    phf = PHFRink(x_trans = 100.0, y_trans = 42.5)
+
+    # Draw the rink on a matplotlib.Axes object
+    ax = phf.draw()
+
+    # Add the plot of each team's shots
+    phf.plot(bos_shots['X Coordinate'], bos_shots['Y Coordinate'])
+    phf.plot(min_shots['X Coordinate'], min_shots['Y Coordinate'])
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)
 
 
 def test_scatter():
@@ -17,21 +55,11 @@ def test_scatter():
 
     This test should pass so long as the plot is correctly drawn
     """
-    # Download the Big Data Cup (BDC) data from 2021
-    bdc = pd.read_csv(
-        'https://raw.githubusercontent.com/bigdatacup/Big-Data-Cup-2021/'
-        'main/hackathon_nwhl.csv'
-    )
-
-    # Find a particular game. This test will use the Minnesota Whitecaps vs.
-    # Boston Pride game
-    game_df = bdc.loc[
-        (bdc['Home Team'] == 'Minnesota Whitecaps') &
-        (bdc['Away Team'] == 'Boston Pride')
-    ]
+    # Read in the Big Data Cup (BDC) data from 2021
+    bdc = pd.read_csv(os.path.join('tests', 'data', 'bdc_2021_data.csv'))
 
     # Filter to only be shots
-    shots = game_df.loc[game_df['Event'].isin(['Shot', 'Goal'])]
+    shots = bdc.loc[bdc['Event'].isin(['Shot', 'Goal'])]
 
     # Separate shots by team
     bos_shots = shots[shots['Team'] == 'Boston Pride']
@@ -59,23 +87,13 @@ def test_arrow():
 
     This test should pass so long as the plot is correctly drawn
     """
-    # Download the Big Data Cup (BDC) data from 2021
-    bdc = pd.read_csv(
-        'https://raw.githubusercontent.com/bigdatacup/Big-Data-Cup-2021/'
-        'main/hackathon_nwhl.csv'
-    )
-
-    # Find a particular game. This test will use the Minnesota Whitecaps vs.
-    # Boston Pride game
-    game_df = bdc.loc[
-        (bdc['Home Team'] == 'Minnesota Whitecaps') &
-        (bdc['Away Team'] == 'Boston Pride')
-    ]
+    # Read in the Big Data Cup (BDC) data from 2021
+    bdc = pd.read_csv(os.path.join('tests', 'data', 'bdc_2021_data.csv'))
 
     # Filter to only be Boston's passes
-    passes = game_df.loc[
-        (game_df['Team'] == 'Boston Pride') &
-        (game_df['Event'] == 'Play')
+    passes = bdc.loc[
+        (bdc['Team'] == 'Boston Pride') &
+        (bdc['Event'] == 'Play')
     ]
 
     # Instantiate a PHF rink, adjusting the coordinates to match the data
@@ -97,7 +115,7 @@ def test_arrow():
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
 
-def test_contour():
+def test_contour_heatmap_hexbin():
     """Test the contour() method of the BaseSurfacePlot.
 
     Data is NHL play-by-play data from the 2019-2020 season. Mimics the example
@@ -105,28 +123,8 @@ def test_contour():
 
     This test should pass so long as the plots are correctly drawn
     """
-    # Download the NHL play-by-play data
-    pbp = pd.read_csv(
-        'https://hockey-data.harryshomer.com/pbp/nhl_pbp20192020.csv.gz',
-        compression = "gzip"
-    )
-
-    # Find all shots
-    pbp['goal'] = (pbp['Event'] == "GOAL").astype(int)
-
-    # Force all x coordinates to be on the same side of the ice
-    pbp['x'] = np.abs(pbp['xC'])
-
-    # Adjust the y coordinates so the shots are from the same direction
-    pbp['y'] = pbp['yC'] * np.sign(pbp['xC'])
-
-    # Subset to only shots
-    shots = pbp.loc[
-        (pbp.Ev_Zone == 'Off') &
-        ~pbp['x'].isna() &
-        ~pbp['y'].isna() &
-        (pbp.Event.isin(["GOAL", "SHOT", "MISS"]))
-    ]
+    # Read in the NHL play-by-play data
+    pbp = pd.read_csv(os.path.join('tests', 'data', 'nhl_pbp_data.csv'))
 
     # Create a matplotlib.Axes object for the test plots to lie on
     fig, axs = plt.subplots(1, 3, figsize = (14, 8))
@@ -141,9 +139,9 @@ def test_contour():
 
     # Add the contour plot
     contour_img = nhl.contourf(
-        shots['x'],
-        shots['y'],
-        values = shots['goal'],
+        pbp['x'],
+        pbp['y'],
+        values = pbp['goal'],
         ax = axs[0],
         cmap = 'bwr',
         plot_range = 'ozone',
@@ -157,9 +155,9 @@ def test_contour():
 
     # Add the heatmap plot
     nhl.heatmap(
-        shots['x'],
-        shots['y'],
-        values = shots['goal'],
+        pbp['x'],
+        pbp['y'],
+        values = pbp['goal'],
         ax = axs[1],
         cmap = 'magma',
         plot_xlim = (25, 89),  # offensive-side blue line to the goal line
@@ -170,9 +168,9 @@ def test_contour():
 
     # Add the hexbin plot
     nhl.hexbin(
-        shots['x'],
-        shots['y'],
-        values = shots['goal'],
+        pbp['x'],
+        pbp['y'],
+        values = pbp['goal'],
         ax = axs[2],
         binsize = (8, 12),
         plot_range = 'ozone',
@@ -183,3 +181,319 @@ def test_contour():
     assert isinstance(axs[0], matplotlib.axes._subplots.Subplot)
     assert isinstance(axs[1], matplotlib.axes._subplots.Subplot)
     assert isinstance(axs[2], matplotlib.axes._subplots.Subplot)
+
+
+def test_hexbin_without_values():
+    """Test the hexbin() method of the works without a values argument passed.
+
+    Data is tennis serve data from the 2019 Australian Open Final
+
+    This test should pass so long as the plot are correctly drawn
+    """
+    # Read in the tennis test data
+    events = pd.read_csv(os.path.join('tests', 'data', 'tennis_events.csv'))
+    
+    # Subset to only contain serves
+    serves = events.loc[events['isserve'] == True, :]
+
+    # Create a matplotlib.Axes object for the test plots to lie on
+    fig, ax = plt.subplots(1, figsize = (14, 8))
+
+    # Instantiate an ATP court
+    atp = ATPCourt()
+
+    # Draw a court on the matplotlib.Axes object defined above
+    ax = atp.draw(display_range = 'serving')
+
+    # Add the hexbin plot
+    atp.hexbin(
+        x = serves['hitter_x'],
+        y = serves['hitter_y'],
+        ax = ax,
+        zorder = 25,
+        alpha = 0.85,
+        is_constrained = False
+    )
+
+    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+
+
+def test_hexbin_impute_iterable():
+    """Test the hexbin() method of the works without a non-iterable binsize.
+
+    Data is NHL play-by-play data from the 2019-2020 season. Mimics the example
+    in the-bucketless/hockey_rink on GitHub
+
+    This test should pass so long as the plot are correctly drawn
+    """
+    # Read in the NHL play-by-play data
+    pbp = pd.read_csv(os.path.join('tests', 'data', 'nhl_pbp_data.csv'))
+
+    # Create a matplotlib.Axes object for the test plots to lie on
+    fig, ax = plt.subplots(1, figsize = (14, 8))
+
+    # Instantiate an NHL rink
+    nhl = NHLRink()
+
+    # Draw a rink on the matplotlib.Axes object defined above
+    nhl.draw(ax = ax, display_range = 'ozone')
+
+    # Add the hexbin plot
+    nhl.hexbin(
+        pbp['x'],
+        pbp['y'],
+        values = pbp['goal'],
+        ax = ax,
+        binsize = 9,
+        plot_range = 'ozone',
+        zorder = 25,
+        alpha = 0.85
+    )
+
+    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+
+
+def test_is_constrained_update_display_range():
+    """Test the is_constrained parameter of BaseSurfacePlot methods.
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Create a matplotlib.Axes instance onto which the plot may be drawn
+    fig, ax = plt.subplots(1, figsize = (14, 8))
+
+    # Start by instantiating a rink class. NHL is arbitrarily selected, and the
+    # rotation is selected to match a previous test
+    nhl = NHLRink(rotation = 270)
+
+    # Draw the offensive zone
+    nhl.draw(display_range = 'ozone', ax = ax)
+
+    # Add a point that's outside of the boards
+    nhl.scatter(
+        120.0,
+        0.0,
+        ax = ax,
+        is_constrained = False,
+        update_display_range = True
+    )
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_error_invalid_x_y():
+    """Test that x and y values must be the same length for plots.
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Read in the NHL play-by-play data
+    pbp = pd.read_csv(os.path.join('tests', 'data', 'nhl_pbp_data.csv'))
+
+    # Create a matplotlib.Axes instance onto which the plot may be drawn
+    fig, ax = plt.subplots(1, figsize = (14, 8))
+
+    # Start by instantiating a rink class. NHL is arbitrarily selected, and the
+    # rotation is selected to match a previous test
+    nhl = NHLRink(rotation = 270)
+
+    # Draw the offensive zone
+    nhl.draw(display_range = 'ozone', ax = ax)
+
+    with pytest.raises(
+        Exception,
+        match = 'x, y, and values must all be of same length'
+    ):
+        # Try to create a contour plot with invalid x and y values
+        nhl.contourf(
+            [120.0, 120.0],
+            0.0,
+            values = pbp['goal'],
+            ax = ax,
+            cmap = 'bwr',
+            plot_range = 'ozone',
+            binsize = 10,
+            levels = 50,
+            statistic = 'mean',
+            symmetrize = True
+        )
+
+
+def test_symmetrize():
+    """Test the symmetrize parameter of BaseSurfacePlot methods.
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Read in the NHL play-by-play data
+    pbp = pd.read_csv(os.path.join('tests', 'data', 'nhl_pbp_data.csv'))
+
+    # Create a matplotlib.Axes instance onto which the plot may be drawn
+    fig, ax = plt.subplots(1, figsize = (14, 8))
+
+    # Start by instantiating a rink class. NHL is arbitrarily selected, and the
+    # rotation is selected to match a previous test
+    nhl = NHLRink(rotation = 270)
+
+    # Draw the offensive zone
+    nhl.draw(display_range = 'ozone', ax = ax)
+
+    # Add the contour plot
+    contour_img = nhl.contourf(
+        pbp['x'],
+        pbp['y'],
+        values = pbp['goal'],
+        ax = ax,
+        cmap = 'bwr',
+        binsize = 10,
+        levels = 50,
+        statistic = 'mean',
+        symmetrize = True,
+        fill = False,
+        plot_xlim = None,
+        plot_ylim = None,
+        plot_range = None
+    )
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_nba_shot_chart():
+    """Test that an NBA shot chart works as expected through nba.heatmap().
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Read in the shot chart data
+    shot_data = pd.read_csv(
+        os.path.join('tests', 'data', 'nba_example_shot_chart.csv')
+    )
+
+    # Create a matplotlib.Axes instance onto which the plot may be drawn
+    fig, ax = plt.subplots(1)
+
+    # Start by instantiating a court class. NBA shot data is what's used, so
+    # an NBA court is selected. The rotation is to display a traditional shot
+    # chart of only the offensive half
+    nba = NBACourt(x_trans = -41.75)
+    ax = nba.draw(display_range = 'offense')
+    nba.heatmap(
+        shot_data['LOC_X'],
+        shot_data['LOC_Y'],
+        values = shot_data['SHOT_RESULT'],
+        ax = ax,
+        alpha = 0.75,
+        cmap = 'hot'
+    )
+
+    assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_atp_hexbin():
+    """Test that an ATP shot chart works as expected through atp.scatter().
+
+    Data is tennis serve data from the 2019 Australian Open Final
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Read in the tennis test data
+    events = pd.read_csv(os.path.join('tests', 'data', 'tennis_events.csv'))
+    
+    # Subset to only contain serves
+    serves = events.loc[events['isserve'] == True, :]
+
+    # Create a matplotlib.Axes object for the test plots to lie on
+    fig, ax = plt.subplots(1, figsize = (14, 8))
+
+    # Instantiate an ATP court
+    atp = ATPCourt()
+
+    # Draw a court on the matplotlib.Axes object defined above
+    atp.draw(ax = ax, display_range = 'serving')
+
+    # Add the hexbin plot
+    atp.hexbin(
+        x = serves['hitter_x'],
+        y = serves['hitter_y'],
+        ax = ax,
+        alpha = 0.85,
+        is_constrained = False,
+        plot_range = 'serving'
+    )
+
+    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+
+
+def test_nfl_contour():
+    """Test that an NFL contour plot works as expected through nfl.contour().
+
+    Data is NFL field goal data provided by the 2022 Big Data Bowl
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Read in the NFL field goal data
+    field_goals = pd.read_csv(
+        os.path.join('tests', 'data', 'nfl_field_goals.csv')
+    )
+    
+    # Create a matplotlib Axes object for the contour plot
+    fig, ax = plt.subplots()
+    fig.set_size_inches(50, 50)
+
+    # Instantiate an NFL field
+    nfl = NFLField()
+
+    # Draw the field
+    nfl.draw(ax = ax)
+
+    # Add the contour plot
+    contour_img = nfl.contourf(
+        field_goals['x'] - 50.0,
+        field_goals['y'] - 26.66665,
+        values = field_goals['kick_is_good'],
+        plot_range = 'offense',
+        ax = ax,
+        binsize = 50,
+        levels = 500,
+        statistic = 'mean'
+    )
+
+    # Correct the figure background color
+    fig.patch.set_facecolor(nfl.feature_colors['plot_background'])
+
+    # Add the colorbar to explain the plot
+    plt.colorbar(contour_img, ax = ax, orientation = 'horizontal')
+
+    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+
+
+def test_epl_contour():
+    """Test that an EPL heat map plot works as expected through epl.heatmap().
+
+    Data is Cristiano Ronaldo shot data from understat.com, scraped using the R
+    package worldfootballR
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Read in the EPL shot data
+    shots = pd.read_csv(
+        os.path.join('tests', 'data', 'ronaldo_shots.csv')
+    )
+    
+    # Create a matplotlib Axes object for the contour plot
+    fig, ax = plt.subplots()
+    fig.set_size_inches(50, 50)
+
+    # Instantiate an English Premier League pitch
+    epl = EPLPitch()
+
+    # Draw the pitch
+    epl.draw(ax = ax, display_range = 'offense')
+
+    # Add the heatmap
+    epl.heatmap(
+        shots['x'],
+        shots['y'],
+        values = shots['shot_result'],
+        ax = ax,
+        alpha = 0.75,
+        cmap = 'hot'
+    )
+
+    assert isinstance(ax, matplotlib.axes._subplots.Subplot)

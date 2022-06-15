@@ -630,3 +630,16 @@ def test_rotated_surface_plot():
     ax = soccer_pitches.EPLPitch(rotation = 90).draw()
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_display_range_none_empty_string():
+    """Test that the pitch defaults to display_range == 'full' if None passed.
+
+    This test should pass so long as there are no erros when drawing a pitch
+    with no specified display range
+    """
+    ax1 = soccer_pitches.EPLPitch().draw(display_range = None)
+    ax2 = soccer_pitches.EPLPitch().draw(display_range = '')
+
+    assert isinstance(ax1, matplotlib.axes.SubplotBase)
+    assert isinstance(ax2, matplotlib.axes.SubplotBase)

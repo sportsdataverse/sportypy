@@ -669,3 +669,16 @@ def test_rotated_surface_plot():
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
+
+
+def test_display_range_none_empty_string():
+    """Test that the field defaults to display_range == 'full' if None passed.
+
+    This test should pass so long as there are no erros when drawing a field
+    with no specified display range
+    """
+    ax1 = baseball_fields.MLBField().draw(display_range = None)
+    ax2 = baseball_fields.MLBField().draw(display_range = '')
+
+    assert isinstance(ax1, matplotlib.axes.SubplotBase)
+    assert isinstance(ax2, matplotlib.axes.SubplotBase)
