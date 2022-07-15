@@ -1572,7 +1572,7 @@ class HockeyRink(BaseSurfacePlot):
 
             half_nzone_length = (
                 self.rink_params.get('nzone_length', 0.0) / 2.0 +
-                self.rink_params.get('major_line_thickness', 0.0) -
+                self.rink_params.get('major_line_thickness', 0.0) +
                 5.0
             )
 
