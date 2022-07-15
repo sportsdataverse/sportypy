@@ -1011,10 +1011,7 @@ class HockeyRink(BaseSurfacePlot):
         off_ice_officials_box_params = {
             'class': hockey.OffIceOfficialsBox,
             'x_anchor': 0.0,
-            'y_anchor': -(
-                (self.rink_params.get('rink_width', 0.0) / 2.0) -
-                self.rink_params.get('board_thickness', 0.0)
-            ),
+            'y_anchor': -(self.rink_params.get('rink_width', 0.0) / 2.0),
             'reflect_x': False,
             'reflect_y': False,
             'is_constrained': False,
