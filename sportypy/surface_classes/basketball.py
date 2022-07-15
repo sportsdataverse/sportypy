@@ -2094,12 +2094,14 @@ class BasketballCourt(BaseSurfacePlot):
                 'offence': (0.0, half_court_length),
                 'offensivehalfcourt': (0.0, half_court_length),
                 'offensive_half_court': (0.0, half_court_length),
+                'offensive half court': (0.0, half_court_length),
 
                 # Defensive half-court
                 'defense': (-half_court_length, 0.0),
                 'defence': (-half_court_length, 0.0),
                 'defensivehalfcourt': (-half_court_length, 0.0),
                 'defensive_half_court': (-half_court_length, 0.0),
+                'defensive half court': (-half_court_length, 0.0),
 
                 # Offensive key area
                 'offensivekey': (
@@ -2110,6 +2112,13 @@ class BasketballCourt(BaseSurfacePlot):
                 ),
 
                 'offensive_key': (
+                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                    self.court_params.get('basket_center_to_baseline', 0.0) -
+                    three_point_arc_dist - 3.0,
+                    half_court_length
+                ),
+
+                'offensive key': (
                     (self.court_params.get('court_length', 0.0) / 2.0) -
                     self.court_params.get('basket_center_to_baseline', 0.0) -
                     three_point_arc_dist - 3.0,
@@ -2130,8 +2139,27 @@ class BasketballCourt(BaseSurfacePlot):
                     half_court_length
                 ),
 
+                'attacking key': (
+                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                    self.court_params.get('basket_center_to_baseline', 0.0) -
+                    three_point_arc_dist - 3.0,
+                    half_court_length
+                ),
+
                 # Defensive key area
                 'defensivekey': (
+                    -half_court_length,
+                    -(
+                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        self.court_params.get(
+                            'basket_center_to_baseline',
+                            0.0
+                        ) -
+                        three_point_arc_dist - 3.0
+                    )
+                ),
+
+                'defensive_key': (
                     -half_court_length,
                     -(
                         (self.court_params.get('court_length', 0.0) / 2.0) -
@@ -2394,34 +2422,49 @@ class BasketballCourt(BaseSurfacePlot):
                 'offence': (-half_court_width, half_court_width),
                 'offensivehalfcourt': (-half_court_width, half_court_width),
                 'offensive_half_court': (-half_court_width, half_court_width),
+                'offensive half court': (-half_court_width, half_court_width),
                 'defense': (-half_court_width, half_court_width),
                 'defence': (-half_court_width, half_court_width),
                 'defensivehalfcourt': (-half_court_width, half_court_width),
                 'defensive_half_court': (-half_court_width, half_court_width),
+                'defensive half court': (-half_court_width, half_court_width),
                 'offensivekey': (-half_court_width, half_court_width),
                 'offensive_key': (-half_court_width, half_court_width),
+                'offensive key': (-half_court_width, half_court_width),
                 'attackingkey': (-half_court_width, half_court_width),
                 'attacking_key': (-half_court_width, half_court_width),
+                'attacking key': (-half_court_width, half_court_width),
                 'defensivekey': (-half_court_width, half_court_width),
                 'defensive_key': (-half_court_width, half_court_width),
+                'defensive key': (-half_court_width, half_court_width),
                 'defendingkey': (-half_court_width, half_court_width),
                 'defending_key': (-half_court_width, half_court_width),
+                'defending key': (-half_court_width, half_court_width),
                 'offensivepaint': (-lane_width - 1.5, lane_width + 1.5),
                 'offensive_paint': (-lane_width - 1.5, lane_width + 1.5),
+                'offensive paint': (-lane_width - 1.5, lane_width + 1.5),
                 'attackingpaint': (-lane_width - 1.5, lane_width + 1.5),
                 'attacking_paint': (-lane_width - 1.5, lane_width + 1.5),
+                'attacking paint': (-lane_width - 1.5, lane_width + 1.5),
                 'offensivelane': (-lane_width - 1.5, lane_width + 1.5),
                 'offensive_lane': (-lane_width - 1.5, lane_width + 1.5),
+                'offensive lane': (-lane_width - 1.5, lane_width + 1.5),
                 'attackinglane': (-lane_width - 1.5, lane_width + 1.5),
                 'attacking_lane': (-lane_width - 1.5, lane_width + 1.5),
+                'attacking lane': (-lane_width - 1.5, lane_width + 1.5),
                 'defensivepaint': (-lane_width - 1.5, lane_width + 1.5),
                 'defensive_paint': (-lane_width - 1.5, lane_width + 1.5),
+                'defensive paint': (-lane_width - 1.5, lane_width + 1.5),
                 'defendingpaint': (-lane_width - 1.5, lane_width + 1.5),
                 'defending_paint': (-lane_width - 1.5, lane_width + 1.5),
+                'defending paint': (-lane_width - 1.5, lane_width + 1.5),
                 'defensivelane': (-lane_width - 1.5, lane_width + 1.5),
                 'defensive_lane': (-lane_width - 1.5, lane_width + 1.5),
+                'defensive lane': (-lane_width - 1.5, lane_width + 1.5),
                 'defendinglane': (-lane_width - 1.5, lane_width + 1.5),
                 'defending_lane': (-lane_width - 1.5, lane_width + 1.5),
+                'defending lane': (-lane_width - 1.5, lane_width + 1.5),
+
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
