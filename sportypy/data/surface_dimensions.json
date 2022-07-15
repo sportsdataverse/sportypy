@@ -1231,6 +1231,7 @@
     
             "minor_line_thickness": 0.05,
             "major_line_thickness": 0.3,
+            "center_faceoff_spot_gap": 0.5,
     
             "faceoff_circle_radius": 4.5,
             "center_faceoff_spot_radius": 0.15,

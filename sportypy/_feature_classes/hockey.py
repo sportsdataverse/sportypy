@@ -457,6 +457,10 @@ class CenterLine(BaseHockeyFeature):
     thickness should be given by 'major_line_thickness' as this is a major line
     on the ice surface
     """
+    def __init__(self, center_faceoff_spot_gap = 0.0, *args, **kwargs):
+        # Initialize the parameters unique to this feature
+        self.center_faceoff_spot_gap = center_faceoff_spot_gap
+        super().__init__(*args, **kwargs)
 
     def _get_centered_feature(self):
         """Generate the points defining the center line.
@@ -467,7 +471,7 @@ class CenterLine(BaseHockeyFeature):
         center_line_df = self.create_rectangle(
             x_min = -self.feature_thickness / 2.0,
             x_max = self.feature_thickness / 2.0,
-            y_min = -self.rink_width / 2.0,
+            y_min = self.center_faceoff_spot_gap / 2.0,
             y_max = self.rink_width / 2.0
         )
 

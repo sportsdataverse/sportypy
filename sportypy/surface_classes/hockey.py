@@ -421,9 +421,13 @@ class HockeyRink(BaseSurfacePlot):
             'x_anchor': 0.0,
             'y_anchor': 0.0,
             'reflect_x': False,
-            'reflect_y': False,
+            'reflect_y': True,
             'feature_units': self.rink_params.get('rink_units', 'ft'),
             'rink_width': self.rink_params.get('rink_width', 0.0),
+            'center_faceoff_spot_gap': self.rink_params.get(
+                'center_faceoff_spot_gap',
+                0.0
+            ),
             'feature_thickness': self.rink_params.get(
                 'major_line_thickness',
                 0.0
