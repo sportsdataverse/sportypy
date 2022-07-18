@@ -616,23 +616,18 @@ class FreeThrowCircleOutline(BaseBasketballFeature):
         The interior of this area will be created separately via the
         FreeThrowCircleFill class
         """
-        # The starting and ending angles are thus given as 0.5 +/- the theta
-        # calculated above
-        start_angle = 0.5
-        end_angle = 1.5
-
         free_throw_circle_outline_df = pd.concat([
             self.create_circle(
                 center = (0.0, 0.0),
-                start = start_angle,
-                end = end_angle,
+                start = 0.5,
+                end = 1.5,
                 r = self.feature_radius
             ),
 
             self.create_circle(
                 center = (0.0, 0.0),
-                start = end_angle,
-                end = start_angle,
+                start = 1.5,
+                end = 0.5,
                 r = self.feature_radius - self.feature_thickness
             )
         ])
