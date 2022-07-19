@@ -245,8 +245,8 @@
             "line_thickness": 0.05,
             "bench_side": "bottom",
 
-            "court_apron_endline": 2.4384,
-            "court_apron_sideline": 1.524,
+            "court_apron_endline": 2.5,
+            "court_apron_sideline": 2.5,
             "court_apron_to_boundary": 0.0,
             
             "center_circle_radius": 1.8,
