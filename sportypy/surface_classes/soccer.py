@@ -263,7 +263,7 @@ class SoccerPitch(BaseSurfacePlot):
             'zorder': 5
         }
         self._initialize_feature(defensive_half_params)
-        
+
         # Initialize the offensive half of the pitch
         offensive_half_params = {
             'class': soccer.HalfPitch,
@@ -966,11 +966,13 @@ class SoccerPitch(BaseSurfacePlot):
         # thicknesses of external features (e.g. any out of bounds features)
         if for_display:
             half_pitch_length = (
-                (self.pitch_params.get('pitch_length', 0.0) / 2.0) + 5.0
+                (self.pitch_params.get('pitch_length', 0.0) / 2.0) +
+                (self.pitch_params.get('pitch_apron_goal_line', 0.0))
             )
 
             half_pitch_width = (
-                (self.pitch_params.get('pitch_width', 0.0) / 2.0) + 5.0
+                (self.pitch_params.get('pitch_width', 0.0) / 2.0) +
+                (self.pitch_params.get('pitch_apron_touchline', 0.0))
             )
 
         # Set the x limits of the plot if they are not provided
