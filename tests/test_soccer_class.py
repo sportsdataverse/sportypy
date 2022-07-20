@@ -36,6 +36,9 @@ def test_epl_params():
         "pitch_width": 90.0,
         "line_thickness": 0.12,
 
+        "pitch_apron_touchline": 1.0,
+        "pitch_apron_goal_line": 1.0,
+
         "center_circle_radius": 9.15,
         "center_mark_radius": 0.3048,
 
@@ -186,6 +189,8 @@ def test_cani_change_dimensions():
         '- pitch_length (120.0)\n'
         '- pitch_width (90.0)\n'
         '- line_thickness (0.12)\n'
+        '- pitch_apron_touchline (1.0)\n'
+        '- pitch_apron_goal_line (1.0)\n'
         '- center_circle_radius (9.15)\n'
         '- center_mark_radius (0.3048)\n'
         '- corner_arc_radius (1.0)\n'
@@ -454,6 +459,9 @@ def test_custom_pitch_params():
         "pitch_width": 90.0,
         "line_thickness": 0.12,
 
+        "pitch_apron_touchline": 1.0,
+        "pitch_apron_goal_line": 1.0,
+
         "center_circle_radius": 9.15,
         "center_mark_radius": 0.3048,
 
@@ -477,8 +485,12 @@ def test_custom_pitch_params():
 
     color_updates = {
         'plot_background': '#196f0c',
+        'defensive_half_pitch': '#195f0c',
+        'offensive_half_pitch': '#195f0c',
+        'pitch_apron': '#195f0c',
         'touchline': '#ffffff',
         'goal_line': '#ffffff',
+        'corner_arc': '#ffffff',
         'halfway_line': '#ffffff',
         'center_circle': '#ffffff',
         'center_mark': '#ffffff',
