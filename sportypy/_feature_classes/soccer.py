@@ -84,6 +84,104 @@ class PitchConstraint(BaseSoccerFeature):
         return pitch_constraint_df
 
 
+class HalfPitch(BaseSoccerFeature):
+    """One half, either the offensive or defensive half, of the pitch.
+    
+    This allows each half to take on its own color and be plotted independently,
+    but the halves may take the same color so they look symmetrical
+    """
+
+    def _get_centered_feature(self):
+        """Generate the points comprising the half of the pitch.
+        
+        The pitch half is constrained to be inside of the touchlines
+        """
+        pitch_half_df = self.create_rectangle(
+            x_min = -self.pitch_length / 4.0,
+            x_max = self.pitch_length / 4.0,
+            y_min = -self.pitch_width / 2.0,
+            y_max = self.pitch_width / 2.0,
+        )
+
+        return pitch_half_df
+
+
+class PitchApron(BaseSoccerFeature):
+    """The apron of the pitch beyond the touchline and goal line.
+    
+    This is to allow a more accurate representation of the pitch, as no ads are
+    allowed within a certain distance of the exterior edge of the touchline and
+    goal line
+    """
+
+    def __init__(self, pitch_apron_touchline = 0.0, pitch_apron_goal_line = 0.0,
+                 goal_depth = 0.0, *args, **kwargs):
+        # Initialize the attributes unique to this feature
+        self.pitch_apron_touchline = pitch_apron_touchline
+        self.pitch_apron_goal_line = pitch_apron_goal_line
+        self.goal_depth = goal_depth
+        super().__init__(*args, **kwargs)
+
+    def _get_centered_feature(self):
+        """Generate the points comprising the pitch apron's boundary.
+        
+        This should extend fully outside of the pitch, and is forced to be
+        symmetric
+        """
+        pitch_apron_df = pd.DataFrame({
+            'x': [
+                0.0,
+                self.pitch_length / 2.0,
+                self.pitch_length / 2.0,
+                0.0,
+                0.0,
+                (
+                    (self.pitch_length / 2.0) +
+                    self.pitch_apron_goal_line +
+                    self.goal_depth
+                ),
+                (
+                    (self.pitch_length / 2.0) +
+                    self.pitch_apron_goal_line +
+                    self.goal_depth
+                ),
+                0.0,
+                0.0
+            ],
+
+            'y': [
+                self.pitch_width / 2.0,
+                self.pitch_width / 2.0,
+                -self.pitch_width / 2.0,
+                -self.pitch_width / 2.0,
+                # Adding/subtracting goal_depth here for symmetry
+                (
+                    (-self.pitch_width / 2.0) -
+                    self.pitch_apron_touchline -
+                    self.goal_depth
+                ),
+                (
+                    (-self.pitch_width / 2.0) -
+                    self.pitch_apron_touchline -
+                    self.goal_depth
+                ),
+                (
+                    (self.pitch_width / 2.0) +
+                    self.pitch_apron_touchline +
+                    self.goal_depth
+                ),
+                (
+                    (self.pitch_width / 2.0) +
+                    self.pitch_apron_touchline +
+                    self.goal_depth
+                ),
+                self.pitch_width / 2.0
+            ]
+        })
+
+        return pitch_apron_df
+
+
 class Touchline(BaseSoccerFeature):
     """The touchline of the pitch, aka the sideline.
 

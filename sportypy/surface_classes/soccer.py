@@ -204,8 +204,12 @@ class SoccerPitch(BaseSurfacePlot):
         # Initialize the default colors of the pitch
         default_colors = {
             'plot_background': '#196f0c',
+            'defensive_half_pitch': '#195f0c',
+            'offensive_half_pitch': '#195f0c',
+            'pitch_apron': '#195f0c',
             'touchline': '#ffffff',
             'goal_line': '#ffffff',
+            'corner_arc': '#ffffff',
             'halfway_line': '#ffffff',
             'center_circle': '#ffffff',
             'center_mark': '#ffffff',
@@ -244,6 +248,60 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Set this feature to be the surface's constraint
         self._surface_constraint = self._features.pop(-1)
+
+        # Initialize the offensive half of the pitch
+        defensive_half_params = {
+            'class': soccer.HalfPitch,
+            'x_anchor': -self.pitch_params.get('pitch_length', 0.0) / 4.0,
+            'y_anchor': 0.0,
+            'reflect_x': False,
+            'reflect_y': False,
+            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
+            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
+            'facecolor': self.feature_colors['defensive_half_pitch'],
+            'edgecolor': None,
+            'zorder': 5
+        }
+        self._initialize_feature(defensive_half_params)
+        
+        # Initialize the offensive half of the pitch
+        offensive_half_params = {
+            'class': soccer.HalfPitch,
+            'x_anchor': self.pitch_params.get('pitch_length', 0.0) / 4.0,
+            'y_anchor': 0.0,
+            'reflect_x': False,
+            'reflect_y': False,
+            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
+            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
+            'facecolor': self.feature_colors['offensive_half_pitch'],
+            'edgecolor': None,
+            'zorder': 5
+        }
+        self._initialize_feature(offensive_half_params)
+
+        # Initialize the pitch apron
+        pitch_apron_params = {
+            'class': soccer.PitchApron,
+            'x_anchor': 0.0,
+            'y_anchor': 0.0,
+            'reflect_x': False,
+            'reflect_y': False,
+            'pitch_apron_touchline': self.pitch_params.get(
+                'pitch_apron_touchline',
+                0.0
+            ),
+            'pitch_apron_goal_line': self.pitch_params.get(
+                'pitch_apron_goal_line',
+                0.0
+            ),
+            'goal_depth': self.pitch_params.get('goal_depth', 0.0),
+            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
+            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
+            'facecolor': self.feature_colors['pitch_apron'],
+            'edgecolor': None,
+            'zorder': 5
+        }
+        self._initialize_feature(pitch_apron_params)
 
         # Initialize the touchlines
         touchline_params = {
@@ -294,7 +352,7 @@ class SoccerPitch(BaseSurfacePlot):
             'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
             'pitch_length': self.pitch_params.get('pitch_length', 0.0),
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['goal_line'],
+            'facecolor': self.feature_colors['corner_arc'],
             'edgecolor': None,
             'zorder': 16
         }
@@ -448,12 +506,13 @@ class SoccerPitch(BaseSurfacePlot):
                 0.0
             ),
             'is_touchline': True,
+            'is_constrained': False,
             'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
             'pitch_length': self.pitch_params.get('pitch_length', 0.0),
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['corner_defensive_mark'],
             'edgecolor': None,
-            'zorder': 16
+            'zorder': 17
         }
         self._initialize_feature(touchline_corner_defensive_mark_params)
 
@@ -477,12 +536,13 @@ class SoccerPitch(BaseSurfacePlot):
                 0.0
             ),
             'is_goal_line': True,
+            'is_constrained': False,
             'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
             'pitch_length': self.pitch_params.get('pitch_length', 0.0),
             'pitch_width': self.pitch_params.get('pitch_width', 0.0),
             'facecolor': self.feature_colors['corner_defensive_mark'],
             'edgecolor': None,
-            'zorder': 16
+            'zorder': 17
         }
         self._initialize_feature(goal_line_corner_defensive_mark_params)
 
@@ -820,8 +880,12 @@ class SoccerPitch(BaseSurfacePlot):
         # Re-instantiate the class with the default colors
         default_colors = {
             'plot_background': '#196f0c',
+            'defensive_half_pitch': '#195f0c',
+            'offensive_half_pitch': '#195f0c',
+            'pitch_apron': '#195f0c',
             'touchline': '#ffffff',
             'goal_line': '#ffffff',
+            'corner_arc': '#ffffff',
             'halfway_line': '#ffffff',
             'center_circle': '#ffffff',
             'center_mark': '#ffffff',
@@ -924,12 +988,14 @@ class SoccerPitch(BaseSurfacePlot):
                 'offence': (0.0, half_pitch_length),
                 'offensivehalfpitch': (0.0, half_pitch_length),
                 'offensive_half_pitch': (0.0, half_pitch_length),
+                'offensive half pitch': (0.0, half_pitch_length),
 
                 # Defensive half-pitch
                 'defense': (-half_pitch_length, 0.0),
                 'defence': (-half_pitch_length, 0.0),
                 'defensivehalfpitch': (-half_pitch_length, 0.0),
-                'defensive_half_pitch': (-half_pitch_length, 0.0)
+                'defensive_half_pitch': (-half_pitch_length, 0.0),
+                'defensive half pitch': (-half_pitch_length, 0.0)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -975,10 +1041,12 @@ class SoccerPitch(BaseSurfacePlot):
                 'offence': (-half_pitch_width, half_pitch_width),
                 'offensivehalfpitch': (-half_pitch_width, half_pitch_width),
                 'offensive_half_pitch': (-half_pitch_width, half_pitch_width),
+                'offensive half pitch': (-half_pitch_width, half_pitch_width),
                 'defense': (-half_pitch_width, half_pitch_width),
                 'defence': (-half_pitch_width, half_pitch_width),
                 'defensivehalfpitch': (-half_pitch_width, half_pitch_width),
-                'defensive_half_pitch': (-half_pitch_width, half_pitch_width)
+                'defensive_half_pitch': (-half_pitch_width, half_pitch_width),
+                'defensive half pitch': (-half_pitch_width, half_pitch_width)
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
