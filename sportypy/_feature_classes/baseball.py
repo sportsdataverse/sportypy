@@ -131,7 +131,6 @@ class InfieldDirt(BaseBaseballFeature):
 
         home_plate_end_theta = 3.0 - home_plate_start_theta
 
-        # temporarily commenting out
         infield_x2 = 2.0
         infield_x1 = (
             (-2.0 * self.foul_line_to_foul_grass) -

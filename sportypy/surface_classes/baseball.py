@@ -1071,7 +1071,7 @@ class BaseballField(BaseSurfacePlot):
             ) + 5.0
             left_infield_distance_x = (
                 -self.field_params.get('infield_arc_radius', 0.0)
-            ) + 5.0
+            ) - 5.0
             right_infield_distance_x = (
                 self.field_params.get('infield_arc_radius', 0.0)
             ) + 5.0
