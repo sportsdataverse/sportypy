@@ -382,7 +382,7 @@ class CurlingSheet(BaseSurfacePlot):
         # Iterate over the number of rings
         for i, radius in enumerate(house_ring_radii):
             house_ring_params = {
-                'class': curling.Button,
+                'class': curling.HouseRing,
                 'x_anchor': 0.0,
                 'y_anchor': self.sheet_params.get('tee_line_to_center', 0.0),
                 'reflect_x': False,
