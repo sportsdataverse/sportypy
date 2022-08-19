@@ -812,6 +812,24 @@ class BasketballCourt(BaseSurfacePlot):
             len(lane_boundary_visibility)
         )
 
+        painted_area_colors = self.feature_colors["painted_area"]
+
+        if type(painted_area_colors) != list:
+            painted_area_colors = [painted_area_colors]
+
+        lane_boundary_colors = self.feature_colors["lane_boundary"]
+
+        if type(lane_boundary_colors) != list:
+            lane_boundary_colors = [lane_boundary_colors]
+
+        while(len(painted_area_colors) != n_lanes):
+            if len(painted_area_colors) < n_lanes:
+                painted_area_colors.append("#d2ab6f00")
+
+        while(len(lane_boundary_colors) != n_lanes):
+            if len(lane_boundary_colors) < n_lanes:
+                lane_boundary_colors.append("#00000000")
+
         while(len(lane_lengths) != n_lanes):
             if len(lane_lengths) < n_lanes:
                 lane_lengths.append(0.0)
@@ -831,29 +849,31 @@ class BasketballCourt(BaseSurfacePlot):
         while(len(lane_boundary_visibility) != n_lanes):
             if len(lane_boundary_visibility) < n_lanes:
                 lane_boundary_visibility.append(False)
-
+        
         # The lane dimensions are combined into a data frame here so that the
         # parameters may be ordered easily and together. The ordering
         # allows larger features (e.g. an NBA lane and painted area) to be
         # drawn before drawing smaller features (e.g. an NCAA lane and painted
         # area) in a manner that prevents the smaller feature from being hidden
-        lane_dimensions = pd.DataFrame({
+        lane_params = pd.DataFrame({
             "lane_length": lane_lengths,
             "lane_width": lane_widths,
             "paint_margin": paint_margins,
             "painted_area_visibility": painted_area_visibility,
-            "lane_boundary_visibility": lane_boundary_visibility
+            "lane_boundary_visibility": lane_boundary_visibility,
+            "painted_area_color": painted_area_colors,
+            "lane_boundary_color": lane_boundary_colors
         })
 
         # Reorder from largest to smallest
-        lane_dimensions = lane_dimensions.sort_values(
+        lane_params = lane_params.sort_values(
             by = ["lane_length", "lane_width"],
             ascending = [False, False]
         ).reset_index()
 
         # Loop over the rows of the data frame and instantiate the painted area
         # and lane boundary (as required)
-        for lane_no, dims in lane_dimensions.iterrows():
+        for lane_no, dims in lane_params.iterrows():
             painted_area_params = {
                 "class": basketball.PaintedArea,
                 "x_anchor": (
@@ -874,7 +894,7 @@ class BasketballCourt(BaseSurfacePlot):
                 "lane_length": dims["lane_length"],
                 "lane_width": dims["lane_width"],
                 "paint_margin": dims["paint_margin"],
-                "facecolor": self.feature_colors["painted_area"],
+                "facecolor": dims["painted_area_color"],
                 "edgecolor": None,
                 "zorder": 7
             }
@@ -895,7 +915,7 @@ class BasketballCourt(BaseSurfacePlot):
                 "reflect_y": False,
                 "lane_length": dims["lane_length"],
                 "lane_width": dims["lane_width"],
-                "facecolor": self.feature_colors["lane_boundary"],
+                "facecolor": dims["lane_boundary_color"],
                 "edgecolor": None,
                 "zorder": 16
             }
