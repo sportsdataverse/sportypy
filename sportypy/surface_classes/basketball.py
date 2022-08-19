@@ -328,7 +328,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the default colors of the court
         default_colors = {
-            "plot_background": "#d2ab6f",
+            "plot_background": "#d2ab6f00",
             "defensive_half_court": "#d2ab6f",
             "offensive_half_court": "#d2ab6f",
             "court_apron": "#d2ab6f",
@@ -1978,7 +1978,7 @@ class BasketballCourt(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            "plot_background": "#d2ab6f",
+            "plot_background": "#d2ab6f00",
             "defensive_half_court": "#d2ab6f",
             "offensive_half_court": "#d2ab6f",
             "court_apron": "#d2ab6f",

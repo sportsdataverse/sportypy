@@ -211,7 +211,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the default colors of the sheet
         default_colors = {
-            "plot_background": "#ffffff",
+            "plot_background": "#ffffff00",
             "end_1": "#ffffff",
             "centre_zone": "#ffffff",
             "end_2": "#ffffff",
@@ -900,7 +900,7 @@ class CurlingSheet(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            "plot_background": "#ffffff",
+            "plot_background": "#ffffff00",
             "end_1": "#ffffff",
             "centre_zone": "#ffffff",
             "end_2": "#ffffff",

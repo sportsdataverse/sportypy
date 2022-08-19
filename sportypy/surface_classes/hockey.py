@@ -301,7 +301,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the default colors of the rink
         default_colors = {
-            "plot_background": "#ffffff",
+            "plot_background": "#ffffff00",
             "boards": "#000000",
             "ozone_ice": "#ffffff",
             "nzone_ice": "#ffffff",
@@ -1462,7 +1462,7 @@ class HockeyRink(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            "plot_background": "#ffffff",
+            "plot_background": "#ffffff00",
             "boards": "#000000",
             "ozone_ice": "#ffffff",
             "nzone_ice": "#ffffff",

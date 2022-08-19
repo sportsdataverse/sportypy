@@ -268,7 +268,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the default colors of the field
         default_colors = {
-            "plot_background": "#196f0c",
+            "plot_background": "#196f0c00",
             "offensive_half": "#196f0c",
             "defensive_half": "#196f0c",
             "offensive_endzone": "#196f0c",
@@ -1464,7 +1464,7 @@ class FootballField(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            "plot_background": "#196f0c",
+            "plot_background": "#196f0c00",
             "offensive_half": "#196f0c",
             "defensive_half": "#196f0c",
             "offensive_endzone": "#196f0c",

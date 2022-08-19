@@ -160,7 +160,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the default colors of the court
         default_colors = {
-            "plot_background": "#395d33",
+            "plot_background": "#395d3300",
             "baseline": "#ffffff",
             "singles_sideline": "#ffffff",
             "doubles_sideline": "#ffffff",
@@ -793,7 +793,7 @@ class TennisCourt(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            "plot_background": "#395d33",
+            "plot_background": "#395d3300",
             "baseline": "#ffffff",
             "singles_sideline": "#ffffff",
             "doubles_sideline": "#ffffff",

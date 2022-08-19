@@ -203,7 +203,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the default colors of the pitch
         default_colors = {
-            "plot_background": "#196f0c",
+            "plot_background": "#195f0c00",
             "defensive_half_pitch": "#195f0c",
             "offensive_half_pitch": "#195f0c",
             "pitch_apron": "#195f0c",
@@ -889,7 +889,7 @@ class SoccerPitch(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            "plot_background": "#196f0c",
+            "plot_background": "#195f0c00",
             "defensive_half_pitch": "#195f0c",
             "offensive_half_pitch": "#195f0c",
             "pitch_apron": "#195f0c",
