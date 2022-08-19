@@ -50,8 +50,8 @@ def circle(center = (0.0, 0.0), npoints = 1000, d = 2.0, start = 0.0,
 
     # Combine points into data frame for output
     circle_df = pd.DataFrame({
-        'x': x,
-        'y': y
+        "x": x,
+        "y": y
     })
 
     return circle_df
@@ -81,7 +81,7 @@ def rectangle(x_min, x_max, y_min, y_max):
     """
     # A rectangle's bounding box is described by going along the following path
     rect_pts = pd.DataFrame({
-        'x': [
+        "x": [
             x_min,
             x_max,
             x_max,
@@ -89,7 +89,7 @@ def rectangle(x_min, x_max, y_min, y_max):
             x_min
         ],
 
-        'y': [
+        "y": [
             y_min,
             y_min,
             y_max,
@@ -119,7 +119,7 @@ def square(side_length, center = (0.0, 0.0)):
     """
     # A square's bounding box is described by going along the following path
     square_pts = pd.DataFrame({
-        'x': [
+        "x": [
             center[0] - side_length / 2.0,
             center[0] + side_length / 2.0,
             center[0] + side_length / 2.0,
@@ -127,7 +127,7 @@ def square(side_length, center = (0.0, 0.0)):
             center[0] - side_length / 2.0
         ],
 
-        'y': [
+        "y": [
             center[1] - side_length / 2.0,
             center[1] - side_length / 2.0,
             center[1] + side_length / 2.0,
@@ -160,7 +160,7 @@ def diamond(height, width, center = (0.0, 0.0)):
     """
     # A diamond's bounding box is described by going along the following path
     diamond_pts = pd.DataFrame({
-        'x': [
+        "x": [
             center[0] - width / 2.0,
             center[0],
             center[0] + width / 2.0,
@@ -168,7 +168,7 @@ def diamond(height, width, center = (0.0, 0.0)):
             center[0] - width / 2.0
         ],
 
-        'y': [
+        "y": [
             center[1],
             center[1] - height / 2.0,
             center[1],
@@ -201,14 +201,14 @@ def triangle(base = 1.0, height = 1.0):
     # A triangle's bounding coordinates are described by going along the
     # following path
     triangle_pts = pd.DataFrame({
-        'x': [
+        "x": [
             0.0,
             0.5 * base,
             base,
             0.0
         ],
 
-        'y': [
+        "y": [
             0.0,
             height,
             0.0,

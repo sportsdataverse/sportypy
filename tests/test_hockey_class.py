@@ -103,18 +103,18 @@ def test_cani_plot_leagues_no_league_code():
     available_league_codes.sort()
 
     # Generate the expected output for cani_plot_leagues() with no league code
-    exp_pl_empty_league_code = ''
+    exp_pl_empty_league_code = ""
 
     exp_pl_empty_league_code = (
-        'The following hockey leagues are available with sportypy:\n'
+        "The following hockey leagues are available with sportypy:\n"
     )
 
     for league_code in available_league_codes[:-1]:
-        new_league = f'- {league_code.upper()}'
-        exp_pl_empty_league_code = f'{exp_pl_empty_league_code}\n{new_league}'
+        new_league = f"- {league_code.upper()}"
+        exp_pl_empty_league_code = f"{exp_pl_empty_league_code}\n{new_league}"
 
-    exp_pl_empty_league_code = (f'{exp_pl_empty_league_code}\n'
-                                f'- {available_league_codes[-1].upper()}\n')
+    exp_pl_empty_league_code = (f"{exp_pl_empty_league_code}\n"
+                                f"- {available_league_codes[-1].upper()}\n")
 
     # Initialize the output-capture
     pl_empty_league_code = io.StringIO()
@@ -132,8 +132,8 @@ def test_cani_plot_leagues_no_league_code():
 def test_cani_plot_leagues_nhl():
     """Test cani_plot_leagues() method will return appropriate message.
 
-    When passed either 'nhl', 'NHL', or any combination of capitalized and
-    lower-case letters of 'N', 'H', and 'L', this should return the same
+    When passed either "nhl", "NHL", or any combination of capitalized and
+    lower-case letters of "N", "H", and "L", this should return the same
     message
     """
     # Create a HockeyRink() object to use for testing
@@ -141,7 +141,7 @@ def test_cani_plot_leagues_nhl():
 
     # Generate the expected output for cani_plot_leagues() with a league code
     # (this will use NHL as a test)
-    exp_pl_nhl_league_code = 'NHL comes with sportypy and is ready to use!\n'
+    exp_pl_nhl_league_code = "NHL comes with sportypy and is ready to use!\n"
 
     # Initialize the output-captures
     pl_nhl_league_code_lower = io.StringIO()
@@ -150,13 +150,13 @@ def test_cani_plot_leagues_nhl():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_nhl_league_code_lower
-    test_rink.cani_plot_leagues('nhl')
+    test_rink.cani_plot_leagues("nhl")
 
     sys.stdout = pl_nhl_league_code_upper
-    test_rink.cani_plot_leagues('NHL')
+    test_rink.cani_plot_leagues("NHL")
 
     sys.stdout = pl_nhl_league_code_mixed
-    test_rink.cani_plot_leagues('NhL')
+    test_rink.cani_plot_leagues("NhL")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -178,9 +178,9 @@ def test_cani_plot_leagues_bad_league_code():
     # Generate the expected output for cani_plot_leagues() with an invalid
     # league code (this will use test_league as a test)
     exp_pl_bad_league_code = (
-        'TEST_LEAGUE does not come with sportypy, but may be parameterized. '
-        'Use the cani_change_dimensions() to check what parameters are needed.'
-        '\n'
+        "TEST_LEAGUE does not come with sportypy, but may be parameterized. "
+        "Use the cani_change_dimensions() to check what parameters are needed."
+        "\n"
     )
 
     # Initialize the output-capture
@@ -188,7 +188,7 @@ def test_cani_plot_leagues_bad_league_code():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_bad_league_code
-    test_rink.cani_plot_leagues('test_league')
+    test_rink.cani_plot_leagues("test_league")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -207,54 +207,54 @@ def test_cani_change_dimensions():
 
     # Generate the expected output for cani_change_dimensions()
     exp_change_dimensions = (
-        'The following features can be reparameterized via the rink_updates '
-        'parameter, with the current value in parenthesis:\n\n'
-        '- rink_length (200.0)\n'
-        '- rink_width (85.0)\n'
-        '- rink_units (ft)\n'
-        '- corner_radius (28.0)\n'
-        '- board_thickness (0.4167)\n'
-        '- referee_crease_radius (10.0)\n'
-        '- nzone_length (50.0)\n'
-        '- goal_line_to_boards (11.0)\n'
-        '- minor_line_thickness (0.1666)\n'
-        '- major_line_thickness (1.0)\n'
-        '- faceoff_circle_radius (15.0)\n'
-        '- center_faceoff_spot_radius (0.5)\n'
-        '- noncenter_faceoff_spot_radius (1.0)\n'
-        '- nzone_faceoff_spot_to_zone_line (5.0)\n'
-        '- odzone_faceoff_spot_to_boards (31.0)\n'
-        '- noncenter_faceoff_spot_y (22.0)\n'
-        '- noncenter_faceoff_spot_gap_width (0.25)\n'
-        '- hashmark_width (2.0)\n'
-        '- hashmark_ext_spacing (5.9166)\n'
-        '- faceoff_line_dist_x (2.0)\n'
-        '- faceoff_line_dist_y (0.75)\n'
-        '- faceoff_line_length (4.0)\n'
-        '- faceoff_line_width (3.0)\n'
-        '- has_trapezoid (True)\n'
-        '- short_base_width (22.0)\n'
-        '- long_base_width (28.0)\n'
-        '- goal_crease_style (nhl98)\n'
-        '- goal_crease_radius (6.0)\n'
-        '- goal_crease_length (4.5)\n'
-        '- goal_crease_width (8.0)\n'
-        '- goal_crease_notch_dist_x (4.0)\n'
-        '- goal_crease_notch_width (0.4167)\n'
-        '- goal_mouth_width (6.0)\n'
-        '- goal_back_width (7.3333)\n'
-        '- goal_depth (3.3333)\n'
-        '- goal_post_diameter (0.1979)\n'
-        '- goal_radius (1.6666)\n'
-        '- bench_length (30.0)\n'
-        '- bench_depth (5.5)\n'
-        '- bench_separation (3.3333)\n'
-        '- penalty_box_length (8.0)\n'
-        '- penalty_box_depth (5.0)\n'
-        '- penalty_box_separation (8.0)\n'
-        '\n'
-        'These parameters may be updated with the update_rink_params() '
-        'method\n'
+        "The following features can be reparameterized via the rink_updates "
+        "parameter, with the current value in parenthesis:\n\n"
+        "- rink_length (200.0)\n"
+        "- rink_width (85.0)\n"
+        "- rink_units (ft)\n"
+        "- corner_radius (28.0)\n"
+        "- board_thickness (0.4167)\n"
+        "- referee_crease_radius (10.0)\n"
+        "- nzone_length (50.0)\n"
+        "- goal_line_to_boards (11.0)\n"
+        "- minor_line_thickness (0.1666)\n"
+        "- major_line_thickness (1.0)\n"
+        "- faceoff_circle_radius (15.0)\n"
+        "- center_faceoff_spot_radius (0.5)\n"
+        "- noncenter_faceoff_spot_radius (1.0)\n"
+        "- nzone_faceoff_spot_to_zone_line (5.0)\n"
+        "- odzone_faceoff_spot_to_boards (31.0)\n"
+        "- noncenter_faceoff_spot_y (22.0)\n"
+        "- noncenter_faceoff_spot_gap_width (0.25)\n"
+        "- hashmark_width (2.0)\n"
+        "- hashmark_ext_spacing (5.9166)\n"
+        "- faceoff_line_dist_x (2.0)\n"
+        "- faceoff_line_dist_y (0.75)\n"
+        "- faceoff_line_length (4.0)\n"
+        "- faceoff_line_width (3.0)\n"
+        "- has_trapezoid (True)\n"
+        "- short_base_width (22.0)\n"
+        "- long_base_width (28.0)\n"
+        "- goal_crease_style (nhl98)\n"
+        "- goal_crease_radius (6.0)\n"
+        "- goal_crease_length (4.5)\n"
+        "- goal_crease_width (8.0)\n"
+        "- goal_crease_notch_dist_x (4.0)\n"
+        "- goal_crease_notch_width (0.4167)\n"
+        "- goal_mouth_width (6.0)\n"
+        "- goal_back_width (7.3333)\n"
+        "- goal_depth (3.3333)\n"
+        "- goal_post_diameter (0.1979)\n"
+        "- goal_radius (1.6666)\n"
+        "- bench_length (30.0)\n"
+        "- bench_depth (5.5)\n"
+        "- bench_separation (3.3333)\n"
+        "- penalty_box_length (8.0)\n"
+        "- penalty_box_depth (5.0)\n"
+        "- penalty_box_separation (8.0)\n"
+        "\n"
+        "These parameters may be updated with the update_rink_params() "
+        "method\n"
     )
 
     # Initialize the output-capture
@@ -281,16 +281,16 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        'The following features can be colored via the colors_dict parameter, '
-        'with the current value in parenthesis:\n'
+        "The following features can be colored via the colors_dict parameter, "
+        "with the current value in parenthesis:\n"
     )
 
     for k, v in test_rink.feature_colors.items():
-        exp_color_features = f'{exp_color_features}\n- {k} ({v})'
+        exp_color_features = f"{exp_color_features}\n- {k} ({v})"
 
     exp_color_features = (
-        f'{exp_color_features}\n\nThese colors may be updated with the '
-        'update_colors() method\n'
+        f"{exp_color_features}\n\nThese colors may be updated with the "
+        "update_colors() method\n"
     )
 
     # Initialize the output-capture
@@ -322,7 +322,7 @@ def test_update_colors():
     # Update a color. The neutral zone color is what's updated here as a means
     # of demonstration, but this could work for any parameter. It will be
     # changed from white to dark blue
-    test_nhl.update_colors({'nzone_ice': '#13294b'})
+    test_nhl.update_colors({"nzone_ice": "#13294b"})
 
     # Get the updated colors
     updated_colors = test_nhl.feature_colors
@@ -350,7 +350,7 @@ def test_reset_colors():
     # Update a color. The neutral zone color is what's updated here as a means
     # of demonstration, but this could work for any parameter. It will be
     # changed from white to dark blue
-    test_nhl.update_colors({'nzone_ice': '#13294b'})
+    test_nhl.update_colors({"nzone_ice": "#13294b"})
 
     # Get the updated colors
     updated_colors = test_nhl.feature_colors
@@ -382,7 +382,7 @@ def test_update_rink_params():
     # Update a dimension. The neutral zone length is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 50 feet to 75 feet
-    test_nhl.update_rink_params({'nzone_length': 75.0})
+    test_nhl.update_rink_params({"nzone_length": 75.0})
 
     # Get the updated dimensions
     updated_dimensions = test_nhl.rink_params
@@ -410,7 +410,7 @@ def test_reset_rink_params():
     # Update a dimension. The neutral zone length is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 50 feet to 75 feet
-    test_nhl.update_rink_params({'nzone_length': 75.0})
+    test_nhl.update_rink_params({"nzone_length": 75.0})
 
     # Get the updated dimensions
     updated_dimensions = test_nhl.rink_params
@@ -437,7 +437,7 @@ def test_unit_conversions():
     test_rink_to_convert = hockey_rinks.NHLRink()
 
     # Generate a rink originating in meters
-    nhl_rink_m = hockey_rinks.NHLRink(units = 'm')
+    nhl_rink_m = hockey_rinks.NHLRink(units = "m")
 
     # Convert the rink dimensions from feet to meters
     rink_params_to_convert = test_rink_to_convert.rink_params
@@ -445,11 +445,11 @@ def test_unit_conversions():
     for k, v in rink_params_to_convert.items():
         rink_params_to_convert[k] = test_rink_to_convert._convert_units(
             v,
-            'ft',
-            'm'
+            "ft",
+            "m"
         )
 
-    rink_params_to_convert['rink_units'] = 'm'
+    rink_params_to_convert["rink_units"] = "m"
 
     assert rink_params_to_convert == nhl_rink_m.rink_params
 
@@ -463,46 +463,46 @@ def test_unsupported_unit_conversions():
     # There are 43 parameters in an NHL rink, so the error message should be
     # repeated 41 times (since 2 parameters are booleans)
     exp_unit_error_string = (
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
     )
 
     # Initialize the output-capture
@@ -510,7 +510,7 @@ def test_unsupported_unit_conversions():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = unit_error_string
-    hockey_rinks.NHLRink(units = 'foots')
+    hockey_rinks.NHLRink(units = "foots")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -555,16 +555,16 @@ def test_supported_leagues():
     """
 
     league_class_dict = {
-        'ahl': hockey_rinks.AHLRink(),
-        'echl': hockey_rinks.ECHLRink(),
-        'iihf': hockey_rinks.IIHFRink(),
-        'phf': hockey_rinks.PHFRink(),
-        'ncaa': hockey_rinks.NCAARink(),
-        'nhl': hockey_rinks.NHLRink(),
-        'ohl': hockey_rinks.OHLRink(),
-        'nwhl': hockey_rinks.NWHLRink(),
-        'qmjhl': hockey_rinks.QMJHLRink(),
-        'ushl': hockey_rinks.USHLRink()
+        "ahl": hockey_rinks.AHLRink(),
+        "echl": hockey_rinks.ECHLRink(),
+        "iihf": hockey_rinks.IIHFRink(),
+        "phf": hockey_rinks.PHFRink(),
+        "ncaa": hockey_rinks.NCAARink(),
+        "nhl": hockey_rinks.NHLRink(),
+        "ohl": hockey_rinks.OHLRink(),
+        "nwhl": hockey_rinks.NWHLRink(),
+        "qmjhl": hockey_rinks.QMJHLRink(),
+        "ushl": hockey_rinks.USHLRink()
     }
 
     leagues = [
@@ -578,9 +578,9 @@ def test_supported_leagues():
     ]
 
     if len(missing_leagues) > 0:
-        print('The following leagues are not tested:\n')
+        print("The following leagues are not tested:\n")
         for league in missing_leagues:
-            print(f'- {league}')
+            print(f"- {league}")
 
     else:
         for league in league_class_dict.keys():
@@ -599,7 +599,7 @@ def test_rectangular_goal_lines():
     """
     # Make a test rink with an altered goal_line_to_boards parameter
     test_rink = hockey_rinks.NHLRink(
-        rink_updates = {'goal_line_to_boards': 35.0}
+        rink_updates = {"goal_line_to_boards": 35.0}
     )
 
     # The goal line is the 7th and 8th (1-indexed) features instantiated in the
@@ -617,21 +617,21 @@ def test_crease_styles():
     This test should pass so long as the various goal crease styles are viable
     for plots. Assuming no errors are raised, these tests should pass
     """
-    # A USHL hockey rink will naturally use a 'ushl1'-style crease
+    # A USHL hockey rink will naturally use a "ushl1"-style crease
     ushl = hockey_rinks.USHLRink()
 
     ushl_plot = ushl.draw()
 
     # A hockey rink pre-1998 will use the nhl92 style currently supported by
     # sportypy
-    nhl92 = hockey_rinks.NHLRink(rink_updates = {'goal_crease_style': 'nhl92'})
+    nhl92 = hockey_rinks.NHLRink(rink_updates = {"goal_crease_style": "nhl92"})
 
     nhl92_plot = nhl92.draw()
 
     # Test a bad style
     bad_crease_style = hockey_rinks.NHLRink(
         rink_updates = {
-            'goal_crease_style': 'test_style'
+            "goal_crease_style": "test_style"
         }
     )
 
@@ -665,20 +665,20 @@ def test_rink_plot_no_parameters():
     # Create the test plots
     test_zero_goal_crease_rad = hockey_rinks.NHLRink(
         rink_updates = {
-            'goal_crease_radius': 0.0
+            "goal_crease_radius": 0.0
         }
     ).draw()
 
     test_zero_corner_rad = hockey_rinks.NHLRink(
         rink_updates = {
-            'corner_radius': 0.0
+            "corner_radius": 0.0
         }
     ).draw()
 
     test_zero_faceoff_radii = hockey_rinks.NHLRink(
         rink_updates = {
-            'faceoff_circle_radius': 0.0,
-            'noncenter_faceoff_spot_radius': .1666
+            "faceoff_circle_radius": 0.0,
+            "noncenter_faceoff_spot_radius": .1666
         }
     ).draw()
 
@@ -695,29 +695,29 @@ def test_additional_feature():
     the neutral zone shifted in either direction
     """
     new_nz_1 = {
-        'class': hockey_features.NeutralZone,
-        'x_anchor': 25.0,
-        'y_anchor': 0.0,
-        'rink_length': 200.0,
-        'rink_width': 85.0,
-        'feature_thickness': 25.0,
-        'visible': True,
-        'facecolor': '#13294b',
-        'edgecolor': '#e04e39',
-        'zorder': 1
+        "class": hockey_features.NeutralZone,
+        "x_anchor": 25.0,
+        "y_anchor": 0.0,
+        "rink_length": 200.0,
+        "rink_width": 85.0,
+        "feature_thickness": 25.0,
+        "visible": True,
+        "facecolor": "#13294b",
+        "edgecolor": "#e04e39",
+        "zorder": 1
     }
 
     new_nz_2 = {
-        'class': hockey_features.NeutralZone,
-        'x_anchor': -25.0,
-        'y_anchor': 0.0,
-        'rink_length': 200.0,
-        'rink_width': 85.0,
-        'feature_thickness': 25.0,
-        'visible': True,
-        'facecolor': '#e04e39',
-        'edgecolor': '#13294b',
-        'zorder': 1
+        "class": hockey_features.NeutralZone,
+        "x_anchor": -25.0,
+        "y_anchor": 0.0,
+        "rink_length": 200.0,
+        "rink_width": 85.0,
+        "feature_thickness": 25.0,
+        "visible": True,
+        "facecolor": "#e04e39",
+        "edgecolor": "#13294b",
+        "zorder": 1
     }
 
     ax = hockey_rinks.NHLRink(
@@ -735,20 +735,20 @@ def test_rotated_surface_plot():
     plot of the surface
     """
     ax = hockey_rinks.NHLRink(rotation = 90).draw(
-        display_range = 'ozone'
+        display_range = "ozone"
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
 
 def test_display_range_none_empty_string():
-    """Test that the rink defaults to display_range == 'full' if None passed.
+    """Test that the rink defaults to display_range == "full" if None passed.
 
     This test should pass so long as there are no erros when drawing a rink
     with no specified display range
     """
     ax1 = hockey_rinks.NHLRink().draw(display_range = None)
-    ax2 = hockey_rinks.NHLRink().draw(display_range = '')
+    ax2 = hockey_rinks.NHLRink().draw(display_range = "")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)

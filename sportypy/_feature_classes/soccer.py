@@ -41,7 +41,7 @@ class BaseSoccerFeature(BaseFeature):
 
     def __init__(self, pitch_length = 0.0, pitch_width = 0.0,
                  feature_radius = 0.0, feature_thickness = 0.0,
-                 feature_units = 'ft', *args, **kwargs):
+                 feature_units = "ft", *args, **kwargs):
 
         # Set the full-sized dimensions of the pitch
         self.pitch_length = pitch_length
@@ -129,7 +129,7 @@ class PitchApron(BaseSoccerFeature):
         symmetric
         """
         pitch_apron_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 self.pitch_length / 2.0,
                 self.pitch_length / 2.0,
@@ -149,7 +149,7 @@ class PitchApron(BaseSoccerFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 self.pitch_width / 2.0,
                 self.pitch_width / 2.0,
                 -self.pitch_width / 2.0,
@@ -344,8 +344,8 @@ class PenaltyBox(BaseSoccerFeature):
 
         penalty_box_df = pd.concat([
             pd.DataFrame({
-                'x': [-self.feature_thickness, -self.box_length],
-                'y': [self.half_box_width, self.half_box_width]
+                "x": [-self.feature_thickness, -self.box_length],
+                "y": [self.half_box_width, self.half_box_width]
             }),
 
             self.create_circle(
@@ -363,7 +363,7 @@ class PenaltyBox(BaseSoccerFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     -self.box_length,
                     -(self.box_length - self.feature_thickness),
                     -(self.box_length - self.feature_thickness),
@@ -371,7 +371,7 @@ class PenaltyBox(BaseSoccerFeature):
                     -self.feature_thickness
                 ],
 
-                'y': [
+                "y": [
                     0.0,
                     0.0,
                     self.half_box_width - self.feature_thickness,
@@ -403,7 +403,7 @@ class GoalBox(BaseSoccerFeature):
         This box should be the closer of the two drawn boxes to the goal
         """
         goal_box_df = pd.DataFrame({
-            'x': [
+            "x": [
                 -self.feature_thickness,
                 -self.box_length,
                 -self.box_length,
@@ -415,7 +415,7 @@ class GoalBox(BaseSoccerFeature):
                 -self.feature_thickness
             ],
 
-            'y': [
+            "y": [
                 self.half_box_width,
                 self.half_box_width,
                 -self.half_box_width,
@@ -534,7 +534,7 @@ class Goal(BaseSoccerFeature):
         and the posts must rest on the front edge of the goal line
         """
         goal_frame_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 self.goal_depth + self.feature_thickness,
                 self.goal_depth + self.feature_thickness,
@@ -546,7 +546,7 @@ class Goal(BaseSoccerFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 (self.goal_width / 2.0) + self.feature_thickness,
                 (self.goal_width / 2.0) + self.feature_thickness,
                 -((self.goal_width / 2.0) + self.feature_thickness),

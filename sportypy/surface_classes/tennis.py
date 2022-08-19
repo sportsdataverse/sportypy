@@ -38,7 +38,7 @@ class TennisCourt(BaseSurfacePlot):
 
     Attributes
     ----------
-    - league_code : str (default: '')
+    - league_code : str (default: "")
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "International
         Tennis Federation" should be either "ITF" or "itf")
@@ -61,7 +61,7 @@ class TennisCourt(BaseSurfacePlot):
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
 
-    - units : str (default: 'default')
+    - units : str (default: "default")
         The units that the final plot should utilize. The default units are the
         units specified in the rule book of the league
 
@@ -98,11 +98,11 @@ class TennisCourt(BaseSurfacePlot):
         runs parallel to it in the court's specified units
     """
 
-    def __init__(self, league_code = '', court_updates = {}, colors_dict = {},
+    def __init__(self, league_code = "", court_updates = {}, colors_dict = {},
                  rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = 'default', **added_features):
+                 units = "default", **added_features):
         # Load all pre-defined court dimensions for provided leagues
-        self._load_preset_dimensions(sport = 'tennis')
+        self._load_preset_dimensions(sport = "tennis")
 
         # Load all unit conversions
         self._load_unit_conversions()
@@ -131,15 +131,15 @@ class TennisCourt(BaseSurfacePlot):
         self.court_params = court_params
 
         # Convert the court's units if needed
-        if units.lower() != 'default':
+        if units.lower() != "default":
             for k, v in court_params.items():
                 self.court_params[k] = self._convert_units(
                     v,
-                    self.court_params['court_units'],
+                    self.court_params["court_units"],
                     units.lower()
                 )
 
-            self.court_params['court_units'] = units.lower()
+            self.court_params["court_units"] = units.lower()
 
         # Set the rotation of the plot to be the supplied rotation value
         self.rotation_amt = rotation
@@ -160,19 +160,19 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the default colors of the court
         default_colors = {
-            'plot_background': '#395d33',
-            'baseline': '#ffffff',
-            'singles_sideline': '#ffffff',
-            'doubles_sideline': '#ffffff',
-            'serviceline': '#ffffff',
-            'center_serviceline': '#ffffff',
-            'center_mark': '#ffffff',
-            'ad_court': '#395d33',
-            'deuce_court': '#395d33',
-            'backcourt': '#395d33',
-            'doubles_alley': '#395d33',
-            'court_apron': '#395d33',
-            'net': '#d3d3d3'
+            "plot_background": "#395d33",
+            "baseline": "#ffffff",
+            "singles_sideline": "#ffffff",
+            "doubles_sideline": "#ffffff",
+            "serviceline": "#ffffff",
+            "center_serviceline": "#ffffff",
+            "center_mark": "#ffffff",
+            "ad_court": "#395d33",
+            "deuce_court": "#395d33",
+            "backcourt": "#395d33",
+            "doubles_alley": "#395d33",
+            "court_apron": "#395d33",
+            "net": "#d3d3d3"
         }
 
         # Combine the colors with a passed colors dictionary
@@ -189,15 +189,15 @@ class TennisCourt(BaseSurfacePlot):
         # contained within the court. The feature itself is not visible (as
         # it's created by the tennis.court class)
         court_constraint_params = {
-            'class': tennis.CourtConstraint,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'visible': False
+            "class": tennis.CourtConstraint,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "visible": False
         }
         self._initialize_feature(court_constraint_params)
 
@@ -206,268 +206,268 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the ad court
         ad_court_lower_params = {
-            'class': tennis.FrontcourtHalf,
-            'x_anchor': -self.court_params.get('serviceline_distance', 0.0),
-            'y_anchor': -self.court_params.get('singles_width', 0.0) / 4.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'singles_width': self.court_params.get('singles_width', 0.0),
-            'serviceline_distance': self.court_params.get(
-                'serviceline_distance',
+            "class": tennis.FrontcourtHalf,
+            "x_anchor": -self.court_params.get("serviceline_distance", 0.0),
+            "y_anchor": -self.court_params.get("singles_width", 0.0) / 4.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "singles_width": self.court_params.get("singles_width", 0.0),
+            "serviceline_distance": self.court_params.get(
+                "serviceline_distance",
                 0.0
             ),
-            'facecolor': self.feature_colors['ad_court'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["ad_court"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(ad_court_lower_params)
 
         ad_court_upper_params = {
-            'class': tennis.FrontcourtHalf,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get('singles_width', 0.0) / 4.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'singles_width': self.court_params.get('singles_width', 0.0),
-            'serviceline_distance': self.court_params.get(
-                'serviceline_distance',
+            "class": tennis.FrontcourtHalf,
+            "x_anchor": 0.0,
+            "y_anchor": self.court_params.get("singles_width", 0.0) / 4.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "singles_width": self.court_params.get("singles_width", 0.0),
+            "serviceline_distance": self.court_params.get(
+                "serviceline_distance",
                 0.0
             ),
-            'facecolor': self.feature_colors['ad_court'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["ad_court"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(ad_court_upper_params)
 
         # Initialize the deuce court
         deuce_court_lower_params = {
-            'class': tennis.FrontcourtHalf,
-            'x_anchor': -self.court_params.get('serviceline_distance', 0.0),
-            'y_anchor': self.court_params.get('singles_width', 0.0) / 4.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'singles_width': self.court_params.get('singles_width', 0.0),
-            'serviceline_distance': self.court_params.get(
-                'serviceline_distance',
+            "class": tennis.FrontcourtHalf,
+            "x_anchor": -self.court_params.get("serviceline_distance", 0.0),
+            "y_anchor": self.court_params.get("singles_width", 0.0) / 4.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "singles_width": self.court_params.get("singles_width", 0.0),
+            "serviceline_distance": self.court_params.get(
+                "serviceline_distance",
                 0.0
             ),
-            'facecolor': self.feature_colors['deuce_court'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["deuce_court"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(deuce_court_lower_params)
 
         deuce_court_upper_params = {
-            'class': tennis.FrontcourtHalf,
-            'x_anchor': 0.0,
-            'y_anchor': -self.court_params.get('singles_width', 0.0) / 4.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'singles_width': self.court_params.get('singles_width', 0.0),
-            'serviceline_distance': self.court_params.get(
-                'serviceline_distance',
+            "class": tennis.FrontcourtHalf,
+            "x_anchor": 0.0,
+            "y_anchor": -self.court_params.get("singles_width", 0.0) / 4.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "singles_width": self.court_params.get("singles_width", 0.0),
+            "serviceline_distance": self.court_params.get(
+                "serviceline_distance",
                 0.0
             ),
-            'facecolor': self.feature_colors['deuce_court'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["deuce_court"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(deuce_court_upper_params)
 
         # Initialize the backcourt
         backcourt_params = {
-            'class': tennis.Backcourt,
-            'x_anchor': self.court_params.get(
-                'serviceline_distance',
+            "class": tennis.Backcourt,
+            "x_anchor": self.court_params.get(
+                "serviceline_distance",
                 0.0
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'singles_width': self.court_params.get('singles_width', 0.0),
-            'serviceline_distance': self.court_params.get(
-                'serviceline_distance',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "singles_width": self.court_params.get("singles_width", 0.0),
+            "serviceline_distance": self.court_params.get(
+                "serviceline_distance",
                 0.0
             ),
-            'facecolor': self.feature_colors['backcourt'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["backcourt"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(backcourt_params)
 
         # Initialize the doubles alley
         doubles_alley_params = {
-            'class': tennis.DoublesAlley,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get('singles_width', 0.0) / 2.0,
-            'reflect_x': False,
-            'reflect_y': True,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'feature_thickness': (
-                self.court_params.get('doubles_width', 0.0) -
-                self.court_params.get('singles_width', 0.0)
+            "class": tennis.DoublesAlley,
+            "x_anchor": 0.0,
+            "y_anchor": self.court_params.get("singles_width", 0.0) / 2.0,
+            "reflect_x": False,
+            "reflect_y": True,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "feature_thickness": (
+                self.court_params.get("doubles_width", 0.0) -
+                self.court_params.get("singles_width", 0.0)
             ) / 2.0,
-            'facecolor': self.feature_colors['doubles_alley'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["doubles_alley"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(doubles_alley_params)
 
         # Initialize the baselines
         baseline_params = {
-            'class': tennis.Baseline,
-            'x_anchor': self.court_params.get('court_length', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'facecolor': self.feature_colors['baseline'],
-            'edgecolor': None,
-            'zorder': 15
+            "class": tennis.Baseline,
+            "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "facecolor": self.feature_colors["baseline"],
+            "edgecolor": None,
+            "zorder": 15
         }
         self._initialize_feature(baseline_params)
 
         # Initialize the singles sideline
         singles_sideline_params = {
-            'class': tennis.Sideline,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get('singles_width', 0.0) / 2.0,
-            'reflect_x': True,
-            'reflect_y': True,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'facecolor': self.feature_colors['singles_sideline'],
-            'edgecolor': None,
-            'zorder': 15
+            "class": tennis.Sideline,
+            "x_anchor": 0.0,
+            "y_anchor": self.court_params.get("singles_width", 0.0) / 2.0,
+            "reflect_x": True,
+            "reflect_y": True,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "facecolor": self.feature_colors["singles_sideline"],
+            "edgecolor": None,
+            "zorder": 15
         }
         self._initialize_feature(singles_sideline_params)
 
         # Initialize the doubles sideline
         doubles_sideline_params = {
-            'class': tennis.Sideline,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get('doubles_width', 0.0) / 2.0,
-            'reflect_x': True,
-            'reflect_y': True,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'facecolor': self.feature_colors['doubles_sideline'],
-            'edgecolor': None,
-            'zorder': 15
+            "class": tennis.Sideline,
+            "x_anchor": 0.0,
+            "y_anchor": self.court_params.get("doubles_width", 0.0) / 2.0,
+            "reflect_x": True,
+            "reflect_y": True,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "facecolor": self.feature_colors["doubles_sideline"],
+            "edgecolor": None,
+            "zorder": 15
         }
         self._initialize_feature(doubles_sideline_params)
 
         # Initialize the serviceline
         serviceline_params = {
-            'class': tennis.ServiceLine,
-            'x_anchor': self.court_params.get('serviceline_distance', 0.0),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'singles_width': self.court_params.get('singles_width', 0.0),
-            'facecolor': self.feature_colors['serviceline'],
-            'edgecolor': None,
-            'zorder': 15
+            "class": tennis.ServiceLine,
+            "x_anchor": self.court_params.get("serviceline_distance", 0.0),
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "singles_width": self.court_params.get("singles_width", 0.0),
+            "facecolor": self.feature_colors["serviceline"],
+            "edgecolor": None,
+            "zorder": 15
         }
         self._initialize_feature(serviceline_params)
 
         # Initialize the center serviceline
         center_serviceline_params = {
-            'class': tennis.CenterServiceline,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'center_serviceline_length': self.court_params.get(
-                'serviceline_distance',
+            "class": tennis.CenterServiceline,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "center_serviceline_length": self.court_params.get(
+                "serviceline_distance",
                 0.0
             ),
-            'facecolor': self.feature_colors['center_serviceline'],
-            'edgecolor': None,
-            'zorder': 15
+            "facecolor": self.feature_colors["center_serviceline"],
+            "edgecolor": None,
+            "zorder": 15
         }
         self._initialize_feature(center_serviceline_params)
 
         # Initialize the center mark
         center_mark_params = {
-            'class': tennis.CenterMark,
-            'x_anchor': self.court_params.get('court_length', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'center_mark_length': self.court_params.get(
-                'center_mark_length',
+            "class": tennis.CenterMark,
+            "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "center_mark_length": self.court_params.get(
+                "center_mark_length",
                 0.0
             ),
-            'facecolor': self.feature_colors['center_mark'],
-            'edgecolor': None,
-            'zorder': 15
+            "facecolor": self.feature_colors["center_mark"],
+            "edgecolor": None,
+            "zorder": 15
         }
         self._initialize_feature(center_mark_params)
 
         # Initialize the court apron
         court_apron_params = {
-            'class': tennis.CourtApron,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'backstop_distance': self.court_params.get(
-                'backstop_distance',
+            "class": tennis.CourtApron,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "backstop_distance": self.court_params.get(
+                "backstop_distance",
                 0.0
             ),
-            'is_constrained': False,
-            'sidestop_distance': self.court_params.get(
-                'sidestop_distance',
+            "is_constrained": False,
+            "sidestop_distance": self.court_params.get(
+                "sidestop_distance",
                 0.0
             ),
-            'facecolor': self.feature_colors['court_apron'],
-            'edgecolor': None,
-            'zorder': 15
+            "facecolor": self.feature_colors["court_apron"],
+            "edgecolor": None,
+            "zorder": 15
         }
         self._initialize_feature(court_apron_params)
 
         # Initialize the net
         net_params = {
-            'class': tennis.Net,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('doubles_width', 0.0),
-            'is_constrained': False,
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'net_length': self.court_params.get('net_length', 0.0),
-            'facecolor': self.feature_colors['net'],
-            'edgecolor': None,
-            'zorder': 16
+            "class": tennis.Net,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("doubles_width", 0.0),
+            "is_constrained": False,
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "net_length": self.court_params.get("net_length", 0.0),
+            "facecolor": self.feature_colors["net"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(net_params)
 
@@ -475,7 +475,7 @@ class TennisCourt(BaseSurfacePlot):
         for added_feature in added_features.values():
             self._initialize_feature(added_feature)
 
-    def draw(self, ax = None, display_range = 'full', xlim = None, ylim = None,
+    def draw(self, ax = None, display_range = "full", xlim = None, ylim = None,
              rotation = None):
         """Draw the court.
 
@@ -491,7 +491,19 @@ class TennisCourt(BaseSurfacePlot):
             is shown in the final plot. The following explain what each display
             range corresponds to:
 
-                'full' : the entire court
+                "full" : the entire court
+                "serve" : The serving half of the court
+                "serving" : The serving half of the court
+                "servinghalf" : The serving half of the court
+                "servicehalf" : The serving half of the court
+                "serving_half" : The serving half of the court
+                "service_half" : The serving half of the court
+                "service half" : The serving half of the court
+                "receive" : The receiving half of the court
+                "receiving" : The receiving half of the court
+                "receivinghalf" : The receiving half of the court
+                "receiving_half" : The receiving half of the court
+                "receiving half" : The receiving half of the court
 
         xlim : float, tuple (float, float), or None (default: None)
             The display range in the x direction to be used. If a single
@@ -523,14 +535,14 @@ class TennisCourt(BaseSurfacePlot):
         # If an Axes object is not provided, create one to use for plotting
         if ax is None:
             fig, ax = plt.subplots()
-            fig.patch.set_facecolor(self.feature_colors['plot_background'])
+            fig.patch.set_facecolor(self.feature_colors["plot_background"])
             fig.set_size_inches(50, 50)
             ax = plt.gca()
 
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
-        ax.set_aspect('equal')
-        ax.axis('off')
+        ax.set_aspect("equal")
+        ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
@@ -560,8 +572,8 @@ class TennisCourt(BaseSurfacePlot):
                     # limits to be its minimum and maximum values of x
                     if self._feature_xlim is None:
                         self._feature_xlim = [
-                            feature_df['x'].min(),
-                            feature_df['x'].max()
+                            feature_df["x"].min(),
+                            feature_df["x"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -569,16 +581,16 @@ class TennisCourt(BaseSurfacePlot):
                     # of its specified maximum and largest x value
                     else:
                         self._feature_xlim = [
-                            min(self._feature_xlim[0], feature_df['x'].min()),
-                            max(self._feature_xlim[1], feature_df['x'].max())
+                            min(self._feature_xlim[0], feature_df["x"].min()),
+                            max(self._feature_xlim[1], feature_df["x"].max())
                         ]
 
                     # If the feature doesn't have a limitation on y, set its
                     # limits to be its minimum and maximum values of y
                     if self._feature_ylim is None:
                         self._feature_ylim = [
-                            feature_df['y'].min(),
-                            feature_df['y'].max()
+                            feature_df["y"].min(),
+                            feature_df["y"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -586,8 +598,8 @@ class TennisCourt(BaseSurfacePlot):
                     # of its specified maximum and largest y value
                     else:
                         self._feature_ylim = [
-                            min(self._feature_ylim[0], feature_df['y'].min()),
-                            max(self._feature_ylim[1], feature_df['y'].max())
+                            min(self._feature_ylim[0], feature_df["y"].min()),
+                            max(self._feature_ylim[1], feature_df["y"].max())
                         ]
 
         # Set the plot's display range
@@ -634,26 +646,26 @@ class TennisCourt(BaseSurfacePlot):
             # If the league code exists, return it as a list of length 1 with
             # a printed message
             if league_code in available_league_codes:
-                print(f'{league_code.upper()} comes with sportypy and is '
-                      'ready to use!')
+                print(f"{league_code.upper()} comes with sportypy and is "
+                      "ready to use!")
 
             # Otherwise, alert the user that they will need to manually specify
             # the parameters of the league
             else:
-                print(f'{league_code.upper()} does not come with sportypy, '
-                      'but may be parameterized. Use the '
-                      'cani_change_dimensions() to check what parameters are '
-                      'needed.')
+                print(f"{league_code.upper()} does not come with sportypy, "
+                      "but may be parameterized. Use the "
+                      "cani_change_dimensions() to check what parameters are "
+                      "needed.")
 
         # If no league code is provided, print out the list of all available
         else:
             # Preamble
-            print('The following tennis leagues are available with '
-                  'sportypy:\n')
+            print("The following tennis leagues are available with "
+                  "sportypy:\n")
 
             # Print the current leagues
             for league_code in available_league_codes:
-                print(f'- {league_code.upper()}')
+                print(f"- {league_code.upper()}")
 
     def cani_color_features(self):
         """Determine what features of the court can be colored.
@@ -667,15 +679,15 @@ class TennisCourt(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be colored via the colors_dict '
-              'parameter, with the current value in parenthesis:\n')
+        print("The following features can be colored via the colors_dict "
+              "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.feature_colors.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese colors may be updated with the update_colors() method')
+        print("\nThese colors may be updated with the update_colors() method")
 
     def cani_change_dimensions(self):
         """Determine what features of the court can be re-parameterized.
@@ -691,17 +703,17 @@ class TennisCourt(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be reparameterized via the '
-              'court_updates parameter, with the current value in '
-              'parenthesis:\n')
+        print("The following features can be reparameterized via the "
+              "court_updates parameter, with the current value in "
+              "parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.court_params.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese parameters may be updated with the '
-              'update_court_params() method')
+        print("\nThese parameters may be updated with the "
+              "update_court_params() method")
 
     def update_colors(self, color_updates = {}, *args, **kwargs):
         """Update the colors currently used in the plot.
@@ -781,19 +793,19 @@ class TennisCourt(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            'plot_background': '#395d33',
-            'baseline': '#ffffff',
-            'singles_sideline': '#ffffff',
-            'doubles_sideline': '#ffffff',
-            'serviceline': '#ffffff',
-            'center_serviceline': '#ffffff',
-            'center_mark': '#ffffff',
-            'ad_court': '#395d33',
-            'deuce_court': '#395d33',
-            'backcourt': '#395d33',
-            'doubles_alley': '#395d33',
-            'court_apron': '#395d33',
-            'net': '#d3d3d3'
+            "plot_background": "#395d33",
+            "baseline": "#ffffff",
+            "singles_sideline": "#ffffff",
+            "doubles_sideline": "#ffffff",
+            "serviceline": "#ffffff",
+            "center_serviceline": "#ffffff",
+            "center_mark": "#ffffff",
+            "ad_court": "#395d33",
+            "deuce_court": "#395d33",
+            "backcourt": "#395d33",
+            "doubles_alley": "#395d33",
+            "court_apron": "#395d33",
+            "net": "#d3d3d3"
         }
 
         self.__init__(
@@ -818,14 +830,14 @@ class TennisCourt(BaseSurfacePlot):
             colors_dict = self.feature_colors
         )
 
-    def _get_plot_range_limits(self, display_range = 'full', xlim = None,
+    def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: 'full')
+        display_range : str (default: "full")
             The range of which to display the plot. This is a key that will
             be searched for in the ranges_dict parameter
 
@@ -844,8 +856,8 @@ class TennisCourt(BaseSurfacePlot):
             The y-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
-        if display_range == '' or display_range is None:
-            display_range = 'full'
+        if display_range == "" or display_range is None:
+            display_range = "full"
 
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
@@ -856,57 +868,61 @@ class TennisCourt(BaseSurfacePlot):
         # dimensions that are internal to the surface
         if for_plot:
             half_court_length = (
-                (self.court_params.get('court_length', 0.0) / 2.0) +
+                (self.court_params.get("court_length", 0.0) / 2.0) +
                 # Add in backstop distance since many shots are taken beyond
                 # baseline
-                (self.court_params.get('backstop_distance', 20.0))
+                (self.court_params.get("backstop_distance", 20.0))
             )
 
             half_court_width = (
-                (self.court_params.get('doubles_width', 0.0) / 2.0) +
+                (self.court_params.get("doubles_width", 0.0) / 2.0) +
                 # Add in sidestop distance since many shots are taken outside
                 # of the doubles boundary but are still considered legal
-                (self.court_params.get('sidestop_distance', 10.0))
+                (self.court_params.get("sidestop_distance", 10.0))
             )
 
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. constraining features)
         if for_display:
             half_court_length = (
-                (self.court_params.get('court_length', 0.0) / 2.0) +
-                self.court_params.get('backstop_distance', 20.0) +
+                (self.court_params.get("court_length", 0.0) / 2.0) +
+                self.court_params.get("backstop_distance", 20.0) +
                 5.0
             )
 
             half_court_width = (
-                (self.court_params.get('doubles_width', 0.0) / 2.0) +
-                self.court_params.get('sidestop_distance', 10.0) +
+                (self.court_params.get("doubles_width", 0.0) / 2.0) +
+                self.court_params.get("sidestop_distance", 10.0) +
                 5.0
             )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             xlims = {
                 # Full surface (default)
-                'full': (-half_court_length, half_court_length),
+                "full": (-half_court_length, half_court_length),
 
                 # Serving
-                'serve': (-half_court_length, 1.5),
-                'serving': (-half_court_length, 1.5),
-                'servinghalf': (-half_court_length, 1.5),
-                'servicehalf': (-half_court_length, 1.5),
-                'serving_half': (-half_court_length, 1.5),
-                'service_half': (-half_court_length, 1.5),
+                "serve": (-half_court_length, 1.5),
+                "serving": (-half_court_length, 1.5),
+                "servinghalf": (-half_court_length, 1.5),
+                "servicehalf": (-half_court_length, 1.5),
+                "serving_half": (-half_court_length, 1.5),
+                "service_half": (-half_court_length, 1.5),
+                "service_half": (-half_court_length, 1.5),
+                "service half": (-half_court_length, 1.5),
+                "serving half": (-half_court_length, 1.5),
 
                 # Receiving
-                'receive': (-1.5, half_court_length),
-                'receiving': (-1.5, half_court_length),
-                'receivinghalf': (-1.5, half_court_length),
-                'receiving_half': (-1.5, half_court_length)
+                "receive": (-1.5, half_court_length),
+                "receiving": (-1.5, half_court_length),
+                "receivinghalf": (-1.5, half_court_length),
+                "receiving_half": (-1.5, half_court_length),
+                "receiving half": (-1.5, half_court_length)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -942,26 +958,29 @@ class TennisCourt(BaseSurfacePlot):
         # added here
         if not ylim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                'full': (-half_court_width, half_court_width),
+                "full": (-half_court_width, half_court_width),
 
                 # Serving
-                'serve': (-half_court_width, half_court_width),
-                'serving': (-half_court_width, half_court_width),
-                'servinghalf': (-half_court_width, half_court_width),
-                'servicehalf': (-half_court_width, half_court_width),
-                'serving_half': (-half_court_width, half_court_width),
-                'service_half': (-half_court_width, half_court_width),
+                "serve": (-half_court_width, half_court_width),
+                "serving": (-half_court_width, half_court_width),
+                "servinghalf": (-half_court_width, half_court_width),
+                "servicehalf": (-half_court_width, half_court_width),
+                "serving_half": (-half_court_width, half_court_width),
+                "service_half": (-half_court_width, half_court_width),
+                "service half": (-half_court_width, half_court_width),
+                "serving half": (-half_court_width, half_court_width),
 
                 # Receiving
-                'receive': (-half_court_width, half_court_width),
-                'receiving': (-half_court_width, half_court_width),
-                'receivinghalf': (-half_court_width, half_court_width),
-                'receiving_half': (-half_court_width, half_court_width)
+                "receive": (-half_court_width, half_court_width),
+                "receiving": (-half_court_width, half_court_width),
+                "receivinghalf": (-half_court_width, half_court_width),
+                "receiving_half": (-half_court_width, half_court_width),
+                "receiving half": (-half_court_width, half_court_width),
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
@@ -1021,7 +1040,7 @@ class ATPCourt(TennisCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the TennisCourt class with the relevant parameters
         super().__init__(
-            league_code = 'atp',
+            league_code = "atp",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -1037,7 +1056,7 @@ class ITACourt(TennisCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the TennisCourt class with the relevant parameters
         super().__init__(
-            league_code = 'ita',
+            league_code = "ita",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -1053,7 +1072,7 @@ class ITFCourt(TennisCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the TennisCourt class with the relevant parameters
         super().__init__(
-            league_code = 'itf',
+            league_code = "itf",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -1069,7 +1088,7 @@ class NCAACourt(TennisCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the TennisCourt class with the relevant parameters
         super().__init__(
-            league_code = 'ncaa',
+            league_code = "ncaa",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -1085,7 +1104,7 @@ class USTACourt(TennisCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the TennisCourt class with the relevant parameters
         super().__init__(
-            league_code = 'usta',
+            league_code = "usta",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -1101,7 +1120,7 @@ class WTACourt(TennisCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the TennisCourt class with the relevant parameters
         super().__init__(
-            league_code = 'wta',
+            league_code = "wta",
             court_updates = court_updates,
             *args,
             **kwargs

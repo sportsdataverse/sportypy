@@ -41,7 +41,7 @@ class BasketballCourt(BaseSurfacePlot):
 
     Attributes
     ----------
-    - league_code : str (default: '')
+    - league_code : str (default: "")
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "National
         Basketball Association" should be either "NBA" or "nba")
@@ -64,7 +64,7 @@ class BasketballCourt(BaseSurfacePlot):
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
 
-    - units : str (default: 'default')
+    - units : str (default: "default")
         The units that the final plot should utilize. The default units are the
         units specified in the rule book of the league
 
@@ -266,11 +266,11 @@ class BasketballCourt(BaseSurfacePlot):
         The thickness of the basket ring in the court's specified units
     """
 
-    def __init__(self, league_code = '', court_updates = {}, colors_dict = {},
+    def __init__(self, league_code = "", court_updates = {}, colors_dict = {},
                  rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = 'default', **added_features):
+                 units = "default", **added_features):
         # Load all pre-defined court dimensions for provided leagues
-        self._load_preset_dimensions(sport = 'basketball')
+        self._load_preset_dimensions(sport = "basketball")
 
         # Load all unit conversions
         self._load_unit_conversions()
@@ -299,15 +299,15 @@ class BasketballCourt(BaseSurfacePlot):
         self.court_params = court_params
 
         # Convert the court's units if needed
-        if units.lower() != 'default':
+        if units.lower() != "default":
             for k, v in court_params.items():
                 self.court_params[k] = self._convert_units(
                     v,
-                    self.court_params['court_units'],
+                    self.court_params["court_units"],
                     units.lower()
                 )
 
-            self.court_params['court_units'] = units.lower()
+            self.court_params["court_units"] = units.lower()
 
         # Set the rotation of the plot to be the supplied rotation value
         self.rotation_amt = rotation
@@ -328,32 +328,32 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the default colors of the court
         default_colors = {
-            'plot_background': '#d2ab6f',
-            'defensive_half_court': '#d2ab6f',
-            'offensive_half_court': '#d2ab6f',
-            'court_apron': '#d2ab6f',
-            'center_circle_outline': '#000000',
-            'center_circle_fill': '#d2ab6f',
-            'division_line': '#000000',
-            'endline': '#000000',
-            'sideline': '#000000',
-            'two_point_range': '#d2ab6f',
-            'three_point_line': '#000000',
-            'painted_area': '#d2ab6f',
-            'lane_boundary': '#000000',
-            'free_throw_circle_outline': '#000000',
-            'free_throw_circle_fill': '#d2ab6f',
-            'free_throw_circle_dash': '#000000',
-            'lane_space_mark': '#000000',
-            'inbounding_line': '#000000',
-            'substitution_line': '#000000',
-            'baseline_lower_defensive_box': '#000000',
-            'lane_lower_defensive_box': '#000000',
-            'team_bench_line': '#000000',
-            'restricted_arc': '#000000',
-            'backboard': '#000000',
-            'basket_ring': '#f55b33',
-            'net': '#ffffff'
+            "plot_background": "#d2ab6f",
+            "defensive_half_court": "#d2ab6f",
+            "offensive_half_court": "#d2ab6f",
+            "court_apron": "#d2ab6f",
+            "center_circle_outline": "#000000",
+            "center_circle_fill": "#d2ab6f",
+            "division_line": "#000000",
+            "endline": "#000000",
+            "sideline": "#000000",
+            "two_point_range": "#d2ab6f",
+            "three_point_line": "#000000",
+            "painted_area": "#d2ab6f",
+            "lane_boundary": "#000000",
+            "free_throw_circle_outline": "#000000",
+            "free_throw_circle_fill": "#d2ab6f",
+            "free_throw_circle_dash": "#000000",
+            "lane_space_mark": "#000000",
+            "inbounding_line": "#000000",
+            "substitution_line": "#000000",
+            "baseline_lower_defensive_box": "#000000",
+            "lane_lower_defensive_box": "#000000",
+            "team_bench_line": "#000000",
+            "restricted_arc": "#000000",
+            "backboard": "#000000",
+            "basket_ring": "#f55b33",
+            "net": "#ffffff"
         }
 
         # Combine the colors with a passed colors dictionary
@@ -370,15 +370,15 @@ class BasketballCourt(BaseSurfacePlot):
         # contained within the court. The feature itself is not visible (as
         # it's created by the basketball.court class)
         court_constraint_params = {
-            'class': basketball.CourtConstraint,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'visible': False
+            "class": basketball.CourtConstraint,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "visible": False
         }
         self._initialize_feature(court_constraint_params)
 
@@ -387,107 +387,107 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the defensive half-court
         defensive_half_court_params = {
-            'class': basketball.HalfCourt,
-            'x_anchor': -0.25 * self.court_params.get('court_length', 0.0),
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['defensive_half_court'],
-            'edgecolor': None,
-            'zorder': 5
+            "class": basketball.HalfCourt,
+            "x_anchor": -0.25 * self.court_params.get("court_length", 0.0),
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["defensive_half_court"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(defensive_half_court_params)
 
         # Initialize the offensive half-court
         offensive_half_court_params = {
-            'class': basketball.HalfCourt,
-            'x_anchor': 0.25 * self.court_params.get('court_length', 0.0),
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['offensive_half_court'],
-            'edgecolor': None,
-            'zorder': 5
+            "class": basketball.HalfCourt,
+            "x_anchor": 0.25 * self.court_params.get("court_length", 0.0),
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["offensive_half_court"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(offensive_half_court_params)
 
         # Initialize the court apron
         court_apron_params = {
-            'class': basketball.CourtApron,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'court_apron_endline': self.court_params.get(
-                'court_apron_endline',
+            "class": basketball.CourtApron,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "court_apron_endline": self.court_params.get(
+                "court_apron_endline",
                 0.0
             ),
-            'court_apron_sideline': self.court_params.get(
-                'court_apron_sideline',
+            "court_apron_sideline": self.court_params.get(
+                "court_apron_sideline",
                 0.0
             ),
-            'court_apron_to_boundary': self.court_params.get(
-                'court_apron_to_boundary',
+            "court_apron_to_boundary": self.court_params.get(
+                "court_apron_to_boundary",
                 0.0
             ),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'facecolor': self.feature_colors['court_apron'],
-            'edgecolor': None,
-            'zorder': 5
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "facecolor": self.feature_colors["court_apron"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(court_apron_params)
 
         # Initialize the center circle(s)
         center_circle_params_type = type(
-            self.court_params.get('center_circle_radius', [])
+            self.court_params.get("center_circle_radius", [])
         )
 
         if center_circle_params_type == float:
             center_circle_radii = [
-                self.court_params['center_circle_radius']
+                self.court_params["center_circle_radius"]
             ]
 
         elif center_circle_params_type == list:
             center_circle_radii = self.court_params.get(
-                'center_circle_radius',
+                "center_circle_radius",
                 [0.0]
             )
 
         center_circle_outline_color_type = type(self.feature_colors[
-            'center_circle_outline'
+            "center_circle_outline"
         ])
 
         if center_circle_outline_color_type == str:
             center_circle_outline_color = [
-                self.feature_colors['center_circle_outline']
+                self.feature_colors["center_circle_outline"]
             ]
 
         else:
             center_circle_outline_color = self.feature_colors.get(
-                'center_circle_outline',
-                ['#000000']
+                "center_circle_outline",
+                ["#000000"]
             )
 
         center_circle_fill_color_type = type(self.feature_colors[
-            'center_circle_fill'
+            "center_circle_fill"
         ])
 
         if center_circle_fill_color_type == str:
             center_circle_fill_color = [
-                self.feature_colors['center_circle_fill']
+                self.feature_colors["center_circle_fill"]
             ]
 
         else:
             center_circle_fill_color = self.feature_colors.get(
-                'center_circle_fill',
-                ['#d2ab6f']
+                "center_circle_fill",
+                ["#d2ab6f"]
             )
 
         n_center_circles = max(
@@ -502,71 +502,71 @@ class BasketballCourt(BaseSurfacePlot):
 
         while(len(center_circle_outline_color) != n_center_circles):
             if len(center_circle_outline_color) < n_center_circles:
-                center_circle_outline_color.append('#000000')
+                center_circle_outline_color.append("#000000")
 
         while(len(center_circle_fill_color) != n_center_circles):
             if len(center_circle_fill_color) < n_center_circles:
-                center_circle_fill_color.append('#d2ab6f')
+                center_circle_fill_color.append("#d2ab6f")
 
         center_circle_params = pd.DataFrame({
-            'center_circle_radii': center_circle_radii,
-            'center_circle_outline_color': center_circle_outline_color,
-            'center_circle_fill_color': center_circle_fill_color
+            "center_circle_radii": center_circle_radii,
+            "center_circle_outline_color": center_circle_outline_color,
+            "center_circle_fill_color": center_circle_fill_color
         })
 
         for circle_no, circle in center_circle_params.iterrows():
             center_circle_outline_params = {
-                'class': basketball.CenterCircleOutline,
-                'x_anchor': 0.0,
-                'y_anchor': 0.0,
-                'reflect_x': True,
-                'reflect_y': False,
-                'feature_radius': circle['center_circle_radii'],
-                'feature_thickness': self.court_params.get(
-                    'line_thickness',
+                "class": basketball.CenterCircleOutline,
+                "x_anchor": 0.0,
+                "y_anchor": 0.0,
+                "reflect_x": True,
+                "reflect_y": False,
+                "feature_radius": circle["center_circle_radii"],
+                "feature_thickness": self.court_params.get(
+                    "line_thickness",
                     0.0
                 ),
-                'facecolor': circle['center_circle_outline_color'],
-                'edgecolor': None,
-                'zorder': 16
+                "facecolor": circle["center_circle_outline_color"],
+                "edgecolor": None,
+                "zorder": 16
             }
             self._initialize_feature(center_circle_outline_params)
 
             center_circle_fill_params = {
-                'class': basketball.CenterCircleFill,
-                'x_anchor': 0.0,
-                'y_anchor': 0.0,
-                'reflect_x': False,
-                'reflect_y': False,
-                'feature_radius': circle['center_circle_radii'],
-                'feature_thickness': self.court_params.get(
-                    'line_thickness',
+                "class": basketball.CenterCircleFill,
+                "x_anchor": 0.0,
+                "y_anchor": 0.0,
+                "reflect_x": False,
+                "reflect_y": False,
+                "feature_radius": circle["center_circle_radii"],
+                "feature_thickness": self.court_params.get(
+                    "line_thickness",
                     0.0
                 ),
-                'facecolor': circle['center_circle_fill_color'],
-                'edgecolor': None,
-                'zorder': 6
+                "facecolor": circle["center_circle_fill_color"],
+                "edgecolor": None,
+                "zorder": 6
             }
             self._initialize_feature(center_circle_fill_params)
 
         # Initialize the division line
         division_line_params = {
-            'class': basketball.DivisionLine,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'is_constrained': False,
-            'division_line_extension': self.court_params.get(
-                'division_line_extension',
+            "class": basketball.DivisionLine,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "is_constrained": False,
+            "division_line_extension": self.court_params.get(
+                "division_line_extension",
                 0.0
             ),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['division_line'],
-            'edgecolor': None,
-            'zorder': 16
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["division_line"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(division_line_params)
 
@@ -580,7 +580,7 @@ class BasketballCourt(BaseSurfacePlot):
         # Start by getting the type of dimension passed
         three_point_params_type = type(
             self.court_params.get(
-                'basket_center_to_three_point_arc',
+                "basket_center_to_three_point_arc",
                 []
             )
         )
@@ -589,12 +589,12 @@ class BasketballCourt(BaseSurfacePlot):
         # of length 1
         if three_point_params_type == float:
             basket_center_to_three_point_arc = [
-                self.court_params['basket_center_to_three_point_arc']
+                self.court_params["basket_center_to_three_point_arc"]
             ]
 
         else:
             basket_center_to_three_point_arc = self.court_params.get(
-                'basket_center_to_three_point_arc',
+                "basket_center_to_three_point_arc",
                 []
             )
 
@@ -602,19 +602,19 @@ class BasketballCourt(BaseSurfacePlot):
         # parameter(s)
         basket_center_to_corner_three_type = type(
             self.court_params.get(
-                'basket_center_to_corner_three',
+                "basket_center_to_corner_three",
                 []
             )
         )
 
         if basket_center_to_corner_three_type == float:
             basket_center_to_corner_three = [
-                self.court_params['basket_center_to_corner_three']
+                self.court_params["basket_center_to_corner_three"]
             ]
 
         else:
             basket_center_to_corner_three = self.court_params.get(
-                'basket_center_to_corner_three',
+                "basket_center_to_corner_three",
                 []
             )
 
@@ -631,48 +631,48 @@ class BasketballCourt(BaseSurfacePlot):
             if len(basket_center_to_corner_three) < n_three_point_lines:
                 basket_center_to_corner_three.append(0.0)
 
-        if type(self.feature_colors['two_point_range']) == str:
+        if type(self.feature_colors["two_point_range"]) == str:
             two_point_range_colors = [
-                self.feature_colors['two_point_range']
+                self.feature_colors["two_point_range"]
             ]
 
         else:
-            two_point_range_colors = self.feature_colors['two_point_range']
+            two_point_range_colors = self.feature_colors["two_point_range"]
 
-        if type(self.feature_colors['three_point_line']) == str:
+        if type(self.feature_colors["three_point_line"]) == str:
             three_point_line_colors = [
-                self.feature_colors['three_point_line']
+                self.feature_colors["three_point_line"]
             ]
 
         else:
-            three_point_line_colors = self.feature_colors['three_point_line']
+            three_point_line_colors = self.feature_colors["three_point_line"]
 
         while(len(two_point_range_colors) != n_three_point_lines):
             if len(two_point_range_colors) > n_three_point_lines:
                 two_point_range_colors.pop(-1)
             if len(two_point_range_colors) < n_three_point_lines:
-                two_point_range_colors.append('#d2ab6f')
+                two_point_range_colors.append("#d2ab6f")
 
         while(len(three_point_line_colors) != n_three_point_lines):
             if len(three_point_line_colors) > n_three_point_lines:
                 three_point_line_colors.pop(-1)
             if len(three_point_line_colors) < n_three_point_lines:
-                three_point_line_colors.append('#000000')
+                three_point_line_colors.append("#000000")
 
         # Get the arcs to be an iterable parameter. This may also be an empty
         # list, in which case no three-point line will be drawn
         three_point_arcs = pd.DataFrame({
-            'basket_center_to_three_point_arc':
+            "basket_center_to_three_point_arc":
                 basket_center_to_three_point_arc,
-            'basket_center_to_corner_three': basket_center_to_corner_three,
-            'three_point_line_color': three_point_line_colors,
-            'two_point_range_color': two_point_range_colors
+            "basket_center_to_corner_three": basket_center_to_corner_three,
+            "three_point_line_color": three_point_line_colors,
+            "two_point_range_color": two_point_range_colors
         })
 
         # The three-point arc distances should be sorted from greatest distance
         # to least to avoid plotting over each other
         three_point_arcs = three_point_arcs.sort_values(
-            by = 'basket_center_to_three_point_arc',
+            by = "basket_center_to_three_point_arc",
             ascending = False
         )
 
@@ -681,64 +681,64 @@ class BasketballCourt(BaseSurfacePlot):
             # Create the two-point shot range. This is the area inside the
             # three-point arc
             two_point_range_params = {
-                'class': basketball.TwoPointRange,
-                'x_anchor': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    self.court_params.get('basket_center_to_baseline', 0.0)
+                "class": basketball.TwoPointRange,
+                "x_anchor": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    self.court_params.get("basket_center_to_baseline", 0.0)
                 ),
-                'y_anchor': 0.0,
-                'reflect_x': True,
-                'reflect_y': False,
-                'feature_thickness': self.court_params.get(
-                    'line_thickness',
+                "y_anchor": 0.0,
+                "reflect_x": True,
+                "reflect_y": False,
+                "feature_thickness": self.court_params.get(
+                    "line_thickness",
                     0.0
                 ),
-                'feature_radius': (
-                    arc_dims['basket_center_to_three_point_arc'] -
-                    self.court_params.get('line_thickness', 0.0)
+                "feature_radius": (
+                    arc_dims["basket_center_to_three_point_arc"] -
+                    self.court_params.get("line_thickness", 0.0)
                 ),
-                'basket_center_to_baseline': self.court_params.get(
-                    'basket_center_to_baseline',
+                "basket_center_to_baseline": self.court_params.get(
+                    "basket_center_to_baseline",
                     0.0
                 ),
-                'basket_center_to_corner_three': arc_dims[
-                    'basket_center_to_corner_three'
+                "basket_center_to_corner_three": arc_dims[
+                    "basket_center_to_corner_three"
                 ],
-                'court_length': self.court_params.get('court_length', 0.0),
-                'court_width': self.court_params.get('court_width', 0.0),
-                'facecolor': arc_dims['two_point_range_color'],
-                'edgecolor': None,
-                'zorder': 6
+                "court_length": self.court_params.get("court_length", 0.0),
+                "court_width": self.court_params.get("court_width", 0.0),
+                "facecolor": arc_dims["two_point_range_color"],
+                "edgecolor": None,
+                "zorder": 6
             }
             self._initialize_feature(two_point_range_params)
 
             # Create the three-point line
             three_point_line_params = {
-                'class': basketball.ThreePointLine,
-                'x_anchor': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    self.court_params.get('basket_center_to_baseline', 0.0)
+                "class": basketball.ThreePointLine,
+                "x_anchor": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    self.court_params.get("basket_center_to_baseline", 0.0)
                 ),
-                'y_anchor': 0.0,
-                'reflect_x': True,
-                'reflect_y': False,
-                'feature_thickness': self.court_params.get(
-                    'line_thickness',
+                "y_anchor": 0.0,
+                "reflect_x": True,
+                "reflect_y": False,
+                "feature_thickness": self.court_params.get(
+                    "line_thickness",
                     0.0
                 ),
-                'feature_radius': arc_dims['basket_center_to_three_point_arc'],
-                'basket_center_to_baseline': self.court_params.get(
-                    'basket_center_to_baseline',
+                "feature_radius": arc_dims["basket_center_to_three_point_arc"],
+                "basket_center_to_baseline": self.court_params.get(
+                    "basket_center_to_baseline",
                     0.0
                 ),
-                'basket_center_to_corner_three': arc_dims[
-                    'basket_center_to_corner_three'
+                "basket_center_to_corner_three": arc_dims[
+                    "basket_center_to_corner_three"
                 ],
-                'court_length': self.court_params.get('court_length', 0.0),
-                'court_width': self.court_params.get('court_width', 0.0),
-                'facecolor': arc_dims['three_point_line_color'],
-                'edgecolor': None,
-                'zorder': 17
+                "court_length": self.court_params.get("court_length", 0.0),
+                "court_width": self.court_params.get("court_width", 0.0),
+                "facecolor": arc_dims["three_point_line_color"],
+                "edgecolor": None,
+                "zorder": 17
             }
             self._initialize_feature(three_point_line_params)
 
@@ -748,59 +748,59 @@ class BasketballCourt(BaseSurfacePlot):
         # line drawing. However, to keep this a bit more organized, the Start
         # by getting the types of the lane parameters and force them to be
         # lists
-        lane_length_type = type(self.court_params.get('lane_length', []))
+        lane_length_type = type(self.court_params.get("lane_length", []))
 
         if lane_length_type == float:
-            lane_lengths = [self.court_params['lane_length']]
+            lane_lengths = [self.court_params["lane_length"]]
 
         else:
-            lane_lengths = self.court_params.get('lane_length', [0.0])
+            lane_lengths = self.court_params.get("lane_length", [0.0])
 
-        lane_width_type = type(self.court_params.get('lane_width', []))
+        lane_width_type = type(self.court_params.get("lane_width", []))
 
         if lane_width_type == float:
-            lane_widths = [self.court_params['lane_width']]
+            lane_widths = [self.court_params["lane_width"]]
 
         else:
-            lane_widths = self.court_params.get('lane_width', [0.0])
+            lane_widths = self.court_params.get("lane_width", [0.0])
 
-        paint_margin_type = type(self.court_params.get('paint_margin', []))
+        paint_margin_type = type(self.court_params.get("paint_margin", []))
 
         if paint_margin_type == float:
-            paint_margins = [self.court_params['paint_margin']]
+            paint_margins = [self.court_params["paint_margin"]]
 
         else:
-            paint_margins = self.court_params.get('paint_margin', [0.0])
+            paint_margins = self.court_params.get("paint_margin", [0.0])
 
         painted_area_visibility_type = type(self.court_params.get(
-            'painted_area_visibility',
+            "painted_area_visibility",
             []
         ))
 
         if painted_area_visibility_type == bool:
             painted_area_visibility = [
-                self.court_params['painted_area_visibility']
+                self.court_params["painted_area_visibility"]
             ]
 
         else:
             painted_area_visibility = self.court_params.get(
-                'painted_area_visibility',
+                "painted_area_visibility",
                 [True]
             )
 
         lane_boundary_visibility_type = type(self.court_params.get(
-            'lane_boundary_visibility',
+            "lane_boundary_visibility",
             []
         ))
 
         if lane_boundary_visibility_type == bool:
             lane_boundary_visibility = [
-                self.court_params['lane_boundary_visibility']
+                self.court_params["lane_boundary_visibility"]
             ]
 
         else:
             lane_boundary_visibility = self.court_params.get(
-                'lane_boundary_visibility',
+                "lane_boundary_visibility",
                 [True]
             )
 
@@ -838,16 +838,16 @@ class BasketballCourt(BaseSurfacePlot):
         # drawn before drawing smaller features (e.g. an NCAA lane and painted
         # area) in a manner that prevents the smaller feature from being hidden
         lane_dimensions = pd.DataFrame({
-            'lane_length': lane_lengths,
-            'lane_width': lane_widths,
-            'paint_margin': paint_margins,
-            'painted_area_visibility': painted_area_visibility,
-            'lane_boundary_visibility': lane_boundary_visibility
+            "lane_length": lane_lengths,
+            "lane_width": lane_widths,
+            "paint_margin": paint_margins,
+            "painted_area_visibility": painted_area_visibility,
+            "lane_boundary_visibility": lane_boundary_visibility
         })
 
         # Reorder from largest to smallest
         lane_dimensions = lane_dimensions.sort_values(
-            by = ['lane_length', 'lane_width'],
+            by = ["lane_length", "lane_width"],
             ascending = [False, False]
         ).reset_index()
 
@@ -855,115 +855,115 @@ class BasketballCourt(BaseSurfacePlot):
         # and lane boundary (as required)
         for lane_no, dims in lane_dimensions.iterrows():
             painted_area_params = {
-                'class': basketball.PaintedArea,
-                'x_anchor': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    dims['lane_length'] +
-                    self.court_params.get('line_thickness', 0.0)
+                "class": basketball.PaintedArea,
+                "x_anchor": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    dims["lane_length"] +
+                    self.court_params.get("line_thickness", 0.0)
                 ),
-                'y_anchor': 0.0,
-                'visible': dims['painted_area_visibility'],
-                'court_length': self.court_params.get('court_length', 0.0),
-                'court_width': self.court_params.get('court_width', 0.0),
-                'feature_thickness': self.court_params.get(
-                    'line_thickness',
+                "y_anchor": 0.0,
+                "visible": dims["painted_area_visibility"],
+                "court_length": self.court_params.get("court_length", 0.0),
+                "court_width": self.court_params.get("court_width", 0.0),
+                "feature_thickness": self.court_params.get(
+                    "line_thickness",
                     0.0
                 ),
-                'reflect_x': True,
-                'reflect_y': False,
-                'lane_length': dims['lane_length'],
-                'lane_width': dims['lane_width'],
-                'paint_margin': dims['paint_margin'],
-                'facecolor': self.feature_colors['painted_area'],
-                'edgecolor': None,
-                'zorder': 7
+                "reflect_x": True,
+                "reflect_y": False,
+                "lane_length": dims["lane_length"],
+                "lane_width": dims["lane_width"],
+                "paint_margin": dims["paint_margin"],
+                "facecolor": self.feature_colors["painted_area"],
+                "edgecolor": None,
+                "zorder": 7
             }
             self._initialize_feature(painted_area_params)
 
             lane_boundary_params = {
-                'class': basketball.FreeThrowLaneBoundary,
-                'x_anchor': self.court_params.get('court_length', 0.0) / 2.0,
-                'y_anchor': 0.0,
-                'visible': dims['lane_boundary_visibility'],
-                'court_length': self.court_params.get('court_length', 0.0),
-                'court_width': self.court_params.get('court_width', 0.0),
-                'feature_thickness': self.court_params.get(
-                    'line_thickness',
+                "class": basketball.FreeThrowLaneBoundary,
+                "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
+                "y_anchor": 0.0,
+                "visible": dims["lane_boundary_visibility"],
+                "court_length": self.court_params.get("court_length", 0.0),
+                "court_width": self.court_params.get("court_width", 0.0),
+                "feature_thickness": self.court_params.get(
+                    "line_thickness",
                     0.0
                 ),
-                'reflect_x': True,
-                'reflect_y': False,
-                'lane_length': dims['lane_length'],
-                'lane_width': dims['lane_width'],
-                'facecolor': self.feature_colors['lane_boundary'],
-                'edgecolor': None,
-                'zorder': 16
+                "reflect_x": True,
+                "reflect_y": False,
+                "lane_length": dims["lane_length"],
+                "lane_width": dims["lane_width"],
+                "facecolor": self.feature_colors["lane_boundary"],
+                "edgecolor": None,
+                "zorder": 16
             }
             self._initialize_feature(lane_boundary_params)
 
         # Draw the lane space marks in the same way that the lane boundaries
         # and painted areas were just drawn
         lane_space_mark_lengths_type = type(self.court_params.get(
-            'lane_space_mark_lengths',
+            "lane_space_mark_lengths",
             []
         ))
 
         if lane_space_mark_lengths_type == float:
             lane_space_mark_lengths = [[
-                self.court_params['lane_space_mark_lengths']
+                self.court_params["lane_space_mark_lengths"]
             ]]
 
         else:
             lane_space_mark_lengths = self.court_params.get(
-                'lane_space_mark_lengths',
+                "lane_space_mark_lengths",
                 [[0.0]]
             )
 
         lane_space_mark_widths_type = type(self.court_params.get(
-            'lane_space_mark_widths',
+            "lane_space_mark_widths",
             []
         ))
 
         if lane_space_mark_widths_type == float:
             lane_space_mark_widths = [
-                self.court_params['lane_space_mark_widths']
+                self.court_params["lane_space_mark_widths"]
             ]
 
         else:
             lane_space_mark_widths = self.court_params.get(
-                'lane_space_mark_widths',
+                "lane_space_mark_widths",
                 [[0.0]]
             )
 
         lane_space_mark_separations_type = type(self.court_params.get(
-            'lane_space_mark_separations',
+            "lane_space_mark_separations",
             []
         ))
 
         if lane_space_mark_separations_type == float:
             lane_space_mark_separations = [[
-                self.court_params['lane_space_mark_separations']
+                self.court_params["lane_space_mark_separations"]
             ]]
 
         else:
             lane_space_mark_separations = self.court_params.get(
-                'lane_space_mark_separations',
+                "lane_space_mark_separations",
                 [[0.0]]
             )
 
         lane_space_mark_visibility_types = type(self.court_params.get(
-            'lane_space_mark_visibility',
+            "lane_space_mark_visibility",
             []
         ))
 
         if lane_space_mark_visibility_types == bool:
             lane_space_mark_visibility = [
-                self.court_params['lane_space_mark_visibility']
+                self.court_params["lane_space_mark_visibility"]
             ]
 
         else:
             lane_space_mark_visibility = self.court_params.get(
-                'lane_space_mark_visibility',
+                "lane_space_mark_visibility",
                 [False]
             )
 
@@ -1002,43 +1002,43 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Combine the dimensions into a data frame
         dim_set = pd.DataFrame({
-            'y_anchor': y_anchors,
-            'lane_space_mark_lengths': lane_space_mark_lengths,
-            'lane_space_mark_separations': lane_space_mark_separations,
-            'lane_space_mark_depths': lane_space_mark_widths,
-            'lane_space_mark_visibility': lane_space_mark_visibility
+            "y_anchor": y_anchors,
+            "lane_space_mark_lengths": lane_space_mark_lengths,
+            "lane_space_mark_separations": lane_space_mark_separations,
+            "lane_space_mark_depths": lane_space_mark_widths,
+            "lane_space_mark_visibility": lane_space_mark_visibility
         })
 
         # Re-order from widest lane to smallest
-        dim_set = dim_set.sort_values(by = 'y_anchor').reset_index()
+        dim_set = dim_set.sort_values(by = "y_anchor").reset_index()
 
         # Instantiate the features
         for set_no, dims in dim_set.iterrows():
             # Get the starting parameters for each set of lane space marks
             x_anchor = (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0)
+                (self.court_params.get("court_length", 0.0) / 2.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0)
             )
-            mark_lengths = dims['lane_space_mark_lengths']
-            separations = dims['lane_space_mark_separations']
-            mark_depth = dims['lane_space_mark_depths']
+            mark_lengths = dims["lane_space_mark_lengths"]
+            separations = dims["lane_space_mark_separations"]
+            mark_depth = dims["lane_space_mark_depths"]
 
             # Iterate over the lane space marks to instantiate them
             for mark_no in range(len(mark_lengths)):
                 x_anchor -= separations[mark_no]
 
                 mark_params = {
-                    'class': basketball.LaneSpaceMark,
-                    'x_anchor': x_anchor,
-                    'y_anchor': dims['y_anchor'],
-                    'reflect_x': True,
-                    'reflect_y': True,
-                    'visible': dims['lane_space_mark_visibility'],
-                    'feature_thickness': mark_lengths[mark_no],
-                    'mark_depth': mark_depth,
-                    'facecolor': self.feature_colors['lane_space_mark'],
-                    'edgecolor': None,
-                    'zorder': 16
+                    "class": basketball.LaneSpaceMark,
+                    "x_anchor": x_anchor,
+                    "y_anchor": dims["y_anchor"],
+                    "reflect_x": True,
+                    "reflect_y": True,
+                    "visible": dims["lane_space_mark_visibility"],
+                    "feature_thickness": mark_lengths[mark_no],
+                    "mark_depth": mark_depth,
+                    "facecolor": self.feature_colors["lane_space_mark"],
+                    "edgecolor": None,
+                    "zorder": 16
                 }
                 self._initialize_feature(mark_params)
 
@@ -1047,55 +1047,55 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the free-throw circle
         free_throw_circle_outline_params = {
-            'class': basketball.FreeThrowCircleOutline,
-            'x_anchor': (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0) -
-                self.court_params.get('free_throw_line_to_backboard', 0.0) +
-                self.court_params.get('line_thickness', 0.0) / 2.0
+            "class": basketball.FreeThrowCircleOutline,
+            "x_anchor": (
+                (self.court_params.get("court_length", 0.0) / 2.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0) -
+                self.court_params.get("free_throw_line_to_backboard", 0.0) +
+                self.court_params.get("line_thickness", 0.0) / 2.0
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_radius': self.court_params.get(
-                'free_throw_circle_radius',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_radius": self.court_params.get(
+                "free_throw_circle_radius",
                 0.0
             ),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['free_throw_circle_outline'],
-            'edgecolor': None,
-            'zorder': 17
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["free_throw_circle_outline"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(free_throw_circle_outline_params)
 
         free_throw_circle_fill_params = {
-            'class': basketball.FreeThrowCircleFill,
-            'x_anchor': (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0) -
-                self.court_params.get('free_throw_line_to_backboard', 0.0)
+            "class": basketball.FreeThrowCircleFill,
+            "x_anchor": (
+                (self.court_params.get("court_length", 0.0) / 2.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0) -
+                self.court_params.get("free_throw_line_to_backboard", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_radius': self.court_params.get(
-                'free_throw_circle_radius',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_radius": self.court_params.get(
+                "free_throw_circle_radius",
                 0.0
             ),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['free_throw_circle_fill'],
-            'edgecolor': None,
-            'zorder': 7
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["free_throw_circle_fill"],
+            "edgecolor": None,
+            "zorder": 7
         }
         self._initialize_feature(free_throw_circle_fill_params)
 
         # Initialize the overhanging component of the free-throw circle
-        overhang_s = self.court_params.get('free_throw_circle_overhang', 0.0)
-        overhang_r = self.court_params.get('free_throw_circle_radius', 0.0)
+        overhang_s = self.court_params.get("free_throw_circle_overhang", 0.0)
+        overhang_r = self.court_params.get("free_throw_circle_radius", 0.0)
         try:
             end_theta = (overhang_s / overhang_r) / np.pi
         except ZeroDivisionError:
@@ -1104,50 +1104,50 @@ class BasketballCourt(BaseSurfacePlot):
         end_theta = 0.5 - end_theta
 
         free_throw_circle_overhang_params = {
-            'class': basketball.FreeThrowCircleOutlineDash,
-            'x_anchor': (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0) -
-                self.court_params.get('free_throw_line_to_backboard', 0.0)
+            "class": basketball.FreeThrowCircleOutlineDash,
+            "x_anchor": (
+                (self.court_params.get("court_length", 0.0) / 2.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0) -
+                self.court_params.get("free_throw_line_to_backboard", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': True,
-            'feature_radius': self.court_params.get(
-                'free_throw_circle_radius',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": True,
+            "feature_radius": self.court_params.get(
+                "free_throw_circle_radius",
                 0.0
             ),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'start_angle': 0.5,
-            'end_angle': end_theta,
-            'facecolor': self.feature_colors['free_throw_circle_dash'],
-            'edgecolor': None,
-            'zorder': 17
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "start_angle": 0.5,
+            "end_angle": end_theta,
+            "facecolor": self.feature_colors["free_throw_circle_dash"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(free_throw_circle_overhang_params)
 
         # Initialize the dashed component of the free-throw circle
-        n_dashes = self.court_params.get('n_free_throw_circle_dashes', 0.0)
+        n_dashes = self.court_params.get("n_free_throw_circle_dashes", 0.0)
 
         if n_dashes > 0:
             # Compute the angle through which the dash will be traced
             free_throw_circle_s = self.court_params.get(
-                'free_throw_dash_length',
+                "free_throw_dash_length",
                 0.0
             )
             free_throw_circle_r = self.court_params.get(
-                'free_throw_circle_radius',
+                "free_throw_circle_radius",
                 0.0
             )
 
             free_throw_dash_spacing_s = self.court_params.get(
-                'free_throw_dash_spacing',
+                "free_throw_dash_spacing",
                 0.0
             )
             free_throw_dash_spacing_r = self.court_params.get(
-                'free_throw_circle_radius',
+                "free_throw_circle_radius",
                 0.0
             )
 
@@ -1165,7 +1165,7 @@ class BasketballCourt(BaseSurfacePlot):
 
             # Get the starting angle for the first dash. This will be updated
             # by the below loop
-            start_s = self.court_params.get('free_throw_circle_overhang', 0.0)
+            start_s = self.court_params.get("free_throw_circle_overhang", 0.0)
             try:
                 start_angle = 0.5 - ((start_s / free_throw_circle_r) / np.pi)
                 start_angle -= theta_spaces
@@ -1175,36 +1175,36 @@ class BasketballCourt(BaseSurfacePlot):
             # Create the dashes
             for dash in range(0, int(n_dashes)):
                 free_throw_circle_dash_params = {
-                    'class': basketball.FreeThrowCircleOutlineDash,
-                    'x_anchor': (
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                    "class": basketball.FreeThrowCircleOutlineDash,
+                    "x_anchor": (
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'backboard_face_to_baseline',
+                            "backboard_face_to_baseline",
                             0.0
                         ) -
                         self.court_params.get(
-                            'free_throw_line_to_backboard',
+                            "free_throw_line_to_backboard",
                             0.0
                         ) +
-                        self.court_params.get('line_thickness', 0.0) / 2.0
+                        self.court_params.get("line_thickness", 0.0) / 2.0
                     ),
-                    'y_anchor': 0.0,
-                    'reflect_x': True,
-                    'reflect_y': False,
-                    'court_length': self.court_params.get('court_length', 0.0),
-                    'court_width': self.court_params.get('court_width', 0.0),
-                    'start_angle': start_angle,
-                    'end_angle': start_angle - theta_spaces,
-                    'feature_radius': self.court_params.get(
-                        'free_throw_circle_radius',
+                    "y_anchor": 0.0,
+                    "reflect_x": True,
+                    "reflect_y": False,
+                    "court_length": self.court_params.get("court_length", 0.0),
+                    "court_width": self.court_params.get("court_width", 0.0),
+                    "start_angle": start_angle,
+                    "end_angle": start_angle - theta_spaces,
+                    "feature_radius": self.court_params.get(
+                        "free_throw_circle_radius",
                         0.0
                     ),
-                    'feature_thickness': self.court_params.get(
-                        'line_thickness',
+                    "feature_thickness": self.court_params.get(
+                        "line_thickness",
                         0.0
                     ),
-                    'facecolor': self.feature_colors['free_throw_circle_dash'],
-                    'zorder': 17
+                    "facecolor": self.feature_colors["free_throw_circle_dash"],
+                    "zorder": 17
                 }
                 self._initialize_feature(free_throw_circle_dash_params)
 
@@ -1212,173 +1212,173 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the end lines
         endline_params = {
-            'class': basketball.Endline,
-            'x_anchor': self.court_params.get('court_length', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['endline'],
-            'edgecolor': None,
-            'zorder': 16
+            "class": basketball.Endline,
+            "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["endline"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(endline_params)
 
         # Initialize the sidelines
         sideline_params = {
-            'class': basketball.Sideline,
-            'x_anchor': 0.0,
-            'y_anchor': self.court_params.get('court_width', 0.0) / 2.0,
-            'reflect_x': False,
-            'reflect_y': True,
-            'is_constrained': False,
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['sideline'],
-            'edgecolor': None,
-            'zorder': 16
+            "class": basketball.Sideline,
+            "x_anchor": 0.0,
+            "y_anchor": self.court_params.get("court_width", 0.0) / 2.0,
+            "reflect_x": False,
+            "reflect_y": True,
+            "is_constrained": False,
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["sideline"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(sideline_params)
 
         # Initialize the lower defensive box marks
         baseline_lower_defensive_box_mark_params = {
-            'class': basketball.LowerDefensiveBoxMark,
-            'x_anchor': self.court_params.get('court_length', 0.0) / 2.0,
-            'y_anchor': self.court_params.get(
-                'baseline_lower_defensive_box_marks_int_sep',
+            "class": basketball.LowerDefensiveBoxMark,
+            "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
+            "y_anchor": self.court_params.get(
+                "baseline_lower_defensive_box_marks_int_sep",
                 0.0
             ) / 2.0,
-            'reflect_x': True,
-            'reflect_y': True,
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'extension': self.court_params.get(
-                'lower_defensive_box_mark_extension',
+            "reflect_x": True,
+            "reflect_y": True,
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "extension": self.court_params.get(
+                "lower_defensive_box_mark_extension",
                 0.0,
             ),
-            'drawn_direction': 'left_to_right',
-            'facecolor': self.feature_colors['baseline_lower_defensive_box'],
-            'edgecolor': None,
-            'zorder': 17
+            "drawn_direction": "left_to_right",
+            "facecolor": self.feature_colors["baseline_lower_defensive_box"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(baseline_lower_defensive_box_mark_params)
 
         lane_lower_defensive_box_mark_params = {
-            'class': basketball.LowerDefensiveBoxMark,
-            'x_anchor': (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
+            "class": basketball.LowerDefensiveBoxMark,
+            "x_anchor": (
+                (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get(
-                    'baseline_to_lane_lower_defensive_box_marks',
+                    "baseline_to_lane_lower_defensive_box_marks",
                     0.0
                 )
             ),
-            'y_anchor': self.court_params.get(
-                'lane_lower_defensive_box_marks_int_sep',
+            "y_anchor": self.court_params.get(
+                "lane_lower_defensive_box_marks_int_sep",
                 0.0
             ) / 2.0,
-            'reflect_x': True,
-            'reflect_y': True,
-            'visible': self.court_params.get(
-                'lane_lower_defensive_box_marks_visibility',
+            "reflect_x": True,
+            "reflect_y": True,
+            "visible": self.court_params.get(
+                "lane_lower_defensive_box_marks_visibility",
                 False
             ),
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'extension': self.court_params.get(
-                'lower_defensive_box_mark_extension',
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "extension": self.court_params.get(
+                "lower_defensive_box_mark_extension",
                 0.0,
             ),
-            'drawn_direction': 'top_down',
-            'facecolor': self.feature_colors['lane_lower_defensive_box'],
-            'edgecolor': None,
-            'zorder': 17
+            "drawn_direction": "top_down",
+            "facecolor": self.feature_colors["lane_lower_defensive_box"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(lane_lower_defensive_box_mark_params)
 
         # Initialize the inbounding lines
         inbounding_line_to_baseline_type = type(self.court_params.get(
-            'inbounding_line_to_baseline',
+            "inbounding_line_to_baseline",
             []
         ))
 
         if inbounding_line_to_baseline_type == float:
             inbounding_line_to_baseline = [
-                self.court_params['inbounding_line_to_baseline']
+                self.court_params["inbounding_line_to_baseline"]
             ]
 
         else:
             inbounding_line_to_baseline = self.court_params.get(
-                'inbounding_line_to_baseline',
+                "inbounding_line_to_baseline",
                 [0.0]
             )
 
         inbounding_line_in_play_ext_type = type(self.court_params.get(
-            'inbounding_line_in_play_ext',
+            "inbounding_line_in_play_ext",
             []
         ))
 
         if inbounding_line_in_play_ext_type == float:
             inbounding_line_in_play_ext = [
-                self.court_params['inbounding_line_in_play_ext']
+                self.court_params["inbounding_line_in_play_ext"]
             ]
 
         else:
             inbounding_line_in_play_ext = self.court_params.get(
-                'inbounding_line_in_play_ext',
+                "inbounding_line_in_play_ext",
                 [0.0]
             )
 
         inbounding_line_out_of_bounds_ext_type = type(self.court_params.get(
-            'inbounding_line_out_of_bounds_ext',
+            "inbounding_line_out_of_bounds_ext",
             []
         ))
 
         if inbounding_line_out_of_bounds_ext_type == float:
             inbounding_line_oob_ext = [
-                self.court_params['inbounding_line_out_of_bounds_ext']
+                self.court_params["inbounding_line_out_of_bounds_ext"]
             ]
 
         else:
             inbounding_line_oob_ext = self.court_params.get(
-                'inbounding_line_out_of_bounds_ext',
+                "inbounding_line_out_of_bounds_ext",
                 [0.0]
             )
 
         symmetric_inbounding_line_type = type(self.court_params.get(
-            'symmetric_inbounding_line',
+            "symmetric_inbounding_line",
             []
         ))
 
         if symmetric_inbounding_line_type == bool:
             symmetric_inbounding_line = [
-                self.court_params['symmetric_inbounding_line']
+                self.court_params["symmetric_inbounding_line"]
             ]
 
         else:
             symmetric_inbounding_line = self.court_params.get(
-                'symmetric_inbounding_line',
+                "symmetric_inbounding_line",
                 [False]
             )
 
         inbounding_line_anchor_side_type = type(self.court_params.get(
-            'inbounding_line_anchor_side',
+            "inbounding_line_anchor_side",
             []
         ))
 
         if inbounding_line_anchor_side_type == float:
             inbounding_line_anchor_side = [
-                self.court_params['inbounding_line_anchor_side']
+                self.court_params["inbounding_line_anchor_side"]
             ]
 
         else:
             inbounding_line_anchor_side = self.court_params.get(
-                'inbounding_line_anchor_side',
+                "inbounding_line_anchor_side",
                 [1.0]
             )
 
@@ -1419,220 +1419,221 @@ class BasketballCourt(BaseSurfacePlot):
                 )
 
         inbounding_lines = pd.DataFrame({
-            'inbounding_line_to_baseline': inbounding_line_to_baseline,
-            'inbounding_line_in_play_ext': inbounding_line_in_play_ext,
-            'inbounding_line_oob_ext': inbounding_line_oob_ext,
-            'symmetric_inbounding_line': symmetric_inbounding_line,
-            'inbounding_line_anchor_side': inbounding_line_anchor_side
+            "inbounding_line_to_baseline": inbounding_line_to_baseline,
+            "inbounding_line_in_play_ext": inbounding_line_in_play_ext,
+            "inbounding_line_oob_ext": inbounding_line_oob_ext,
+            "symmetric_inbounding_line": symmetric_inbounding_line,
+            "inbounding_line_anchor_side": inbounding_line_anchor_side
         })
 
-        if self.court_params.get('bench_side', 'top').lower() != 'top':
-            inbounding_lines['inbounding_line_anchor_side'] *= -1.0
+        if self.court_params.get("bench_side", "top").lower() != "top":
+            inbounding_lines["inbounding_line_anchor_side"] *= -1.0
 
-        inbounding_lines['drawn_direction'] = 'top_down'
+        inbounding_lines["drawn_direction"] = "top_down"
         inbounding_lines.loc[
-            inbounding_lines['inbounding_line_anchor_side'] < 1,
-            'drawn_direction'
-        ] = 'bottom_up'
+            inbounding_lines["inbounding_line_anchor_side"] < 1,
+            "drawn_direction"
+        ] = "bottom_up"
 
         for set_no, dims in inbounding_lines.iterrows():
             inbounding_line_params = {
-                'class': basketball.InboundingLine,
-                'x_anchor': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    dims['inbounding_line_to_baseline']
+                "class": basketball.InboundingLine,
+                "x_anchor": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    dims["inbounding_line_to_baseline"]
                 ),
-                'y_anchor': (
-                    dims['inbounding_line_anchor_side'] *
-                    (self.court_params.get('court_width', 0.0) / 2.0)
+                "y_anchor": (
+                    dims["inbounding_line_anchor_side"] *
+                    (self.court_params.get("court_width", 0.0) / 2.0)
                 ),
-                'reflect_x': True,
-                'reflect_y': dims['symmetric_inbounding_line'],
-                'is_constrained': False,
-                'feature_thickness': self.court_params.get(
-                    'line_thickness',
+                "reflect_x": True,
+                "reflect_y": dims["symmetric_inbounding_line"],
+                "is_constrained": False,
+                "feature_thickness": self.court_params.get(
+                    "line_thickness",
                     0.0
                 ),
-                'drawn_direction': dims['drawn_direction'],
-                'in_play_ext': dims['inbounding_line_in_play_ext'],
-                'out_of_bounds_ext': dims['inbounding_line_oob_ext'],
-                'court_length': self.court_params.get('court_length', 0.0),
-                'court_width': self.court_params.get('court_width', 0.0),
-                'facecolor': self.feature_colors['inbounding_line'],
-                'edgecolor': None,
-                'zorder': 18
+                "drawn_direction": dims["drawn_direction"],
+                "in_play_ext": dims["inbounding_line_in_play_ext"],
+                "out_of_bounds_ext": dims["inbounding_line_oob_ext"],
+                "court_length": self.court_params.get("court_length", 0.0),
+                "court_width": self.court_params.get("court_width", 0.0),
+                "facecolor": self.feature_colors["inbounding_line"],
+                "edgecolor": None,
+                "zorder": 18
             }
             self._initialize_feature(inbounding_line_params)
 
         # Initialize the substitution areas
-        if self.court_params.get('bench_side', 'top').lower() == 'top':
+        if self.court_params.get("bench_side", "top").lower() == "top":
             bench_side = 1.0
-            drawn_direction = 'bottom_up'
+            drawn_direction = "bottom_up"
 
         else:
             bench_side = -1.0
-            drawn_direction = 'top_down'
+            drawn_direction = "top_down"
 
         substitution_line_params = {
-            'class': basketball.SubstitutionLine,
-            'x_anchor': (
-                self.court_params.get('substitution_line_ext_sep', 0.0) / 2.0
+            "class": basketball.SubstitutionLine,
+            "x_anchor": (
+                self.court_params.get("substitution_line_ext_sep", 0.0) / 2.0
             ),
-            'y_anchor': (
+            "y_anchor": (
                 bench_side *
-                self.court_params.get('court_width', 0.0) / 2.0
+                self.court_params.get("court_width", 0.0) / 2.0
             ),
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'substitution_line_width': self.court_params.get(
-                'substitution_line_width',
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "substitution_line_width": self.court_params.get(
+                "substitution_line_width",
                 0.0
             ),
-            'drawn_direction': drawn_direction,
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['substitution_line'],
-            'edgecolor': None,
-            'zorder': 18
+            "drawn_direction": drawn_direction,
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["substitution_line"],
+            "edgecolor": None,
+            "zorder": 18
         }
         self._initialize_feature(substitution_line_params)
 
         # Initialize the team bench areas
         team_bench_line_params = {
-            'class': basketball.TeamBenchLine,
-            'x_anchor': self.court_params.get('court_length', 0.0) / 2.0,
-            'y_anchor': (
+            "class": basketball.TeamBenchLine,
+            "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
+            "y_anchor": (
                 bench_side * (
-                    (self.court_params.get('court_width', 0.0) / 2.0) +
-                    self.court_params.get('line_thickness', 0.0)
+                    (self.court_params.get("court_width", 0.0) / 2.0) +
+                    self.court_params.get("line_thickness", 0.0)
                 )
             ),
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'extension': self.court_params.get('team_bench_line_ext', 0.0),
-            'drawn_direction': drawn_direction,
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['team_bench_line'],
-            'edgecolor': None,
-            'zorder': 18
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "extension": self.court_params.get("team_bench_line_ext", 0.0),
+            "drawn_direction": drawn_direction,
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["team_bench_line"],
+            "edgecolor": None,
+            "zorder": 18
         }
         self._initialize_feature(team_bench_line_params)
 
         # Initialize the restricted arcs
         restricted_arc_params = {
-            'class': basketball.RestrictedArc,
-            'x_anchor': (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0)
+            "class": basketball.RestrictedArc,
+            "x_anchor": (
+                (self.court_params.get("court_length", 0.0) / 2.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_thickness': self.court_params.get('line_thickness', 0.0),
-            'feature_radius': self.court_params.get(
-                'restricted_arc_radius',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_thickness": self.court_params.get("line_thickness", 0.0),
+            "feature_radius": self.court_params.get(
+                "restricted_arc_radius",
                 0.0
             ),
-            'backboard_to_center_of_basket': (
-                self.court_params.get('basket_center_to_baseline', 0.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0)
+            "backboard_to_center_of_basket": (
+                self.court_params.get("basket_center_to_baseline", 0.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0)
             ),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['restricted_arc'],
-            'edgecolor': None,
-            'zorder': 25
+            "visible": self.court_params.get("restricted_arc_visible", True),
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["restricted_arc"],
+            "edgecolor": None,
+            "zorder": 25
         }
         self._initialize_feature(restricted_arc_params)
 
         # Initialize the backboards
         backboard_params = {
-            'class': basketball.Backboard,
-            'x_anchor': (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0)
+            "class": basketball.Backboard,
+            "x_anchor": (
+                (self.court_params.get("court_length", 0.0) / 2.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_thickness': self.court_params.get(
-                'backboard_thickness',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_thickness": self.court_params.get(
+                "backboard_thickness",
                 0.0
             ),
-            'backboard_width': self.court_params.get(
-                'backboard_width',
+            "backboard_width": self.court_params.get(
+                "backboard_width",
                 0.0
             ),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['backboard'],
-            'edgecolor': None,
-            'zorder': 16
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["backboard"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(backboard_params)
 
         # Initialize the basket rings
         basket_ring_params = {
-            'class': basketball.BasketRing,
-            'x_anchor': (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0)
+            "class": basketball.BasketRing,
+            "x_anchor": (
+                (self.court_params.get("court_length", 0.0) / 2.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'basket_ring_connector_extension': self.court_params.get(
-                'basket_ring_connector_extension',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "basket_ring_connector_extension": self.court_params.get(
+                "basket_ring_connector_extension",
                 0.0
             ),
-            'basket_ring_connector_width': self.court_params.get(
-                'basket_ring_connector_width',
+            "basket_ring_connector_width": self.court_params.get(
+                "basket_ring_connector_width",
                 0.0
             ),
-            'backboard_face_to_basket_center': (
-                self.court_params.get('basket_center_to_baseline', 0.0) -
-                self.court_params.get('backboard_face_to_baseline', 0.0)
+            "backboard_face_to_basket_center": (
+                self.court_params.get("basket_center_to_baseline", 0.0) -
+                self.court_params.get("backboard_face_to_baseline", 0.0)
             ),
-            'feature_thickness': self.court_params.get(
-                'basket_ring_thickness',
+            "feature_thickness": self.court_params.get(
+                "basket_ring_thickness",
                 0.0
             ),
-            'feature_radius': self.court_params.get(
-                'basket_ring_inner_radius',
+            "feature_radius": self.court_params.get(
+                "basket_ring_inner_radius",
                 0.0
             ),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['basket_ring'],
-            'edgecolor': None,
-            'zorder': 18
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["basket_ring"],
+            "edgecolor": None,
+            "zorder": 18
         }
         self._initialize_feature(basket_ring_params)
 
         # Initialize the nets
         net_params = {
-            'class': basketball.Net,
-            'x_anchor': (
-                (self.court_params.get('court_length', 0.0) / 2.0) -
-                self.court_params.get('basket_center_to_baseline', 0.0)
+            "class": basketball.Net,
+            "x_anchor": (
+                (self.court_params.get("court_length", 0.0) / 2.0) -
+                self.court_params.get("basket_center_to_baseline", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_radius': self.court_params.get(
-                'basket_ring_inner_radius',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_radius": self.court_params.get(
+                "basket_ring_inner_radius",
                 0.0
             ),
-            'court_length': self.court_params.get('court_length', 0.0),
-            'court_width': self.court_params.get('court_width', 0.0),
-            'facecolor': self.feature_colors['net'],
-            'edgecolor': None,
-            'zorder': 19
+            "court_length": self.court_params.get("court_length", 0.0),
+            "court_width": self.court_params.get("court_width", 0.0),
+            "facecolor": self.feature_colors["net"],
+            "edgecolor": None,
+            "zorder": 19
         }
         self._initialize_feature(net_params)
 
@@ -1640,7 +1641,7 @@ class BasketballCourt(BaseSurfacePlot):
         for added_feature in added_features.values():
             self._initialize_feature(added_feature)
 
-    def draw(self, ax = None, display_range = 'full', xlim = None, ylim = None,
+    def draw(self, ax = None, display_range = "full", xlim = None, ylim = None,
              rotation = None):
         """Draw the court.
 
@@ -1656,7 +1657,7 @@ class BasketballCourt(BaseSurfacePlot):
             is shown in the final plot. The following explain what each display
             range corresponds to:
 
-                'full' : the entire court
+                "full" : the entire court
 
         xlim : float, tuple (float, float), or None (default: None)
             The display range in the x direction to be used. If a single
@@ -1688,14 +1689,14 @@ class BasketballCourt(BaseSurfacePlot):
         # If an Axes object is not provided, create one to use for plotting
         if ax is None:
             fig, ax = plt.subplots()
-            fig.patch.set_facecolor(self.feature_colors['plot_background'])
+            fig.patch.set_facecolor(self.feature_colors["plot_background"])
             fig.set_size_inches(50, 50)
             ax = plt.gca()
 
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
-        ax.set_aspect('equal')
-        ax.axis('off')
+        ax.set_aspect("equal")
+        ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
@@ -1736,8 +1737,8 @@ class BasketballCourt(BaseSurfacePlot):
                     # limits to be its minimum and maximum values of x
                     if self._feature_xlim is None:
                         self._feature_xlim = [
-                            feature_df['x'].min(),
-                            feature_df['x'].max()
+                            feature_df["x"].min(),
+                            feature_df["x"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -1745,16 +1746,16 @@ class BasketballCourt(BaseSurfacePlot):
                     # of its specified maximum and largest x value
                     else:
                         self._feature_xlim = [
-                            min(self._feature_xlim[0], feature_df['x'].min()),
-                            max(self._feature_xlim[1], feature_df['x'].max())
+                            min(self._feature_xlim[0], feature_df["x"].min()),
+                            max(self._feature_xlim[1], feature_df["x"].max())
                         ]
 
                     # If the feature doesn't have a limitation on y, set its
                     # limits to be its minimum and maximum values of y
                     if self._feature_ylim is None:
                         self._feature_ylim = [
-                            feature_df['y'].min(),
-                            feature_df['y'].max()
+                            feature_df["y"].min(),
+                            feature_df["y"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -1762,8 +1763,8 @@ class BasketballCourt(BaseSurfacePlot):
                     # of its specified maximum and largest y value
                     else:
                         self._feature_ylim = [
-                            min(self._feature_ylim[0], feature_df['y'].min()),
-                            max(self._feature_ylim[1], feature_df['y'].max())
+                            min(self._feature_ylim[0], feature_df["y"].min()),
+                            max(self._feature_ylim[1], feature_df["y"].max())
                         ]
 
         # Set the plot's display range
@@ -1810,26 +1811,26 @@ class BasketballCourt(BaseSurfacePlot):
             # If the league code exists, return it as a list of length 1 with
             # a printed message
             if league_code in available_league_codes:
-                print(f'{league_code.upper()} comes with sportypy and is '
-                      'ready to use!')
+                print(f"{league_code.upper()} comes with sportypy and is "
+                      "ready to use!")
 
             # Otherwise, alert the user that they will need to manually specify
             # the parameters of the league
             else:
-                print(f'{league_code.upper()} does not come with sportypy, '
-                      'but may be parameterized. Use the '
-                      'cani_change_dimensions() to check what parameters are '
-                      'needed.')
+                print(f"{league_code.upper()} does not come with sportypy, "
+                      "but may be parameterized. Use the "
+                      "cani_change_dimensions() to check what parameters are "
+                      "needed.")
 
         # If no league code is provided, print out the list of all available
         else:
             # Preamble
-            print('The following basketball leagues are available with '
-                  'sportypy:\n')
+            print("The following basketball leagues are available with "
+                  "sportypy:\n")
 
             # Print the current leagues
             for league_code in available_league_codes:
-                print(f'- {league_code.upper()}')
+                print(f"- {league_code.upper()}")
 
     def cani_color_features(self):
         """Determine what features of the court can be colored.
@@ -1843,15 +1844,15 @@ class BasketballCourt(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be colored via the colors_dict '
-              'parameter, with the current value in parenthesis:\n')
+        print("The following features can be colored via the colors_dict "
+              "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.feature_colors.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese colors may be updated with the update_colors() method')
+        print("\nThese colors may be updated with the update_colors() method")
 
     def cani_change_dimensions(self):
         """Determine what features of the court can be re-parameterized.
@@ -1867,17 +1868,17 @@ class BasketballCourt(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be reparameterized via the '
-              'court_updates parameter, with the current value in '
-              'parenthesis:\n')
+        print("The following features can be reparameterized via the "
+              "court_updates parameter, with the current value in "
+              "parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.court_params.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese parameters may be updated with the '
-              'update_court_params() method')
+        print("\nThese parameters may be updated with the "
+              "update_court_params() method")
 
     def update_colors(self, color_updates = {}, *args, **kwargs):
         """Update the colors currently used in the plot.
@@ -1957,32 +1958,32 @@ class BasketballCourt(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            'plot_background': '#d2ab6f',
-            'defensive_half_court': '#d2ab6f',
-            'offensive_half_court': '#d2ab6f',
-            'court_apron': '#d2ab6f',
-            'center_circle_outline': '#000000',
-            'center_circle_fill': '#d2ab6f',
-            'division_line': '#000000',
-            'endline': '#000000',
-            'sideline': '#000000',
-            'two_point_range': '#d2ab6f',
-            'three_point_line': '#000000',
-            'painted_area': '#d2ab6f',
-            'lane_boundary': '#000000',
-            'free_throw_circle_outline': '#000000',
-            'free_throw_circle_fill': '#d2ab6f',
-            'free_throw_circle_dash': '#000000',
-            'lane_space_mark': '#000000',
-            'inbounding_line': '#000000',
-            'substitution_line': '#000000',
-            'baseline_lower_defensive_box': '#000000',
-            'lane_lower_defensive_box': '#000000',
-            'team_bench_line': '#000000',
-            'restricted_arc': '#000000',
-            'backboard': '#000000',
-            'basket_ring': '#f55b33',
-            'net': '#ffffff'
+            "plot_background": "#d2ab6f",
+            "defensive_half_court": "#d2ab6f",
+            "offensive_half_court": "#d2ab6f",
+            "court_apron": "#d2ab6f",
+            "center_circle_outline": "#000000",
+            "center_circle_fill": "#d2ab6f",
+            "division_line": "#000000",
+            "endline": "#000000",
+            "sideline": "#000000",
+            "two_point_range": "#d2ab6f",
+            "three_point_line": "#000000",
+            "painted_area": "#d2ab6f",
+            "lane_boundary": "#000000",
+            "free_throw_circle_outline": "#000000",
+            "free_throw_circle_fill": "#d2ab6f",
+            "free_throw_circle_dash": "#000000",
+            "lane_space_mark": "#000000",
+            "inbounding_line": "#000000",
+            "substitution_line": "#000000",
+            "baseline_lower_defensive_box": "#000000",
+            "lane_lower_defensive_box": "#000000",
+            "team_bench_line": "#000000",
+            "restricted_arc": "#000000",
+            "backboard": "#000000",
+            "basket_ring": "#f55b33",
+            "net": "#ffffff"
         }
 
         self.__init__(
@@ -2007,14 +2008,14 @@ class BasketballCourt(BaseSurfacePlot):
             colors_dict = self.feature_colors
         )
 
-    def _get_plot_range_limits(self, display_range = 'full', xlim = None,
+    def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: 'full')
+        display_range : str (default: "full")
             The range of which to display the plot. This is a key that will
             be searched for in the ranges_dict parameter
 
@@ -2040,167 +2041,167 @@ class BasketballCourt(BaseSurfacePlot):
         # If the limits are being gotten for plotting purposes, use the
         # dimensions that are internal to the surface
         if for_plot:
-            half_court_length = self.court_params.get('court_length', 0.0) / 2.0
-            half_court_width = self.court_params.get('court_width', 0.0) / 2.0
+            half_court_length = self.court_params.get("court_length", 0.0) / 2.0
+            half_court_width = self.court_params.get("court_width", 0.0) / 2.0
 
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. team bench areas and
         # substitution areas)
         if for_display:
             half_court_length = (
-                (self.court_params.get('court_length', 0.0) / 2.0) +
-                self.court_params.get('court_apron_endline', 0.0)
+                (self.court_params.get("court_length", 0.0) / 2.0) +
+                self.court_params.get("court_apron_endline", 0.0)
             )
 
             half_court_width = (
-                (self.court_params.get('court_width', 0.0) / 2.0) +
-                self.court_params.get('court_apron_sideline', 0.0)
+                (self.court_params.get("court_width", 0.0) / 2.0) +
+                self.court_params.get("court_apron_sideline", 0.0)
             )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
             if type(
-                self.court_params.get('basket_center_to_three_point_arc', 0.0)
+                self.court_params.get("basket_center_to_three_point_arc", 0.0)
             ) == list:
                 three_point_arc_dists = self.court_params.get(
-                    'basket_center_to_three_point_arc',
+                    "basket_center_to_three_point_arc",
                     0.0
                 )
                 three_point_arc_dist = max(three_point_arc_dists)
 
             else:
                 three_point_arc_dist = self.court_params.get(
-                    'basket_center_to_three_point_arc',
+                    "basket_center_to_three_point_arc",
                     0.0
                 )
 
-            if type(self.court_params.get('lane_length', 0.0)) == list:
-                lane_lengths = self.court_params.get('lane_length', 0.0)
+            if type(self.court_params.get("lane_length", 0.0)) == list:
+                lane_lengths = self.court_params.get("lane_length", 0.0)
                 lane_length = max(lane_lengths)
 
             else:
-                lane_length = self.court_params.get('lane_length', 0.0)
+                lane_length = self.court_params.get("lane_length", 0.0)
 
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             xlims = {
                 # Full surface (default)
-                'full': (-half_court_length, half_court_length),
+                "full": (-half_court_length, half_court_length),
 
                 # Offensive half-court
-                'offense': (0.0, half_court_length),
-                'offence': (0.0, half_court_length),
-                'offensivehalfcourt': (0.0, half_court_length),
-                'offensive_half_court': (0.0, half_court_length),
-                'offensive half court': (0.0, half_court_length),
+                "offense": (0.0, half_court_length),
+                "offence": (0.0, half_court_length),
+                "offensivehalfcourt": (0.0, half_court_length),
+                "offensive_half_court": (0.0, half_court_length),
+                "offensive half court": (0.0, half_court_length),
 
                 # Defensive half-court
-                'defense': (-half_court_length, 0.0),
-                'defence': (-half_court_length, 0.0),
-                'defensivehalfcourt': (-half_court_length, 0.0),
-                'defensive_half_court': (-half_court_length, 0.0),
-                'defensive half court': (-half_court_length, 0.0),
+                "defense": (-half_court_length, 0.0),
+                "defence": (-half_court_length, 0.0),
+                "defensivehalfcourt": (-half_court_length, 0.0),
+                "defensive_half_court": (-half_court_length, 0.0),
+                "defensive half court": (-half_court_length, 0.0),
 
                 # Offensive key area
-                'offensivekey': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    self.court_params.get('basket_center_to_baseline', 0.0) -
+                "offensivekey": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     three_point_arc_dist - 3.0,
                     half_court_length
                 ),
 
-                'offensive_key': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    self.court_params.get('basket_center_to_baseline', 0.0) -
+                "offensive_key": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     three_point_arc_dist - 3.0,
                     half_court_length
                 ),
 
-                'offensive key': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    self.court_params.get('basket_center_to_baseline', 0.0) -
+                "offensive key": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     three_point_arc_dist - 3.0,
                     half_court_length
                 ),
 
-                'attackingkey': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    self.court_params.get('basket_center_to_baseline', 0.0) -
+                "attackingkey": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     three_point_arc_dist - 3.0,
                     half_court_length
                 ),
 
-                'attacking_key': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    self.court_params.get('basket_center_to_baseline', 0.0) -
+                "attacking_key": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     three_point_arc_dist - 3.0,
                     half_court_length
                 ),
 
-                'attacking key': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
-                    self.court_params.get('basket_center_to_baseline', 0.0) -
+                "attacking key": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     three_point_arc_dist - 3.0,
                     half_court_length
                 ),
 
                 # Defensive key area
-                'defensivekey': (
+                "defensivekey": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         three_point_arc_dist - 3.0
                     )
                 ),
 
-                'defensive_key': (
+                "defensive_key": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         three_point_arc_dist - 3.0
                     )
                 ),
 
-                'defensive_key': (
+                "defensive_key": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         three_point_arc_dist - 3.0
                     )
                 ),
 
-                'defendingkey': (
+                "defendingkey": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         three_point_arc_dist - 3.0
                     )
                 ),
 
-                'defending_key': (
+                "defending_key": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         three_point_arc_dist - 3.0
@@ -2208,163 +2209,163 @@ class BasketballCourt(BaseSurfacePlot):
                 ),
 
                 # Painted area
-                'offensivepaint': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                "offensivepaint": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
-                    self.court_params.get('free_throw_circle_radius', 0.0),
+                    self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
 
-                'offensive_paint': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                "offensive_paint": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
-                    self.court_params.get('free_throw_circle_radius', 0.0),
+                    self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
 
-                'attackingpaint': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                "attackingpaint": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
-                    self.court_params.get('free_throw_circle_radius', 0.0),
+                    self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
 
-                'attacking_paint': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                "attacking_paint": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
-                    self.court_params.get('free_throw_circle_radius', 0.0),
+                    self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
 
-                'offensivelane': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                "offensivelane": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
-                    self.court_params.get('free_throw_circle_radius', 0.0),
+                    self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
 
-                'offensive_lane': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                "offensive_lane": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
-                    self.court_params.get('free_throw_circle_radius', 0.0),
+                    self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
 
-                'attackinglane': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                "attackinglane": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
-                    self.court_params.get('free_throw_circle_radius', 0.0),
+                    self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
 
-                'attacking_lane': (
-                    (self.court_params.get('court_length', 0.0) / 2.0) -
+                "attacking_lane": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
-                    self.court_params.get('free_throw_circle_radius', 0.0),
+                    self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
 
-                'defensivepaint': (
+                "defensivepaint": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         lane_length -
-                        self.court_params.get('free_throw_circle_radius', 0.0)
+                        self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
 
-                'defensive_paint': (
+                "defensive_paint": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         lane_length -
-                        self.court_params.get('free_throw_circle_radius', 0.0)
+                        self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
 
-                'defendingpaint': (
+                "defendingpaint": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         lane_length -
-                        self.court_params.get('free_throw_circle_radius', 0.0)
+                        self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
 
-                'defending_paint': (
+                "defending_paint": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         lane_length -
-                        self.court_params.get('free_throw_circle_radius', 0.0)
+                        self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
 
-                'defensivelane': (
+                "defensivelane": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         lane_length -
-                        self.court_params.get('free_throw_circle_radius', 0.0)
+                        self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
 
-                'defensive_lane': (
+                "defensive_lane": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         lane_length -
-                        self.court_params.get('free_throw_circle_radius', 0.0)
+                        self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
 
-                'defendinglane': (
+                "defendinglane": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         lane_length -
-                        self.court_params.get('free_throw_circle_radius', 0.0)
+                        self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
 
-                'defending_lane': (
+                "defending_lane": (
                     -half_court_length,
                     -(
-                        (self.court_params.get('court_length', 0.0) / 2.0) -
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
-                            'basket_center_to_baseline',
+                            "basket_center_to_baseline",
                             0.0
                         ) -
                         lane_length -
-                        self.court_params.get('free_throw_circle_radius', 0.0)
+                        self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
             }
@@ -2401,69 +2402,69 @@ class BasketballCourt(BaseSurfacePlot):
         # will be the entire width of the court. Additional view regions may be
         # added here
         if not ylim:
-            if type(self.court_params.get('lane_width', 0.0)) == list:
-                lane_width = max(self.court_params.get('lane_width', 0.0))
+            if type(self.court_params.get("lane_width", 0.0)) == list:
+                lane_width = max(self.court_params.get("lane_width", 0.0))
 
             else:
-                lane_width = self.court_params.get('lane_width', 0.0)
+                lane_width = self.court_params.get("lane_width", 0.0)
 
             # Divide the lane width in half as the full lane width should be
             # given in the surface specifications
             lane_width /= 2.0
 
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                'full': (-(half_court_width), half_court_width),
-                'offense': (-half_court_width, half_court_width),
-                'offence': (-half_court_width, half_court_width),
-                'offensivehalfcourt': (-half_court_width, half_court_width),
-                'offensive_half_court': (-half_court_width, half_court_width),
-                'offensive half court': (-half_court_width, half_court_width),
-                'defense': (-half_court_width, half_court_width),
-                'defence': (-half_court_width, half_court_width),
-                'defensivehalfcourt': (-half_court_width, half_court_width),
-                'defensive_half_court': (-half_court_width, half_court_width),
-                'defensive half court': (-half_court_width, half_court_width),
-                'offensivekey': (-half_court_width, half_court_width),
-                'offensive_key': (-half_court_width, half_court_width),
-                'offensive key': (-half_court_width, half_court_width),
-                'attackingkey': (-half_court_width, half_court_width),
-                'attacking_key': (-half_court_width, half_court_width),
-                'attacking key': (-half_court_width, half_court_width),
-                'defensivekey': (-half_court_width, half_court_width),
-                'defensive_key': (-half_court_width, half_court_width),
-                'defensive key': (-half_court_width, half_court_width),
-                'defendingkey': (-half_court_width, half_court_width),
-                'defending_key': (-half_court_width, half_court_width),
-                'defending key': (-half_court_width, half_court_width),
-                'offensivepaint': (-lane_width - 1.5, lane_width + 1.5),
-                'offensive_paint': (-lane_width - 1.5, lane_width + 1.5),
-                'offensive paint': (-lane_width - 1.5, lane_width + 1.5),
-                'attackingpaint': (-lane_width - 1.5, lane_width + 1.5),
-                'attacking_paint': (-lane_width - 1.5, lane_width + 1.5),
-                'attacking paint': (-lane_width - 1.5, lane_width + 1.5),
-                'offensivelane': (-lane_width - 1.5, lane_width + 1.5),
-                'offensive_lane': (-lane_width - 1.5, lane_width + 1.5),
-                'offensive lane': (-lane_width - 1.5, lane_width + 1.5),
-                'attackinglane': (-lane_width - 1.5, lane_width + 1.5),
-                'attacking_lane': (-lane_width - 1.5, lane_width + 1.5),
-                'attacking lane': (-lane_width - 1.5, lane_width + 1.5),
-                'defensivepaint': (-lane_width - 1.5, lane_width + 1.5),
-                'defensive_paint': (-lane_width - 1.5, lane_width + 1.5),
-                'defensive paint': (-lane_width - 1.5, lane_width + 1.5),
-                'defendingpaint': (-lane_width - 1.5, lane_width + 1.5),
-                'defending_paint': (-lane_width - 1.5, lane_width + 1.5),
-                'defending paint': (-lane_width - 1.5, lane_width + 1.5),
-                'defensivelane': (-lane_width - 1.5, lane_width + 1.5),
-                'defensive_lane': (-lane_width - 1.5, lane_width + 1.5),
-                'defensive lane': (-lane_width - 1.5, lane_width + 1.5),
-                'defendinglane': (-lane_width - 1.5, lane_width + 1.5),
-                'defending_lane': (-lane_width - 1.5, lane_width + 1.5),
-                'defending lane': (-lane_width - 1.5, lane_width + 1.5),
+                "full": (-(half_court_width), half_court_width),
+                "offense": (-half_court_width, half_court_width),
+                "offence": (-half_court_width, half_court_width),
+                "offensivehalfcourt": (-half_court_width, half_court_width),
+                "offensive_half_court": (-half_court_width, half_court_width),
+                "offensive half court": (-half_court_width, half_court_width),
+                "defense": (-half_court_width, half_court_width),
+                "defence": (-half_court_width, half_court_width),
+                "defensivehalfcourt": (-half_court_width, half_court_width),
+                "defensive_half_court": (-half_court_width, half_court_width),
+                "defensive half court": (-half_court_width, half_court_width),
+                "offensivekey": (-half_court_width, half_court_width),
+                "offensive_key": (-half_court_width, half_court_width),
+                "offensive key": (-half_court_width, half_court_width),
+                "attackingkey": (-half_court_width, half_court_width),
+                "attacking_key": (-half_court_width, half_court_width),
+                "attacking key": (-half_court_width, half_court_width),
+                "defensivekey": (-half_court_width, half_court_width),
+                "defensive_key": (-half_court_width, half_court_width),
+                "defensive key": (-half_court_width, half_court_width),
+                "defendingkey": (-half_court_width, half_court_width),
+                "defending_key": (-half_court_width, half_court_width),
+                "defending key": (-half_court_width, half_court_width),
+                "offensivepaint": (-lane_width - 1.5, lane_width + 1.5),
+                "offensive_paint": (-lane_width - 1.5, lane_width + 1.5),
+                "offensive paint": (-lane_width - 1.5, lane_width + 1.5),
+                "attackingpaint": (-lane_width - 1.5, lane_width + 1.5),
+                "attacking_paint": (-lane_width - 1.5, lane_width + 1.5),
+                "attacking paint": (-lane_width - 1.5, lane_width + 1.5),
+                "offensivelane": (-lane_width - 1.5, lane_width + 1.5),
+                "offensive_lane": (-lane_width - 1.5, lane_width + 1.5),
+                "offensive lane": (-lane_width - 1.5, lane_width + 1.5),
+                "attackinglane": (-lane_width - 1.5, lane_width + 1.5),
+                "attacking_lane": (-lane_width - 1.5, lane_width + 1.5),
+                "attacking lane": (-lane_width - 1.5, lane_width + 1.5),
+                "defensivepaint": (-lane_width - 1.5, lane_width + 1.5),
+                "defensive_paint": (-lane_width - 1.5, lane_width + 1.5),
+                "defensive paint": (-lane_width - 1.5, lane_width + 1.5),
+                "defendingpaint": (-lane_width - 1.5, lane_width + 1.5),
+                "defending_paint": (-lane_width - 1.5, lane_width + 1.5),
+                "defending paint": (-lane_width - 1.5, lane_width + 1.5),
+                "defensivelane": (-lane_width - 1.5, lane_width + 1.5),
+                "defensive_lane": (-lane_width - 1.5, lane_width + 1.5),
+                "defensive lane": (-lane_width - 1.5, lane_width + 1.5),
+                "defendinglane": (-lane_width - 1.5, lane_width + 1.5),
+                "defending_lane": (-lane_width - 1.5, lane_width + 1.5),
+                "defending lane": (-lane_width - 1.5, lane_width + 1.5),
 
             }
 
@@ -2524,7 +2525,7 @@ class FIBACourt(BasketballCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the BasketballCourt class with the relevant parameters
         super().__init__(
-            league_code = 'fiba',
+            league_code = "fiba",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -2540,7 +2541,7 @@ class GLeagueCourt(BasketballCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the BasketballCourt class with the relevant parameters
         super().__init__(
-            league_code = 'nba g league',
+            league_code = "nba g league",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -2556,7 +2557,7 @@ class NBACourt(BasketballCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the BasketballCourt class with the relevant parameters
         super().__init__(
-            league_code = 'nba',
+            league_code = "nba",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -2572,7 +2573,7 @@ class NCAACourt(BasketballCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the BasketballCourt class with the relevant parameters
         super().__init__(
-            league_code = 'ncaa',
+            league_code = "ncaa",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -2588,7 +2589,7 @@ class NFHSCourt(BasketballCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the BasketballCourt class with the relevant parameters
         super().__init__(
-            league_code = 'nfhs',
+            league_code = "nfhs",
             court_updates = court_updates,
             *args,
             **kwargs
@@ -2604,7 +2605,7 @@ class WNBACourt(BasketballCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the BasketballCourt class with the relevant parameters
         super().__init__(
-            league_code = 'wnba',
+            league_code = "wnba",
             court_updates = court_updates,
             *args,
             **kwargs

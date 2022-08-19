@@ -81,18 +81,18 @@ def test_cani_plot_leagues_no_league_code():
     available_league_codes.sort()
 
     # Generate the expected output for cani_plot_leagues() with no league code
-    exp_pl_empty_league_code = ''
+    exp_pl_empty_league_code = ""
 
     exp_pl_empty_league_code = (
-        'The following curling leagues are available with sportypy:\n'
+        "The following curling leagues are available with sportypy:\n"
     )
 
     for league_code in available_league_codes[:-1]:
-        new_league = f'- {league_code.upper()}'
-        exp_pl_empty_league_code = f'{exp_pl_empty_league_code}\n{new_league}'
+        new_league = f"- {league_code.upper()}"
+        exp_pl_empty_league_code = f"{exp_pl_empty_league_code}\n{new_league}"
 
-    exp_pl_empty_league_code = (f'{exp_pl_empty_league_code}\n'
-                                f'- {available_league_codes[-1].upper()}\n')
+    exp_pl_empty_league_code = (f"{exp_pl_empty_league_code}\n"
+                                f"- {available_league_codes[-1].upper()}\n")
 
     # Initialize the output-capture
     pl_empty_league_code = io.StringIO()
@@ -110,8 +110,8 @@ def test_cani_plot_leagues_no_league_code():
 def test_cani_plot_leagues_wcf():
     """Test cani_plot_leagues() method will return appropriate message.
 
-    When passed either 'wcf', 'WCF', or any combination of capitalized and
-    lower-case letters of 'W', 'C', and 'F', this should return the same
+    When passed either "wcf", "WCF", or any combination of capitalized and
+    lower-case letters of "W", "C", and "F", this should return the same
     message
     """
     # Create a CurlingSheet() object to use for testing
@@ -119,7 +119,7 @@ def test_cani_plot_leagues_wcf():
 
     # Generate the expected output for cani_plot_leagues() with a league code
     # (this will use WCF as a test)
-    exp_pl_wcf_league_code = 'WCF comes with sportypy and is ready to use!\n'
+    exp_pl_wcf_league_code = "WCF comes with sportypy and is ready to use!\n"
 
     # Initialize the output-captures
     pl_wcf_league_code_lower = io.StringIO()
@@ -128,13 +128,13 @@ def test_cani_plot_leagues_wcf():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_wcf_league_code_lower
-    test_sheet.cani_plot_leagues('wcf')
+    test_sheet.cani_plot_leagues("wcf")
 
     sys.stdout = pl_wcf_league_code_upper
-    test_sheet.cani_plot_leagues('WCF')
+    test_sheet.cani_plot_leagues("WCF")
 
     sys.stdout = pl_wcf_league_code_mixed
-    test_sheet.cani_plot_leagues('wCf')
+    test_sheet.cani_plot_leagues("wCf")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -156,9 +156,9 @@ def test_cani_plot_leagues_bad_league_code():
     # Generate the expected output for cani_plot_leagues() with an invalid
     # league code (this will use test_league as a test)
     exp_pl_bad_league_code = (
-        'TEST_LEAGUE does not come with sportypy, but may be parameterized. '
-        'Use the cani_change_dimensions() to check what parameters are needed.'
-        '\n'
+        "TEST_LEAGUE does not come with sportypy, but may be parameterized. "
+        "Use the cani_change_dimensions() to check what parameters are needed."
+        "\n"
     )
 
     # Initialize the output-capture
@@ -166,7 +166,7 @@ def test_cani_plot_leagues_bad_league_code():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_bad_league_code
-    test_sheet.cani_plot_leagues('test_league')
+    test_sheet.cani_plot_leagues("test_league")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -185,33 +185,33 @@ def test_cani_change_dimensions():
 
     # Generate the expected output for cani_change_dimensions()
     exp_change_dimensions = (
-        'The following features can be reparameterized via the sheet_updates '
-        'parameter, with the current value in parenthesis:\n\n'
-        '- sheet_units (ft)\n'
-        '- sheet_length (150.0)\n'
-        '- sheet_width (15.5833)\n'
-        '- apron_behind_back (1.5)\n'
-        '- apron_along_side (1.5)\n'
-        '- tee_line_to_center (57.0)\n'
-        '- tee_line_thickness (0.0417)\n'
-        '- back_line_thickness (0.0417)\n'
-        '- back_line_to_tee_line (6.0)\n'
-        '- hack_line_thickness (0.0417)\n'
-        '- hack_foothold_width (0.5)\n'
-        '- hack_foothold_gap (0.5)\n'
-        '- hack_foothold_depth (0.6667)\n'
-        '- hog_line_to_tee_line (21.0)\n'
-        '- hog_line_thickness (0.3333)\n'
-        '- centre_line_extension (12.0)\n'
-        '- centre_line_thickness (0.0417)\n'
-        '- house_ring_radii ([6.0, 4.0, 2.0])\n'
-        '- button_radius (0.5)\n'
-        '- courtesy_line_thickness (0.0417)\n'
-        '- courtesy_line_length (0.5)\n'
-        '- courtesy_line_to_hog_line (4.0)\n'
-        '\n'
-        'These parameters may be updated with the update_sheet_params() '
-        'method\n'
+        "The following features can be reparameterized via the sheet_updates "
+        "parameter, with the current value in parenthesis:\n\n"
+        "- sheet_units (ft)\n"
+        "- sheet_length (150.0)\n"
+        "- sheet_width (15.5833)\n"
+        "- apron_behind_back (1.5)\n"
+        "- apron_along_side (1.5)\n"
+        "- tee_line_to_center (57.0)\n"
+        "- tee_line_thickness (0.0417)\n"
+        "- back_line_thickness (0.0417)\n"
+        "- back_line_to_tee_line (6.0)\n"
+        "- hack_line_thickness (0.0417)\n"
+        "- hack_foothold_width (0.5)\n"
+        "- hack_foothold_gap (0.5)\n"
+        "- hack_foothold_depth (0.6667)\n"
+        "- hog_line_to_tee_line (21.0)\n"
+        "- hog_line_thickness (0.3333)\n"
+        "- centre_line_extension (12.0)\n"
+        "- centre_line_thickness (0.0417)\n"
+        "- house_ring_radii ([6.0, 4.0, 2.0])\n"
+        "- button_radius (0.5)\n"
+        "- courtesy_line_thickness (0.0417)\n"
+        "- courtesy_line_length (0.5)\n"
+        "- courtesy_line_to_hog_line (4.0)\n"
+        "\n"
+        "These parameters may be updated with the update_sheet_params() "
+        "method\n"
     )
 
     # Initialize the output-capture
@@ -238,16 +238,16 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        'The following features can be colored via the colors_dict parameter, '
-        'with the current value in parenthesis:\n'
+        "The following features can be colored via the colors_dict parameter, "
+        "with the current value in parenthesis:\n"
     )
 
     for k, v in test_sheet.feature_colors.items():
-        exp_color_features = f'{exp_color_features}\n- {k} ({v})'
+        exp_color_features = f"{exp_color_features}\n- {k} ({v})"
 
     exp_color_features = (
-        f'{exp_color_features}\n\nThese colors may be updated with the '
-        'update_colors() method\n'
+        f"{exp_color_features}\n\nThese colors may be updated with the "
+        "update_colors() method\n"
     )
 
     # Initialize the output-capture
@@ -279,7 +279,7 @@ def test_update_colors():
     # Update a color. The top end of the sheet color is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from white to dark blue
-    test_wcf.update_colors({'end_1': '#13294b'})
+    test_wcf.update_colors({"end_1": "#13294b"})
 
     # Get the updated colors
     updated_colors = test_wcf.feature_colors
@@ -307,7 +307,7 @@ def test_reset_colors():
     # Update a color. The top end of the sheet color is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from white to dark blue
-    test_wcf.update_colors({'end_1': '#13294b'})
+    test_wcf.update_colors({"end_1": "#13294b"})
 
     # Get the updated colors
     updated_colors = test_wcf.feature_colors
@@ -339,7 +339,7 @@ def test_update_sheet_params():
     # Update a dimension. The hack foothold is what's updated here as a means
     # of demonstration, but this could work for any parameter. It will be
     # changed from 0.5 feet to 0.75 feet
-    test_wcf.update_sheet_params({'hack_foothold_width': 0.75})
+    test_wcf.update_sheet_params({"hack_foothold_width": 0.75})
 
     # Get the updated dimensions
     updated_dimensions = test_wcf.sheet_params
@@ -367,7 +367,7 @@ def test_reset_sheet_params():
     # Update a dimension. The hack foothold is what's updated here as a means
     # of demonstration, but this could work for any parameter. It will be
     # changed from 0.5 feet to 0.75 feet
-    test_wcf.update_sheet_params({'hack_foothold_width': 0.75})
+    test_wcf.update_sheet_params({"hack_foothold_width": 0.75})
 
     # Get the updated dimensions
     updated_dimensions = test_wcf.sheet_params
@@ -394,7 +394,7 @@ def test_unit_conversions():
     test_sheet_to_convert = curling_sheets.WCFSheet()
 
     # Generate a sheet originating in meters
-    wcf_sheet_m = curling_sheets.WCFSheet(units = 'm')
+    wcf_sheet_m = curling_sheets.WCFSheet(units = "m")
 
     # Convert the sheet dimensions from feet to meters
     sheet_params_to_convert = test_sheet_to_convert.sheet_params
@@ -402,11 +402,11 @@ def test_unit_conversions():
     for k, v in sheet_params_to_convert.items():
         sheet_params_to_convert[k] = test_sheet_to_convert._convert_units(
             v,
-            'ft',
-            'm'
+            "ft",
+            "m"
         )
 
-    sheet_params_to_convert['sheet_units'] = 'm'
+    sheet_params_to_convert["sheet_units"] = "m"
 
     assert sheet_params_to_convert == wcf_sheet_m.sheet_params
 
@@ -419,26 +419,26 @@ def test_unsupported_unit_conversions():
     """
     # There are 22 parameters in an WCF sheet
     exp_unit_error_string = (
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
-        'foots is not currently a supported unit\n'
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
+        "foots is not currently a supported unit\n"
     )
 
     # Initialize the output-capture
@@ -446,7 +446,7 @@ def test_unsupported_unit_conversions():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = unit_error_string
-    curling_sheets.WCFSheet(units = 'foots')
+    curling_sheets.WCFSheet(units = "foots")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -491,7 +491,7 @@ def test_supported_leagues():
     """
 
     league_class_dict = {
-        'wcf': curling_sheets.WCFSheet(),
+        "wcf": curling_sheets.WCFSheet(),
     }
 
     leagues = [
@@ -507,9 +507,9 @@ def test_supported_leagues():
     ]
 
     if len(missing_leagues) > 0:
-        print('The following leagues are not tested:\n')
+        print("The following leagues are not tested:\n")
         for league in missing_leagues:
-            print(f'- {league}')
+            print(f"- {league}")
 
     else:
         for league in league_class_dict.keys():
@@ -541,7 +541,7 @@ def test_sheet_plot_no_parameters():
     # Create the test plots
     test_zero_house_ring_rad = curling_sheets.WCFSheet(
         sheet_updates = {
-            'house_ring_radii': [0.0, 0.0, 0.0]
+            "house_ring_radii": [0.0, 0.0, 0.0]
         }
     ).draw()
 
@@ -556,29 +556,29 @@ def test_additional_feature():
     the hog lines shifted in either direction
     """
     new_hog_line_1 = {
-        'class': curling_features.HogLine,
-        'x_anchor': 0.0,
-        'y_anchor': 25.0,
-        'sheet_length': 150.0,
-        'sheet_width': 15.5833,
-        'feature_thickness': 0.5,
-        'visible': True,
-        'facecolor': '#13294b',
-        'edgecolor': '#e04e39',
-        'zorder': 1
+        "class": curling_features.HogLine,
+        "x_anchor": 0.0,
+        "y_anchor": 25.0,
+        "sheet_length": 150.0,
+        "sheet_width": 15.5833,
+        "feature_thickness": 0.5,
+        "visible": True,
+        "facecolor": "#13294b",
+        "edgecolor": "#e04e39",
+        "zorder": 1
     }
 
     new_hog_line_2 = {
-        'class': curling_features.HogLine,
-        'x_anchor': 0.0,
-        'y_anchor': -25.0,
-        'sheet_length': 150.0,
-        'sheet_width': 15.5833,
-        'feature_thickness': 0.5,
-        'visible': True,
-        'facecolor': '#13294b',
-        'edgecolor': '#e04e39',
-        'zorder': 1
+        "class": curling_features.HogLine,
+        "x_anchor": 0.0,
+        "y_anchor": -25.0,
+        "sheet_length": 150.0,
+        "sheet_width": 15.5833,
+        "feature_thickness": 0.5,
+        "visible": True,
+        "facecolor": "#13294b",
+        "edgecolor": "#e04e39",
+        "zorder": 1
     }
 
     ax = curling_sheets.WCFSheet(
@@ -596,20 +596,20 @@ def test_rotated_surface_plot():
     plot of the surface
     """
     ax = curling_sheets.WCFSheet(rotation = 90).draw(
-        display_range = 'house'
+        display_range = "house"
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
 
 def test_display_range_none_empty_string():
-    """Test that the sheet defaults to display_range == 'full' if None passed.
+    """Test that the sheet defaults to display_range == "full" if None passed.
 
     This test should pass so long as there are no erros when drawing a sheet
     with no specified display range
     """
     ax1 = curling_sheets.WCFSheet().draw(display_range = None)
-    ax2 = curling_sheets.WCFSheet().draw(display_range = '')
+    ax2 = curling_sheets.WCFSheet().draw(display_range = "")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)

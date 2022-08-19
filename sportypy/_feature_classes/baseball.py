@@ -41,7 +41,7 @@ class BaseBaseballFeature(BaseFeature):
 
     def __init__(self, field_length = 0.0, field_width = 0.0,
                  feature_radius = 0.0, feature_thickness = 0.0,
-                 feature_units = 'ft', *args, **kwargs):
+                 feature_units = "ft", *args, **kwargs):
 
         # Set the full-sized dimensions of the field
         self.field_length = field_length
@@ -355,7 +355,7 @@ class HomePlate(BaseBaseballFeature):
         base lines
         """
         home_plate_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 self.home_plate_edge_length / 2.0,
                 self.home_plate_edge_length / 2.0,
@@ -364,7 +364,7 @@ class HomePlate(BaseBaseballFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 0.0,
                 self.home_plate_edge_length / 2.0,
                 self.home_plate_edge_length,
@@ -413,7 +413,7 @@ class Base(BaseBaseballFeature):
 
         base_df = self._rotate(base_df, angle = 0.25)
 
-        base_df['x'] = base_df['x'] + center_x_adj
+        base_df["x"] = base_df["x"] + center_x_adj
 
         return base_df
 
@@ -488,7 +488,7 @@ class BattersBox(BaseBaseballFeature):
         The batter's box is a rectangle with the thickness of the field lines
         """
         batters_box_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 self.batters_box_width / 2.0,
                 self.batters_box_width / 2.0,
@@ -500,7 +500,7 @@ class BattersBox(BaseBaseballFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 self.batters_box_length / 2.0,
                 self.batters_box_length / 2.0,
                 -self.batters_box_length / 2.0,
@@ -518,7 +518,7 @@ class BattersBox(BaseBaseballFeature):
             self._reflect(df = batters_box_df, over_y = True, over_x = False)
         ])
 
-        batters_box_df['y'] = batters_box_df['y'] + self.batters_box_y_adj
+        batters_box_df["y"] = batters_box_df["y"] + self.batters_box_y_adj
 
         return batters_box_df
 
@@ -532,7 +532,7 @@ class CatchersBox(BaseBaseballFeature):
 
     def __init__(self, catchers_box_depth = 0.0, catchers_box_width = 0.0,
                  batters_box_length = 0.0, batters_box_y_adj = 0.0,
-                 catchers_box_shape = 'rectangle', *args, **kwargs):
+                 catchers_box_shape = "rectangle", *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.catchers_box_depth = catchers_box_depth
         self.catchers_box_width = catchers_box_width
@@ -547,9 +547,9 @@ class CatchersBox(BaseBaseballFeature):
         The catcher's box is 3/4 of a rectangle with the thickness of the field
         lines
         """
-        if self.catchers_box_shape == 'rectangle':
+        if self.catchers_box_shape == "rectangle":
             catchers_box_df = pd.DataFrame({
-                'x': [
+                "x": [
                     self.catchers_box_width / 2.0,
                     self.catchers_box_width / 2.0,
                     -self.catchers_box_width / 2.0,
@@ -567,7 +567,7 @@ class CatchersBox(BaseBaseballFeature):
                     self.catchers_box_width / 2.0
                 ],
 
-                'y': [
+                "y": [
                     -self.batters_box_length / 2.0,
                     -self.catchers_box_depth,
                     -self.catchers_box_depth,
@@ -580,11 +580,11 @@ class CatchersBox(BaseBaseballFeature):
                 ]
             })
 
-            catchers_box_df['y'] = (
-                catchers_box_df['y'] + self.batters_box_y_adj
+            catchers_box_df["y"] = (
+                catchers_box_df["y"] + self.batters_box_y_adj
             )
 
-        if self.catchers_box_shape == 'trapezoid':
+        if self.catchers_box_shape == "trapezoid":
             catchers_box_b1_y = -self.batters_box_length / 2.0
             catchers_box_b1_y += self.batters_box_y_adj
             catchers_box_b1_r = catchers_box_b1_y / math.cos(np.pi / 4.0)
@@ -613,7 +613,7 @@ class CatchersBox(BaseBaseballFeature):
             )
 
             catchers_box_df = pd.DataFrame({
-                'x': [
+                "x": [
                     catchers_box_b1 / 2.0,
                     (catchers_box_b2_outer / 2.0) - self.feature_thickness,
                     -(catchers_box_b2_outer / 2.0) + self.feature_thickness,
@@ -631,7 +631,7 @@ class CatchersBox(BaseBaseballFeature):
                     catchers_box_b1 / 2.0
                 ],
 
-                'y': [
+                "y": [
                     catchers_box_b1_y,
                     catchers_box_b2_y_inner + self.feature_thickness,
                     catchers_box_b2_y_inner + self.feature_thickness,
@@ -691,7 +691,7 @@ class FoulLine(BaseBaseballFeature):
 
         if not self.is_line_1b:
             foul_line_df = pd.DataFrame({
-                'x': [
+                "x": [
                     -starting_coord,
                     self.line_distance * math.cos(3.0 * np.pi / 4.0),
                     (
@@ -702,7 +702,7 @@ class FoulLine(BaseBaseballFeature):
                     -(starting_coord)
                 ],
 
-                'y': [
+                "y": [
                     starting_coord,
                     self.line_distance * math.sin(3.0 * np.pi / 4.0),
                     self.line_distance * math.sin(3.0 * np.pi / 4.0),
@@ -713,7 +713,7 @@ class FoulLine(BaseBaseballFeature):
 
         else:
             foul_line_df = pd.DataFrame({
-                'x': [
+                "x": [
                     starting_coord,
                     self.line_distance * math.cos(np.pi / 4.0),
                     (
@@ -724,7 +724,7 @@ class FoulLine(BaseBaseballFeature):
                     starting_coord
                 ],
 
-                'y': [
+                "y": [
                     starting_coord,
                     self.line_distance * math.sin(np.pi / 4.0),
                     self.line_distance * math.sin(np.pi / 4.0),
@@ -763,7 +763,7 @@ class RunningLane(BaseBaseballFeature):
         rld = self.running_lane_depth
         rlt = self.feature_thickness
         running_lane_df = pd.DataFrame({
-            'x': [
+            "x": [
                 rlsd / math.sqrt(2.0),
                 (rlsd + rld) / math.sqrt(2.0),
                 (rlsd + rld + rll) / math.sqrt(2.0),
@@ -773,7 +773,7 @@ class RunningLane(BaseBaseballFeature):
                 rlsd / math.sqrt(2.0)
             ],
 
-            'y': [
+            "y": [
                 rlsd / math.sqrt(2.0),
                 (rlsd - rld) / math.sqrt(2.0),
                 (rlsd - rld + rll) / math.sqrt(2.0),

@@ -38,7 +38,7 @@ class CurlingSheet(BaseSurfacePlot):
 
     Attributes
     ----------
-    - league_code : str (default: '')
+    - league_code : str (default: "")
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "World Curling
         Federation" should be either "WCF" or "wcf")
@@ -61,7 +61,7 @@ class CurlingSheet(BaseSurfacePlot):
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
 
-    - units : str (default: 'default')
+    - units : str (default: "default")
         The units that the final plot should utilize. The default units are the
         units specified in the rule book of the league
 
@@ -75,13 +75,86 @@ class CurlingSheet(BaseSurfacePlot):
 
     * sheet_units : str
         The units with which to draw the sheet
+
+    * apron_behind_back : float
+        The dimension of the sheet's apron behind the back board. In TV view,
+        this is in the y direction
+
+    * apron_along_side : float
+        The dimension of the sheet's apron beyond the side wall. In TV view,
+        this is in the +x direction
+
+    * tee_line_to_center : float
+        The distance from the center of the shet to the center of the tee line
+
+    * tee_line_thickness : float
+        The thickness of the tee line. This is the line that runs through the
+        center of the house, from side wall to side wall
+
+    * back_line_thickness : float
+        The thickness of the back line. This is the line between the house and
+        the hack
+
+    * back_line_to_tee_line : float
+        The distance from the center of the tee line to the outside edge of the
+        back line (which runs between the house and the hack)
+
+    * hack_line_thickness : float
+        The thickness of the hack line
+
+    * hack_foothold_width : float
+        The width of a foothold of the hack. In TV view, this is the dimension
+        of the foothold in the x direction (parallel to the tee line)
+
+    * hack_foothold_gap : float
+        The interior separation between the two footholds in the hack
+
+    * hack_foothold_depth : float
+        The distance from the house-side to the back wall side of the foothold
+        of the hack. The back of the foothold will lie along the hack line
+
+    * hog_line_to_tee_line : float
+        The distance from the inside edge of the hog line (the edge nearest the
+        house) to the tee line
+
+    * hog_line_thickness : float
+        The thickness of the hog line
+
+    * centre_line_extension : float
+        The distance beyond the center of the tee line that the centre line
+        extends towards the back wall
+
+    * centre_line_thickness : float
+        The thickness of the centre line
+
+    * house_ring_radii : list of floats
+        The radii of the house rings. These will be reordered to be descending
+        by default. This should NOT include the button, as this will be handled
+        separately
+
+    * button_radius : float
+        The radius of the button (the center ring of the house)
+
+    * courtesy_line_thickness : float
+        The thickness of the courtesy lines. These are the lines marking where
+        players on the non-throwing team should stand while awaiting their next
+        throw. This dimension should be in the y direction when viewing the
+        sheet in TV view
+
+    * courtesy_line_length : float
+        The distance outward from the inner edge of the side wall that the
+        courtesy line extends towards the center of the sheet
+
+    * courtesy_line_to_hog_line : float
+        The distance between the outer edges of the hog line and the courtesy
+        line
     """
 
-    def __init__(self, league_code = '', sheet_updates = {}, colors_dict = {},
+    def __init__(self, league_code = "", sheet_updates = {}, colors_dict = {},
                  rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = 'default', **added_features):
+                 units = "default", **added_features):
         # Load all pre-defined sheet dimensions for provided leagues
-        self._load_preset_dimensions(sport = 'curling')
+        self._load_preset_dimensions(sport = "curling")
 
         # Load all unit conversions
         self._load_unit_conversions()
@@ -110,15 +183,15 @@ class CurlingSheet(BaseSurfacePlot):
         self.sheet_params = sheet_params
 
         # Convert the sheet's units if needed
-        if units.lower() != 'default':
+        if units.lower() != "default":
             for k, v in sheet_params.items():
                 self.sheet_params[k] = self._convert_units(
                     v,
-                    self.sheet_params['sheet_units'],
+                    self.sheet_params["sheet_units"],
                     units.lower()
                 )
 
-            self.sheet_params['sheet_units'] = units.lower()
+            self.sheet_params["sheet_units"] = units.lower()
 
         # Set the rotation of the plot to be the supplied rotation value
         self._rotation = Affine2D().rotate_deg(rotation)
@@ -138,20 +211,20 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the default colors of the sheet
         default_colors = {
-            'plot_background': '#ffffff',
-            'end_1': "#ffffff",
-            'centre_zone': "#ffffff",
-            'end_2': "#ffffff",
-            'sheet_apron': "#0033a0",
-            'centre_line': "#000000",
-            'tee_line': "#000000",
-            'back_line': "#000000",
-            'hog_line': "#c8102e",
-            'hack_line': "#000000",
-            'courtesy_line': "#000000",
-            'hack': "#000000",
-            'button': "#ffffff",
-            'house_rings': ["#c8102e", "#ffffff", "#0033a0"]
+            "plot_background": "#ffffff",
+            "end_1": "#ffffff",
+            "centre_zone": "#ffffff",
+            "end_2": "#ffffff",
+            "sheet_apron": "#0033a0",
+            "centre_line": "#000000",
+            "tee_line": "#000000",
+            "back_line": "#000000",
+            "hog_line": "#c8102e",
+            "hack_line": "#000000",
+            "courtesy_line": "#000000",
+            "hack": "#000000",
+            "button": "#ffffff",
+            "house_rings": ["#c8102e", "#ffffff", "#0033a0"]
         }
 
         # Combine the colors with a passed colors dictionary
@@ -168,15 +241,15 @@ class CurlingSheet(BaseSurfacePlot):
         # contained within the surface. The feature itself is not visible (as
         # it's created by the curling.SheetApron class)
         sheet_constraint_params = {
-            'class': curling.Boundary,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'visible': False
+            "class": curling.Boundary,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "visible": False
         }
         self._initialize_feature(sheet_constraint_params)
 
@@ -185,331 +258,331 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the lower end
         end_1_params = {
-            'class': curling.End,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                (-self.sheet_params.get('tee_line_to_center', 0.0)) +
-                self.sheet_params.get('hog_line_to_tee_line', 0.0)
+            "class": curling.End,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                (-self.sheet_params.get("tee_line_to_center", 0.0)) +
+                self.sheet_params.get("hog_line_to_tee_line", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'tee_line_to_center': self.sheet_params.get(
-                'tee_line_to_center',
+            "reflect_x": False,
+            "reflect_y": True,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "tee_line_to_center": self.sheet_params.get(
+                "tee_line_to_center",
                 0.0
             ),
-            'hog_line_to_tee_line': self.sheet_params.get(
-                'hog_line_to_tee_line',
+            "hog_line_to_tee_line": self.sheet_params.get(
+                "hog_line_to_tee_line",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['end_1'],
-            'edgecolor': self.feature_colors['end_1'],
-            'zorder': 5
+            "visible": True,
+            "facecolor": self.feature_colors["end_1"],
+            "edgecolor": self.feature_colors["end_1"],
+            "zorder": 5
         }
         self._initialize_feature(end_1_params)
 
         # Initialize the upper end
         end_2_params = {
-            'class': curling.End,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                (self.sheet_params.get('tee_line_to_center', 0.0)) -
-                self.sheet_params.get('hog_line_to_tee_line', 0.0)
+            "class": curling.End,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                (self.sheet_params.get("tee_line_to_center", 0.0)) -
+                self.sheet_params.get("hog_line_to_tee_line", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'tee_line_to_center': self.sheet_params.get(
-                'tee_line_to_center',
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "tee_line_to_center": self.sheet_params.get(
+                "tee_line_to_center",
                 0.0
             ),
-            'hog_line_to_tee_line': self.sheet_params.get(
-                'hog_line_to_tee_line',
+            "hog_line_to_tee_line": self.sheet_params.get(
+                "hog_line_to_tee_line",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['end_2'],
-            'edgecolor': self.feature_colors['end_2'],
-            'zorder': 6
+            "visible": True,
+            "facecolor": self.feature_colors["end_2"],
+            "edgecolor": self.feature_colors["end_2"],
+            "zorder": 6
         }
         self._initialize_feature(end_2_params)
 
         # Initialize the centre zone
         centre_zone_params = {
-            'class': curling.CentreZone,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'tee_line_to_center': self.sheet_params.get(
-                'tee_line_to_center',
+            "class": curling.CentreZone,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "tee_line_to_center": self.sheet_params.get(
+                "tee_line_to_center",
                 0.0
             ),
-            'hog_line_to_tee_line': self.sheet_params.get(
-                'hog_line_to_tee_line',
+            "hog_line_to_tee_line": self.sheet_params.get(
+                "hog_line_to_tee_line",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['centre_zone'],
-            'edgecolor': self.feature_colors['centre_zone'],
-            'zorder': 5
+            "visible": True,
+            "facecolor": self.feature_colors["centre_zone"],
+            "edgecolor": self.feature_colors["centre_zone"],
+            "zorder": 5
         }
         self._initialize_feature(centre_zone_params)
 
         # Initialize the hog line
         hog_line_params = {
-            'class': curling.HogLine,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                self.sheet_params.get('tee_line_to_center', 0.0) -
-                self.sheet_params.get('hog_line_to_tee_line', 0.0)
+            "class": curling.HogLine,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                self.sheet_params.get("tee_line_to_center", 0.0) -
+                self.sheet_params.get("hog_line_to_tee_line", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'feature_thickness': self.sheet_params.get(
-                'hog_line_thickness',
+            "reflect_x": False,
+            "reflect_y": True,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "feature_thickness": self.sheet_params.get(
+                "hog_line_thickness",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['hog_line'],
-            'edgecolor': self.feature_colors['hog_line'],
-            'zorder': 16
+            "visible": True,
+            "facecolor": self.feature_colors["hog_line"],
+            "edgecolor": self.feature_colors["hog_line"],
+            "zorder": 16
         }
         self._initialize_feature(hog_line_params)
 
         # Initialize the hack line
         hack_line_params = {
-            'class': curling.HackLine,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                self.sheet_params.get('tee_line_to_center', 0.0) +
-                self.sheet_params.get('centre_line_extension', 0.0)
+            "class": curling.HackLine,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                self.sheet_params.get("tee_line_to_center", 0.0) +
+                self.sheet_params.get("centre_line_extension", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'feature_thickness': self.sheet_params.get(
-                'hack_line_thickness',
+            "reflect_x": False,
+            "reflect_y": True,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "feature_thickness": self.sheet_params.get(
+                "hack_line_thickness",
                 0.0
             ),
-            'hack_width': (
-                (2.0 * self.sheet_params.get('hack_foothold_width', 0.0)) +
-                self.sheet_params.get('hack_foothold_gap', 0.0)
+            "hack_width": (
+                (2.0 * self.sheet_params.get("hack_foothold_width", 0.0)) +
+                self.sheet_params.get("hack_foothold_gap", 0.0)
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['hack_line'],
-            'edgecolor': self.feature_colors['hack_line'],
-            'zorder': 16
+            "visible": True,
+            "facecolor": self.feature_colors["hack_line"],
+            "edgecolor": self.feature_colors["hack_line"],
+            "zorder": 16
         }
         self._initialize_feature(hack_line_params)
 
         # Initialize the courtesy lines
         courtesy_line_params = {
-            'class': curling.CourtesyLine,
-            'x_anchor': self.sheet_params.get('sheet_width', 0.0) / 2.0,
-            'y_anchor': (
-                self.sheet_params.get('tee_line_to_center', 0.0) -
-                self.sheet_params.get('hog_line_to_tee_line', 0.0) -
-                self.sheet_params.get('courtesy_line_to_hog_line', 0.0)
+            "class": curling.CourtesyLine,
+            "x_anchor": self.sheet_params.get("sheet_width", 0.0) / 2.0,
+            "y_anchor": (
+                self.sheet_params.get("tee_line_to_center", 0.0) -
+                self.sheet_params.get("hog_line_to_tee_line", 0.0) -
+                self.sheet_params.get("courtesy_line_to_hog_line", 0.0)
             ),
-            'reflect_x': True,
-            'reflect_y': True,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'feature_thickness': self.sheet_params.get(
-                'courtesy_line_thickness',
+            "reflect_x": True,
+            "reflect_y": True,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "feature_thickness": self.sheet_params.get(
+                "courtesy_line_thickness",
                 0.0
             ),
-            'courtesy_line_length': self.sheet_params.get(
-                'courtesy_line_length',
+            "courtesy_line_length": self.sheet_params.get(
+                "courtesy_line_length",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['courtesy_line'],
-            'edgecolor': self.feature_colors['courtesy_line'],
-            'zorder': 16
+            "visible": True,
+            "facecolor": self.feature_colors["courtesy_line"],
+            "edgecolor": self.feature_colors["courtesy_line"],
+            "zorder": 16
         }
         self._initialize_feature(courtesy_line_params)
 
         # Initialize the hack line
         hack_params = {
-            'class': curling.HackFoothold,
-            'x_anchor': self.sheet_params.get('hack_foothold_gap', 0.0),
-            'y_anchor': (
-                self.sheet_params.get('tee_line_to_center', 0.0) +
-                self.sheet_params.get('centre_line_extension', 0.0)
+            "class": curling.HackFoothold,
+            "x_anchor": self.sheet_params.get("hack_foothold_gap", 0.0),
+            "y_anchor": (
+                self.sheet_params.get("tee_line_to_center", 0.0) +
+                self.sheet_params.get("centre_line_extension", 0.0)
             ),
-            'reflect_x': True,
-            'reflect_y': True,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'foothold_depth': self.sheet_params.get(
-                'hack_foothold_depth',
+            "reflect_x": True,
+            "reflect_y": True,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "foothold_depth": self.sheet_params.get(
+                "hack_foothold_depth",
                 0.0
             ),
-            'foothold_width': self.sheet_params.get(
-                'hack_foothold_width',
+            "foothold_width": self.sheet_params.get(
+                "hack_foothold_width",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['hack'],
-            'edgecolor': self.feature_colors['hack'],
-            'zorder': 17
+            "visible": True,
+            "facecolor": self.feature_colors["hack"],
+            "edgecolor": self.feature_colors["hack"],
+            "zorder": 17
         }
         self._initialize_feature(hack_params)
 
         # Initialize the house rings
 
         # First, they need to be ordered from largest radius to smallest
-        house_ring_radii = self.sheet_params.get('house_ring_radii', [0.0])
+        house_ring_radii = self.sheet_params.get("house_ring_radii", [0.0])
         house_ring_radii.sort(reverse = True)
 
         # Iterate over the number of rings
         for i, radius in enumerate(house_ring_radii):
             house_ring_params = {
-                'class': curling.HouseRing,
-                'x_anchor': 0.0,
-                'y_anchor': self.sheet_params.get('tee_line_to_center', 0.0),
-                'reflect_x': False,
-                'reflect_y': True,
-                'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-                'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-                'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-                'feature_radius': radius,
-                'visible': True,
-                'facecolor': self.feature_colors['house_rings'][i],
-                'edgecolor': self.feature_colors['house_rings'][i],
-                'zorder': 16
+                "class": curling.HouseRing,
+                "x_anchor": 0.0,
+                "y_anchor": self.sheet_params.get("tee_line_to_center", 0.0),
+                "reflect_x": False,
+                "reflect_y": True,
+                "feature_units": self.sheet_params.get("sheet_units", "ft"),
+                "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+                "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+                "feature_radius": radius,
+                "visible": True,
+                "facecolor": self.feature_colors["house_rings"][i],
+                "edgecolor": self.feature_colors["house_rings"][i],
+                "zorder": 16
             }
             self._initialize_feature(house_ring_params)
 
         # Initialize the button
         button_params = {
-            'class': curling.Button,
-            'x_anchor': 0.0,
-            'y_anchor': self.sheet_params.get('tee_line_to_center', 0.0),
-            'reflect_x': False,
-            'reflect_y': True,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'feature_radius': self.sheet_params.get('button_radius', 0.0),
-            'visible': True,
-            'facecolor': self.feature_colors['button'],
-            'edgecolor': self.feature_colors['button'],
-            'zorder': 16
+            "class": curling.Button,
+            "x_anchor": 0.0,
+            "y_anchor": self.sheet_params.get("tee_line_to_center", 0.0),
+            "reflect_x": False,
+            "reflect_y": True,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "feature_radius": self.sheet_params.get("button_radius", 0.0),
+            "visible": True,
+            "facecolor": self.feature_colors["button"],
+            "edgecolor": self.feature_colors["button"],
+            "zorder": 16
         }
         self._initialize_feature(button_params)
 
         # Initialize the centre line
         centre_line_params = {
-            'class': curling.CentreLine,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'feature_thickness': self.sheet_params.get(
-                'centre_line_thickness',
+            "class": curling.CentreLine,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "feature_thickness": self.sheet_params.get(
+                "centre_line_thickness",
                 0.0
             ),
-            'tee_line_to_center': self.sheet_params.get(
-                'tee_line_to_center',
+            "tee_line_to_center": self.sheet_params.get(
+                "tee_line_to_center",
                 0.0
             ),
-            'centre_line_extension': self.sheet_params.get(
-                'centre_line_extension',
+            "centre_line_extension": self.sheet_params.get(
+                "centre_line_extension",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['centre_line'],
-            'edgecolor': self.feature_colors['centre_line'],
-            'zorder': 17
+            "visible": True,
+            "facecolor": self.feature_colors["centre_line"],
+            "edgecolor": self.feature_colors["centre_line"],
+            "zorder": 17
         }
         self._initialize_feature(centre_line_params)
 
         # Initialize the tee line
         tee_line_params = {
-            'class': curling.TeeLine,
-            'x_anchor': 0.0,
-            'y_anchor': self.sheet_params.get('tee_line_to_center', 0.0),
-            'reflect_x': False,
-            'reflect_y': True,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'feature_thickness': self.sheet_params.get(
-                'tee_line_thickness',
+            "class": curling.TeeLine,
+            "x_anchor": 0.0,
+            "y_anchor": self.sheet_params.get("tee_line_to_center", 0.0),
+            "reflect_x": False,
+            "reflect_y": True,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "feature_thickness": self.sheet_params.get(
+                "tee_line_thickness",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['tee_line'],
-            'edgecolor': self.feature_colors['tee_line'],
-            'zorder': 17
+            "visible": True,
+            "facecolor": self.feature_colors["tee_line"],
+            "edgecolor": self.feature_colors["tee_line"],
+            "zorder": 17
         }
         self._initialize_feature(tee_line_params)
 
         # Initialize the back line
         back_line_params = {
-            'class': curling.BackLine,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                self.sheet_params.get('tee_line_to_center', 0.0) +
-                self.sheet_params.get('back_line_to_tee_line', 0.0)
+            "class": curling.BackLine,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                self.sheet_params.get("tee_line_to_center", 0.0) +
+                self.sheet_params.get("back_line_to_tee_line", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'feature_thickness': self.sheet_params.get(
-                'back_line_thickness',
+            "reflect_x": False,
+            "reflect_y": True,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "feature_thickness": self.sheet_params.get(
+                "back_line_thickness",
                 0.0
             ),
-            'visible': True,
-            'facecolor': self.feature_colors['tee_line'],
-            'edgecolor': self.feature_colors['tee_line'],
-            'zorder': 17
+            "visible": True,
+            "facecolor": self.feature_colors["tee_line"],
+            "edgecolor": self.feature_colors["tee_line"],
+            "zorder": 17
         }
         self._initialize_feature(back_line_params)
 
         # Initialize the sheet apron
         sheet_apron_params = {
-            'class': curling.SheetApron,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': True,
-            'is_constrained': False,
-            'feature_units': self.sheet_params.get('sheet_units', 'ft'),
-            'sheet_length': self.sheet_params.get('sheet_length', 0.0),
-            'sheet_width': self.sheet_params.get('sheet_width', 0.0),
-            'apron_behind_back': self.sheet_params.get(
-                'apron_behind_back',
+            "class": curling.SheetApron,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": True,
+            "is_constrained": False,
+            "feature_units": self.sheet_params.get("sheet_units", "ft"),
+            "sheet_length": self.sheet_params.get("sheet_length", 0.0),
+            "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "apron_behind_back": self.sheet_params.get(
+                "apron_behind_back",
                 0.0
             ),
-            'apron_along_side': self.sheet_params.get('apron_along_side', 0.0),
-            'visible': True,
-            'facecolor': self.feature_colors['sheet_apron'],
-            'edgecolor': self.feature_colors['sheet_apron'],
-            'zorder': 20
+            "apron_along_side": self.sheet_params.get("apron_along_side", 0.0),
+            "visible": True,
+            "facecolor": self.feature_colors["sheet_apron"],
+            "edgecolor": self.feature_colors["sheet_apron"],
+            "zorder": 20
         }
         self._initialize_feature(sheet_apron_params)
 
@@ -517,7 +590,7 @@ class CurlingSheet(BaseSurfacePlot):
         for added_feature in added_features.values():
             self._initialize_feature(added_feature)
 
-    def draw(self, ax = None, display_range = 'full', xlim = None, ylim = None,
+    def draw(self, ax = None, display_range = "full", xlim = None, ylim = None,
              rotation = None):
         """Draw the sheet.
 
@@ -533,9 +606,9 @@ class CurlingSheet(BaseSurfacePlot):
             limits what is shown in the final plot. The following explain what
             each display range corresponds to:
 
-            'full' : the entire surface
+            "full" : the entire surface
 
-            'house': the top house on the surface when viewing the sheet in
+            "house": the top house on the surface when viewing the sheet in
                 TV-view
 
         xlim : float, tuple (float, float), or None (default: None)
@@ -569,14 +642,14 @@ class CurlingSheet(BaseSurfacePlot):
         # If an Axes object is not provided, create one to use for plotting
         if ax is None:
             fig, ax = plt.subplots()
-            fig.patch.set_facecolor(self.feature_colors['plot_background'])
+            fig.patch.set_facecolor(self.feature_colors["plot_background"])
             fig.set_size_inches(50, 50)
             ax = plt.gca()
 
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
-        ax.set_aspect('equal')
-        ax.axis('off')
+        ax.set_aspect("equal")
+        ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
@@ -606,8 +679,8 @@ class CurlingSheet(BaseSurfacePlot):
                     # limits to be its minimum and maximum values of x
                     if self._feature_xlim is None:
                         self._feature_xlim = [
-                            feature_df['x'].min(),
-                            feature_df['x'].max()
+                            feature_df["x"].min(),
+                            feature_df["x"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -615,16 +688,16 @@ class CurlingSheet(BaseSurfacePlot):
                     # of its specified maximum and largest x value
                     else:
                         self._feature_xlim = [
-                            min(self._feature_xlim[0], feature_df['x'].min()),
-                            max(self._feature_xlim[1], feature_df['x'].max())
+                            min(self._feature_xlim[0], feature_df["x"].min()),
+                            max(self._feature_xlim[1], feature_df["x"].max())
                         ]
 
                     # If the feature doesn't have a limitation on y, set its
                     # limits to be its minimum and maximum values of y
                     if self._feature_ylim is None:
                         self._feature_ylim = [
-                            feature_df['y'].min(),
-                            feature_df['y'].max()
+                            feature_df["y"].min(),
+                            feature_df["y"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -632,8 +705,8 @@ class CurlingSheet(BaseSurfacePlot):
                     # of its specified maximum and largest y value
                     else:
                         self._feature_ylim = [
-                            min(self._feature_ylim[0], feature_df['y'].min()),
-                            max(self._feature_ylim[1], feature_df['y'].max())
+                            min(self._feature_ylim[0], feature_df["y"].min()),
+                            max(self._feature_ylim[1], feature_df["y"].max())
                         ]
 
         # Set the plot's display range
@@ -680,26 +753,26 @@ class CurlingSheet(BaseSurfacePlot):
             # If the league code exists, return it as a list of length 1 with
             # a printed message
             if league_code in available_league_codes:
-                print(f'{league_code.upper()} comes with sportypy and is '
-                      'ready to use!')
+                print(f"{league_code.upper()} comes with sportypy and is "
+                      "ready to use!")
 
             # Otherwise, alert the user that they will need to manually specify
             # the parameters of the league
             else:
-                print(f'{league_code.upper()} does not come with sportypy, '
-                      'but may be parameterized. Use the '
-                      'cani_change_dimensions() to check what parameters are '
-                      'needed.')
+                print(f"{league_code.upper()} does not come with sportypy, "
+                      "but may be parameterized. Use the "
+                      "cani_change_dimensions() to check what parameters are "
+                      "needed.")
 
         # If no league code is provided, print out the list of all available
         else:
             # Preamble
-            print('The following curling leagues are available with '
-                  'sportypy:\n')
+            print("The following curling leagues are available with "
+                  "sportypy:\n")
 
             # Print the current leagues
             for league_code in available_league_codes:
-                print(f'- {league_code.upper()}')
+                print(f"- {league_code.upper()}")
 
     def cani_color_features(self):
         """Determine what features of the sheet can be colored.
@@ -713,15 +786,15 @@ class CurlingSheet(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be colored via the colors_dict '
-              'parameter, with the current value in parenthesis:\n')
+        print("The following features can be colored via the colors_dict "
+              "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.feature_colors.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese colors may be updated with the update_colors() method')
+        print("\nThese colors may be updated with the update_colors() method")
 
     def cani_change_dimensions(self):
         """Determine what features of the sheet can be re-parameterized.
@@ -737,17 +810,17 @@ class CurlingSheet(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be reparameterized via the '
-              'sheet_updates parameter, with the current value in '
-              'parenthesis:\n')
+        print("The following features can be reparameterized via the "
+              "sheet_updates parameter, with the current value in "
+              "parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.sheet_params.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese parameters may be updated with the '
-              'update_sheet_params() method')
+        print("\nThese parameters may be updated with the "
+              "update_sheet_params() method")
 
     def update_colors(self, color_updates = {}, *args, **kwargs):
         """Update the colors currently used in the plot.
@@ -827,20 +900,20 @@ class CurlingSheet(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            'plot_background': '#ffffff',
-            'end_1': "#ffffff",
-            'centre_zone': "#ffffff",
-            'end_2': "#ffffff",
-            'sheet_apron': "#0033a0",
-            'centre_line': "#000000",
-            'tee_line': "#000000",
-            'back_line': "#000000",
-            'hog_line': "#c8102e",
-            'hack_line': "#000000",
-            'courtesy_line': "#000000",
-            'hack': "#000000",
-            'button': "#ffffff",
-            'house_rings': ["#c8102e", "#ffffff", "#0033a0"]
+            "plot_background": "#ffffff",
+            "end_1": "#ffffff",
+            "centre_zone": "#ffffff",
+            "end_2": "#ffffff",
+            "sheet_apron": "#0033a0",
+            "centre_line": "#000000",
+            "tee_line": "#000000",
+            "back_line": "#000000",
+            "hog_line": "#c8102e",
+            "hack_line": "#000000",
+            "courtesy_line": "#000000",
+            "hack": "#000000",
+            "button": "#ffffff",
+            "house_rings": ["#c8102e", "#ffffff", "#0033a0"]
         }
 
         self.__init__(
@@ -865,14 +938,14 @@ class CurlingSheet(BaseSurfacePlot):
             colors_dict = self.feature_colors
         )
 
-    def _get_plot_range_limits(self, display_range = 'full', xlim = None,
+    def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: 'full')
+        display_range : str (default: "full")
             The range of which to display the plot. This is a key that will
             be searched for in the ranges_dict parameter
 
@@ -891,8 +964,8 @@ class CurlingSheet(BaseSurfacePlot):
             The y-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
-        if display_range == '' or display_range is None:
-            display_range = 'full'
+        if display_range == "" or display_range is None:
+            display_range = "full"
 
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
@@ -903,48 +976,48 @@ class CurlingSheet(BaseSurfacePlot):
         # dimensions that are internal to the surface
         if for_plot:
             half_sheet_length = self.sheet_params.get(
-                'sheet_length',
+                "sheet_length",
                 0.0
             ) / 2.0
-            half_sheet_width = self.sheet_params.get('sheet_width', 0.0) / 2.0
+            half_sheet_width = self.sheet_params.get("sheet_width", 0.0) / 2.0
             end_length = (
-                self.sheet_params.get('tee_line_to_center', 0.0) -
-                self.sheet_params.get('hog_line_to_tee_line', 0.0) -
-                self.sheet_params.get('courtesy_line_to_hog_line', 0.0)
+                self.sheet_params.get("tee_line_to_center", 0.0) -
+                self.sheet_params.get("hog_line_to_tee_line", 0.0) -
+                self.sheet_params.get("courtesy_line_to_hog_line", 0.0)
             )
 
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. sheet apron)
         if for_display:
             half_sheet_length = (
-                (self.sheet_params.get('sheet_length', 0.0) / 2.0) +
-                self.sheet_params.get('apron_behind_back', 0.0) +
+                (self.sheet_params.get("sheet_length", 0.0) / 2.0) +
+                self.sheet_params.get("apron_behind_back", 0.0) +
                 5.0
             )
             half_sheet_width = (
-                (self.sheet_params.get('sheet_width', 0.0) / 2.0) +
-                self.sheet_params.get('apron_along_side', 0.0) +
+                (self.sheet_params.get("sheet_width", 0.0) / 2.0) +
+                self.sheet_params.get("apron_along_side", 0.0) +
                 5.0
             )
             end_length = (
-                self.sheet_params.get('tee_line_to_center', 0.0) -
-                self.sheet_params.get('hog_line_to_tee_line', 0.0) -
-                self.sheet_params.get('courtesy_line_to_hog_line', 0.0) -
+                self.sheet_params.get("tee_line_to_center", 0.0) -
+                self.sheet_params.get("hog_line_to_tee_line", 0.0) -
+                self.sheet_params.get("courtesy_line_to_hog_line", 0.0) -
                 5.0
             )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             xlims = {
                 # Full surface (default)
-                'full': (-half_sheet_width, half_sheet_width),
+                "full": (-half_sheet_width, half_sheet_width),
 
                 # House
-                'house': (-half_sheet_width, half_sheet_width)
+                "house": (-half_sheet_width, half_sheet_width)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -980,15 +1053,15 @@ class CurlingSheet(BaseSurfacePlot):
         # added here
         if not ylim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                'full': (-(half_sheet_length), half_sheet_length),
+                "full": (-(half_sheet_length), half_sheet_length),
 
                 # House
-                'house': (end_length, half_sheet_length)
+                "house": (end_length, half_sheet_length)
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
@@ -1048,7 +1121,7 @@ class WCFSheet(CurlingSheet):
     def __init__(self, sheet_updates = {}, *args, **kwargs):
         # Initialize the CurlingSheet class with the relevant parameters
         super().__init__(
-            league_code = 'wcf',
+            league_code = "wcf",
             sheet_updates = sheet_updates,
             *args,
             **kwargs

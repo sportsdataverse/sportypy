@@ -121,18 +121,18 @@ def test_cani_plot_leagues_no_league_code():
     available_league_codes.sort()
 
     # Generate the expected output for cani_plot_leagues() with no league code
-    exp_pl_empty_league_code = ''
+    exp_pl_empty_league_code = ""
 
     exp_pl_empty_league_code = (
-        'The following football leagues are available with sportypy:\n'
+        "The following football leagues are available with sportypy:\n"
     )
 
     for league_code in available_league_codes[:-1]:
-        new_league = f'- {league_code.upper()}'
-        exp_pl_empty_league_code = f'{exp_pl_empty_league_code}\n{new_league}'
+        new_league = f"- {league_code.upper()}"
+        exp_pl_empty_league_code = f"{exp_pl_empty_league_code}\n{new_league}"
 
-    exp_pl_empty_league_code = (f'{exp_pl_empty_league_code}\n'
-                                f'- {available_league_codes[-1].upper()}\n')
+    exp_pl_empty_league_code = (f"{exp_pl_empty_league_code}\n"
+                                f"- {available_league_codes[-1].upper()}\n")
 
     # Initialize the output-capture
     pl_empty_league_code = io.StringIO()
@@ -150,8 +150,8 @@ def test_cani_plot_leagues_no_league_code():
 def test_cani_plot_leagues_nfl():
     """Test cani_plot_leagues() method will return appropriate message.
 
-    When passed either 'nfl', 'NFL', or any combination of capitalized and
-    lower-case letters of 'N', 'F', and 'L', this should return the same
+    When passed either "nfl", "NFL", or any combination of capitalized and
+    lower-case letters of "N", "F", and "L", this should return the same
     message
     """
     # Create a FootballField() object to use for testing
@@ -159,7 +159,7 @@ def test_cani_plot_leagues_nfl():
 
     # Generate the expected output for cani_plot_leagues() with a league code
     # (this will use NFL as a test)
-    exp_pl_nfl_league_code = 'NFL comes with sportypy and is ready to use!\n'
+    exp_pl_nfl_league_code = "NFL comes with sportypy and is ready to use!\n"
 
     # Initialize the output-captures
     pl_nfl_league_code_lower = io.StringIO()
@@ -168,13 +168,13 @@ def test_cani_plot_leagues_nfl():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_nfl_league_code_lower
-    test_field.cani_plot_leagues('nfl')
+    test_field.cani_plot_leagues("nfl")
 
     sys.stdout = pl_nfl_league_code_upper
-    test_field.cani_plot_leagues('NFL')
+    test_field.cani_plot_leagues("NFL")
 
     sys.stdout = pl_nfl_league_code_mixed
-    test_field.cani_plot_leagues('NfL')
+    test_field.cani_plot_leagues("NfL")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -196,9 +196,9 @@ def test_cani_plot_leagues_bad_league_code():
     # Generate the expected output for cani_plot_leagues() with an invalid
     # league code (this will use test_league as a test)
     exp_pl_bad_league_code = (
-        'TEST_LEAGUE does not come with sportypy, but may be parameterized. '
-        'Use the cani_change_dimensions() to check what parameters are needed.'
-        '\n'
+        "TEST_LEAGUE does not come with sportypy, but may be parameterized. "
+        "Use the cani_change_dimensions() to check what parameters are needed."
+        "\n"
     )
 
     # Initialize the output-capture
@@ -206,7 +206,7 @@ def test_cani_plot_leagues_bad_league_code():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_bad_league_code
-    test_field.cani_plot_leagues('test_league')
+    test_field.cani_plot_leagues("test_league")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -225,8 +225,8 @@ def test_cani_change_dimensions():
 
     # Generate the expected output for cani_change_dimensions()
     exp_change_dimensions = (
-        'The following features can be reparameterized via the field_updates '
-        'parameter, with the current value in parenthesis:\n\n'
+        "The following features can be reparameterized via the field_updates "
+        "parameter, with the current value in parenthesis:\n\n"
         "- field_units (yd)\n"
         "- field_length (100.0)\n"
         "- field_width (53.3333)\n"
@@ -267,9 +267,9 @@ def test_cani_change_dimensions():
         "- team_bench_area_border_thickness (0.1111)\n"
         "- bench_shape (trapezoid)\n"
         "- field_bordered (False)\n"
-        '\n'
-        'These parameters may be updated with the update_field_params() '
-        'method\n'
+        "\n"
+        "These parameters may be updated with the update_field_params() "
+        "method\n"
     )
 
     # Initialize the output-capture
@@ -296,16 +296,16 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        'The following features can be colored via the colors_dict parameter, '
-        'with the current value in parenthesis:\n'
+        "The following features can be colored via the colors_dict parameter, "
+        "with the current value in parenthesis:\n"
     )
 
     for k, v in test_field.feature_colors.items():
-        exp_color_features = f'{exp_color_features}\n- {k} ({v})'
+        exp_color_features = f"{exp_color_features}\n- {k} ({v})"
 
     exp_color_features = (
-        f'{exp_color_features}\n\nThese colors may be updated with the '
-        'update_colors() method\n'
+        f"{exp_color_features}\n\nThese colors may be updated with the "
+        "update_colors() method\n"
     )
 
     # Initialize the output-capture
@@ -337,7 +337,7 @@ def test_update_colors():
     # Update a color. The goal line is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from white to orange
-    test_ncaa.update_colors({'goal_line': '#e84a27'})
+    test_ncaa.update_colors({"goal_line": "#e84a27"})
 
     # Get the updated colors
     updated_colors = test_ncaa.feature_colors
@@ -364,7 +364,7 @@ def test_reset_colors():
     # Update a color. The goal line is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from white to orange
-    test_ncaa.update_colors({'goal_line': '#e84a27'})
+    test_ncaa.update_colors({"goal_line": "#e84a27"})
 
     # Get the updated colors
     updated_colors = test_ncaa.feature_colors
@@ -396,7 +396,7 @@ def test_update_field_params():
     # Update a dimension. The endzone length is what's updated here as a means
     # of demonstration, but this could work for any parameter. It will be
     # changed from 10 yards to 20 yards
-    test_nfl.update_field_params({'endzone_length': 200.0})
+    test_nfl.update_field_params({"endzone_length": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_nfl.field_params
@@ -423,7 +423,7 @@ def test_reset_field_params():
     # Update a dimension. The endzone length is what's updated here as a means
     # of demonstration, but this could work for any parameter. It will be
     # changed from 10 yards to 20 yards
-    test_nfl.update_field_params({'endzone_length': 200.0})
+    test_nfl.update_field_params({"endzone_length": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_nfl.field_params
@@ -447,13 +447,13 @@ def test_supported_leagues():
     """
 
     league_class_dict = {
-        'cfl': football_fields.CFLField(),
-        'ncaa': football_fields.NCAAField(),
-        'nfhs11': football_fields.NFHSField(n_players = 11),
-        'nfhs9': football_fields.NFHSField(n_players = 9),
-        'nfhs8': football_fields.NFHSField(n_players = 8),
-        'nfhs6': football_fields.NFHSField(n_players = 6),
-        'nfl': football_fields.NFLField()
+        "cfl": football_fields.CFLField(),
+        "ncaa": football_fields.NCAAField(),
+        "nfhs11": football_fields.NFHSField(n_players = 11),
+        "nfhs9": football_fields.NFHSField(n_players = 9),
+        "nfhs8": football_fields.NFHSField(n_players = 8),
+        "nfhs6": football_fields.NFHSField(n_players = 6),
+        "nfl": football_fields.NFLField()
     }
 
     field = football_fields.FootballField()
@@ -467,9 +467,9 @@ def test_supported_leagues():
     ]
 
     if len(missing_leagues) > 0:
-        print('The following leagues are not tested:\n')
+        print("The following leagues are not tested:\n")
         for league in missing_leagues:
-            print(f'- {league}')
+            print(f"- {league}")
 
     else:
         for league in league_class_dict.keys():
@@ -575,7 +575,7 @@ def test_field_plot_rotation():
 
     ax = football_fields.CFLField().draw(ax = ax, rotation = 90.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -591,7 +591,7 @@ def test_field_plot_tuple_xlim_and_ylim():
     ax2 = test_field.draw(xlim = (15.0, -15.0), ylim = (15.0, -15.0))
     ax3 = test_field.draw(xlim = (0.0, 0.0), ylim = (0.0, 0.0))
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -608,7 +608,7 @@ def test_field_plot_singular_xlim_and_ylim():
     ax1 = test_field.draw(xlim = 10.0, ylim = 10.0)
     ax2 = test_field.draw(xlim = 150.0, ylim = 50.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -622,29 +622,29 @@ def test_additional_feature():
     be a division line shifted to either side of the field
     """
     new_division_line_1 = {
-        'class': football_features.GoalLine,
-        'x_anchor': 23.5,
-        'y_anchor': 0.0,
-        'field_length': 94.0,
-        'field_width': 50.0,
-        'feature_thickness': 25.0,
-        'visible': True,
-        'facecolor': '#000000',
-        'edgecolor': None,
-        'zorder': 1
+        "class": football_features.GoalLine,
+        "x_anchor": 23.5,
+        "y_anchor": 0.0,
+        "field_length": 94.0,
+        "field_width": 50.0,
+        "feature_thickness": 25.0,
+        "visible": True,
+        "facecolor": "#000000",
+        "edgecolor": None,
+        "zorder": 1
     }
 
     new_division_line_2 = {
-        'class': football_features.GoalLine,
-        'x_anchor': -23.5,
-        'y_anchor': 0.0,
-        'field_length': 94.0,
-        'field_width': 50.0,
-        'feature_thickness': 25.0,
-        'visible': True,
-        'facecolor': '#000000',
-        'edgecolor': None,
-        'zorder': 1
+        "class": football_features.GoalLine,
+        "x_anchor": -23.5,
+        "y_anchor": 0.0,
+        "field_length": 94.0,
+        "field_width": 50.0,
+        "feature_thickness": 25.0,
+        "visible": True,
+        "facecolor": "#000000",
+        "edgecolor": None,
+        "zorder": 1
     }
 
     ax = football_fields.CFLField(
@@ -652,7 +652,7 @@ def test_additional_feature():
         new_feature_2 = new_division_line_2
     ).draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -760,7 +760,7 @@ def test_alternate_numeral_font():
 
     ax = test_field.draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -772,20 +772,20 @@ def test_rotated_surface_plot():
     plot of the surface
     """
     ax = football_fields.NFLField(rotation = 90).draw(
-        display_range = 'offense'
+        display_range = "offense"
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
 
 def test_display_range_none_empty_string():
-    """Test that the field defaults to display_range == 'full' if None passed.
+    """Test that the field defaults to display_range == "full" if None passed.
 
     This test should pass so long as there are no erros when drawing a field
     with no specified display range
     """
     ax1 = football_fields.NFLField().draw(display_range = None)
-    ax2 = football_fields.NFLField().draw(display_range = '')
+    ax2 = football_fields.NFLField().draw(display_range = "")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)

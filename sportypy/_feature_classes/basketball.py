@@ -41,7 +41,7 @@ class BaseBasketballFeature(BaseFeature):
 
     def __init__(self, court_length = 0.0, court_width = 0.0,
                  feature_radius = 0.0, feature_thickness = 0.0,
-                 feature_units = 'ft', *args, **kwargs):
+                 feature_units = "ft", *args, **kwargs):
 
         # Set the full-sized dimensions of the court
         self.court_length = court_length
@@ -129,7 +129,7 @@ class CourtApron(BaseBasketballFeature):
         always align with the outer edge of these lines
         """
         apron_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 (self.court_length / 2.0) + self.court_apron_endline,
                 (self.court_length / 2.0) + self.court_apron_endline,
@@ -149,7 +149,7 @@ class CourtApron(BaseBasketballFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 (self.court_width / 2.0) + self.court_apron_sideline,
                 (self.court_width / 2.0) + self.court_apron_sideline,
                 -((self.court_width / 2.0) + self.court_apron_sideline),
@@ -346,8 +346,8 @@ class TwoPointRange(BaseBasketballFeature):
 
         two_point_range_df = pd.concat([
             pd.DataFrame({
-                'x': [self.basket_center_to_baseline],
-                'y': [start_y]
+                "x": [self.basket_center_to_baseline],
+                "y": [start_y]
             }),
 
             self.create_circle(
@@ -358,11 +358,11 @@ class TwoPointRange(BaseBasketballFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     self.basket_center_to_baseline,
                     self.basket_center_to_baseline
                 ],
-                'y': [-start_y, start_y]
+                "y": [-start_y, start_y]
             })
         ])
 
@@ -446,8 +446,8 @@ class ThreePointLine(BaseBasketballFeature):
 
         three_point_line_df = pd.concat([
             pd.DataFrame({
-                'x': [self.basket_center_to_baseline],
-                'y': [start_y_outer]
+                "x": [self.basket_center_to_baseline],
+                "y": [start_y_outer]
             }),
 
             self.create_circle(
@@ -458,12 +458,12 @@ class ThreePointLine(BaseBasketballFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     self.basket_center_to_baseline,
                     self.basket_center_to_baseline
                 ],
 
-                'y': [
+                "y": [
                     -start_y_outer,
                     -start_y_inner
                 ]
@@ -477,12 +477,12 @@ class ThreePointLine(BaseBasketballFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     self.basket_center_to_baseline,
                     self.basket_center_to_baseline
                 ],
 
-                'y': [
+                "y": [
                     start_y_inner,
                     start_y_outer
                 ]
@@ -554,7 +554,7 @@ class FreeThrowLaneBoundary(BaseBasketballFeature):
         The lane space markings will be created separately
         """
         lane_boundary_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 -self.lane_length,
                 -self.lane_length,
@@ -566,7 +566,7 @@ class FreeThrowLaneBoundary(BaseBasketballFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 self.lane_width / 2.0,
                 self.lane_width / 2.0,
                 -self.lane_width / 2.0,
@@ -758,7 +758,7 @@ class InboundingLine(BaseBasketballFeature):
     """
 
     def __init__(self, in_play_ext = 0.0, out_of_bounds_ext = 0.0,
-                 drawn_direction = '', *args, **kwargs):
+                 drawn_direction = "", *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.in_play_ext = in_play_ext
         self.out_of_bounds_ext = out_of_bounds_ext
@@ -771,7 +771,7 @@ class InboundingLine(BaseBasketballFeature):
         The line may extend solely into the court, solely away from the court,
         or both into and away from the court
         """
-        if self.drawn_direction == 'top_down':
+        if self.drawn_direction == "top_down":
             inbounding_line_df = self.create_rectangle(
                 x_min = -self.feature_thickness,
                 x_max = 0.0,
@@ -798,7 +798,7 @@ class SubstitutionLine(BaseBasketballFeature):
     lines on the bottom of the court should be drawn in the bottom-up direction
     """
 
-    def __init__(self, substitution_line_width = 0.0, drawn_direction = '',
+    def __init__(self, substitution_line_width = 0.0, drawn_direction = "",
                  *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.substitution_line_width = substitution_line_width
@@ -811,7 +811,7 @@ class SubstitutionLine(BaseBasketballFeature):
         The line may extend solely into the court, solely away from the court,
         or both into and away from the court
         """
-        if self.drawn_direction == 'bottom_up':
+        if self.drawn_direction == "bottom_up":
             substitution_line_df = self.create_rectangle(
                 x_min = 0.0,
                 x_max = -self.feature_thickness,
@@ -842,7 +842,7 @@ class LowerDefensiveBoxMark(BaseBasketballFeature):
     without contact
     """
 
-    def __init__(self, extension = 0.0, drawn_direction = '', *args, **kwargs):
+    def __init__(self, extension = 0.0, drawn_direction = "", *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.extension = extension
         self.drawn_direction = drawn_direction.lower()
@@ -855,7 +855,7 @@ class LowerDefensiveBoxMark(BaseBasketballFeature):
         used for the marks anchored to the baselines, and top_down, which is
         used for the marks in the free-throw lane
         """
-        if self.drawn_direction == 'left_to_right':
+        if self.drawn_direction == "left_to_right":
             lower_defensive_box_mark_df = self.create_rectangle(
                 x_min = -self.extension,
                 x_max = 0.0,
@@ -863,7 +863,7 @@ class LowerDefensiveBoxMark(BaseBasketballFeature):
                 y_max = self.feature_thickness
             )
 
-        if self.drawn_direction == 'top_down':
+        if self.drawn_direction == "top_down":
             lower_defensive_box_mark_df = self.create_rectangle(
                 x_min = -self.feature_thickness,
                 x_max = 0.0,
@@ -881,7 +881,7 @@ class TeamBenchLine(BaseBasketballFeature):
     substitution area (see SubstitutionLine class)
     """
 
-    def __init__(self, extension = 0.0, drawn_direction = '', *args, **kwargs):
+    def __init__(self, extension = 0.0, drawn_direction = "", *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.extension = extension
         self.drawn_direction = drawn_direction.lower()
@@ -894,7 +894,7 @@ class TeamBenchLine(BaseBasketballFeature):
         the top of the court) or top_down (when the benches are on the bottom
         of the court)
         """
-        if self.drawn_direction == 'bottom_up':
+        if self.drawn_direction == "bottom_up":
             team_bench_line_df = self.create_rectangle(
                 x_min = 0.0,
                 x_max = self.feature_thickness,
@@ -902,7 +902,7 @@ class TeamBenchLine(BaseBasketballFeature):
                 y_max = self.extension
             )
 
-        if self.drawn_direction == 'top_down':
+        if self.drawn_direction == "top_down":
             team_bench_line_df = self.create_rectangle(
                 x_min = 0.0,
                 x_max = self.feature_thickness,
@@ -933,8 +933,8 @@ class RestrictedArc(BaseBasketballFeature):
         """
         restricted_arc_df = pd.concat([
             pd.DataFrame({
-                'x': [0.0],
-                'y': [self.feature_radius]
+                "x": [0.0],
+                "y": [self.feature_radius]
             }),
 
             self.create_circle(
@@ -945,8 +945,8 @@ class RestrictedArc(BaseBasketballFeature):
             ),
 
             pd.DataFrame({
-                'x': [0.0, 0.0],
-                'y': [
+                "x": [0.0, 0.0],
+                "y": [
                     -self.feature_radius,
                     -(self.feature_radius + self.feature_thickness)
                 ]
@@ -960,8 +960,8 @@ class RestrictedArc(BaseBasketballFeature):
             ),
 
             pd.DataFrame({
-                'x': [0.0, 0.0],
-                'y': [
+                "x": [0.0, 0.0],
+                "y": [
                     self.feature_radius + self.feature_thickness,
                     self.feature_radius
                 ]
@@ -1042,7 +1042,7 @@ class BasketRing(BaseBasketballFeature):
 
         basket_ring_df = pd.concat([
             pd.DataFrame({
-                'x': [
+                "x": [
                     0.0,
                     -self.backboard_face_to_basket_center +
                     (
@@ -1051,7 +1051,7 @@ class BasketRing(BaseBasketballFeature):
                     )
                 ],
 
-                'y': [
+                "y": [
                     self.basket_ring_connector_width / 2.0,
                     self.basket_ring_connector_width / 2.0
                 ]
@@ -1065,7 +1065,7 @@ class BasketRing(BaseBasketballFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     -self.backboard_face_to_basket_center +
                     (
                         (self.feature_radius + self.feature_thickness) *
@@ -1075,7 +1075,7 @@ class BasketRing(BaseBasketballFeature):
                     0.0
                 ],
 
-                'y': [
+                "y": [
                     -self.basket_ring_connector_width / 2.0,
                     -self.basket_ring_connector_width / 2.0,
                     self.basket_ring_connector_width / 2.0

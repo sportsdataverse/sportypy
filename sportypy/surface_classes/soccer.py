@@ -38,7 +38,7 @@ class SoccerPitch(BaseSurfacePlot):
 
     Attributes
     ----------
-    - league_code : str (default: '')
+    - league_code : str (default: "")
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "Major League
         Soccer" should be either "MLS" or "mls")
@@ -61,7 +61,7 @@ class SoccerPitch(BaseSurfacePlot):
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
 
-    - units : str (default: 'default')
+    - units : str (default: "default")
         The units that the final plot should utilize. The default units are the
         units specified in the rule book of the league
 
@@ -141,11 +141,11 @@ class SoccerPitch(BaseSurfacePlot):
         The depth of the goal from the back edge of the goal line
     """
 
-    def __init__(self, league_code = '', pitch_updates = {}, colors_dict = {},
+    def __init__(self, league_code = "", pitch_updates = {}, colors_dict = {},
                  rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = 'default', **added_features):
+                 units = "default", **added_features):
         # Load all pre-defined pitch dimensions for provided leagues
-        self._load_preset_dimensions(sport = 'soccer')
+        self._load_preset_dimensions(sport = "soccer")
 
         # Load all unit conversions
         self._load_unit_conversions()
@@ -174,15 +174,15 @@ class SoccerPitch(BaseSurfacePlot):
         self.pitch_params = pitch_params
 
         # Convert the pitch's units if needed
-        if units.lower() != 'default':
+        if units.lower() != "default":
             for k, v in pitch_params.items():
                 self.pitch_params[k] = self._convert_units(
                     v,
-                    self.pitch_params['pitch_units'],
+                    self.pitch_params["pitch_units"],
                     units.lower()
                 )
 
-            self.pitch_params['pitch_units'] = units.lower()
+            self.pitch_params["pitch_units"] = units.lower()
 
         # Set the rotation of the plot to be the supplied rotation value
         self.rotation_amt = rotation
@@ -203,21 +203,21 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the default colors of the pitch
         default_colors = {
-            'plot_background': '#196f0c',
-            'defensive_half_pitch': '#195f0c',
-            'offensive_half_pitch': '#195f0c',
-            'pitch_apron': '#195f0c',
-            'touchline': '#ffffff',
-            'goal_line': '#ffffff',
-            'corner_arc': '#ffffff',
-            'halfway_line': '#ffffff',
-            'center_circle': '#ffffff',
-            'center_mark': '#ffffff',
-            'penalty_box': '#ffffff',
-            'goal_box': '#ffffff',
-            'penalty_mark': '#ffffff',
-            'corner_defensive_mark': '#ffffff',
-            'goal': '#ffffff'
+            "plot_background": "#196f0c",
+            "defensive_half_pitch": "#195f0c",
+            "offensive_half_pitch": "#195f0c",
+            "pitch_apron": "#195f0c",
+            "touchline": "#ffffff",
+            "goal_line": "#ffffff",
+            "corner_arc": "#ffffff",
+            "halfway_line": "#ffffff",
+            "center_circle": "#ffffff",
+            "center_mark": "#ffffff",
+            "penalty_box": "#ffffff",
+            "goal_box": "#ffffff",
+            "penalty_mark": "#ffffff",
+            "corner_defensive_mark": "#ffffff",
+            "goal": "#ffffff"
         }
 
         # Combine the colors with a passed colors dictionary
@@ -234,15 +234,15 @@ class SoccerPitch(BaseSurfacePlot):
         # contained within the pitch. The feature itself is not visible (as
         # it's created by the soccer.pitch class)
         pitch_constraint_params = {
-            'class': soccer.PitchConstraint,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'visible': False
+            "class": soccer.PitchConstraint,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "visible": False
         }
         self._initialize_feature(pitch_constraint_params)
 
@@ -251,321 +251,321 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the offensive half of the pitch
         defensive_half_params = {
-            'class': soccer.HalfPitch,
-            'x_anchor': -self.pitch_params.get('pitch_length', 0.0) / 4.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['defensive_half_pitch'],
-            'edgecolor': None,
-            'zorder': 5
+            "class": soccer.HalfPitch,
+            "x_anchor": -self.pitch_params.get("pitch_length", 0.0) / 4.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["defensive_half_pitch"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(defensive_half_params)
 
         # Initialize the offensive half of the pitch
         offensive_half_params = {
-            'class': soccer.HalfPitch,
-            'x_anchor': self.pitch_params.get('pitch_length', 0.0) / 4.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['offensive_half_pitch'],
-            'edgecolor': None,
-            'zorder': 5
+            "class": soccer.HalfPitch,
+            "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 4.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["offensive_half_pitch"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(offensive_half_params)
 
         # Initialize the pitch apron
         pitch_apron_params = {
-            'class': soccer.PitchApron,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'pitch_apron_touchline': self.pitch_params.get(
-                'pitch_apron_touchline',
+            "class": soccer.PitchApron,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "pitch_apron_touchline": self.pitch_params.get(
+                "pitch_apron_touchline",
                 0.0
             ),
-            'pitch_apron_goal_line': self.pitch_params.get(
-                'pitch_apron_goal_line',
+            "pitch_apron_goal_line": self.pitch_params.get(
+                "pitch_apron_goal_line",
                 0.0
             ),
-            'goal_depth': self.pitch_params.get('goal_depth', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['pitch_apron'],
-            'edgecolor': None,
-            'zorder': 5
+            "goal_depth": self.pitch_params.get("goal_depth", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["pitch_apron"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(pitch_apron_params)
 
         # Initialize the touchlines
         touchline_params = {
-            'class': soccer.Touchline,
-            'x_anchor': 0.0,
-            'y_anchor': self.pitch_params.get('pitch_width', 0.0) / 2.0,
-            'reflect_x': False,
-            'reflect_y': True,
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['touchline'],
-            'edgecolor': None,
-            'zorder': 16
+            "class": soccer.Touchline,
+            "x_anchor": 0.0,
+            "y_anchor": self.pitch_params.get("pitch_width", 0.0) / 2.0,
+            "reflect_x": False,
+            "reflect_y": True,
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["touchline"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(touchline_params)
 
         # Initialize the goal lines
         goal_line_params = {
-            'class': soccer.GoalLine,
-            'x_anchor': self.pitch_params.get('pitch_length', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['goal_line'],
-            'edgecolor': None,
-            'zorder': 16
+            "class": soccer.GoalLine,
+            "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 2.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["goal_line"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(goal_line_params)
 
         # Initialize corner arcs
         corner_arc_params = {
-            'class': soccer.CornerArc,
-            'x_anchor': (
-                (self.pitch_params.get('pitch_length', 0.0) / 2.0) -
-                (self.pitch_params.get('line_thickness', 0.0) / 2.0)
+            "class": soccer.CornerArc,
+            "x_anchor": (
+                (self.pitch_params.get("pitch_length", 0.0) / 2.0) -
+                (self.pitch_params.get("line_thickness", 0.0) / 2.0)
             ),
-            'y_anchor': (
-                (self.pitch_params.get('pitch_width', 0.0) / 2.0) -
-                (self.pitch_params.get('line_thickness', 0.0) / 2.0)
+            "y_anchor": (
+                (self.pitch_params.get("pitch_width", 0.0) / 2.0) -
+                (self.pitch_params.get("line_thickness", 0.0) / 2.0)
             ),
-            'reflect_x': True,
-            'reflect_y': True,
-            'feature_radius': self.pitch_params.get('corner_arc_radius', 0.0),
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['corner_arc'],
-            'edgecolor': None,
-            'zorder': 16
+            "reflect_x": True,
+            "reflect_y": True,
+            "feature_radius": self.pitch_params.get("corner_arc_radius", 0.0),
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["corner_arc"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(corner_arc_params)
 
         # Initialize the halfway line
         halfway_line_params = {
-            'class': soccer.HalfwayLine,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['halfway_line'],
-            'edgecolor': None,
-            'zorder': 16
+            "class": soccer.HalfwayLine,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["halfway_line"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(halfway_line_params)
 
         # Initialize the penalty (16.5m) box
         penalty_box_params = {
-            'class': soccer.PenaltyBox,
-            'x_anchor': self.pitch_params.get('pitch_length', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': True,
-            'box_length': self.pitch_params.get('penalty_box_length', 0.0),
-            'penalty_mark_dist': self.pitch_params.get(
-                'penalty_mark_dist',
+            "class": soccer.PenaltyBox,
+            "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 2.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": True,
+            "box_length": self.pitch_params.get("penalty_box_length", 0.0),
+            "penalty_mark_dist": self.pitch_params.get(
+                "penalty_mark_dist",
                 0.0
             ),
-            'goal_width': self.pitch_params.get('goal_width', 0.0),
-            'goal_post_to_box_edge': self.pitch_params.get(
-                'interior_of_goal_post_to_penalty_box',
+            "goal_width": self.pitch_params.get("goal_width", 0.0),
+            "goal_post_to_box_edge": self.pitch_params.get(
+                "interior_of_goal_post_to_penalty_box",
                 0.0
             ),
-            'feature_radius': self.pitch_params.get(
-                'penalty_circle_radius',
+            "feature_radius": self.pitch_params.get(
+                "penalty_circle_radius",
                 0.0
             ),
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['penalty_box'],
-            'edgecolor': None,
-            'zorder': 16
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["penalty_box"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(penalty_box_params)
 
         # Initialize the goal box (5.5 m box)
         goal_box_params = {
-            'class': soccer.GoalBox,
-            'x_anchor': self.pitch_params.get('pitch_length', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'box_length': self.pitch_params.get('goal_box_length', 0.0),
-            'goal_width': self.pitch_params.get('goal_width', 0.0),
-            'goal_post_to_box_edge': self.pitch_params.get(
-                'interior_of_goal_post_to_goal_box',
+            "class": soccer.GoalBox,
+            "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 2.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "box_length": self.pitch_params.get("goal_box_length", 0.0),
+            "goal_width": self.pitch_params.get("goal_width", 0.0),
+            "goal_post_to_box_edge": self.pitch_params.get(
+                "interior_of_goal_post_to_goal_box",
                 0.0
             ),
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['goal_box'],
-            'edgecolor': None,
-            'zorder': 16
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["goal_box"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(goal_box_params)
 
         # Initialize the center circle
         center_circle_params = {
-            'class': soccer.CenterCircle,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_radius': self.pitch_params.get(
-                'center_circle_radius',
+            "class": soccer.CenterCircle,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_radius": self.pitch_params.get(
+                "center_circle_radius",
                 0.0
             ),
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['center_circle'],
-            'edgecolor': None,
-            'zorder': 16
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["center_circle"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(center_circle_params)
 
         # Initialize the penalty mark
         penalty_mark_params = {
-            'class': soccer.PenaltyMark,
-            'x_anchor': (
-                (self.pitch_params.get('pitch_length', 0.0) / 2.0) -
-                self.pitch_params.get('penalty_mark_dist', 0.0)
+            "class": soccer.PenaltyMark,
+            "x_anchor": (
+                (self.pitch_params.get("pitch_length", 0.0) / 2.0) -
+                self.pitch_params.get("penalty_mark_dist", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_radius': self.pitch_params.get(
-                'penalty_mark_radius',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_radius": self.pitch_params.get(
+                "penalty_mark_radius",
                 0.0
             ),
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['penalty_mark'],
-            'edgecolor': None,
-            'zorder': 16
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["penalty_mark"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(penalty_mark_params)
 
         # Initialize the center mark
         center_mark_params = {
-            'class': soccer.CenterMark,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'feature_radius': self.pitch_params.get('center_mark_radius', 0.0),
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['center_mark'],
-            'edgecolor': None,
-            'zorder': 17
+            "class": soccer.CenterMark,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_radius": self.pitch_params.get("center_mark_radius", 0.0),
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["center_mark"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(center_mark_params)
 
         # Initialize the corner defensive mark on the touchline
         touchline_corner_defensive_mark_params = {
-            'class': soccer.CornerDefensiveMark,
-            'x_anchor': (
-                (self.pitch_params.get('pitch_length', 0.0) / 2.0) -
-                self.pitch_params.get('defensive_mark_distance', 0.0)
+            "class": soccer.CornerDefensiveMark,
+            "x_anchor": (
+                (self.pitch_params.get("pitch_length", 0.0) / 2.0) -
+                self.pitch_params.get("defensive_mark_distance", 0.0)
             ),
-            'y_anchor': self.pitch_params.get('pitch_width', 0.0) / 2.0,
-            'reflect_x': True,
-            'reflect_y': True,
-            'visible': self.pitch_params.get(
-                'touchline_defensive_mark_visible',
+            "y_anchor": self.pitch_params.get("pitch_width", 0.0) / 2.0,
+            "reflect_x": True,
+            "reflect_y": True,
+            "visible": self.pitch_params.get(
+                "touchline_defensive_mark_visible",
                 True
             ),
-            'depth': self.pitch_params.get('defensive_mark_depth', 0.0),
-            'separation_from_line': self.pitch_params.get(
-                'defensive_mark_separation_from_line',
+            "depth": self.pitch_params.get("defensive_mark_depth", 0.0),
+            "separation_from_line": self.pitch_params.get(
+                "defensive_mark_separation_from_line",
                 0.0
             ),
-            'is_touchline': True,
-            'is_constrained': False,
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['corner_defensive_mark'],
-            'edgecolor': None,
-            'zorder': 17
+            "is_touchline": True,
+            "is_constrained": False,
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["corner_defensive_mark"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(touchline_corner_defensive_mark_params)
 
         # Initialize the corner defensive mark on the goal line
         goal_line_corner_defensive_mark_params = {
-            'class': soccer.CornerDefensiveMark,
-            'x_anchor': self.pitch_params.get('pitch_length', 0.0) / 2.0,
-            'y_anchor': (
-                (self.pitch_params.get('pitch_width', 0.0) / 2.0) -
-                self.pitch_params.get('defensive_mark_distance', 0.0)
+            "class": soccer.CornerDefensiveMark,
+            "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 2.0,
+            "y_anchor": (
+                (self.pitch_params.get("pitch_width", 0.0) / 2.0) -
+                self.pitch_params.get("defensive_mark_distance", 0.0)
             ),
-            'reflect_x': True,
-            'reflect_y': True,
-            'visible': self.pitch_params.get(
-                'goal_line_defensive_mark_visible',
+            "reflect_x": True,
+            "reflect_y": True,
+            "visible": self.pitch_params.get(
+                "goal_line_defensive_mark_visible",
                 True
             ),
-            'depth': self.pitch_params.get('defensive_mark_depth', 0.0),
-            'separation_from_line': self.pitch_params.get(
-                'defensive_mark_separation_from_line',
+            "depth": self.pitch_params.get("defensive_mark_depth", 0.0),
+            "separation_from_line": self.pitch_params.get(
+                "defensive_mark_separation_from_line",
                 0.0
             ),
-            'is_goal_line': True,
-            'is_constrained': False,
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['corner_defensive_mark'],
-            'edgecolor': None,
-            'zorder': 17
+            "is_goal_line": True,
+            "is_constrained": False,
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["corner_defensive_mark"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(goal_line_corner_defensive_mark_params)
 
         # Initialize the goal
         goal_params = {
-            'class': soccer.Goal,
-            'x_anchor': (
-                (self.pitch_params.get('pitch_length', 0.0) / 2.0) -
-                self.pitch_params.get('line_thickness', 0.0)
+            "class": soccer.Goal,
+            "x_anchor": (
+                (self.pitch_params.get("pitch_length", 0.0) / 2.0) -
+                self.pitch_params.get("line_thickness", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'visible': True,
-            'goal_width': self.pitch_params.get('goal_width', 0.0),
-            'goal_depth': self.pitch_params.get('goal_depth', 0.0),
-            'feature_thickness': self.pitch_params.get('line_thickness', 0.0),
-            'pitch_length': self.pitch_params.get('pitch_length', 0.0),
-            'pitch_width': self.pitch_params.get('pitch_width', 0.0),
-            'facecolor': self.feature_colors['goal'],
-            'edgecolor': None,
-            'zorder': 16
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "visible": True,
+            "goal_width": self.pitch_params.get("goal_width", 0.0),
+            "goal_depth": self.pitch_params.get("goal_depth", 0.0),
+            "feature_thickness": self.pitch_params.get("line_thickness", 0.0),
+            "pitch_length": self.pitch_params.get("pitch_length", 0.0),
+            "pitch_width": self.pitch_params.get("pitch_width", 0.0),
+            "facecolor": self.feature_colors["goal"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(goal_params)
 
@@ -573,7 +573,7 @@ class SoccerPitch(BaseSurfacePlot):
         for added_feature in added_features.values():
             self._initialize_feature(added_feature)
 
-    def draw(self, ax = None, display_range = 'full', xlim = None, ylim = None,
+    def draw(self, ax = None, display_range = "full", xlim = None, ylim = None,
              rotation = None):
         """Draw the pitch.
 
@@ -589,7 +589,17 @@ class SoccerPitch(BaseSurfacePlot):
             is shown in the final plot. The following explain what each display
             range corresponds to:
 
-                'full' : the entire pitch
+                "full" : the entire pitch
+                "offense" : the TV-right half of the pitch
+                "offence" : the TV-right half of the pitch
+                "offensivehalfpitch" : the TV-right half of the pitch
+                "offensive_half_pitch" : the TV-right half of the pitch
+                "offensive half pitch" : the TV-right half of the pitch
+                "defense" : the TV-left half of the pitch
+                "defence" : the TV-left half of the pitch
+                "defensivehalfpitch" : the TV-left half of the pitch
+                "defensive_half_pitch": : the TV-left half of the pitch
+                "defensive half pitch" : the TV-left half of the pitch
 
         xlim : float, tuple (float, float), or None (default: None)
             The display range in the x direction to be used. If a single
@@ -621,14 +631,14 @@ class SoccerPitch(BaseSurfacePlot):
         # If an Axes object is not provided, create one to use for plotting
         if ax is None:
             fig, ax = plt.subplots()
-            fig.patch.set_facecolor(self.feature_colors['plot_background'])
+            fig.patch.set_facecolor(self.feature_colors["plot_background"])
             fig.set_size_inches(50, 50)
             ax = plt.gca()
 
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
-        ax.set_aspect('equal')
-        ax.axis('off')
+        ax.set_aspect("equal")
+        ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
@@ -658,8 +668,8 @@ class SoccerPitch(BaseSurfacePlot):
                     # limits to be its minimum and maximum values of x
                     if self._feature_xlim is None:
                         self._feature_xlim = [
-                            feature_df['x'].min(),
-                            feature_df['x'].max()
+                            feature_df["x"].min(),
+                            feature_df["x"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -667,16 +677,16 @@ class SoccerPitch(BaseSurfacePlot):
                     # of its specified maximum and largest x value
                     else:
                         self._feature_xlim = [
-                            min(self._feature_xlim[0], feature_df['x'].min()),
-                            max(self._feature_xlim[1], feature_df['x'].max())
+                            min(self._feature_xlim[0], feature_df["x"].min()),
+                            max(self._feature_xlim[1], feature_df["x"].max())
                         ]
 
                     # If the feature doesn't have a limitation on y, set its
                     # limits to be its minimum and maximum values of y
                     if self._feature_ylim is None:
                         self._feature_ylim = [
-                            feature_df['y'].min(),
-                            feature_df['y'].max()
+                            feature_df["y"].min(),
+                            feature_df["y"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -684,8 +694,8 @@ class SoccerPitch(BaseSurfacePlot):
                     # of its specified maximum and largest y value
                     else:
                         self._feature_ylim = [
-                            min(self._feature_ylim[0], feature_df['y'].min()),
-                            max(self._feature_ylim[1], feature_df['y'].max())
+                            min(self._feature_ylim[0], feature_df["y"].min()),
+                            max(self._feature_ylim[1], feature_df["y"].max())
                         ]
 
         # Set the plot's display range
@@ -732,26 +742,26 @@ class SoccerPitch(BaseSurfacePlot):
             # If the league code exists, return it as a list of length 1 with
             # a printed message
             if league_code in available_league_codes:
-                print(f'{league_code.upper()} comes with sportypy and is '
-                      'ready to use!')
+                print(f"{league_code.upper()} comes with sportypy and is "
+                      "ready to use!")
 
             # Otherwise, alert the user that they will need to manually specify
             # the parameters of the league
             else:
-                print(f'{league_code.upper()} does not come with sportypy, '
-                      'but may be parameterized. Use the '
-                      'cani_change_dimensions() to check what parameters are '
-                      'needed.')
+                print(f"{league_code.upper()} does not come with sportypy, "
+                      "but may be parameterized. Use the "
+                      "cani_change_dimensions() to check what parameters are "
+                      "needed.")
 
         # If no league code is provided, print out the list of all available
         else:
             # Preamble
-            print('The following soccer leagues are available with '
-                  'sportypy:\n')
+            print("The following soccer leagues are available with "
+                  "sportypy:\n")
 
             # Print the current leagues
             for league_code in available_league_codes:
-                print(f'- {league_code.upper()}')
+                print(f"- {league_code.upper()}")
 
     def cani_color_features(self):
         """Determine what features of the pitch can be colored.
@@ -765,15 +775,15 @@ class SoccerPitch(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be colored via the colors_dict '
-              'parameter, with the current value in parenthesis:\n')
+        print("The following features can be colored via the colors_dict "
+              "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.feature_colors.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese colors may be updated with the update_colors() method')
+        print("\nThese colors may be updated with the update_colors() method")
 
     def cani_change_dimensions(self):
         """Determine what features of the pitch can be re-parameterized.
@@ -789,17 +799,17 @@ class SoccerPitch(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be reparameterized via the '
-              'pitch_updates parameter, with the current value in '
-              'parenthesis:\n')
+        print("The following features can be reparameterized via the "
+              "pitch_updates parameter, with the current value in "
+              "parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.pitch_params.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese parameters may be updated with the '
-              'update_pitch_params() method')
+        print("\nThese parameters may be updated with the "
+              "update_pitch_params() method")
 
     def update_colors(self, color_updates = {}, *args, **kwargs):
         """Update the colors currently used in the plot.
@@ -813,7 +823,7 @@ class SoccerPitch(BaseSurfacePlot):
         ----------
         color_updates : dict (default: {}; an empty dictionary)
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see cani_color_features() method for
+            that"s color is to be updated (see cani_color_features() method for
             a list of these names)
 
         Returns
@@ -879,21 +889,21 @@ class SoccerPitch(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            'plot_background': '#196f0c',
-            'defensive_half_pitch': '#195f0c',
-            'offensive_half_pitch': '#195f0c',
-            'pitch_apron': '#195f0c',
-            'touchline': '#ffffff',
-            'goal_line': '#ffffff',
-            'corner_arc': '#ffffff',
-            'halfway_line': '#ffffff',
-            'center_circle': '#ffffff',
-            'center_mark': '#ffffff',
-            'penalty_box': '#ffffff',
-            'goal_box': '#ffffff',
-            'penalty_mark': '#ffffff',
-            'corner_defensive_mark': '#ffffff',
-            'goal': '#ffffff'
+            "plot_background": "#196f0c",
+            "defensive_half_pitch": "#195f0c",
+            "offensive_half_pitch": "#195f0c",
+            "pitch_apron": "#195f0c",
+            "touchline": "#ffffff",
+            "goal_line": "#ffffff",
+            "corner_arc": "#ffffff",
+            "halfway_line": "#ffffff",
+            "center_circle": "#ffffff",
+            "center_mark": "#ffffff",
+            "penalty_box": "#ffffff",
+            "goal_box": "#ffffff",
+            "penalty_mark": "#ffffff",
+            "corner_defensive_mark": "#ffffff",
+            "goal": "#ffffff"
         }
 
         self.__init__(
@@ -918,14 +928,14 @@ class SoccerPitch(BaseSurfacePlot):
             colors_dict = self.feature_colors
         )
 
-    def _get_plot_range_limits(self, display_range = 'full', xlim = None,
+    def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: 'full')
+        display_range : str (default: "full")
             The range of which to display the plot. This is a key that will
             be searched for in the ranges_dict parameter
 
@@ -944,8 +954,8 @@ class SoccerPitch(BaseSurfacePlot):
             The y-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
-        if display_range == '' or display_range is None:
-            display_range = 'full'
+        if display_range == "" or display_range is None:
+            display_range = "full"
 
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
@@ -956,48 +966,48 @@ class SoccerPitch(BaseSurfacePlot):
         # dimensions that are internal to the surface
         if for_plot:
             half_pitch_length = (
-                self.pitch_params.get('pitch_length', 0.0) / 2.0
+                self.pitch_params.get("pitch_length", 0.0) / 2.0
             )
             half_pitch_width = (
-                self.pitch_params.get('pitch_width', 0.0) / 2.0
+                self.pitch_params.get("pitch_width", 0.0) / 2.0
             )
 
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. any out of bounds features)
         if for_display:
             half_pitch_length = (
-                (self.pitch_params.get('pitch_length', 0.0) / 2.0) +
-                (self.pitch_params.get('pitch_apron_goal_line', 0.0))
+                (self.pitch_params.get("pitch_length", 0.0) / 2.0) +
+                (self.pitch_params.get("pitch_apron_goal_line", 0.0))
             )
 
             half_pitch_width = (
-                (self.pitch_params.get('pitch_width', 0.0) / 2.0) +
-                (self.pitch_params.get('pitch_apron_touchline', 0.0))
+                (self.pitch_params.get("pitch_width", 0.0) / 2.0) +
+                (self.pitch_params.get("pitch_apron_touchline", 0.0))
             )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             xlims = {
                 # Full surface (default)
-                'full': (-half_pitch_length, half_pitch_length),
+                "full": (-half_pitch_length, half_pitch_length),
 
                 # Offensive half-pitch
-                'offense': (0.0, half_pitch_length),
-                'offence': (0.0, half_pitch_length),
-                'offensivehalfpitch': (0.0, half_pitch_length),
-                'offensive_half_pitch': (0.0, half_pitch_length),
-                'offensive half pitch': (0.0, half_pitch_length),
+                "offense": (0.0, half_pitch_length),
+                "offence": (0.0, half_pitch_length),
+                "offensivehalfpitch": (0.0, half_pitch_length),
+                "offensive_half_pitch": (0.0, half_pitch_length),
+                "offensive half pitch": (0.0, half_pitch_length),
 
                 # Defensive half-pitch
-                'defense': (-half_pitch_length, 0.0),
-                'defence': (-half_pitch_length, 0.0),
-                'defensivehalfpitch': (-half_pitch_length, 0.0),
-                'defensive_half_pitch': (-half_pitch_length, 0.0),
-                'defensive half pitch': (-half_pitch_length, 0.0)
+                "defense": (-half_pitch_length, 0.0),
+                "defence": (-half_pitch_length, 0.0),
+                "defensivehalfpitch": (-half_pitch_length, 0.0),
+                "defensive_half_pitch": (-half_pitch_length, 0.0),
+                "defensive half pitch": (-half_pitch_length, 0.0)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -1033,22 +1043,22 @@ class SoccerPitch(BaseSurfacePlot):
         # added here
         if not ylim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                'full': (-(half_pitch_width), half_pitch_width),
-                'offense': (-half_pitch_width, half_pitch_width),
-                'offence': (-half_pitch_width, half_pitch_width),
-                'offensivehalfpitch': (-half_pitch_width, half_pitch_width),
-                'offensive_half_pitch': (-half_pitch_width, half_pitch_width),
-                'offensive half pitch': (-half_pitch_width, half_pitch_width),
-                'defense': (-half_pitch_width, half_pitch_width),
-                'defence': (-half_pitch_width, half_pitch_width),
-                'defensivehalfpitch': (-half_pitch_width, half_pitch_width),
-                'defensive_half_pitch': (-half_pitch_width, half_pitch_width),
-                'defensive half pitch': (-half_pitch_width, half_pitch_width)
+                "full": (-(half_pitch_width), half_pitch_width),
+                "offense": (-half_pitch_width, half_pitch_width),
+                "offence": (-half_pitch_width, half_pitch_width),
+                "offensivehalfpitch": (-half_pitch_width, half_pitch_width),
+                "offensive_half_pitch": (-half_pitch_width, half_pitch_width),
+                "offensive half pitch": (-half_pitch_width, half_pitch_width),
+                "defense": (-half_pitch_width, half_pitch_width),
+                "defence": (-half_pitch_width, half_pitch_width),
+                "defensivehalfpitch": (-half_pitch_width, half_pitch_width),
+                "defensive_half_pitch": (-half_pitch_width, half_pitch_width),
+                "defensive half pitch": (-half_pitch_width, half_pitch_width)
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
@@ -1108,7 +1118,7 @@ class EPLPitch(SoccerPitch):
     def __init__(self, pitch_updates = {}, *args, **kwargs):
         # Initialize the SoccerPitch class with the relevant parameters
         super().__init__(
-            league_code = 'epl',
+            league_code = "epl",
             pitch_updates = pitch_updates,
             *args,
             **kwargs
@@ -1124,7 +1134,7 @@ class FIFAPitch(SoccerPitch):
     def __init__(self, pitch_updates = {}, *args, **kwargs):
         # Initialize the SoccerPitch class with the relevant parameters
         super().__init__(
-            league_code = 'fifa',
+            league_code = "fifa",
             pitch_updates = pitch_updates,
             *args,
             **kwargs
@@ -1140,7 +1150,7 @@ class MLSPitch(SoccerPitch):
     def __init__(self, pitch_updates = {}, *args, **kwargs):
         # Initialize the SoccerPitch class with the relevant parameters
         super().__init__(
-            league_code = 'mls',
+            league_code = "mls",
             pitch_updates = pitch_updates,
             *args,
             **kwargs
@@ -1156,7 +1166,7 @@ class NCAAPitch(SoccerPitch):
     def __init__(self, pitch_updates = {}, *args, **kwargs):
         # Initialize the SoccerPitch class with the relevant parameters
         super().__init__(
-            league_code = 'ncaa',
+            league_code = "ncaa",
             pitch_updates = pitch_updates,
             *args,
             **kwargs
@@ -1172,7 +1182,7 @@ class NWSLPitch(SoccerPitch):
     def __init__(self, pitch_updates = {}, *args, **kwargs):
         # Initialize the SoccerPitch class with the relevant parameters
         super().__init__(
-            league_code = 'nwsl',
+            league_code = "nwsl",
             pitch_updates = pitch_updates,
             *args,
             **kwargs

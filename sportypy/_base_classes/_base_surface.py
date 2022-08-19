@@ -28,7 +28,7 @@ class BaseSurface(ABC):
         x_trans value to be -26.333 so that the line y = 0 corresponds to the
         inner edge of the back of the left endzone
 
-    rulebook_unit : str (default: 'ft')
+    rulebook_unit : str (default: "ft")
         The units provided in the rule book. These serve as the base unit for
         the plot, however this behavior may be overridden by a user supplying
         their own units
@@ -58,7 +58,7 @@ class BaseSurface(ABC):
     _display_ranges : dict or None (default: None)
         A dictionary that stores the display ranges that are available for a
         given surface's plot. The dictionary will have keys corresponding to
-        the range to display (i.e. 'full' being the full surface), and values
+        the range to display (i.e. "full" being the full surface), and values
         that are themselves a dictionary of x limits, y limits, and a brief
         description of what each display range corresponds to. This will be
         created by the surface class' _get_display_ranges_dict() method
@@ -145,22 +145,22 @@ class BaseSurface(ABC):
         """
         # Get the feature's class. This will be instantiated later, but removed
         # from the feature's parameter dictionary now
-        feature_class = params.pop('class')
+        feature_class = params.pop("class")
 
         # Get the coordinates of the feature's center in the final plot. If
         # none exist, set the default to be 0. These will be numpy ndarrays
-        center_of_feature_x = np.ravel(params.get('x_anchor', [0]))
-        center_of_feature_y = np.ravel(params.get('y_anchor', [0]))
+        center_of_feature_x = np.ravel(params.get("x_anchor", [0]))
+        center_of_feature_y = np.ravel(params.get("y_anchor", [0]))
 
         # Determine whether or not to reflect the x and y coordinates over the
         # respective axes
-        if params.pop('reflect_x', False):
+        if params.pop("reflect_x", False):
             x_reflections = [False, True]
 
         else:
             x_reflections = [False]
 
-        if params.pop('reflect_y', False):
+        if params.pop("reflect_y", False):
             y_reflections = [False, True]
 
         else:
@@ -179,20 +179,20 @@ class BaseSurface(ABC):
                         # If necessary, reflect the feature over the
                         # appropriate axes
                         if x_reflection:
-                            feature_params['x_anchor'] = -1 * x
+                            feature_params["x_anchor"] = -1 * x
                         else:
-                            feature_params['x_anchor'] = x
+                            feature_params["x_anchor"] = x
 
                         if y_reflection:
-                            feature_params['y_anchor'] = -1 * y
+                            feature_params["y_anchor"] = -1 * y
                         else:
-                            feature_params['y_anchor'] = y
+                            feature_params["y_anchor"] = y
 
                         # Add the relevant information to the feature's class
                         # construction dictionary. This will be used by the
                         # feature's instantiation methods
-                        feature_params['reflect_x'] = x_reflection
-                        feature_params['reflect_y'] = y_reflection
+                        feature_params["reflect_x"] = x_reflection
+                        feature_params["reflect_y"] = y_reflection
 
                         # Instantiate the feature and append it to the
                         # surface's self._features attribute
@@ -327,7 +327,7 @@ class BaseSurface(ABC):
         """
         pass
 
-    def set_plot_display_range(self, ax = None, display_range = 'full',
+    def set_plot_display_range(self, ax = None, display_range = "full",
                                xlim = None, ylim = None, for_plot = False,
                                for_display = True):
         """Set the x and y limits for the matplotlib Axes object for the plot.
@@ -337,7 +337,7 @@ class BaseSurface(ABC):
         ax : matplotlib.Axes or None (default: None)
             The Axes object onto which xlim and ylim will be set
 
-        display_range : str (default: 'full')
+        display_range : str (default: "full")
             The portion of the surface to display. The entire surface is
             drawn regardless, however this reduces the displayed range to be
             what is desired. This is passed to each surface's
@@ -373,17 +373,17 @@ class BaseSurface(ABC):
 
         # Get the constraining feature's polygon's x and y coordinates
         constraint_df = self._surface_constraint._get_centered_feature()
-        mask = (constraint_df['x'] >= xlim[0]) & \
-               (constraint_df['x'] <= xlim[1]) & \
-               (constraint_df['y'] >= ylim[0]) & \
-               (constraint_df['y'] <= ylim[1])
+        mask = (constraint_df["x"] >= xlim[0]) & \
+               (constraint_df["x"] <= xlim[1]) & \
+               (constraint_df["y"] >= ylim[0]) & \
+               (constraint_df["y"] <= ylim[1])
 
-        x = np.concatenate((constraint_df['x'][mask], xlim, xlim))
-        y = np.concatenate((constraint_df['y'][mask], ylim, ylim[::-1]))
+        x = np.concatenate((constraint_df["x"][mask], xlim, xlim))
+        y = np.concatenate((constraint_df["y"][mask], ylim, ylim[::-1]))
 
         # If the full display range is desired, set the x and y limit
         # attributes
-        if display_range == 'full':
+        if display_range == "full":
             if self._feature_xlim:
                 x = np.concatenate((x, self._feature_xlim))
             if self._feature_ylim:
@@ -409,7 +409,7 @@ class BaseSurface(ABC):
         """
         # Load in the units that are convertable
         with importlib.resources.open_text(
-            'sportypy.data', 'unit_conversions.json'
+            "sportypy.data", "unit_conversions.json"
         ) as f:
             self.unit_conversions = json.load(f)
 
@@ -431,7 +431,7 @@ class BaseSurface(ABC):
         """
         # Load the pre-defined dimensions from the JSON file
         with importlib.resources.open_text(
-                'sportypy.data', 'surface_dimensions.json'
+                "sportypy.data", "surface_dimensions.json"
         ) as f:
             dimensions = json.load(f)
 
@@ -476,6 +476,6 @@ class BaseSurface(ABC):
             pass
 
         except KeyError:
-            print(f'{desired_unit} is not currently a supported unit')
+            print(f"{desired_unit} is not currently a supported unit")
 
         return value

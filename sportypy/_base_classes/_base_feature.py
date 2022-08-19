@@ -123,8 +123,8 @@ class BaseFeature(ABC):
         feature_df = self._get_centered_feature()
 
         # Then, reflect and shift all values as appropriate
-        feature_df['x'] = feature_df['x'] * self.x_reflection + self.x_anchor
-        feature_df['y'] = feature_df['y'] * self.y_reflection + self.y_anchor
+        feature_df["x"] = feature_df["x"] * self.x_reflection + self.x_anchor
+        feature_df["y"] = feature_df["y"] * self.y_reflection + self.y_anchor
 
         return feature_df
 
@@ -202,8 +202,8 @@ class BaseFeature(ABC):
         y = center[1] + (r * np.sin(theta))
 
         circle_pts = pd.DataFrame({
-            'x': x,
-            'y': y
+            "x": x,
+            "y": y
         })
 
         return circle_pts
@@ -245,7 +245,7 @@ class BaseFeature(ABC):
         #
         # This is the same path that a rectangle will follow
         rect_pts = pd.DataFrame({
-            'x': [
+            "x": [
                 x_min,
                 x_max,
                 x_max,
@@ -253,7 +253,7 @@ class BaseFeature(ABC):
                 x_min
             ],
 
-            'y': [
+            "y": [
                 y_min,
                 y_min,
                 y_max,
@@ -296,7 +296,7 @@ class BaseFeature(ABC):
         # This is the same path that a generated square will follow, with the
         # side lengths variable
         square_pts = pd.DataFrame({
-            'x': [
+            "x": [
                 center[0] - side_length / 2,
                 center[0] + side_length / 2,
                 center[0] + side_length / 2,
@@ -304,7 +304,7 @@ class BaseFeature(ABC):
                 center[0] - side_length / 2
             ],
 
-            'y': [
+            "y": [
                 center[1] - side_length / 2,
                 center[1] - side_length / 2,
                 center[1] + side_length / 2,
@@ -350,7 +350,7 @@ class BaseFeature(ABC):
         # This is the path that a diamond feature will also trace, with the
         # appropriate height and width
         diamond_pts = pd.DataFrame({
-            'x': [
+            "x": [
                 center[0] - (width / 2.0),
                 center[0],
                 center[0] + (width / 2.0),
@@ -358,7 +358,7 @@ class BaseFeature(ABC):
                 center[0] - (width / 2.0)
             ],
 
-            'y': [
+            "y": [
                 center[1],
                 center[1] - (height / 2.0),
                 center[1],
@@ -421,9 +421,9 @@ class BaseFeature(ABC):
         """
         out_df = df.copy()
         if over_x:
-            out_df['y'] = -1 * df['y']
+            out_df["y"] = -1 * df["y"]
         if over_y:
-            out_df['x'] = -1 * df['x']
+            out_df["x"] = -1 * df["x"]
 
         return out_df
 
@@ -431,8 +431,8 @@ class BaseFeature(ABC):
         """Mathematical rotation about (0.0, 0.0).
 
         This rotation is given as:
-            x' = x * cos(theta) - y * sin(theta)
-            y' = x * sin(theta) + y * cos(theta)
+            x" = x * cos(theta) - y * sin(theta)
+            y" = x * sin(theta) + y * cos(theta)
 
         Parameters
         ----------
@@ -452,13 +452,13 @@ class BaseFeature(ABC):
         theta = angle * np.pi
 
         rotated = df.copy()
-        rotated['x'] = (
-            (df['x'] * math.cos(theta)) -
-            (df['y'] * math.sin(theta))
+        rotated["x"] = (
+            (df["x"] * math.cos(theta)) -
+            (df["y"] * math.sin(theta))
         )
-        rotated['y'] = (
-            (df['x'] * math.sin(theta)) +
-            (df['y'] * math.cos(theta))
+        rotated["y"] = (
+            (df["x"] * math.sin(theta)) +
+            (df["y"] * math.cos(theta))
         )
 
         return rotated

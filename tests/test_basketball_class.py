@@ -116,18 +116,18 @@ def test_cani_plot_leagues_no_league_code():
     available_league_codes.sort()
 
     # Generate the expected output for cani_plot_leagues() with no league code
-    exp_pl_empty_league_code = ''
+    exp_pl_empty_league_code = ""
 
     exp_pl_empty_league_code = (
-        'The following basketball leagues are available with sportypy:\n'
+        "The following basketball leagues are available with sportypy:\n"
     )
 
     for league_code in available_league_codes[:-1]:
-        new_league = f'- {league_code.upper()}'
-        exp_pl_empty_league_code = f'{exp_pl_empty_league_code}\n{new_league}'
+        new_league = f"- {league_code.upper()}"
+        exp_pl_empty_league_code = f"{exp_pl_empty_league_code}\n{new_league}"
 
-    exp_pl_empty_league_code = (f'{exp_pl_empty_league_code}\n'
-                                f'- {available_league_codes[-1].upper()}\n')
+    exp_pl_empty_league_code = (f"{exp_pl_empty_league_code}\n"
+                                f"- {available_league_codes[-1].upper()}\n")
 
     # Initialize the output-capture
     pl_empty_league_code = io.StringIO()
@@ -145,8 +145,8 @@ def test_cani_plot_leagues_no_league_code():
 def test_cani_plot_leagues_nba():
     """Test cani_plot_leagues() method will return appropriate message.
 
-    When passed either 'nba', 'NBA', or any combination of capitalized and
-    lower-case letters of 'N', 'B', and 'A', this should return the same
+    When passed either "nba", "NBA", or any combination of capitalized and
+    lower-case letters of "N", "B", and "A", this should return the same
     message
     """
     # Create a BasketballCourt() object to use for testing
@@ -154,7 +154,7 @@ def test_cani_plot_leagues_nba():
 
     # Generate the expected output for cani_plot_leagues() with a league code
     # (this will use NBA as a test)
-    exp_pl_nba_league_code = 'NBA comes with sportypy and is ready to use!\n'
+    exp_pl_nba_league_code = "NBA comes with sportypy and is ready to use!\n"
 
     # Initialize the output-captures
     pl_nba_league_code_lower = io.StringIO()
@@ -163,13 +163,13 @@ def test_cani_plot_leagues_nba():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_nba_league_code_lower
-    test_court.cani_plot_leagues('nba')
+    test_court.cani_plot_leagues("nba")
 
     sys.stdout = pl_nba_league_code_upper
-    test_court.cani_plot_leagues('NBA')
+    test_court.cani_plot_leagues("NBA")
 
     sys.stdout = pl_nba_league_code_mixed
-    test_court.cani_plot_leagues('NbA')
+    test_court.cani_plot_leagues("NbA")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -191,9 +191,9 @@ def test_cani_plot_leagues_bad_league_code():
     # Generate the expected output for cani_plot_leagues() with an invalid
     # league code (this will use test_league as a test)
     exp_pl_bad_league_code = (
-        'TEST_LEAGUE does not come with sportypy, but may be parameterized. '
-        'Use the cani_change_dimensions() to check what parameters are needed.'
-        '\n'
+        "TEST_LEAGUE does not come with sportypy, but may be parameterized. "
+        "Use the cani_change_dimensions() to check what parameters are needed."
+        "\n"
     )
 
     # Initialize the output-capture
@@ -201,7 +201,7 @@ def test_cani_plot_leagues_bad_league_code():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_bad_league_code
-    test_court.cani_plot_leagues('test_league')
+    test_court.cani_plot_leagues("test_league")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -220,58 +220,58 @@ def test_cani_change_dimensions():
 
     # Generate the expected output for cani_change_dimensions()
     exp_change_dimensions = (
-        'The following features can be reparameterized via the court_updates '
-        'parameter, with the current value in parenthesis:\n\n'
-        '- court_length (94.0)\n'
-        '- court_width (50.0)\n'
-        '- court_units (ft)\n'
-        '- line_thickness (0.1667)\n'
-        '- bench_side (top)\n'
-        '- court_apron_endline (8.0)\n'
-        '- court_apron_sideline (5.0)\n'
-        '- court_apron_to_boundary (0.0)\n'
-        '- center_circle_radius ([6.0, 2.1667])\n'
-        '- basket_center_to_baseline (5.25)\n'
-        '- basket_center_to_three_point_arc (23.75)\n'
-        '- basket_center_to_corner_three (22.0)\n'
-        '- backboard_face_to_baseline (4.0)\n'
-        '- lane_length (19.0)\n'
-        '- lane_width (16.0)\n'
-        '- paint_margin (0.0)\n'
-        '- free_throw_circle_radius (6.0)\n'
-        '- free_throw_line_to_backboard (15.0)\n'
-        '- free_throw_circle_overhang (1.024)\n'
-        '- n_free_throw_circle_dashes (6.0)\n'
-        '- free_throw_dash_length (1.292)\n'
-        '- free_throw_dash_spacing (1.292)\n'
-        '- lane_space_mark_lengths ([[0.1667, 0.1667, 0.1667, 0.1667]])\n'
-        '- lane_space_mark_widths (0.5)\n'
-        '- lane_space_mark_separations ([[3.0, 0.8333, 3.0, 3.0]])\n'
-        '- painted_area_visibility (True)\n'
-        '- lane_boundary_visibility (True)\n'
-        '- lane_space_mark_visibility (True)\n'
-        '- lane_lower_defensive_box_marks_visibility (True)\n'
-        '- baseline_lower_defensive_box_marks_int_sep (19.0)\n'
-        '- baseline_to_lane_lower_defensive_box_marks (13.0)\n'
-        '- lane_lower_defensive_box_marks_int_sep (10.0)\n'
-        '- lower_defensive_box_mark_extension (0.5)\n'
-        '- inbounding_line_to_baseline (28.0)\n'
-        '- inbounding_line_anchor_side (1.0)\n'
-        '- inbounding_line_in_play_ext (3.0)\n'
-        '- inbounding_line_out_of_bounds_ext (0.0)\n'
-        '- symmetric_inbounding_line (True)\n'
-        '- substitution_line_ext_sep (8.5)\n'
-        '- substitution_line_width (4.0)\n'
-        '- restricted_arc_radius (4.0)\n'
-        '- backboard_width (6.0)\n'
-        '- backboard_thickness (0.171875)\n'
-        '- basket_ring_inner_radius (0.75)\n'
-        '- basket_ring_connector_width (0.5833)\n'
-        '- basket_ring_connector_extension (0.5)\n'
-        '- basket_ring_thickness (0.0656)\n'
-        '\n'
-        'These parameters may be updated with the update_court_params() '
-        'method\n'
+        "The following features can be reparameterized via the court_updates "
+        "parameter, with the current value in parenthesis:\n\n"
+        "- court_length (94.0)\n"
+        "- court_width (50.0)\n"
+        "- court_units (ft)\n"
+        "- line_thickness (0.1667)\n"
+        "- bench_side (top)\n"
+        "- court_apron_endline (8.0)\n"
+        "- court_apron_sideline (5.0)\n"
+        "- court_apron_to_boundary (0.0)\n"
+        "- center_circle_radius ([6.0, 2.1667])\n"
+        "- basket_center_to_baseline (5.25)\n"
+        "- basket_center_to_three_point_arc (23.75)\n"
+        "- basket_center_to_corner_three (22.0)\n"
+        "- backboard_face_to_baseline (4.0)\n"
+        "- lane_length (19.0)\n"
+        "- lane_width (16.0)\n"
+        "- paint_margin (0.0)\n"
+        "- free_throw_circle_radius (6.0)\n"
+        "- free_throw_line_to_backboard (15.0)\n"
+        "- free_throw_circle_overhang (1.024)\n"
+        "- n_free_throw_circle_dashes (6.0)\n"
+        "- free_throw_dash_length (1.292)\n"
+        "- free_throw_dash_spacing (1.292)\n"
+        "- lane_space_mark_lengths ([[0.1667, 0.1667, 0.1667, 0.1667]])\n"
+        "- lane_space_mark_widths (0.5)\n"
+        "- lane_space_mark_separations ([[3.0, 0.8333, 3.0, 3.0]])\n"
+        "- painted_area_visibility (True)\n"
+        "- lane_boundary_visibility (True)\n"
+        "- lane_space_mark_visibility (True)\n"
+        "- lane_lower_defensive_box_marks_visibility (True)\n"
+        "- baseline_lower_defensive_box_marks_int_sep (19.0)\n"
+        "- baseline_to_lane_lower_defensive_box_marks (13.0)\n"
+        "- lane_lower_defensive_box_marks_int_sep (10.0)\n"
+        "- lower_defensive_box_mark_extension (0.5)\n"
+        "- inbounding_line_to_baseline (28.0)\n"
+        "- inbounding_line_anchor_side (1.0)\n"
+        "- inbounding_line_in_play_ext (3.0)\n"
+        "- inbounding_line_out_of_bounds_ext (0.0)\n"
+        "- symmetric_inbounding_line (True)\n"
+        "- substitution_line_ext_sep (8.5)\n"
+        "- substitution_line_width (4.0)\n"
+        "- restricted_arc_radius (4.0)\n"
+        "- backboard_width (6.0)\n"
+        "- backboard_thickness (0.171875)\n"
+        "- basket_ring_inner_radius (0.75)\n"
+        "- basket_ring_connector_width (0.5833)\n"
+        "- basket_ring_connector_extension (0.5)\n"
+        "- basket_ring_thickness (0.0656)\n"
+        "\n"
+        "These parameters may be updated with the update_court_params() "
+        "method\n"
     )
 
     # Initialize the output-capture
@@ -298,16 +298,16 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        'The following features can be colored via the colors_dict parameter, '
-        'with the current value in parenthesis:\n'
+        "The following features can be colored via the colors_dict parameter, "
+        "with the current value in parenthesis:\n"
     )
 
     for k, v in test_court.feature_colors.items():
-        exp_color_features = f'{exp_color_features}\n- {k} ({v})'
+        exp_color_features = f"{exp_color_features}\n- {k} ({v})"
 
     exp_color_features = (
-        f'{exp_color_features}\n\nThese colors may be updated with the '
-        'update_colors() method\n'
+        f"{exp_color_features}\n\nThese colors may be updated with the "
+        "update_colors() method\n"
     )
 
     # Initialize the output-capture
@@ -339,7 +339,7 @@ def test_update_colors():
     # Update a color. The division line is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from black to white
-    test_nba.update_colors({'division_line': '#ffffff'})
+    test_nba.update_colors({"division_line": "#ffffff"})
 
     # Get the updated colors
     updated_colors = test_nba.feature_colors
@@ -366,7 +366,7 @@ def test_reset_colors():
     # Update a color. The division line is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from black to white
-    test_nba.update_colors({'division_line': '#ffffff'})
+    test_nba.update_colors({"division_line": "#ffffff"})
 
     # Get the updated colors
     updated_colors = test_nba.feature_colors
@@ -398,7 +398,7 @@ def test_update_court_params():
     # Update a dimension. The full-court length is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 94 feet to 200 feet
-    test_nba.update_court_params({'court_length': 200.0})
+    test_nba.update_court_params({"court_length": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_nba.court_params
@@ -426,7 +426,7 @@ def test_reset_court_params():
     # Update a dimension. The full-court length is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 94 feet to 200 feet
-    test_nba.update_court_params({'court_length': 200.0})
+    test_nba.update_court_params({"court_length": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_nba.court_params
@@ -453,7 +453,7 @@ def test_unit_conversions():
     test_court_to_convert = basketball_courts.NBACourt()
 
     # Generate a court originating in meters
-    nba_court_m = basketball_courts.NBACourt(units = 'm')
+    nba_court_m = basketball_courts.NBACourt(units = "m")
 
     # Convert the court dimensions from feet to meters
     court_params_to_convert = test_court_to_convert.court_params
@@ -461,12 +461,12 @@ def test_unit_conversions():
     for k, v in court_params_to_convert.items():
         court_params_to_convert[k] = test_court_to_convert._convert_units(
             v,
-            'ft',
-            'm'
+            "ft",
+            "m"
         )
 
     # Convert the units to be meters
-    court_params_to_convert['court_units'] = 'm'
+    court_params_to_convert["court_units"] = "m"
 
     assert court_params_to_convert == nba_court_m.court_params
 
@@ -479,12 +479,12 @@ def test_supported_leagues():
     """
 
     league_class_dict = {
-        'fiba': basketball_courts.FIBACourt(),
-        'nba': basketball_courts.NBACourt(),
-        'nba g league': basketball_courts.GLeagueCourt(),
-        'ncaa': basketball_courts.NCAACourt(),
-        'nfhs': basketball_courts.NFHSCourt(),
-        'wnba': basketball_courts.WNBACourt()
+        "fiba": basketball_courts.FIBACourt(),
+        "nba": basketball_courts.NBACourt(),
+        "nba g league": basketball_courts.GLeagueCourt(),
+        "ncaa": basketball_courts.NCAACourt(),
+        "nfhs": basketball_courts.NFHSCourt(),
+        "wnba": basketball_courts.WNBACourt()
     }
 
     court = basketball_courts.BasketballCourt()
@@ -498,9 +498,9 @@ def test_supported_leagues():
     ]
 
     if len(missing_leagues) > 0:
-        print('The following leagues are not tested:\n')
+        print("The following leagues are not tested:\n")
         for league in missing_leagues:
-            print(f'- {league}')
+            print(f"- {league}")
 
     else:
         for league in league_class_dict.keys():
@@ -584,32 +584,32 @@ def test_custom_court_params():
     }
 
     color_updates_1 = {
-        'plot_background': '#d2ab6f',
-        'defensive_half_court': '#d2ab6f',
-        'offensive_half_court': '#d2ab6f',
-        'court_apron': '#d2ab6f',
-        'center_circle_outline': ['#000000', '#13294b'],
-        'center_circle_fill': '#d2ab6f',
-        'division_line': '#000000',
-        'endline': '#000000',
-        'sideline': '#000000',
-        'two_point_range': ['#d2ab6f', '#e84a27'],
-        'three_point_line': '#000000',
-        'painted_area': '#d2ab6f',
-        'lane_boundary': '#000000',
-        'free_throw_circle_outline': '#000000',
-        'free_throw_circle_fill': '#d2ab6f',
-        'free_throw_circle_dash': '#000000',
-        'lane_space_mark': '#000000',
-        'inbounding_line': '#000000',
-        'substitution_line': '#000000',
-        'baseline_lower_defensive_box': '#000000',
-        'lane_lower_defensive_box': '#000000',
-        'team_bench_line': '#000000',
-        'restricted_arc': '#000000',
-        'backboard': '#000000',
-        'basket_ring': '#f55b33',
-        'net': '#ffffff'
+        "plot_background": "#d2ab6f",
+        "defensive_half_court": "#d2ab6f",
+        "offensive_half_court": "#d2ab6f",
+        "court_apron": "#d2ab6f",
+        "center_circle_outline": ["#000000", "#13294b"],
+        "center_circle_fill": "#d2ab6f",
+        "division_line": "#000000",
+        "endline": "#000000",
+        "sideline": "#000000",
+        "two_point_range": ["#d2ab6f", "#e84a27"],
+        "three_point_line": "#000000",
+        "painted_area": "#d2ab6f",
+        "lane_boundary": "#000000",
+        "free_throw_circle_outline": "#000000",
+        "free_throw_circle_fill": "#d2ab6f",
+        "free_throw_circle_dash": "#000000",
+        "lane_space_mark": "#000000",
+        "inbounding_line": "#000000",
+        "substitution_line": "#000000",
+        "baseline_lower_defensive_box": "#000000",
+        "lane_lower_defensive_box": "#000000",
+        "team_bench_line": "#000000",
+        "restricted_arc": "#000000",
+        "backboard": "#000000",
+        "basket_ring": "#f55b33",
+        "net": "#ffffff"
     }
 
     test_court_1 = basketball_courts.BasketballCourt(
@@ -681,32 +681,32 @@ def test_custom_court_params():
     }
 
     color_updates_2 = {
-        'plot_background': '#d2ab6f',
-        'defensive_half_court': '#d2ab6f',
-        'offensive_half_court': '#d2ab6f',
-        'court_apron': '#d2ab6f',
-        'center_circle_outline': '#000000',
-        'center_circle_fill': ['#d2ab6f', '#e04e39'],
-        'division_line': '#000000',
-        'endline': '#000000',
-        'sideline': '#000000',
-        'two_point_range': '#d2ab6f',
-        'three_point_line': ['#000000'],
-        'painted_area': '#d2ab6f',
-        'lane_boundary': '#000000',
-        'free_throw_circle_outline': '#000000',
-        'free_throw_circle_fill': '#d2ab6f',
-        'free_throw_circle_dash': '#000000',
-        'lane_space_mark': '#000000',
-        'inbounding_line': '#000000',
-        'substitution_line': '#000000',
-        'baseline_lower_defensive_box': '#000000',
-        'lane_lower_defensive_box': '#000000',
-        'team_bench_line': '#000000',
-        'restricted_arc': '#000000',
-        'backboard': '#000000',
-        'basket_ring': '#f55b33',
-        'net': '#ffffff'
+        "plot_background": "#d2ab6f",
+        "defensive_half_court": "#d2ab6f",
+        "offensive_half_court": "#d2ab6f",
+        "court_apron": "#d2ab6f",
+        "center_circle_outline": "#000000",
+        "center_circle_fill": ["#d2ab6f", "#e04e39"],
+        "division_line": "#000000",
+        "endline": "#000000",
+        "sideline": "#000000",
+        "two_point_range": "#d2ab6f",
+        "three_point_line": ["#000000"],
+        "painted_area": "#d2ab6f",
+        "lane_boundary": "#000000",
+        "free_throw_circle_outline": "#000000",
+        "free_throw_circle_fill": "#d2ab6f",
+        "free_throw_circle_dash": "#000000",
+        "lane_space_mark": "#000000",
+        "inbounding_line": "#000000",
+        "substitution_line": "#000000",
+        "baseline_lower_defensive_box": "#000000",
+        "lane_lower_defensive_box": "#000000",
+        "team_bench_line": "#000000",
+        "restricted_arc": "#000000",
+        "backboard": "#000000",
+        "basket_ring": "#f55b33",
+        "net": "#ffffff"
     }
 
     test_court_2 = basketball_courts.BasketballCourt(
@@ -728,7 +728,7 @@ def test_court_plot_rotation():
 
     ax = basketball_courts.NBACourt().draw(ax = ax, rotation = 90.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -744,7 +744,7 @@ def test_court_plot_tuple_xlim_and_ylim():
     ax2 = test_court.draw(xlim = (15.0, -15.0), ylim = (15.0, -15.0))
     ax3 = test_court.draw(xlim = (0.0, 0.0), ylim = (0.0, 0.0))
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -761,7 +761,7 @@ def test_court_plot_singular_xlim_and_ylim():
     ax1 = test_court.draw(xlim = 10.0, ylim = 10.0)
     ax2 = test_court.draw(xlim = 150.0, ylim = 50.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -775,29 +775,29 @@ def test_additional_feature():
     be a division line shifted to either side of the court
     """
     new_division_line_1 = {
-        'class': basketball_features.DivisionLine,
-        'x_anchor': 23.5,
-        'y_anchor': 0.0,
-        'court_length': 94.0,
-        'court_width': 50.0,
-        'feature_thickness': 25.0,
-        'visible': True,
-        'facecolor': '#000000',
-        'edgecolor': None,
-        'zorder': 1
+        "class": basketball_features.DivisionLine,
+        "x_anchor": 23.5,
+        "y_anchor": 0.0,
+        "court_length": 94.0,
+        "court_width": 50.0,
+        "feature_thickness": 25.0,
+        "visible": True,
+        "facecolor": "#000000",
+        "edgecolor": None,
+        "zorder": 1
     }
 
     new_division_line_2 = {
-        'class': basketball_features.DivisionLine,
-        'x_anchor': -23.5,
-        'y_anchor': 0.0,
-        'court_length': 94.0,
-        'court_width': 50.0,
-        'feature_thickness': 25.0,
-        'visible': True,
-        'facecolor': '#000000',
-        'edgecolor': None,
-        'zorder': 1
+        "class": basketball_features.DivisionLine,
+        "x_anchor": -23.5,
+        "y_anchor": 0.0,
+        "court_length": 94.0,
+        "court_width": 50.0,
+        "feature_thickness": 25.0,
+        "visible": True,
+        "facecolor": "#000000",
+        "edgecolor": None,
+        "zorder": 1
     }
 
     ax = basketball_courts.NBACourt(
@@ -805,7 +805,7 @@ def test_additional_feature():
         new_feature_2 = new_division_line_2
     ).draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -817,15 +817,15 @@ def test_zero_radii():
     curved feature is created but the radius is 0.0
     """
     court_1_updates = {
-        'basket_center_to_three_point_arc': 0.1667,
-        'free_throw_circle_radius': 0.0,
-        'symmetric_inbounding_line': False,
-        'basket_ring_inner_radius': 0.0
+        "basket_center_to_three_point_arc": 0.1667,
+        "free_throw_circle_radius": 0.0,
+        "symmetric_inbounding_line": False,
+        "basket_ring_inner_radius": 0.0
     }
 
     court_2_updates = {
-        'basket_center_to_three_point_arc': 0.0,
-        'basket_ring_inner_radius': -0.0656
+        "basket_center_to_three_point_arc": 0.0,
+        "basket_ring_inner_radius": -0.0656
     }
 
     ax1 = basketball_courts.NBACourt(
@@ -836,7 +836,7 @@ def test_zero_radii():
         court_updates = court_2_updates
     ).draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -849,7 +849,7 @@ def test_court_plot_with_xlim_ylim():
     of the court
     """
     ax1 = basketball_courts.NCAACourt().draw(
-        display_range = 'offensive half court'
+        display_range = "offensive half court"
     )
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
@@ -862,7 +862,7 @@ def test_rotated_surface_plot():
     plot of the surface
     """
     ax = basketball_courts.NBACourt(rotation = 90).draw(
-        display_range = 'offense'
+        display_range = "offense"
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)

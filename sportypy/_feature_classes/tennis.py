@@ -39,7 +39,7 @@ class BaseTennisFeature(BaseFeature):
 
     def __init__(self, court_length = 0.0, court_width = 0.0,
                  feature_radius = 0.0, feature_thickness = 0.0,
-                 feature_units = 'ft', *args, **kwargs):
+                 feature_units = "ft", *args, **kwargs):
 
         # Set the full-sized dimensions of the court
         self.court_length = court_length
@@ -305,7 +305,7 @@ class CourtApron(BaseTennisFeature):
         here are considered in play
         """
         court_apron_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 self.court_length / 2.0,
                 self.court_length / 2.0,
@@ -317,7 +317,7 @@ class CourtApron(BaseTennisFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 self.court_width / 2.0,
                 self.court_width / 2.0,
                 -self.court_width / 2.0,

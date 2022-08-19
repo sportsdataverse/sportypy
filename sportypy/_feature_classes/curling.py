@@ -30,7 +30,7 @@ class BaseCurlingFeature(BaseFeature):
 
     def __init__(self, sheet_length = 0.0, sheet_width = 0.0,
                  feature_radius = 0.0, feature_thickness = 0.0,
-                 feature_units = 'ft', *args, **kwargs):
+                 feature_units = "ft", *args, **kwargs):
 
         # Set the full-sized dimensions of the sheet
         self.sheet_length = sheet_length
@@ -163,7 +163,7 @@ class SheetApron(BaseCurlingFeature):
         coordinates
         """
         sheet_apron_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 self.sheet_width / 2.0,
                 self.sheet_width / 2.0,
@@ -176,7 +176,7 @@ class SheetApron(BaseCurlingFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 self.sheet_length / 2.0,
                 self.sheet_length / 2.0,
                 0.0,

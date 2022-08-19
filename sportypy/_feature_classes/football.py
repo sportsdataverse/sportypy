@@ -39,7 +39,7 @@ class BaseFootballFeature(BaseFeature):
 
     def __init__(self, field_length = 0.0, field_width = 0.0,
                  feature_radius = 0.0, feature_thickness = 0.0,
-                 feature_units = 'yd', *args, **kwargs):
+                 feature_units = "yd", *args, **kwargs):
 
         # Set the full-sized dimensions of the field
         self.field_length = field_length
@@ -225,7 +225,7 @@ class FieldBorder(BaseFootballFeature):
                  coaching_box_length = 0.0, coaching_box_width = 0.0,
                  team_bench_length_field_side = 0.0,
                  team_bench_length_back_side = 0.0, team_bench_width = 0.0,
-                 team_bench_border_thickness = 0.0, bench_shape = '',
+                 team_bench_border_thickness = 0.0, bench_shape = "",
                  surrounds_team_bench_area = False, *args, **kwargs):
         # Initialize the attributes that are unique to this feature
         self.endzone_length = endzone_length
@@ -250,7 +250,7 @@ class FieldBorder(BaseFootballFeature):
         """
         if not self.surrounds_team_bench_area:
             field_border_df = pd.DataFrame({
-                'x': [
+                "x": [
                     (
                         (self.restricted_area_length / 2.0) +
                         self.team_bench_border_thickness
@@ -295,7 +295,7 @@ class FieldBorder(BaseFootballFeature):
                     )
                 ],
 
-                'y': [
+                "y": [
                     (self.field_width / 2.0) + self.boundary_thickness,
                     (self.field_width / 2.0) + self.boundary_thickness,
                     -((self.field_width / 2.0) + self.boundary_thickness),
@@ -333,7 +333,7 @@ class FieldBorder(BaseFootballFeature):
                 self.team_bench_border_thickness
             )
 
-            if self.bench_shape.lower() not in ['rectangle', 'rectangular']:
+            if self.bench_shape.lower() not in ["rectangle", "rectangular"]:
                 m = self.team_bench_width / (
                     (self.team_bench_length_back_side / 2.0) -
                     (self.team_bench_length_field_side / 2.0)
@@ -358,7 +358,7 @@ class FieldBorder(BaseFootballFeature):
                 outer_corner_x_dist += self.feature_thickness
 
             field_border_df = pd.DataFrame({
-                'x': [
+                "x": [
                     0.0,
                     (
                         (self.team_bench_length_back_side / 2.0) +
@@ -452,7 +452,7 @@ class FieldBorder(BaseFootballFeature):
                     0.0
                 ],
 
-                'y': [
+                "y": [
                     starting_depth,
                     starting_depth,
                     (
@@ -548,7 +548,7 @@ class FieldBorderOutline(BaseFootballFeature):
                  coaching_box_length = 0.0, coaching_box_width = 0.0,
                  team_bench_length_field_side = 0.0,
                  team_bench_length_back_side = 0.0, team_bench_width = 0.0,
-                 team_bench_border_thickness = 0.0, bench_shape = '',
+                 team_bench_border_thickness = 0.0, bench_shape = "",
                  field_border_thickness = 0.0,
                  surrounds_team_bench_area = True, *args, **kwargs):
         # Initialize the attributes that are unique to this feature
@@ -575,7 +575,7 @@ class FieldBorderOutline(BaseFootballFeature):
         """
         if not self.surrounds_team_bench_area:
             field_border_outline_df = pd.DataFrame({
-                'x': [
+                "x": [
                     (
                         (self.restricted_area_length / 2.0) +
                         self.team_bench_border_thickness
@@ -624,7 +624,7 @@ class FieldBorderOutline(BaseFootballFeature):
                     )
                 ],
 
-                'y': [
+                "y": [
                     (
                         (self.field_width / 2.0) +
                         self.boundary_thickness +
@@ -686,7 +686,7 @@ class FieldBorderOutline(BaseFootballFeature):
                 self.team_bench_border_thickness
             )
 
-            if self.bench_shape.lower() not in ['rectangle', 'rectangular']:
+            if self.bench_shape.lower() not in ["rectangle", "rectangular"]:
                 m = self.team_bench_width / (
                     (self.team_bench_length_back_side / 2.0) -
                     (self.team_bench_length_field_side / 2.0)
@@ -711,7 +711,7 @@ class FieldBorderOutline(BaseFootballFeature):
                 outer_corner_x_dist += self.field_border_thickness
 
             field_border_outline_df = pd.DataFrame({
-                'x': [
+                "x": [
                     # Start
                     0.0,
                     # Short edge of bench (top)
@@ -840,7 +840,7 @@ class FieldBorderOutline(BaseFootballFeature):
                     0.0,
                 ],
 
-                'y': [
+                "y": [
                     # Start
                     (
                         (self.field_width / 2.0) +
@@ -1052,7 +1052,7 @@ class MajorYardLine(BaseFootballFeature):
     """
 
     def __init__(self, dist_to_sideline = 0.0, cross_hash_length = 0.0,
-                 cross_hash_separation = 0.0, yard_line_name = '', *args,
+                 cross_hash_separation = 0.0, yard_line_name = "", *args,
                  **kwargs):
         # Initialize the attributes unique to this feature
         self.dist_to_sideline = dist_to_sideline
@@ -1067,7 +1067,7 @@ class MajorYardLine(BaseFootballFeature):
         The major yard line should typically be white in color
         """
         major_yard_line_df = pd.DataFrame({
-            'x': [
+            "x": [
                 -self.feature_thickness / 2.0,
                 -self.feature_thickness / 2.0,
                 -((self.feature_thickness / 2.0) + self.cross_hash_length),
@@ -1091,7 +1091,7 @@ class MajorYardLine(BaseFootballFeature):
                 -self.feature_thickness / 2.0
             ],
 
-            'y': [
+            "y": [
                 -((self.field_width / 2.0) - self.dist_to_sideline),
                 -((self.cross_hash_separation / 2.0) + self.feature_thickness),
                 -((self.cross_hash_separation / 2.0) + self.feature_thickness),
@@ -1149,7 +1149,7 @@ class MinorYardLine(BaseFootballFeature):
     These are the yard lines spaced closer than every five yards on the field
     """
 
-    def __init__(self, yard_line_height = 0.0, yard_line_name = '',
+    def __init__(self, yard_line_height = 0.0, yard_line_name = "",
                  dist_to_sideline = 0.0, *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.yard_line_height = yard_line_height
@@ -1193,14 +1193,14 @@ class Arrow(BaseFootballFeature):
         direction of the nearest endzone
         """
         arrow_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 self.arrow_length,
                 0.0,
                 0.0
             ],
 
-            'y': [
+            "y": [
                 self.arrow_base / 2.0,
                 0.0,
                 -self.arrow_base / 2.0,
@@ -1333,7 +1333,7 @@ class TeamBenchArea(BaseFootballFeature):
         This area can be either rectangular or trapezoidal in shape
         """
         team_bench_area_df = pd.DataFrame({
-            'x': [
+            "x": [
                 -self.team_bench_length_field_side / 2.0,
                 self.team_bench_length_field_side / 2.0,
                 self.team_bench_length_back_side / 2.0,
@@ -1341,7 +1341,7 @@ class TeamBenchArea(BaseFootballFeature):
                 -self.team_bench_length_field_side / 2.0
             ],
 
-            'y': [
+            "y": [
                 0.0,
                 0.0,
                 self.team_bench_width,
@@ -1380,7 +1380,7 @@ class TeamBenchAreaOutline(BaseFootballFeature):
         The outline may not be needed
         """
         team_bench_area_outline_df = pd.DataFrame({
-            'x': [
+            "x": [
                 -self.restricted_area_length / 2.0,
                 -self.coaching_box_length / 2.0,
                 -self.team_bench_length_field_side / 2.0,
@@ -1415,7 +1415,7 @@ class TeamBenchAreaOutline(BaseFootballFeature):
                 -self.restricted_area_length / 2.0
             ],
 
-            'y': [
+            "y": [
                 0.0,
                 self.restricted_area_width,
                 self.restricted_area_width + self.coaching_box_width,

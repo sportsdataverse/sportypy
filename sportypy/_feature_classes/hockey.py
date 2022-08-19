@@ -41,7 +41,7 @@ class BaseHockeyFeature(BaseFeature):
 
     def __init__(self, rink_length = 0.0, rink_width = 0.0,
                  feature_radius = 0.0, feature_thickness = 0.0,
-                 feature_units = 'ft', *args, **kwargs):
+                 feature_units = "ft", *args, **kwargs):
 
         # Set the full-sized dimensions of the rink
         self.rink_length = rink_length
@@ -117,8 +117,8 @@ class Boards(BaseHockeyFeature):
             # Start at the top of the rink in TV view tih the boards' inner
             # boundary
             pd.DataFrame({
-                'x': [0.0],
-                'y': [half_width]
+                "x": [0.0],
+                "y": [half_width]
             }),
 
             # Then add in its upper innner arc
@@ -126,8 +126,8 @@ class Boards(BaseHockeyFeature):
 
             # Then its guaranteed point at half the length of the rink
             pd.DataFrame({
-                'x': [half_length],
-                'y': [0.0]
+                "x": [half_length],
+                "y": [0.0]
             }),
 
             # Then its lower inner arc
@@ -136,8 +136,8 @@ class Boards(BaseHockeyFeature):
             # Then go to the bottom of the rink in TV view with the boards'
             # inner boundary before flipping to the outer boundary
             pd.DataFrame({
-                'x': [0.0, 0.0],
-                'y': [-half_width, -half_width - self.feature_thickness]
+                "x": [0.0, 0.0],
+                "y": [-half_width, -half_width - self.feature_thickness]
             }),
 
             # Back to the lower arc on the outer boundary
@@ -145,8 +145,8 @@ class Boards(BaseHockeyFeature):
 
             # Then back to the middle
             pd.DataFrame({
-                'x': [half_length + self.feature_thickness],
-                'y': [0.0]
+                "x": [half_length + self.feature_thickness],
+                "y": [0.0]
             }),
 
             # Then back to the upper arc
@@ -154,8 +154,8 @@ class Boards(BaseHockeyFeature):
 
             # Finally back to the top and original starting point
             pd.DataFrame({
-                'x': [0.0, 0.0],
-                'y': [half_width + self.feature_thickness, half_width]
+                "x": [0.0, 0.0],
+                "y": [half_width + self.feature_thickness, half_width]
             })
         ])
 
@@ -228,8 +228,8 @@ class BoardsConstraint(BaseHockeyFeature):
             # Start at the top of the rink in TV view with the boards' inner
             # boundary
             pd.DataFrame({
-                'x': [0.0],
-                'y': [half_width]
+                "x": [0.0],
+                "y": [half_width]
             }),
 
             # Then add in its upper right corner
@@ -237,8 +237,8 @@ class BoardsConstraint(BaseHockeyFeature):
 
             # Then its guaranteed point at half the length of the rink
             pd.DataFrame({
-                'x': [half_length],
-                'y': [0.0]
+                "x": [half_length],
+                "y": [0.0]
             }),
 
             # Then its lower right corner
@@ -246,8 +246,8 @@ class BoardsConstraint(BaseHockeyFeature):
 
             # Then go to the bottom of the rink in TV view
             pd.DataFrame({
-                'x': [0.0],
-                'y': [-half_width]
+                "x": [0.0],
+                "y": [-half_width]
             }),
 
             # Now continue to the lower left corner
@@ -255,8 +255,8 @@ class BoardsConstraint(BaseHockeyFeature):
 
             # Then back to the middle
             pd.DataFrame({
-                'x': [-half_length],
-                'y': [0.0]
+                "x": [-half_length],
+                "y": [0.0]
             }),
 
             # Then the upper left corner
@@ -264,8 +264,8 @@ class BoardsConstraint(BaseHockeyFeature):
 
             # Finally back to the top and original starting point
             pd.DataFrame({
-                'x': [0.0],
-                'y': [half_width]
+                "x": [0.0],
+                "y": [half_width]
             })
         ])
 
@@ -318,8 +318,8 @@ class DefensiveZone(BaseHockeyFeature):
             # Start at the upper right corner of the zone line that is closest
             # to center ice
             pd.DataFrame({
-                'x': [-self.nzone_length / 2.0],
-                'y': [half_width]
+                "x": [-self.nzone_length / 2.0],
+                "y": [half_width]
             }),
 
             # Then draw the upper left arc of the boards
@@ -327,8 +327,8 @@ class DefensiveZone(BaseHockeyFeature):
 
             # Then its guaranteed point at half the length of the rink
             pd.DataFrame({
-                'x': [-half_length],
-                'y': [0.0]
+                "x": [-half_length],
+                "y": [0.0]
             }),
 
             # Then the lower left arc
@@ -338,8 +338,8 @@ class DefensiveZone(BaseHockeyFeature):
             # inner boundary before closing the path by returning to the
             # starting point
             pd.DataFrame({
-                'x': [-self.nzone_length / 2.0, -self.nzone_length / 2.0],
-                'y': [-half_width, half_width]
+                "x": [-self.nzone_length / 2.0, -self.nzone_length / 2.0],
+                "y": [-half_width, half_width]
             })
         ])
 
@@ -358,8 +358,8 @@ class NeutralZone(BaseHockeyFeature):
         """Generate the coordinates that define the neutral zone.
 
         The zone is rectangular in shape, and usually is white in color. Note:
-        because of the way the neutral zone is created below, 'reflect_x' and
-        'reflect_y' in the HockeyRink() class should both be set to False
+        because of the way the neutral zone is created below, "reflect_x" and
+        "reflect_y" in the HockeyRink() class should both be set to False
         """
         # Generate the points of the neutral zone. This is a rectangular region
         # with known dimensions (from the passed parameters), so no reflection
@@ -421,8 +421,8 @@ class OffensiveZone(BaseHockeyFeature):
             # Start at the upper left corner of the zone line that is closest
             # to center ice
             pd.DataFrame({
-                'x': [self.nzone_length / 2.0],
-                'y': [half_width]
+                "x": [self.nzone_length / 2.0],
+                "y": [half_width]
             }),
 
             # Then draw the upper right corner of the boards
@@ -430,8 +430,8 @@ class OffensiveZone(BaseHockeyFeature):
 
             # Then its guaranteed point at half the length of the rink
             pd.DataFrame({
-                'x': [half_length],
-                'y': [0.0]
+                "x": [half_length],
+                "y": [0.0]
             }),
 
             # Then the lower right corner
@@ -441,8 +441,8 @@ class OffensiveZone(BaseHockeyFeature):
             # inner boundary before closing the path by returning to the
             # starting point
             pd.DataFrame({
-                'x': [self.nzone_length / 2.0, self.nzone_length / 2.0],
-                'y': [-half_width, half_width]
+                "x": [self.nzone_length / 2.0, self.nzone_length / 2.0],
+                "y": [-half_width, half_width]
             })
         ])
 
@@ -454,7 +454,7 @@ class CenterLine(BaseHockeyFeature):
 
     The center line is the line that divides the ice surface in half. Its
     center should lie directly in the center of the ice surface. Its line
-    thickness should be given by 'major_line_thickness' as this is a major line
+    thickness should be given by "major_line_thickness" as this is a major line
     on the ice surface
     """
     def __init__(self, center_faceoff_spot_gap = 0.0, *args, **kwargs):
@@ -489,13 +489,13 @@ class RefereeCrease(BaseHockeyFeature):
         """Generate the points defining the referee's crease.
 
         The crease is semi-circular in shape. Its thickness should be given by
-        'minor_line_thickness', and it's usually red in color
+        "minor_line_thickness", and it's usually red in color
         """
         referee_crease_df = pd.concat([
             pd.DataFrame({
-                'x': [self.feature_radius],
+                "x": [self.feature_radius],
 
-                'y': [0.0]
+                "y": [0.0]
             }),
 
             self.create_circle(
@@ -506,12 +506,12 @@ class RefereeCrease(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     -self.feature_radius,
                     -self.feature_radius + self.feature_thickness
                 ],
 
-                'y': [
+                "y": [
                     0.0,
                     0.0
                 ]
@@ -525,11 +525,11 @@ class RefereeCrease(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     self.feature_radius,
                 ],
 
-                'y': [
+                "y": [
                     0.0
                 ]
             })
@@ -567,7 +567,7 @@ class ZoneLine(BaseHockeyFeature):
 
     The zone lines are the lines that separate the neutral zone from the
     offensive and defensive zones. Its line thickness should be given by
-    'major_line_thickness' as this is a major line on the ice surface
+    "major_line_thickness" as this is a major line on the ice surface
     """
 
     def _get_centered_feature(self):
@@ -591,7 +591,7 @@ class GoalLine(BaseHockeyFeature):
 
     The goal lines are the lines over which a puck must cross (within the goal
     frame) in order to be considered a goal. Its line thickness should be given
-    by 'minor_line_thickness' as this is a minor line on the ice surface
+    by "minor_line_thickness" as this is a minor line on the ice surface
     """
 
     def _get_centered_feature(self):
@@ -671,7 +671,7 @@ class GoalLine(BaseHockeyFeature):
             # brought back to x = 0 so that it can be re-anchored when
             # generated. See note above for an explanation of why the absolute
             # value is used here
-            goal_line_df['x'] = goal_line_df['x'] - abs(self.x_anchor)
+            goal_line_df["x"] = goal_line_df["x"] - abs(self.x_anchor)
 
             return goal_line_df
 
@@ -685,7 +685,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
     may have two notches (one on each side of the line y = 0).
     """
 
-    def __init__(self, crease_style = '', crease_length = 0.0,
+    def __init__(self, crease_style = "", crease_length = 0.0,
                  crease_width = 0.0, notch_dist_x = 0.0, notch_width = 0.0,
                  *args, **kwargs):
         # Set the parameters about the crease's outline notches, as well as its
@@ -701,7 +701,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
         """Generate the points defining the goal crease's outline.
 
         The outline of the goal crease should have thickness given by
-        'minor_line_thickness', as this is a minor line on the ice surface, and
+        "minor_line_thickness", as this is a minor line on the ice surface, and
         the outline is usually red in color.
         """
         # Start by getting the half-width of the crease
@@ -719,11 +719,11 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
         # nhl98 crease style: cut-off semi-circle (utilized in most North
         # American leagues, e.g. NHL, AHL)
-        if self.crease_style.lower() == 'nhl98':
+        if self.crease_style.lower() == "nhl98":
             goal_crease_outline_df = pd.concat([
                 pd.DataFrame({
-                    'x': [0.0, -self.crease_length],
-                    'y': [half_crease_width, half_crease_width]
+                    "x": [0.0, -self.crease_length],
+                    "y": [half_crease_width, half_crease_width]
                 }),
 
                 self.create_circle(
@@ -734,7 +734,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [
+                    "x": [
                         -self.crease_length,
                         0.0,
                         0.0,
@@ -744,7 +744,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                         -(self.notch_dist_x + self.feature_thickness)
                     ],
 
-                    'y': [
+                    "y": [
                         -half_crease_width,
                         -half_crease_width,
                         -half_crease_width + self.feature_thickness,
@@ -771,7 +771,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [
+                    "x": [
                         -(self.notch_dist_x + self.feature_thickness),
                         -(self.notch_dist_x + self.feature_thickness),
                         -self.notch_dist_x,
@@ -780,7 +780,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                         0.0
                     ],
 
-                    'y': [
+                    "y": [
                         half_crease_width - self.feature_thickness,
                         (
                             half_crease_width -
@@ -801,7 +801,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
         # ushl1 crease style: full semi-circle with NHL-style crease in the
         # interior; only NHL-style crease is painted light blue
-        elif self.crease_style.lower() == 'ushl1':
+        elif self.crease_style.lower() == "ushl1":
             goal_crease_outline_df = pd.concat([
                 self.create_circle(
                     center = (0.0, 0.0),
@@ -818,7 +818,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [
+                    "x": [
                         -self.notch_dist_x,
                         0.0,
                         0.0,
@@ -828,7 +828,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                         -self.notch_dist_x
                     ],
 
-                    'y': [
+                    "y": [
                         -half_crease_width,
                         -half_crease_width,
                         -half_crease_width + self.feature_thickness,
@@ -855,7 +855,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [
+                    "x": [
                         -self.notch_dist_x,
                         -self.notch_dist_x,
                         -(self.notch_dist_x + self.feature_thickness),
@@ -865,7 +865,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                         -self.notch_dist_x
                     ],
 
-                    'y':[
+                    "y":[
                         half_crease_width,
                         (
                             half_crease_width -
@@ -892,12 +892,12 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [
+                    "x": [
                         0.0,
                         0.0
                     ],
 
-                    'y': [
+                    "y": [
                         self.feature_radius - self.feature_thickness,
                         self.feature_radius
                     ]
@@ -907,7 +907,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
         # nhl92 crease style: full semi-circle outline with two L-shaped marks
         # adjoining the semi-circle, but not extending back towards the goal
         # line
-        elif self.crease_style.lower() == 'nhl92':
+        elif self.crease_style.lower() == "nhl92":
             goal_crease_outline_df = pd.concat([
                 self.create_circle(
                     center = (0.0, 0.0),
@@ -924,7 +924,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [
+                    "x": [
                         -self.notch_dist_x,
                         -self.notch_dist_x + self.notch_width,
                         -self.notch_dist_x + self.notch_width,
@@ -934,7 +934,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                         -self.notch_dist_x
                     ],
 
-                    'y': [
+                    "y": [
                         -half_crease_width,
                         -half_crease_width,
                         -half_crease_width + self.feature_thickness,
@@ -961,7 +961,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [
+                    "x": [
                         -self.notch_dist_x,
                         -self.notch_dist_x,
                         -(self.notch_dist_x + self.feature_thickness),
@@ -971,7 +971,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                         -self.notch_dist_x
                     ],
 
-                    'y':[
+                    "y":[
                         half_crease_width,
                         (
                             half_crease_width -
@@ -998,12 +998,12 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [
+                    "x": [
                         0.0,
                         0.0
                     ],
 
-                    'y': [
+                    "y": [
                         self.feature_radius - self.feature_thickness,
                         self.feature_radius
                     ]
@@ -1012,8 +1012,8 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
         else:
             goal_crease_outline_df = pd.DataFrame({
-                'x': [0.0],
-                'y': [0.0]
+                "x": [0.0],
+                "y": [0.0]
             })
 
         return goal_crease_outline_df
@@ -1028,7 +1028,7 @@ class GoalCreaseFill(BaseHockeyFeature):
     crease may have two notches (one on each side of the line y = 0).
     """
 
-    def __init__(self, crease_style = '', crease_length = 0.0,
+    def __init__(self, crease_style = "", crease_length = 0.0,
                  crease_width = 0.0, notch_dist_x = 0.0, notch_width = 0.0,
                  *args, **kwargs):
         # Set the parameters about the crease's outline notches, as well as its
@@ -1044,7 +1044,7 @@ class GoalCreaseFill(BaseHockeyFeature):
         """Generate the points defining the goal crease's outline.
 
         The filling of the goal crease should have thickness given by
-        'minor_line_thickness', as this refers to the crease's outline, which
+        "minor_line_thickness", as this refers to the crease's outline, which
         is a minor line on the ice surface. The goal crease's filling is
         usually light in color.
         """
@@ -1061,11 +1061,11 @@ class GoalCreaseFill(BaseHockeyFeature):
         except ZeroDivisionError:
             theta = 0.0
 
-        if self.crease_style.lower() == 'nhl98':
+        if self.crease_style.lower() == "nhl98":
             goal_crease_fill_df = pd.concat([
                 pd.DataFrame({
-                    'x': [0.0],
-                    'y': [half_crease_width - self.feature_thickness]
+                    "x": [0.0],
+                    "y": [half_crease_width - self.feature_thickness]
                 }),
 
                 self.create_circle(
@@ -1076,16 +1076,16 @@ class GoalCreaseFill(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [0.0],
-                    'y': [-half_crease_width + self.feature_thickness]
+                    "x": [0.0],
+                    "y": [-half_crease_width + self.feature_thickness]
                 })
             ])
 
-        elif self.crease_style.lower() == 'ushl1':
+        elif self.crease_style.lower() == "ushl1":
             goal_crease_fill_df = pd.concat([
                 pd.DataFrame({
-                    'x': [0.0],
-                    'y': [half_crease_width - self.feature_thickness]
+                    "x": [0.0],
+                    "y": [half_crease_width - self.feature_thickness]
                 }),
 
                 self.create_circle(
@@ -1096,12 +1096,12 @@ class GoalCreaseFill(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    'x': [0.0],
-                    'y': [-half_crease_width + self.feature_thickness]
+                    "x": [0.0],
+                    "y": [-half_crease_width + self.feature_thickness]
                 })
             ])
 
-        elif self.crease_style.lower() == 'nhl92':
+        elif self.crease_style.lower() == "nhl92":
             goal_crease_fill_df = self.create_circle(
                 center = (0.0, 0.0),
                 start = 0.5,
@@ -1111,8 +1111,8 @@ class GoalCreaseFill(BaseHockeyFeature):
         
         else:
             goal_crease_fill_df = pd.DataFrame({
-                'x': [0.0],
-                'y': [0.0]
+                "x": [0.0],
+                "y": [0.0]
             })
 
         return goal_crease_fill_df
@@ -1124,7 +1124,7 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
     The goaltender's restricted area marks where a goaltender is legally
     allowed to handle the puck behind the net. This is often referred to as
     "the trapezoid" as it is trapezoidal in shape. Its line thickness should be
-    given by 'minor_line_thickness' as this is a minor line on the ice surface.
+    given by "minor_line_thickness" as this is a minor line on the ice surface.
 
     NOTE: This is not a requirement in all leagues, and may be omitted via the
     "has_trapezoid" key in the rink_params passed to the HockeyRink() class
@@ -1155,7 +1155,7 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
         # (in TV view), which will be adjusted as necessary in the feature's
         # _translate_feature() method
         trapezoid_df = pd.DataFrame({
-            'x': [
+            "x": [
                 abs(self.x_anchor),
                 self.rink_length / 2.0,
                 self.rink_length / 2.0,
@@ -1167,7 +1167,7 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
                 abs(self.x_anchor)
             ],
 
-            'y': [
+            "y": [
                 half_short_base_width,
                 half_long_base_width,
                 half_long_base_width - self.feature_thickness,
@@ -1182,7 +1182,7 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
 
         # See note above for an explanation of why the absolute value is used
         # here
-        trapezoid_df['x'] = trapezoid_df['x'] - abs(self.x_anchor)
+        trapezoid_df["x"] = trapezoid_df["x"] - abs(self.x_anchor)
 
         return trapezoid_df
 
@@ -1194,7 +1194,7 @@ class CenterFaceoffCircle(BaseHockeyFeature):
     differs from the non-centered faceoff circles in that there are no
     adjoining hash marks on this circle. It is also a different color than the
     non-centered faceoff circles. Its line thickness should be given by
-    'minor_line_thickness' as this is a minor line on the ice surface
+    "minor_line_thickness" as this is a minor line on the ice surface
     """
 
     def _get_centered_feature(self):
@@ -1214,12 +1214,12 @@ class CenterFaceoffCircle(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     0.0,
                     0.0
                 ],
 
-                'y': [
+                "y": [
                     -self.feature_radius,
                     -self.feature_radius - self.feature_thickness
                 ]
@@ -1262,7 +1262,7 @@ class ODZoneFaceoffCircle(BaseHockeyFeature):
         faceoff circle because there are adjoining hash marks on these circles.
         It is also a different color than the center ice faceoff circle, and
         the spot in the center of it varies in size and form. Its line
-        thickness should be given by 'minor_line_thickness' as this is a minor
+        thickness should be given by "minor_line_thickness" as this is a minor
         line on the ice surface
         """
         # To create a faceoff circle, start by finding the angle needed to draw
@@ -1288,11 +1288,11 @@ class ODZoneFaceoffCircle(BaseHockeyFeature):
 
         faceoff_circle_df = pd.concat([
             pd.DataFrame({
-                'x': [
+                "x": [
                     0.0
                 ],
 
-                'y': [
+                "y": [
                     self.feature_radius
                 ]
             }),
@@ -1305,12 +1305,12 @@ class ODZoneFaceoffCircle(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     -int_spacing,
                     -ext_spacing
                 ],
 
-                'y': [
+                "y": [
                     self.feature_radius + self.hashmark_width,
                     self.feature_radius + self.hashmark_width
                 ]
@@ -1324,12 +1324,12 @@ class ODZoneFaceoffCircle(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     -ext_spacing,
                     -int_spacing
                 ],
 
-                'y': [
+                "y": [
                     -self.feature_radius - self.hashmark_width,
                     -self.feature_radius - self.hashmark_width,
                 ]
@@ -1343,8 +1343,8 @@ class ODZoneFaceoffCircle(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [0.0],
-                'y': [-self.feature_radius + self.feature_thickness]
+                "x": [0.0],
+                "y": [-self.feature_radius + self.feature_thickness]
             }),
 
             self.create_circle(
@@ -1355,8 +1355,8 @@ class ODZoneFaceoffCircle(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [0.0],
-                'y': [self.feature_radius]
+                "x": [0.0],
+                "y": [self.feature_radius]
             })
         ])
 
@@ -1389,7 +1389,7 @@ class NODZoneFaceoffSpotRing(BaseHockeyFeature):
         The non-centered faceoff spots are where faceoffs are taken after an
         icing call or to start a powerplay. They differ from the center ice
         faceoff spot in size, color, and form. The thickness should be given by
-        'minor_line_thickness' as these are minor lines on the ice surface
+        "minor_line_thickness" as these are minor lines on the ice surface
         """
         # The non-centered faceoff spots are comprised of an outer and inner
         # ring
@@ -1402,11 +1402,11 @@ class NODZoneFaceoffSpotRing(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     0.0
                 ],
 
-                'y': [
+                "y": [
                     -self.feature_radius + self.feature_thickness
                 ]
             }),
@@ -1419,12 +1419,12 @@ class NODZoneFaceoffSpotRing(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     0.0,
                     0.0
                 ],
 
-                'y': [
+                "y": [
                     self.feature_radius - self.feature_thickness,
                     self.feature_radius
                 ]
@@ -1465,8 +1465,8 @@ class NODZoneFaceoffSpotStripe(BaseHockeyFeature):
         The non-centered faceoff spots are where faceoffs are taken after an
         icing call or to start a powerplay. They differ from the center ice
         faceoff spot in size, color, and form. For the faceoff spot's stripe,
-        the 'feature_thickness' parameter should be the thickness of the outer
-        ring, which is 'minor_line_thickness'
+        the "feature_thickness" parameter should be the thickness of the outer
+        ring, which is "minor_line_thickness"
         """
         # The non-center face-off spots are wider in diameter, with a gap
         # between the top and bottom of the spot and the strip in the center.
@@ -1537,11 +1537,11 @@ class ODZoneFaceoffLines(BaseHockeyFeature):
         """Generate the points defining the faceoff lines.
 
         These lines are L-shaped, but can be thought of as two rectangles with
-        thickness given by 'minor_line_thickness', and are usually red in color
+        thickness given by "minor_line_thickness", and are usually red in color
         """
         # Create the L-shaped path
         faceoff_line_df = pd.DataFrame({
-            'x': [
+            "x": [
                 self.faceoff_line_dist_x,
                 self.faceoff_line_dist_x + self.faceoff_line_length,
                 self.faceoff_line_dist_x + self.faceoff_line_length,
@@ -1551,7 +1551,7 @@ class ODZoneFaceoffLines(BaseHockeyFeature):
                 self.faceoff_line_dist_x
             ],
 
-            'y': [
+            "y": [
                 self.faceoff_line_dist_y,
                 self.faceoff_line_dist_y,
                 self.faceoff_line_dist_y + self.feature_thickness,
@@ -1609,8 +1609,8 @@ class GoalFrame(BaseHockeyFeature):
         # Trace the path of the goal frame, starting with the exterior
         goal_frame_df = pd.concat([
             pd.DataFrame({
-                'x': [0.0],
-                'y': [half_goal_mouth + self.post_diameter]
+                "x": [0.0],
+                "y": [half_goal_mouth + self.post_diameter]
             }),
 
             self.create_circle(
@@ -1628,12 +1628,12 @@ class GoalFrame(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [
+                "x": [
                     0.0,
                     0.0
                 ],
 
-                'y': [
+                "y": [
                     -(half_goal_mouth + self.post_diameter),
                     -half_goal_mouth
                 ]
@@ -1654,8 +1654,8 @@ class GoalFrame(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [0.0, 0.0],
-                'y': [half_goal_mouth, half_goal_mouth + self.post_diameter]
+                "x": [0.0, 0.0],
+                "y": [half_goal_mouth, half_goal_mouth + self.post_diameter]
             })
         ])
 
@@ -1699,11 +1699,11 @@ class GoalFrameFill(BaseHockeyFeature):
         # Trace the path of the goal frame, starting with the exterior
         goal_frame_fill_df = pd.concat([
             pd.DataFrame({
-                'x': [
+                "x": [
                     0.0
                 ],
 
-                'y': [
+                "y": [
                     -half_goal_mouth
                 ]
             }),
@@ -1723,8 +1723,8 @@ class GoalFrameFill(BaseHockeyFeature):
             ),
 
             pd.DataFrame({
-                'x': [0.0],
-                'y': [half_goal_mouth]
+                "x": [0.0],
+                "y": [half_goal_mouth]
             })
         ])
 
@@ -1753,7 +1753,7 @@ class PlayerBenchOutline(BaseHockeyFeature):
         as the boards
         """
         bench_outline_df = pd.DataFrame({
-            'x': [
+            "x": [
                 -self.feature_thickness,
                 -self.feature_thickness,
                 self.bench_length + self.feature_thickness,
@@ -1765,7 +1765,7 @@ class PlayerBenchOutline(BaseHockeyFeature):
                 -self.feature_thickness
             ],
 
-            'y': [
+            "y": [
                 self.feature_thickness,
                 (2.0 * self.feature_thickness) + self.bench_depth,
                 (2.0 * self.feature_thickness) + self.bench_depth,
@@ -1806,7 +1806,7 @@ class PenaltyBoxOutline(BaseHockeyFeature):
         color as the boards
         """
         penalty_box_outline_df = pd.DataFrame({
-            'x': [
+            "x": [
                 0.0,
                 (
                     (self.penalty_box_separation / 2.0) +
@@ -1840,7 +1840,7 @@ class PenaltyBoxOutline(BaseHockeyFeature):
                 0.0
             ],
 
-            'y': [
+            "y": [
                 -((2.0 * self.feature_thickness) + self.penalty_box_depth),
                 -((2.0 * self.feature_thickness) + self.penalty_box_depth),
                 -(self.feature_thickness),

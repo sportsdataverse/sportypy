@@ -47,7 +47,7 @@ class FootballField(BaseSurfacePlot):
 
     Attributes
     ----------
-    - league_code : str (default: '')
+    - league_code : str (default: "")
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "National Football
         League" should be either "NFL" or "nfl")
@@ -70,7 +70,7 @@ class FootballField(BaseSurfacePlot):
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
 
-    - units : str (default: 'default')
+    - units : str (default: "default")
         The units that the final plot should utilize. The default units are the
         units specified in the rule book of the league
 
@@ -217,11 +217,11 @@ class FootballField(BaseSurfacePlot):
         Whether or not the field should have a border
     """
 
-    def __init__(self, league_code = '', field_updates = {}, colors_dict = {},
+    def __init__(self, league_code = "", field_updates = {}, colors_dict = {},
                  rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = 'default', **added_features):
+                 units = "default", **added_features):
         # Load all pre-defined field dimensions for provided leagues
-        self._load_preset_dimensions(sport = 'football')
+        self._load_preset_dimensions(sport = "football")
 
         # Load all unit conversions
         self._load_unit_conversions()
@@ -268,26 +268,26 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the default colors of the field
         default_colors = {
-            'plot_background': '#196f0c',
-            'offensive_half': '#196f0c',
-            'defensive_half': '#196f0c',
-            'offensive_endzone': '#196f0c',
-            'defensive_endzone': '#196f0c',
-            'end_line': '#ffffff',
-            'sideline': '#ffffff',
-            'field_border': '#196f0c',
-            'field_border_outline': '#ffffff',
-            'major_yard_line': '#ffffff',
-            'goal_line': '#ffffff',
-            'minor_yard_line': '#ffffff',
-            'arrow': '#ffffff',
-            'try_mark': '#ffffff',
-            'yardage_marker': '#ffffff',
-            'restricted_area': '#ffffff',
-            'coaching_box': '#ffffff',
-            'team_bench_area': '#196f0c',
-            'team_bench_area_outline': '#ffffff',
-            'coaching_box_line': '#ffffff'
+            "plot_background": "#196f0c",
+            "offensive_half": "#196f0c",
+            "defensive_half": "#196f0c",
+            "offensive_endzone": "#196f0c",
+            "defensive_endzone": "#196f0c",
+            "end_line": "#ffffff",
+            "sideline": "#ffffff",
+            "field_border": "#196f0c",
+            "field_border_outline": "#ffffff",
+            "major_yard_line": "#ffffff",
+            "goal_line": "#ffffff",
+            "minor_yard_line": "#ffffff",
+            "arrow": "#ffffff",
+            "try_mark": "#ffffff",
+            "yardage_marker": "#ffffff",
+            "restricted_area": "#ffffff",
+            "coaching_box": "#ffffff",
+            "team_bench_area": "#196f0c",
+            "team_bench_area_outline": "#ffffff",
+            "coaching_box_line": "#ffffff"
         }
 
         # Combine the colors with a passed colors dictionary
@@ -304,15 +304,15 @@ class FootballField(BaseSurfacePlot):
         # contained within the field. The feature itself is not visible (as
         # it's created by the football.field class)
         field_constraint_params = {
-            'class': football.FieldConstraint,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'endzone_length': self.field_params.get('endzone_length', 0.0),
-            'visible': False
+            "class": football.FieldConstraint,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "visible": False
         }
         self._initialize_feature(field_constraint_params)
 
@@ -321,439 +321,439 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the offensive half of the field
         offensive_half_params = {
-            'class': football.OffensiveHalf,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'is_constrained': False,
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'endzone_length': self.field_params.get('endzone_length', 0.0),
-            'feature_thickness': self.field_params.get(
-                'boundary_line_thickness',
+            "class": football.OffensiveHalf,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "is_constrained": False,
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "feature_thickness": self.field_params.get(
+                "boundary_line_thickness",
                 0.0
             ),
-            'facecolor': self.feature_colors['offensive_half'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["offensive_half"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(offensive_half_params)
 
         # Initialize the defensive half of the field
         defensive_half_params = {
-            'class': football.DefensiveHalf,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'is_constrained': False,
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'endzone_length': self.field_params.get('endzone_length', 0.0),
-            'feature_thickness': self.field_params.get(
-                'boundary_line_thickness',
+            "class": football.DefensiveHalf,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "is_constrained": False,
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "feature_thickness": self.field_params.get(
+                "boundary_line_thickness",
                 0.0
             ),
-            'facecolor': self.feature_colors['defensive_half'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["defensive_half"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(defensive_half_params)
 
         # Initialize the endzones
         offensive_endzone_params = {
-            'class': football.Endzone,
-            'x_anchor': (
-                (self.field_params.get('field_length', 0.0) / 2.0) +
-                (self.field_params.get('endzone_length', 0.0)) / 2.0
+            "class": football.Endzone,
+            "x_anchor": (
+                (self.field_params.get("field_length", 0.0) / 2.0) +
+                (self.field_params.get("endzone_length", 0.0)) / 2.0
             ),
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'is_constrained': False,
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'endzone_length': self.field_params.get('endzone_length', 0.0),
-            'feature_thickness': self.field_params.get(
-                'boundary_line_thickness',
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "is_constrained": False,
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "feature_thickness": self.field_params.get(
+                "boundary_line_thickness",
                 0.0
             ),
-            'facecolor': self.feature_colors['offensive_endzone'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["offensive_endzone"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(offensive_endzone_params)
 
         defensive_endzone_params = {
-            'class': football.Endzone,
-            'x_anchor': -(
-                (self.field_params.get('field_length', 0.0) / 2.0) +
-                (self.field_params.get('endzone_length', 0.0)) / 2.0
+            "class": football.Endzone,
+            "x_anchor": -(
+                (self.field_params.get("field_length", 0.0) / 2.0) +
+                (self.field_params.get("endzone_length", 0.0)) / 2.0
             ),
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'is_constrained': False,
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'endzone_length': self.field_params.get('endzone_length', 0.0),
-            'feature_thickness': self.field_params.get(
-                'boundary_line_thickness',
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "is_constrained": False,
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "feature_thickness": self.field_params.get(
+                "boundary_line_thickness",
                 0.0
             ),
-            'facecolor': self.feature_colors['defensive_endzone'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["defensive_endzone"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(defensive_endzone_params)
 
         # Initialize the restricted areas
         restricted_area_params = {
-            'class': football.RestrictedArea,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                (self.field_params.get('field_width', 0.0) / 2.0) +
-                self.field_params.get('boundary_line_thickness', 0.0)
+            "class": football.RestrictedArea,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                (self.field_params.get("field_width", 0.0) / 2.0) +
+                self.field_params.get("boundary_line_thickness", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'is_constrained': False,
-            'feature_thickness': self.field_params.get(
-                'restricted_area_width',
+            "reflect_x": False,
+            "reflect_y": True,
+            "is_constrained": False,
+            "feature_thickness": self.field_params.get(
+                "restricted_area_width",
                 0.0
             ),
-            'restricted_area_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "restricted_area_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'facecolor': self.feature_colors['restricted_area'],
-            'edgecolor': None,
-            'zorder': 5
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "facecolor": self.feature_colors["restricted_area"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(restricted_area_params)
 
         # Initialize the coaching boxes
         coaching_box_params = {
-            'class': football.CoachingBox,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                (self.field_params.get('field_width', 0.0) / 2.0) +
-                self.field_params.get('boundary_line_thickness', 0.0) +
-                self.field_params.get('restricted_area_width', 0.0)
+            "class": football.CoachingBox,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                (self.field_params.get("field_width", 0.0) / 2.0) +
+                self.field_params.get("boundary_line_thickness", 0.0) +
+                self.field_params.get("restricted_area_width", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'is_constrained': False,
-            'feature_thickness': self.field_params.get(
-                'coaching_box_width',
+            "reflect_x": False,
+            "reflect_y": True,
+            "is_constrained": False,
+            "feature_thickness": self.field_params.get(
+                "coaching_box_width",
                 0.0
             ),
-            'coaching_box_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "coaching_box_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'facecolor': self.feature_colors['coaching_box'],
-            'edgecolor': None,
-            'zorder': 5
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "facecolor": self.feature_colors["coaching_box"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(coaching_box_params)
 
         # Initialize the team bench areas
         team_bench_area_params = {
-            'class': football.TeamBenchArea,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                (self.field_params.get('field_width', 0.0) / 2.0) +
-                self.field_params.get('boundary_line_thickness', 0.0) +
-                self.field_params.get('restricted_area_width', 0.0) +
-                self.field_params.get('coaching_box_width', 0.0)
+            "class": football.TeamBenchArea,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                (self.field_params.get("field_width", 0.0) / 2.0) +
+                self.field_params.get("boundary_line_thickness", 0.0) +
+                self.field_params.get("restricted_area_width", 0.0) +
+                self.field_params.get("coaching_box_width", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'is_constrained': False,
-            'feature_thickness': self.field_params.get(
-                'team_bench_width',
+            "reflect_x": False,
+            "reflect_y": True,
+            "is_constrained": False,
+            "feature_thickness": self.field_params.get(
+                "team_bench_width",
                 0.0
             ),
-            'team_bench_length_field_side': self.field_params.get(
-                'team_bench_length_field_side',
+            "team_bench_length_field_side": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'team_bench_length_back_side': self.field_params.get(
-                'team_bench_length_back_side',
+            "team_bench_length_back_side": self.field_params.get(
+                "team_bench_length_back_side",
                 0.0
             ),
-            'team_bench_width': self.field_params.get('team_bench_width', 0.0),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'facecolor': self.feature_colors['team_bench_area'],
-            'edgecolor': None,
-            'zorder': 5
+            "team_bench_width": self.field_params.get("team_bench_width", 0.0),
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "facecolor": self.feature_colors["team_bench_area"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(team_bench_area_params)
 
         # Initialize the outline of the team bench areas
         team_bench_area_outline_params = {
-            'class': football.TeamBenchAreaOutline,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                (self.field_params.get('field_width', 0.0) / 2.0) +
-                self.field_params.get('boundary_line_thickness', 0.0)
+            "class": football.TeamBenchAreaOutline,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                (self.field_params.get("field_width", 0.0) / 2.0) +
+                self.field_params.get("boundary_line_thickness", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'is_constrained': False,
-            'restricted_area_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "reflect_x": False,
+            "reflect_y": True,
+            "is_constrained": False,
+            "restricted_area_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'restricted_area_width': self.field_params.get(
-                'restricted_area_width',
+            "restricted_area_width": self.field_params.get(
+                "restricted_area_width",
                 0.0
             ),
-            'coaching_box_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "coaching_box_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'coaching_box_width': self.field_params.get(
-                'coaching_box_width',
+            "coaching_box_width": self.field_params.get(
+                "coaching_box_width",
                 0.0
             ),
-            'team_bench_length_field_side': self.field_params.get(
-                'team_bench_length_field_side',
+            "team_bench_length_field_side": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'team_bench_length_back_side': self.field_params.get(
-                'team_bench_length_back_side',
+            "team_bench_length_back_side": self.field_params.get(
+                "team_bench_length_back_side",
                 0.0
             ),
-            'team_bench_width': self.field_params.get(
-                'team_bench_width',
+            "team_bench_width": self.field_params.get(
+                "team_bench_width",
                 0.0
             ),
-            'feature_thickness': self.field_params.get(
-                'team_bench_area_border_thickness',
+            "feature_thickness": self.field_params.get(
+                "team_bench_area_border_thickness",
                 0.0
             ),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'facecolor': self.feature_colors['team_bench_area_outline'],
-            'edgecolor': None,
-            'zorder': 5
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "facecolor": self.feature_colors["team_bench_area_outline"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(team_bench_area_outline_params)
 
         # Restricted area line
         coaching_box_line_params = {
-            'class': football.CoachingBoxLine,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                (self.field_params.get('field_width', 0.0) / 2.0) +
-                self.field_params.get('boundary_line_thickness', 0.0) +
-                self.field_params.get('restricted_area_width', 0.0) +
-                self.field_params.get('coaching_box_width', 0.0)
+            "class": football.CoachingBoxLine,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                (self.field_params.get("field_width", 0.0) / 2.0) +
+                self.field_params.get("boundary_line_thickness", 0.0) +
+                self.field_params.get("restricted_area_width", 0.0) +
+                self.field_params.get("coaching_box_width", 0.0)
             ),
-            'reflect_x': False,
-            'reflect_y': True,
-            'is_constrained': False,
-            'feature_thickness': self.field_params.get(
-                'minor_line_thickness',
+            "reflect_x": False,
+            "reflect_y": True,
+            "is_constrained": False,
+            "feature_thickness": self.field_params.get(
+                "minor_line_thickness",
                 0.0
             ),
-            'coaching_box_line_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "coaching_box_line_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'facecolor': self.feature_colors['coaching_box_line'],
-            'edgecolor': None,
-            'zorder': 16
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "facecolor": self.feature_colors["coaching_box_line"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(coaching_box_line_params)        
 
         # Initialize the end lines
         end_line_params = {
-            'class': football.EndLine,
-            'x_anchor': (
-                (self.field_params.get('field_length', 0.0) / 2.0) +
-                self.field_params.get('endzone_length', 0.0)
+            "class": football.EndLine,
+            "x_anchor": (
+                (self.field_params.get("field_length", 0.0) / 2.0) +
+                self.field_params.get("endzone_length", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'feature_thickness': self.field_params.get(
-                'boundary_line_thickness',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "feature_thickness": self.field_params.get(
+                "boundary_line_thickness",
                 0.0
             ),
-            'facecolor': self.feature_colors['end_line'],
-            'edgecolor': None,
-            'zorder': 16
+            "facecolor": self.feature_colors["end_line"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(end_line_params)
 
         # Initialize the sidelines
         sideline_params = {
-            'class': football.Sideline,
-            'x_anchor': 0.0,
-            'y_anchor': self.field_params.get('field_width', 0.0) / 2.0,
-            'reflect_x': False,
-            'reflect_y': True,
-            'is_constrained': False,
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'endzone_length': self.field_params.get('endzone_length', 0.0),
-            'feature_thickness': self.field_params.get(
-                'boundary_line_thickness',
+            "class": football.Sideline,
+            "x_anchor": 0.0,
+            "y_anchor": self.field_params.get("field_width", 0.0) / 2.0,
+            "reflect_x": False,
+            "reflect_y": True,
+            "is_constrained": False,
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "feature_thickness": self.field_params.get(
+                "boundary_line_thickness",
                 0.0
             ),
-            'facecolor': self.feature_colors['sideline'],
-            'edgecolor': None,
-            'zorder': 16
+            "facecolor": self.feature_colors["sideline"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(sideline_params)
 
         # Initialize the field border
         field_border_params = {
-            'class': football.FieldBorder,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'visible': self.field_params.get('field_bordered', False),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'restricted_area_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "class": football.FieldBorder,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "visible": self.field_params.get("field_bordered", False),
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "restricted_area_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'restricted_area_width': self.field_params.get(
-                'restricted_area_width',
+            "restricted_area_width": self.field_params.get(
+                "restricted_area_width",
                 0.0
             ),
-            'coaching_box_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "coaching_box_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'coaching_box_width': self.field_params.get(
-                'coaching_box_width',
+            "coaching_box_width": self.field_params.get(
+                "coaching_box_width",
                 0.0
             ),
-            'team_bench_length_field_side': self.field_params.get(
-                'team_bench_length_field_side',
+            "team_bench_length_field_side": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'team_bench_length_back_side': self.field_params.get(
-                'team_bench_length_back_side',
+            "team_bench_length_back_side": self.field_params.get(
+                "team_bench_length_back_side",
                 0.0
             ),
-            'team_bench_width': self.field_params.get(
-                'team_bench_width',
+            "team_bench_width": self.field_params.get(
+                "team_bench_width",
                 0.0
             ),
-            'team_bench_border_thickness': self.field_params.get(
-                'team_bench_area_border_thickness',
+            "team_bench_border_thickness": self.field_params.get(
+                "team_bench_area_border_thickness",
                 0.0
             ),
-            'surrounds_team_bench_area': self.field_params.get(
-                'field_border_behind_bench',
+            "surrounds_team_bench_area": self.field_params.get(
+                "field_border_behind_bench",
                 False,
             ),
-            'bench_shape': self.field_params.get(
-                'bench_shape',
-                'rectangle'
+            "bench_shape": self.field_params.get(
+                "bench_shape",
+                "rectangle"
             ),
-            'feature_thickness': self.field_params.get(
-                'field_border_thickness',
+            "feature_thickness": self.field_params.get(
+                "field_border_thickness",
                 0.0
             ),
-            'endzone_length': self.field_params.get('endzone_length', 0.0),
-            'boundary_thickness': self.field_params.get(
-                'boundary_line_thickness',
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "boundary_thickness": self.field_params.get(
+                "boundary_line_thickness",
                 0.0
             ),
-            'facecolor': self.feature_colors['field_border'],
-            'edgecolor': None,
-            'zorder': 16
+            "facecolor": self.feature_colors["field_border"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(field_border_params)
 
         # Initialize the outline of the field border
         field_border_outline_params = {
-            'class': football.FieldBorderOutline,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'visible': self.field_params.get('field_bordered', False),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'restricted_area_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "class": football.FieldBorderOutline,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "visible": self.field_params.get("field_bordered", False),
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "restricted_area_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'restricted_area_width': self.field_params.get(
-                'restricted_area_width',
+            "restricted_area_width": self.field_params.get(
+                "restricted_area_width",
                 0.0
             ),
-            'coaching_box_length': self.field_params.get(
-                'team_bench_length_field_side',
+            "coaching_box_length": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'coaching_box_width': self.field_params.get(
-                'coaching_box_width',
+            "coaching_box_width": self.field_params.get(
+                "coaching_box_width",
                 0.0
             ),
-            'team_bench_length_field_side': self.field_params.get(
-                'team_bench_length_field_side',
+            "team_bench_length_field_side": self.field_params.get(
+                "team_bench_length_field_side",
                 0.0
             ),
-            'team_bench_length_back_side': self.field_params.get(
-                'team_bench_length_back_side',
+            "team_bench_length_back_side": self.field_params.get(
+                "team_bench_length_back_side",
                 0.0
             ),
-            'team_bench_width': self.field_params.get(
-                'team_bench_width',
+            "team_bench_width": self.field_params.get(
+                "team_bench_width",
                 0.0
             ),
-            'team_bench_border_thickness': self.field_params.get(
-                'team_bench_area_border_thickness',
+            "team_bench_border_thickness": self.field_params.get(
+                "team_bench_area_border_thickness",
                 0.0
             ),
-            'field_border_thickness': self.field_params.get(
-                'field_border_thickness',
+            "field_border_thickness": self.field_params.get(
+                "field_border_thickness",
                 0.0
             ),
-            'feature_thickness': self.field_params.get(
-                'minor_line_thickness',
+            "feature_thickness": self.field_params.get(
+                "minor_line_thickness",
                 0.0
             ),
-            'surrounds_team_bench_area': self.field_params.get(
-                'field_border_behind_bench',
+            "surrounds_team_bench_area": self.field_params.get(
+                "field_border_behind_bench",
                 False,
             ),
-            'bench_shape': self.field_params.get(
-                'bench_shape',
-                'rectangle'
+            "bench_shape": self.field_params.get(
+                "bench_shape",
+                "rectangle"
             ),
-            'endzone_length': self.field_params.get('endzone_length', 0.0),
-            'boundary_thickness': self.field_params.get(
-                'boundary_line_thickness',
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "boundary_thickness": self.field_params.get(
+                "boundary_line_thickness",
                 0.0
             ),
-            'facecolor': self.feature_colors['field_border_outline'],
-            'edgecolor': None,
-            'zorder': 16
+            "facecolor": self.feature_colors["field_border_outline"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(field_border_outline_params)
 
@@ -763,14 +763,14 @@ class FootballField(BaseSurfacePlot):
         # half-length of the field to include the 50 yard line
         yard_lines = np.arange(
             1.0,
-            (self.field_params.get('field_length', 0.0) / 2.0) + 1.0
+            (self.field_params.get("field_length", 0.0) / 2.0) + 1.0
         )
 
         # Identify all major yard lines. These are the yard lines that span the
         # width of the field
         major_yard_lines = yard_lines[
             yard_lines % self.field_params.get(
-                'major_yard_line_distance',
+                "major_yard_line_distance",
                 5.0
             ) == 0.0
         ]
@@ -779,59 +779,59 @@ class FootballField(BaseSurfacePlot):
             # The yard line name is an added attribute to identify which yard
             # line is which if needed
             yard_line_name = int(
-                (self.field_params.get('field_length', 0.0) / 2.0) -
+                (self.field_params.get("field_length", 0.0) / 2.0) -
                 major_line
             )
 
             # Initialize the major yard line
             major_yard_line_params = {
-                'class': football.MajorYardLine,
-                'x_anchor': yard_line_name,
-                'y_anchor': 0.0,
-                'reflect_x': True,
-                'reflect_y': False,
-                'dist_to_sideline': self.field_params.get(
-                    'sideline_to_major_yard_line',
+                "class": football.MajorYardLine,
+                "x_anchor": yard_line_name,
+                "y_anchor": 0.0,
+                "reflect_x": True,
+                "reflect_y": False,
+                "dist_to_sideline": self.field_params.get(
+                    "sideline_to_major_yard_line",
                     0.0
                 ),
-                'cross_hash_length': self.field_params.get(
-                    'inbound_cross_hashmark_length',
+                "cross_hash_length": self.field_params.get(
+                    "inbound_cross_hashmark_length",
                     0.0
                 ),
-                'cross_hash_separation': self.field_params.get(
-                    'inbound_cross_hashmark_separation',
+                "cross_hash_separation": self.field_params.get(
+                    "inbound_cross_hashmark_separation",
                     0.0
                 ),
-                'feature_thickness': self.field_params.get(
-                    'minor_line_thickness',
+                "feature_thickness": self.field_params.get(
+                    "minor_line_thickness",
                     0.0
                 ),
-                'yard_line_name': f'{yard_line_name}',
-                'field_length': self.field_params.get('field_length', 0.0),
-                'field_width': self.field_params.get('field_width', 0.0),
-                'facecolor': self.feature_colors['major_yard_line'],
-                'edgecolor': None,
-                'zorder': 16
+                "yard_line_name": f"{yard_line_name}",
+                "field_length": self.field_params.get("field_length", 0.0),
+                "field_width": self.field_params.get("field_width", 0.0),
+                "facecolor": self.feature_colors["major_yard_line"],
+                "edgecolor": None,
+                "zorder": 16
             }
             self._initialize_feature(major_yard_line_params)
 
         # Initialize the goal lines
         goal_line_params = {
-            'class': football.GoalLine,
-            'x_anchor': self.field_params.get('field_length', 0.0) / 2.0,
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'feature_thickness': self.field_params.get(
-                'goal_line_thickness',
+            "class": football.GoalLine,
+            "x_anchor": self.field_params.get("field_length", 0.0) / 2.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "feature_thickness": self.field_params.get(
+                "goal_line_thickness",
                 0.0
             ),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'facecolor': self.feature_colors['goal_line'],
-            'edgecolor': None,
-            'zorder': 16
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "facecolor": self.feature_colors["goal_line"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(goal_line_params)
 
@@ -839,7 +839,7 @@ class FootballField(BaseSurfacePlot):
         # be marked between all major yard lines
         minor_yard_lines = yard_lines[
             yard_lines % self.field_params.get(
-                'major_yard_line_distance',
+                "major_yard_line_distance",
                 5.0
             ) != 0.0
         ]
@@ -847,7 +847,7 @@ class FootballField(BaseSurfacePlot):
         # Add additional yard lines to be marked (e.g. CFL's 5-yard intervals
         # in the endzones)
         minor_yard_lines = np.append(minor_yard_lines, self.field_params.get(
-            'additional_minor_yard_lines',
+            "additional_minor_yard_lines",
             []
         ))
 
@@ -855,73 +855,73 @@ class FootballField(BaseSurfacePlot):
             # The yard line name is an added attribute to identify which yard
             # line is which if needed
             yard_line_name = int(
-                (self.field_params.get('field_length', 0.0) / 2.0) -
+                (self.field_params.get("field_length", 0.0) / 2.0) -
                 minor_line
             )
 
             # Initialize the minor yard lines closest to the sideline
             outer_minor_yard_line_params = {
-                'class': football.MinorYardLine,
-                'x_anchor': yard_line_name,
-                'y_anchor': (
-                    (self.field_params.get('field_width', 0.0) / 2.0) -
-                    self.field_params.get('sideline_to_outer_yard_line', 0.0) -
-                    self.field_params.get('minor_yard_line_height', 0.0)
+                "class": football.MinorYardLine,
+                "x_anchor": yard_line_name,
+                "y_anchor": (
+                    (self.field_params.get("field_width", 0.0) / 2.0) -
+                    self.field_params.get("sideline_to_outer_yard_line", 0.0) -
+                    self.field_params.get("minor_yard_line_height", 0.0)
                 ),
-                'reflect_x': True,
-                'reflect_y': True,
-                'feature_thickness': self.field_params.get(
-                    'minor_line_thickness',
+                "reflect_x": True,
+                "reflect_y": True,
+                "feature_thickness": self.field_params.get(
+                    "minor_line_thickness",
                     0.0
                 ),
-                'yard_line_name': f'{yard_line_name}',
-                'yard_line_height': self.field_params.get(
-                    'minor_yard_line_height',
+                "yard_line_name": f"{yard_line_name}",
+                "yard_line_height": self.field_params.get(
+                    "minor_yard_line_height",
                     0.0
                 ),
-                'field_length': self.field_params.get('field_length', 0.0),
-                'field_width': self.field_params.get('field_width', 0.0),
-                'facecolor': self.feature_colors['minor_yard_line'],
-                'edgecolor': None,
-                'zorder': 16
+                "field_length": self.field_params.get("field_length", 0.0),
+                "field_width": self.field_params.get("field_width", 0.0),
+                "facecolor": self.feature_colors["minor_yard_line"],
+                "edgecolor": None,
+                "zorder": 16
             }
             self._initialize_feature(outer_minor_yard_line_params)
 
             # Initialize the minor yard lines closest to the center of the
             # field
             inner_minor_yard_line_params = {
-                'class': football.MinorYardLine,
-                'x_anchor': yard_line_name,
-                'y_anchor': self.field_params.get(
-                    'inbound_hashmark_separation',
+                "class": football.MinorYardLine,
+                "x_anchor": yard_line_name,
+                "y_anchor": self.field_params.get(
+                    "inbound_hashmark_separation",
                     0.0
                 ) / 2.0,
-                'reflect_x': True,
-                'reflect_y': True,
-                'feature_thickness': self.field_params.get(
-                    'minor_line_thickness',
+                "reflect_x": True,
+                "reflect_y": True,
+                "feature_thickness": self.field_params.get(
+                    "minor_line_thickness",
                     0.0
                 ),
-                'yard_line_name': f'{yard_line_name}',
-                'yard_line_height': self.field_params.get(
-                    'minor_yard_line_height',
+                "yard_line_name": f"{yard_line_name}",
+                "yard_line_height": self.field_params.get(
+                    "minor_yard_line_height",
                     0.0
                 ),
-                'field_length': self.field_params.get('field_length', 0.0),
-                'field_width': self.field_params.get('field_width', 0.0),
-                'facecolor': self.feature_colors['minor_yard_line'],
-                'edgecolor': None,
-                'zorder': 16
+                "field_length": self.field_params.get("field_length", 0.0),
+                "field_width": self.field_params.get("field_width", 0.0),
+                "facecolor": self.feature_colors["minor_yard_line"],
+                "edgecolor": None,
+                "zorder": 16
             }
             self._initialize_feature(inner_minor_yard_line_params)
 
         # Identify all yard lines around which there should be arrows
         arrow_lines = yard_lines[
             yard_lines % self.field_params.get(
-                'arrow_line_dist',
+                "arrow_line_dist",
                 10.0
             ) == 0.0
-        ] - (self.field_params.get('field_length', 0.0) / 2.0)
+        ] - (self.field_params.get("field_length", 0.0) / 2.0)
 
         # Remove arrows from the goal line
         arrow_lines = arrow_lines[arrow_lines != 0.0]
@@ -929,51 +929,51 @@ class FootballField(BaseSurfacePlot):
         for arrow_line in arrow_lines:
             # Initialize the directional arrows where necessary
             arrow_params = {
-                'class': football.Arrow,
-                'x_anchor': arrow_line - self.field_params.get(
-                    'yard_line_to_arrow'
+                "class": football.Arrow,
+                "x_anchor": arrow_line - self.field_params.get(
+                    "yard_line_to_arrow"
                 ),
-                'y_anchor': (
-                    (self.field_params.get('field_width', 0.0) / 2.0) -
+                "y_anchor": (
+                    (self.field_params.get("field_width", 0.0) / 2.0) -
                     self.field_params.get(
-                        'sideline_to_bottom_of_numbers',
+                        "sideline_to_bottom_of_numbers",
                         0.0
                     ) -
-                    self.field_params.get('number_height', 0.0) +
-                    self.field_params.get('top_number_to_arrow', 0.0)
+                    self.field_params.get("number_height", 0.0) +
+                    self.field_params.get("top_number_to_arrow", 0.0)
                 ),
-                'reflect_x': True,
-                'reflect_y': True,
-                'arrow_base': self.field_params.get('arrow_base', 0.0),
-                'arrow_length': -self.field_params.get('arrow_length', 0.0),
-                'field_length': self.field_params.get('field_length', 0.0),
-                'field_width': self.field_params.get('field_width', 0.0),
-                'facecolor': self.feature_colors['arrow'],
-                'edgecolor': None,
-                'zorder': 16
+                "reflect_x": True,
+                "reflect_y": True,
+                "arrow_base": self.field_params.get("arrow_base", 0.0),
+                "arrow_length": -self.field_params.get("arrow_length", 0.0),
+                "field_length": self.field_params.get("field_length", 0.0),
+                "field_width": self.field_params.get("field_width", 0.0),
+                "facecolor": self.feature_colors["arrow"],
+                "edgecolor": None,
+                "zorder": 16
             }
             self._initialize_feature(arrow_params)
 
         # Initialize the try marking
         try_mark_params = {
-            'class': football.TryMark,
-            'x_anchor': (
-                self.field_params.get('field_length', 0.0) / 2.0 -
-                self.field_params.get('try_mark_distance', 0.0)
+            "class": football.TryMark,
+            "x_anchor": (
+                self.field_params.get("field_length", 0.0) / 2.0 -
+                self.field_params.get("try_mark_distance", 0.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'try_mark_width': self.field_params.get('try_mark_width', 0.0),
-            'feature_thickness': self.field_params.get(
-                'minor_line_thickness',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "try_mark_width": self.field_params.get("try_mark_width", 0.0),
+            "feature_thickness": self.field_params.get(
+                "minor_line_thickness",
                 0.0
             ),
-            'field_length': self.field_params.get('field_length', 0.0),
-            'field_width': self.field_params.get('field_width', 0.0),
-            'facecolor': self.feature_colors['try_mark'],
-            'edgecolor': None,
-            'zorder': 16
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "facecolor": self.feature_colors["try_mark"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(try_mark_params)
 
@@ -981,15 +981,15 @@ class FootballField(BaseSurfacePlot):
         # arrows
         marked_lines = np.arange(
             1.0,
-            self.field_params.get('field_length', 0.0)
+            self.field_params.get("field_length", 0.0)
         )
 
         marked_lines = marked_lines[
             marked_lines % self.field_params.get(
-                'arrow_line_dist',
+                "arrow_line_dist",
                 10.0
             ) == 0.0
-        ] - (self.field_params.get('field_length', 0.0) / 2.0)
+        ] - (self.field_params.get("field_length", 0.0) / 2.0)
 
         marked_lines = np.repeat(marked_lines, 2)
 
@@ -998,68 +998,68 @@ class FootballField(BaseSurfacePlot):
             marked_lines = np.append(marked_lines, 0.0)
             marked_lines = np.sort(marked_lines)
 
-        if len(self.field_params.get('numbers_bottom', [])) % 2 != 0:
+        if len(self.field_params.get("numbers_bottom", [])) % 2 != 0:
             dist_to_line_bottom = np.repeat(
-                self.field_params.get('number_to_yard_line', 0.0),
-                (len(self.field_params.get('numbers_bottom', [])) / 2.0) - 0.5
+                self.field_params.get("number_to_yard_line", 0.0),
+                (len(self.field_params.get("numbers_bottom", [])) / 2.0) - 0.5
             )
 
             dist_to_line_bottom = np.append(dist_to_line_bottom, 0.0)
 
             dist_to_line_bottom = np.append(dist_to_line_bottom, np.repeat(
-                self.field_params.get('number_to_yard_line', 0.0),
-                (len(self.field_params.get('numbers_bottom', [])) / 2.0) - 0.5
+                self.field_params.get("number_to_yard_line", 0.0),
+                (len(self.field_params.get("numbers_bottom", [])) / 2.0) - 0.5
             ))
         else:
             dist_to_line_bottom = np.repeat(
-                self.field_params.get('number_to_yard_line', 0.0),
-                len(self.field_params.get('numbers_bottom', []))
+                self.field_params.get("number_to_yard_line", 0.0),
+                len(self.field_params.get("numbers_bottom", []))
             )
 
-        if len(self.field_params.get('numbers_top', [])) % 2 != 0:
+        if len(self.field_params.get("numbers_top", [])) % 2 != 0:
             dist_to_line_top = np.repeat(
-                self.field_params.get('number_to_yard_line', 0.0),
-                (len(self.field_params.get('numbers_top', [])) / 2.0) - 0.5
+                self.field_params.get("number_to_yard_line", 0.0),
+                (len(self.field_params.get("numbers_top", [])) / 2.0) - 0.5
             )
 
             dist_to_line_top = np.append(dist_to_line_top, 0.0)
 
             dist_to_line_top = np.append(dist_to_line_top, np.repeat(
-                self.field_params.get('number_to_yard_line', 0.0),
-                (len(self.field_params.get('numbers_top', [])) / 2.0) - 0.5
+                self.field_params.get("number_to_yard_line", 0.0),
+                (len(self.field_params.get("numbers_top", [])) / 2.0) - 0.5
             ))
         else:
             dist_to_line_top = np.repeat(
-                self.field_params.get('number_to_yard_line', 0.0),
-                len(self.field_params.get('numbers_top', []))
+                self.field_params.get("number_to_yard_line", 0.0),
+                len(self.field_params.get("numbers_top", []))
             )
 
         # Initialize the yardage markers
         self.yardage_markers = pd.concat([
             pd.DataFrame({
-                'marking': self.field_params.get('numbers_bottom', []),
-                'rotation': np.repeat(
-                    0.0, len(self.field_params.get('numbers_bottom', []))
+                "marking": self.field_params.get("numbers_bottom", []),
+                "rotation": np.repeat(
+                    0.0, len(self.field_params.get("numbers_bottom", []))
                 ),
-                'side': np.repeat(
-                    'bottom', len(self.field_params.get('numbers_bottom', []))
+                "side": np.repeat(
+                    "bottom", len(self.field_params.get("numbers_bottom", []))
                 ),
-                'marked_line': marked_lines,
-                'dist_to_line': dist_to_line_bottom,
-                'color': self.feature_colors['yardage_marker']
+                "marked_line": marked_lines,
+                "dist_to_line": dist_to_line_bottom,
+                "color": self.feature_colors["yardage_marker"]
             }),
 
             pd.DataFrame({
-                'marking': self.field_params.get('numbers_top', []),
-                'rotation': np.repeat(
-                    180.0, len(self.field_params.get('numbers_top', []))
+                "marking": self.field_params.get("numbers_top", []),
+                "rotation": np.repeat(
+                    180.0, len(self.field_params.get("numbers_top", []))
                 ),
-                'side': np.repeat(
-                    'top', len(self.field_params.get('numbers_top', []))
+                "side": np.repeat(
+                    "top", len(self.field_params.get("numbers_top", []))
                 ),
-                'marked_line': marked_lines,
-                'dist_to_line': dist_to_line_top,
-                'color': self.feature_colors['yardage_marker']
+                "marked_line": marked_lines,
+                "dist_to_line": dist_to_line_top,
+                "color": self.feature_colors["yardage_marker"]
             })
         ])
 
@@ -1069,7 +1069,7 @@ class FootballField(BaseSurfacePlot):
         for added_feature in added_features.values():
             self._initialize_feature(added_feature)
 
-    def draw(self, ax = None, display_range = 'full', xlim = None, ylim = None,
+    def draw(self, ax = None, display_range = "full", xlim = None, ylim = None,
              rotation = None):
         """Draw the field.
 
@@ -1085,7 +1085,7 @@ class FootballField(BaseSurfacePlot):
             is shown in the final plot. The following explain what each display
             range corresponds to:
 
-                'full' : the entire field
+                "full" : the entire field
 
         xlim : float, tuple (float, float), or None (default: None)
             The display range in the x direction to be used. If a single
@@ -1117,14 +1117,14 @@ class FootballField(BaseSurfacePlot):
         # If an Axes object is not provided, create one to use for plotting
         if ax is None:
             fig, ax = plt.subplots()
-            fig.patch.set_facecolor(self.feature_colors['plot_background'])
+            fig.patch.set_facecolor(self.feature_colors["plot_background"])
             fig.set_size_inches(50, 50)
             ax = plt.gca()
 
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
-        ax.set_aspect('equal')
-        ax.axis('off')
+        ax.set_aspect("equal")
+        ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
@@ -1156,8 +1156,8 @@ class FootballField(BaseSurfacePlot):
                     # limits to be its minimum and maximum values of x
                     if self._feature_xlim is None:
                         self._feature_xlim = [
-                            feature_df['x'].min(),
-                            feature_df['x'].max()
+                            feature_df["x"].min(),
+                            feature_df["x"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -1165,16 +1165,16 @@ class FootballField(BaseSurfacePlot):
                     # of its specified maximum and largest x value
                     else:
                         self._feature_xlim = [
-                            min(self._feature_xlim[0], feature_df['x'].min()),
-                            max(self._feature_xlim[1], feature_df['x'].max())
+                            min(self._feature_xlim[0], feature_df["x"].min()),
+                            max(self._feature_xlim[1], feature_df["x"].max())
                         ]
 
                     # If the feature doesn't have a limitation on y, set its
                     # limits to be its minimum and maximum values of y
                     if self._feature_ylim is None:
                         self._feature_ylim = [
-                            feature_df['y'].min(),
-                            feature_df['y'].max()
+                            feature_df["y"].min(),
+                            feature_df["y"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -1182,57 +1182,57 @@ class FootballField(BaseSurfacePlot):
                     # of its specified maximum and largest y value
                     else:
                         self._feature_ylim = [
-                            min(self._feature_ylim[0], feature_df['y'].min()),
-                            max(self._feature_ylim[1], feature_df['y'].max())
+                            min(self._feature_ylim[0], feature_df["y"].min()),
+                            max(self._feature_ylim[1], feature_df["y"].max())
                         ]
 
         # Add the yardage markers
-        line_side = 'left'
+        line_side = "left"
 
         for idx, row in self.yardage_markers.iterrows():
-            if row['dist_to_line'] == 0.0:
-                line_side = 'center'
+            if row["dist_to_line"] == 0.0:
+                line_side = "center"
 
-            if line_side == 'left':
+            if line_side == "left":
                 x_anchor = (
-                    row['marked_line'] -
-                    self.field_params.get('number_to_yard_line', 0.0) -
-                    (self.field_params.get('number_width', 0.0) / 2.0) -
-                    (self.field_params.get('minor_line_thickness', 0.0) / 2.0)
+                    row["marked_line"] -
+                    self.field_params.get("number_to_yard_line", 0.0) -
+                    (self.field_params.get("number_width", 0.0) / 2.0) -
+                    (self.field_params.get("minor_line_thickness", 0.0) / 2.0)
                 )
-            elif line_side == 'center':
+            elif line_side == "center":
                 x_anchor = 0.0
             else:
                 x_anchor = (
-                    row['marked_line'] +
-                    self.field_params.get('number_to_yard_line', 0.0) +
-                    (self.field_params.get('number_width', 0.0) / 2.0) +
-                    (self.field_params.get('minor_line_thickness', 0.0) / 2.0)
+                    row["marked_line"] +
+                    self.field_params.get("number_to_yard_line", 0.0) +
+                    (self.field_params.get("number_width", 0.0) / 2.0) +
+                    (self.field_params.get("minor_line_thickness", 0.0) / 2.0)
                 )
 
-            if row['side'] == 'bottom':
+            if row["side"] == "bottom":
                 y_anchor = (
-                    -(self.field_params.get('field_width', 0.0) / 2.0) +
-                    (self.field_params.get('number_height', 0.0) / 2.0) +
-                    self.field_params.get('sideline_to_bottom_of_numbers', 0.0)
+                    -(self.field_params.get("field_width", 0.0) / 2.0) +
+                    (self.field_params.get("number_height", 0.0) / 2.0) +
+                    self.field_params.get("sideline_to_bottom_of_numbers", 0.0)
                 )
             else:
                 y_anchor = (
-                    (self.field_params.get('field_width', 0.0) / 2.0) -
-                    (self.field_params.get('number_height', 0.0) / 2.0) -
-                    self.field_params.get('sideline_to_bottom_of_numbers', 0.0)
+                    (self.field_params.get("field_width", 0.0) / 2.0) -
+                    (self.field_params.get("number_height", 0.0) / 2.0) -
+                    self.field_params.get("sideline_to_bottom_of_numbers", 0.0)
                 )
 
-            s = row['marking']
-            color = row['color']
-            rotation = row['rotation']
+            s = row["marking"]
+            color = row["color"]
+            rotation = row["rotation"]
 
-            number_font = self.field_params.get('number_font', 'DejaVu Sans')
+            number_font = self.field_params.get("number_font", "DejaVu Sans")
 
             # Ideally this should be removed, but for now this adjusts the "1"
             # on the top numbers to be in the correct spot
-            if row['side'] == 'top' and line_side == 'right' and s == '1':
-                if number_font == 'Clarendon-Regular':
+            if row["side"] == "top" and line_side == "right" and s == "1":
+                if number_font == "Clarendon-Regular":
                     x_anchor -= 0.75
                 else:
                     x_anchor = x_anchor
@@ -1258,20 +1258,20 @@ class FootballField(BaseSurfacePlot):
                 s = s,
                 color = color,
                 rotation = rotation,
-                fontweight = 'heavy',
+                fontweight = "heavy",
                 fontname = number_font,
-                ha = 'center',
-                va = 'center',
-                rotation_mode = 'anchor',
+                ha = "center",
+                va = "center",
+                rotation_mode = "anchor",
                 transform_rotates_text = True,
                 fontsize = 50,
                 zorder = 17
             )
 
-            if line_side == 'left':
-                line_side = 'right'
+            if line_side == "left":
+                line_side = "right"
             else:
-                line_side = 'left'
+                line_side = "left"
 
         # Set the plot's display range
         ax = self.set_plot_display_range(
@@ -1317,26 +1317,26 @@ class FootballField(BaseSurfacePlot):
             # If the league code exists, return it as a list of length 1 with
             # a printed message
             if league_code in available_league_codes:
-                print(f'{league_code.upper()} comes with sportypy and is '
-                      'ready to use!')
+                print(f"{league_code.upper()} comes with sportypy and is "
+                      "ready to use!")
 
             # Otherwise, alert the user that they will need to manually specify
             # the parameters of the league
             else:
-                print(f'{league_code.upper()} does not come with sportypy, '
-                      'but may be parameterized. Use the '
-                      'cani_change_dimensions() to check what parameters are '
-                      'needed.')
+                print(f"{league_code.upper()} does not come with sportypy, "
+                      "but may be parameterized. Use the "
+                      "cani_change_dimensions() to check what parameters are "
+                      "needed.")
 
         # If no league code is provided, print out the list of all available
         else:
             # Preamble
-            print('The following football leagues are available with '
-                  'sportypy:\n')
+            print("The following football leagues are available with "
+                  "sportypy:\n")
 
             # Print the current leagues
             for league_code in available_league_codes:
-                print(f'- {league_code.upper()}')
+                print(f"- {league_code.upper()}")
 
     def cani_color_features(self):
         """Determine what features of the field can be colored.
@@ -1350,15 +1350,15 @@ class FootballField(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be colored via the colors_dict '
-              'parameter, with the current value in parenthesis:\n')
+        print("The following features can be colored via the colors_dict "
+              "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.feature_colors.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese colors may be updated with the update_colors() method')
+        print("\nThese colors may be updated with the update_colors() method")
 
     def cani_change_dimensions(self):
         """Determine what features of the field can be re-parameterized.
@@ -1374,17 +1374,17 @@ class FootballField(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be reparameterized via the '
-              'field_updates parameter, with the current value in '
-              'parenthesis:\n')
+        print("The following features can be reparameterized via the "
+              "field_updates parameter, with the current value in "
+              "parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.field_params.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese parameters may be updated with the '
-              'update_field_params() method')
+        print("\nThese parameters may be updated with the "
+              "update_field_params() method")
 
     def update_colors(self, color_updates = {}, *args, **kwargs):
         """Update the colors currently used in the plot.
@@ -1464,26 +1464,26 @@ class FootballField(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            'plot_background': '#196f0c',
-            'offensive_half': '#196f0c',
-            'defensive_half': '#196f0c',
-            'offensive_endzone': '#196f0c',
-            'defensive_endzone': '#196f0c',
-            'end_line': '#ffffff',
-            'sideline': '#ffffff',
-            'field_border': '#196f0c',
-            'field_border_outline': '#ffffff',
-            'major_yard_line': '#ffffff',
-            'goal_line': '#ffffff',
-            'minor_yard_line': '#ffffff',
-            'arrow': '#ffffff',
-            'try_mark': '#ffffff',
-            'yardage_marker': '#ffffff',
-            'restricted_area': '#ffffff',
-            'coaching_box': '#ffffff',
-            'team_bench_area': '#196f0c',
-            'team_bench_area_outline': '#ffffff',
-            'coaching_box_line': '#ffffff'
+            "plot_background": "#196f0c",
+            "offensive_half": "#196f0c",
+            "defensive_half": "#196f0c",
+            "offensive_endzone": "#196f0c",
+            "defensive_endzone": "#196f0c",
+            "end_line": "#ffffff",
+            "sideline": "#ffffff",
+            "field_border": "#196f0c",
+            "field_border_outline": "#ffffff",
+            "major_yard_line": "#ffffff",
+            "goal_line": "#ffffff",
+            "minor_yard_line": "#ffffff",
+            "arrow": "#ffffff",
+            "try_mark": "#ffffff",
+            "yardage_marker": "#ffffff",
+            "restricted_area": "#ffffff",
+            "coaching_box": "#ffffff",
+            "team_bench_area": "#196f0c",
+            "team_bench_area_outline": "#ffffff",
+            "coaching_box_line": "#ffffff"
         }
 
         self.__init__(
@@ -1508,14 +1508,14 @@ class FootballField(BaseSurfacePlot):
             colors_dict = self.feature_colors
         )
 
-    def _get_plot_range_limits(self, display_range = 'full', xlim = None,
+    def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: 'full')
+        display_range : str (default: "full")
             The range of which to display the plot. This is a key that will
             be searched for in the ranges_dict parameter
 
@@ -1534,8 +1534,8 @@ class FootballField(BaseSurfacePlot):
             The y-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
-        if display_range == '' or display_range is None:
-            display_range = 'full'
+        if display_range == "" or display_range is None:
+            display_range = "full"
 
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
@@ -1546,9 +1546,9 @@ class FootballField(BaseSurfacePlot):
         # dimensions that are internal to the surface
         if for_plot:
             half_field_length = (
-                self.field_params.get('field_length', 0.0) / 2.0
+                self.field_params.get("field_length", 0.0) / 2.0
             )
-            half_field_width = self.field_params.get('field_width', 0.0) / 2.0
+            half_field_width = self.field_params.get("field_width", 0.0) / 2.0
 
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. sidelines and boundaries)
@@ -1556,39 +1556,41 @@ class FootballField(BaseSurfacePlot):
             # Determine the length of half of the field (including the
             # thickness of the field)
             half_field_length = (
-                (self.field_params.get('field_length', 0.0) / 2.0) +
-                self.field_params.get('endzone_length', 0.0) +
-                self.field_params.get('boundary_line_thickness', 0.0) +
-                self.field_params.get('field_border_thickness', 0.0) +
-                self.field_params.get('minor_line_thickness', 0.0) +
+                (self.field_params.get("field_length", 0.0) / 2.0) +
+                self.field_params.get("endzone_length", 0.0) +
+                self.field_params.get("boundary_line_thickness", 0.0) +
+                self.field_params.get("field_border_thickness", 0.0) +
+                self.field_params.get("minor_line_thickness", 0.0) +
                 3.0
             )
 
             half_field_width = (
-                (self.field_params.get('field_width', 0.0) / 2.0) + 20.0
+                (self.field_params.get("field_width", 0.0) / 2.0) + 20.0
             )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             xlims = {
                 # Full surface (default)
-                'full': (-half_field_length, half_field_length),
+                "full": (-half_field_length, half_field_length),
 
                 # Offensive half-field
-                'offense': (0.0, half_field_length),
-                'offence': (0.0, half_field_length),
-                'offensivehalffield': (0.0, half_field_length),
-                'offensive_half_field': (0.0, half_field_length),
+                "offense": (0.0, half_field_length),
+                "offence": (0.0, half_field_length),
+                "offensivehalffield": (0.0, half_field_length),
+                "offensive_half_field": (0.0, half_field_length),
+                "offensive half field": (0.0, half_field_length),
 
                 # Defensive half-field
-                'defense': (-half_field_length, 0.0),
-                'defence': (-half_field_length, 0.0),
-                'defensivehalffield': (-half_field_length, 0.0),
-                'defensive_half_field': (-half_field_length, 0.0)
+                "defense": (-half_field_length, 0.0),
+                "defence": (-half_field_length, 0.0),
+                "defensivehalffield": (-half_field_length, 0.0),
+                "defensive_half_field": (-half_field_length, 0.0),
+                "defensive half field": (-half_field_length, 0.0)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -1624,20 +1626,22 @@ class FootballField(BaseSurfacePlot):
         # added here
         if not ylim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                'full': (-(half_field_width), half_field_width),
-                'offense': (-half_field_width, half_field_width),
-                'offence': (-half_field_width, half_field_width),
-                'offensivehalffield': (-half_field_width, half_field_width),
-                'offensive_half_field': (-half_field_width, half_field_width),
-                'defense': (-half_field_width, half_field_width),
-                'defence': (-half_field_width, half_field_width),
-                'defensivehalffield': (-half_field_width, half_field_width),
-                'defensive_half_field': (-half_field_width, half_field_width)
+                "full": (-(half_field_width), half_field_width),
+                "offense": (-half_field_width, half_field_width),
+                "offence": (-half_field_width, half_field_width),
+                "offensivehalffield": (-half_field_width, half_field_width),
+                "offensive_half_field": (-half_field_width, half_field_width),
+                "offensive half field": (-half_field_width, half_field_width),
+                "defense": (-half_field_width, half_field_width),
+                "defence": (-half_field_width, half_field_width),
+                "defensivehalffield": (-half_field_width, half_field_width),
+                "defensive_half_field": (-half_field_width, half_field_width),
+                "defensive half field": (-half_field_width, half_field_width),
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
@@ -1697,7 +1701,7 @@ class CFLField(FootballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the FootballField class with the relevant parameters
         super().__init__(
-            league_code = 'cfl',
+            league_code = "cfl",
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1713,7 +1717,7 @@ class NCAAField(FootballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the FootballField class with the relevant parameters
         super().__init__(
-            league_code = 'ncaa',
+            league_code = "ncaa",
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1733,7 +1737,7 @@ class NFHSField(FootballField):
         else:
             self.n_players = 11
         super().__init__(
-            league_code = f'nfhs{self.n_players}',
+            league_code = f"nfhs{self.n_players}",
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1749,19 +1753,19 @@ class NFLField(FootballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the FootballField class with the relevant parameters
         colors_dict = {
-            'coaching_box_line': '#ffcb05'
+            "coaching_box_line": "#ffcb05"
         }
 
-        if 'colors_dict' in kwargs.keys():
-            kwargs['colors_dict'] = {
+        if "colors_dict" in kwargs.keys():
+            kwargs["colors_dict"] = {
                 **colors_dict,
-                **kwargs['colors_dict']
+                **kwargs["colors_dict"]
             }
         else:
-            kwargs['colors_dict'] = colors_dict
+            kwargs["colors_dict"] = colors_dict
 
         super().__init__(
-            league_code = 'nfl',
+            league_code = "nfl",
             field_updates = field_updates,
             *args,
             **kwargs

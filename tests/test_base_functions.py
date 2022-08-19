@@ -17,13 +17,13 @@ def test_reflect():
     simultaneously.
     """
     test_data = pd.DataFrame({
-        'x': [
+        "x": [
             1.0,
             2.0,
             3.0
         ],
 
-        'y': [
+        "y": [
             1.0,
             2.0,
             3.0
@@ -31,13 +31,13 @@ def test_reflect():
     })
 
     expected_x_only = pd.DataFrame({
-        'x': [
+        "x": [
             1.0,
             2.0,
             3.0
         ],
 
-        'y': [
+        "y": [
             -1.0,
             -2.0,
             -3.0
@@ -45,13 +45,13 @@ def test_reflect():
     })
 
     expected_y_only = pd.DataFrame({
-        'x': [
+        "x": [
             -1.0,
             -2.0,
             -3.0
         ],
 
-        'y': [
+        "y": [
             1.0,
             2.0,
             3.0
@@ -59,13 +59,13 @@ def test_reflect():
     })
 
     expected_x_and_y = pd.DataFrame({
-        'x': [
+        "x": [
             -1.0,
             -2.0,
             -3.0
         ],
 
-        'y': [
+        "y": [
             -1.0,
             -2.0,
             -3.0
@@ -89,37 +89,37 @@ def test_rotate():
     tested by rotating the point (1.0, 1.0) about the coordinate axis origin.
     """
     test_data = pd.DataFrame({
-        'x': [
+        "x": [
             1.0
         ],
 
-        'y': [
+        "y": [
             0.0
         ]
     })
 
     expected_ccw = pd.DataFrame({
-        'x': [
+        "x": [
             0.0
         ],
 
-        'y': [
+        "y": [
             1.0
         ]
     })
 
     expected_cw = pd.DataFrame({
-        'x': [
+        "x": [
             0.0
         ],
 
-        'y': [
+        "y": [
             -1.0
         ]
     })
 
-    test_ccw = transform.rotate(test_data, rotation_dir = 'ccw', angle = 0.5)
-    test_cw = transform.rotate(test_data, rotation_dir = 'cw', angle = 0.5)
+    test_ccw = transform.rotate(test_data, rotation_dir = "ccw", angle = 0.5)
+    test_cw = transform.rotate(test_data, rotation_dir = "cw", angle = 0.5)
 
     pdtest.assert_frame_equal(test_ccw, expected_ccw)
     pdtest.assert_frame_equal(test_cw, expected_cw)
@@ -134,13 +134,13 @@ def test_translate():
     simultaneously.
     """
     test_data = pd.DataFrame({
-        'x': [
+        "x": [
             1.0,
             2.0,
             3.0
         ],
 
-        'y': [
+        "y": [
             1.0,
             2.0,
             3.0
@@ -148,13 +148,13 @@ def test_translate():
     })
 
     expected_x_only = pd.DataFrame({
-        'x': [
+        "x": [
             2.0,
             3.0,
             4.0
         ],
 
-        'y': [
+        "y": [
             1.0,
             2.0,
             3.0
@@ -162,13 +162,13 @@ def test_translate():
     })
 
     expected_y_only = pd.DataFrame({
-        'x': [
+        "x": [
             1.0,
             2.0,
             3.0
         ],
 
-        'y': [
+        "y": [
             2.0,
             3.0,
             4.0
@@ -176,13 +176,13 @@ def test_translate():
     })
 
     expected_x_and_y = pd.DataFrame({
-        'x': [
+        "x": [
             2.0,
             3.0,
             4.0
         ],
 
-        'y': [
+        "y": [
             2.0,
             3.0,
             4.0
@@ -221,13 +221,13 @@ def test_scale():
     simultaneously.
     """
     test_data = pd.DataFrame({
-        'x': [
+        "x": [
             1.0,
             2.0,
             3.0
         ],
 
-        'y': [
+        "y": [
             1.0,
             2.0,
             3.0
@@ -235,13 +235,13 @@ def test_scale():
     })
 
     expected_scale = pd.DataFrame({
-        'x': [
+        "x": [
             2.0,
             4.0,
             6.0
         ],
 
-        'y': [
+        "y": [
             2.0,
             4.0,
             6.0

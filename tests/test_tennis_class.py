@@ -62,18 +62,18 @@ def test_cani_plot_leagues_no_league_code():
     available_league_codes.sort()
 
     # Generate the expected output for cani_plot_leagues() with no league code
-    exp_pl_empty_league_code = ''
+    exp_pl_empty_league_code = ""
 
     exp_pl_empty_league_code = (
-        'The following tennis leagues are available with sportypy:\n'
+        "The following tennis leagues are available with sportypy:\n"
     )
 
     for league_code in available_league_codes[:-1]:
-        new_league = f'- {league_code.upper()}'
-        exp_pl_empty_league_code = f'{exp_pl_empty_league_code}\n{new_league}'
+        new_league = f"- {league_code.upper()}"
+        exp_pl_empty_league_code = f"{exp_pl_empty_league_code}\n{new_league}"
 
-    exp_pl_empty_league_code = (f'{exp_pl_empty_league_code}\n'
-                                f'- {available_league_codes[-1].upper()}\n')
+    exp_pl_empty_league_code = (f"{exp_pl_empty_league_code}\n"
+                                f"- {available_league_codes[-1].upper()}\n")
 
     # Initialize the output-capture
     pl_empty_league_code = io.StringIO()
@@ -91,8 +91,8 @@ def test_cani_plot_leagues_no_league_code():
 def test_cani_plot_leagues_itf():
     """Test cani_plot_leagues() method will return appropriate message.
 
-    When passed either 'itf', 'ITF', or any combination of capitalized and
-    lower-case letters of 'I', 'T', and 'F', this should return the same
+    When passed either "itf", "ITF", or any combination of capitalized and
+    lower-case letters of "I", "T", and "F", this should return the same
     message
     """
     # Create a TennisCourt() object to use for testing
@@ -100,7 +100,7 @@ def test_cani_plot_leagues_itf():
 
     # Generate the expected output for cani_plot_leagues() with a league code
     # (this will use ITF as a test)
-    exp_pl_itf_league_code = 'ITF comes with sportypy and is ready to use!\n'
+    exp_pl_itf_league_code = "ITF comes with sportypy and is ready to use!\n"
 
     # Initialize the output-captures
     pl_itf_league_code_lower = io.StringIO()
@@ -109,13 +109,13 @@ def test_cani_plot_leagues_itf():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_itf_league_code_lower
-    test_court.cani_plot_leagues('itf')
+    test_court.cani_plot_leagues("itf")
 
     sys.stdout = pl_itf_league_code_upper
-    test_court.cani_plot_leagues('ITF')
+    test_court.cani_plot_leagues("ITF")
 
     sys.stdout = pl_itf_league_code_mixed
-    test_court.cani_plot_leagues('ItF')
+    test_court.cani_plot_leagues("ItF")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -137,9 +137,9 @@ def test_cani_plot_leagues_bad_league_code():
     # Generate the expected output for cani_plot_leagues() with an invalid
     # league code (this will use test_league as a test)
     exp_pl_bad_league_code = (
-        'TEST_LEAGUE does not come with sportypy, but may be parameterized. '
-        'Use the cani_change_dimensions() to check what parameters are needed.'
-        '\n'
+        "TEST_LEAGUE does not come with sportypy, but may be parameterized. "
+        "Use the cani_change_dimensions() to check what parameters are needed."
+        "\n"
     )
 
     # Initialize the output-capture
@@ -147,7 +147,7 @@ def test_cani_plot_leagues_bad_league_code():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_bad_league_code
-    test_court.cani_plot_leagues('test_league')
+    test_court.cani_plot_leagues("test_league")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -166,21 +166,21 @@ def test_cani_change_dimensions():
 
     # Generate the expected output for cani_change_dimensions()
     exp_change_dimensions = (
-        'The following features can be reparameterized via the court_updates '
-        'parameter, with the current value in parenthesis:\n\n'
-        '- court_length (78.0)\n'
-        '- singles_width (27.0)\n'
-        '- court_units (ft)\n'
-        '- doubles_width (36.0)\n'
-        '- serviceline_distance (21.0)\n'
-        '- center_mark_length (0.3333)\n'
-        '- net_length (42.0)\n'
-        '- line_thickness (0.1667)\n'
-        '- backstop_distance (21.0)\n'
-        '- sidestop_distance (12.0)\n'
-        '\n'
-        'These parameters may be updated with the update_court_params() '
-        'method\n'
+        "The following features can be reparameterized via the court_updates "
+        "parameter, with the current value in parenthesis:\n\n"
+        "- court_length (78.0)\n"
+        "- singles_width (27.0)\n"
+        "- court_units (ft)\n"
+        "- doubles_width (36.0)\n"
+        "- serviceline_distance (21.0)\n"
+        "- center_mark_length (0.3333)\n"
+        "- net_length (42.0)\n"
+        "- line_thickness (0.1667)\n"
+        "- backstop_distance (21.0)\n"
+        "- sidestop_distance (12.0)\n"
+        "\n"
+        "These parameters may be updated with the update_court_params() "
+        "method\n"
     )
 
     # Initialize the output-capture
@@ -207,16 +207,16 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        'The following features can be colored via the colors_dict parameter, '
-        'with the current value in parenthesis:\n'
+        "The following features can be colored via the colors_dict parameter, "
+        "with the current value in parenthesis:\n"
     )
 
     for k, v in test_court.feature_colors.items():
-        exp_color_features = f'{exp_color_features}\n- {k} ({v})'
+        exp_color_features = f"{exp_color_features}\n- {k} ({v})"
 
     exp_color_features = (
-        f'{exp_color_features}\n\nThese colors may be updated with the '
-        'update_colors() method\n'
+        f"{exp_color_features}\n\nThese colors may be updated with the "
+        "update_colors() method\n"
     )
 
     # Initialize the output-capture
@@ -248,7 +248,7 @@ def test_update_colors():
     # Update a color. The doubles alley is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from white to orange
-    test_itf.update_colors({'doubles_alley': '#e84a27'})
+    test_itf.update_colors({"doubles_alley": "#e84a27"})
 
     # Get the updated colors
     updated_colors = test_itf.feature_colors
@@ -275,7 +275,7 @@ def test_reset_colors():
     # Update a color. The doubles alley is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from white to orange
-    test_itf.update_colors({'doubles_alley': '#e84a27'})
+    test_itf.update_colors({"doubles_alley": "#e84a27"})
 
     # Get the updated colors
     updated_colors = test_itf.feature_colors
@@ -304,10 +304,10 @@ def test_update_court_params():
     # comparison
     standard_dimensions = test_itf.court_params
 
-    # Update a dimension. The full-court length is what's updated here as a
+    # Update a dimension. The full-court length is what"s updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 78 feet to 200 feet
-    test_itf.update_court_params({'court_length': 200.0})
+    test_itf.update_court_params({"court_length": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_itf.court_params
@@ -335,7 +335,7 @@ def test_reset_court_params():
     # Update a dimension. The full-court length is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 78 feet to 200 feet
-    test_itf.update_court_params({'court_length': 200.0})
+    test_itf.update_court_params({"court_length": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_itf.court_params
@@ -362,7 +362,7 @@ def test_unit_conversions():
     test_court_to_convert = tennis_courts.ITFCourt()
 
     # Generate a court originating in meters
-    itf_court_m = tennis_courts.ITFCourt(units = 'm')
+    itf_court_m = tennis_courts.ITFCourt(units = "m")
 
     # Convert the court dimensions from feet to meters
     court_params_to_convert = test_court_to_convert.court_params
@@ -370,12 +370,12 @@ def test_unit_conversions():
     for k, v in court_params_to_convert.items():
         court_params_to_convert[k] = test_court_to_convert._convert_units(
             v,
-            'ft',
-            'm'
+            "ft",
+            "m"
         )
 
     # Convert the units to be meters
-    court_params_to_convert['court_units'] = 'm'
+    court_params_to_convert["court_units"] = "m"
 
     assert court_params_to_convert == itf_court_m.court_params
 
@@ -388,11 +388,11 @@ def test_supported_leagues():
     """
 
     league_class_dict = {
-        'ita': tennis_courts.ITACourt(),
-        'itf': tennis_courts.ITFCourt(),
-        'ncaa': tennis_courts.NCAACourt(),
-        'usta': tennis_courts.USTACourt(),
-        'wta': tennis_courts.WTACourt()
+        "ita": tennis_courts.ITACourt(),
+        "itf": tennis_courts.ITFCourt(),
+        "ncaa": tennis_courts.NCAACourt(),
+        "usta": tennis_courts.USTACourt(),
+        "wta": tennis_courts.WTACourt()
     }
 
     court = tennis_courts.TennisCourt()
@@ -406,9 +406,9 @@ def test_supported_leagues():
     ]
 
     if len(missing_leagues) > 0:
-        print('The following leagues are not tested:\n')
+        print("The following leagues are not tested:\n")
         for league in missing_leagues:
-            print(f'- {league}')
+            print(f"- {league}")
 
     else:
         for league in league_class_dict.keys():
@@ -422,102 +422,33 @@ def test_custom_court_params():
 
     This test should pass so long as the courts' parameters are valid
     """
-    # Start by defining the customized court parameters. These are a blending
-    # of NCAA and ITF court parameters
+    # Start by defining the customized court parameters
     court_1_parameters = {
-        "court_length": 94.0,
-        "court_width": 50.0,
+        "court_length": 178.0,
+        "singles_width": 20.0,
         "court_units": "ft",
-        "line_thickness": 0.1667,
-        "bench_side": "top",
-
-        "court_apron_endline": 8.0,
-        "court_apron_sideline": 5.0,
-        "court_apron_to_boundary": 0.0,
-
-        "center_circle_radius": [6.0, 2.1667, 5.0, 5.0],
-
-        "basket_center_to_baseline": 5.25,
-        "basket_center_to_three_point_arc": [23.75, 20.75],
-        "basket_center_to_corner_three": 22.0,
-        "backboard_face_to_baseline": 4.0,
-
-        "lane_length": [19.0, 19.0, 19.0],
-        "lane_width": 16.0,
-        "paint_margin": [0.0, 0.0],
-
-        "free_throw_circle_radius": 0.0,
-        "free_throw_line_to_backboard": 15.0,
-        "free_throw_circle_overhang": 1.024,
-        "n_free_throw_circle_dashes": 6.0,
-        "free_throw_dash_length": 1.292,
-        "free_throw_dash_spacing": 1.292,
-
-        "lane_space_mark_lengths": [
-            [0.1667, 0.1667, 0.1667, 0.1667]
-        ],
-        "lane_space_mark_widths": 0.5,
-        "lane_space_mark_separations": [
-            [3.0, 0.8333, 3.0, 3.0]
-        ],
-
-        "painted_area_visibility": True,
-        "lane_boundary_visibility": True,
-        "lane_space_mark_visibility": True,
-        "lane_lower_defensive_box_marks_visibility": True,
-
-        "baseline_lower_defensive_box_marks_int_sep": 19.0,
-        "baseline_to_lane_lower_defensive_box_marks": 13.0,
-        "lane_lower_defensive_box_marks_int_sep": 10.0,
-        "lower_defensive_box_mark_extension": 0.5,
-
-        "inbounding_line_to_baseline": [28.0, 38.0],
-        "inbounding_line_anchor_side": 1.0,
-        "inbounding_line_in_play_ext": 3.0,
-        "inbounding_line_out_of_bounds_ext": 0.0,
-        "symmetric_inbounding_line": True,
-
-        "substitution_line_ext_sep": 8.5,
-        "substitution_line_width": 4.0,
-
-        "restricted_arc_radius": 4.0,
-
-        "backboard_width": 6.0,
-        "backboard_thickness": 0.171875,
-
-        "basket_ring_inner_radius": 0.75,
-        "basket_ring_connector_width": 0.5833,
-        "basket_ring_connector_extension": 0.5,
-        "basket_ring_thickness": 0.0656
+        "doubles_width": 30.0,
+        "serviceline_distance": 121.0,
+        "center_mark_length": 10.3333,
+        "net_length": 52.0,
+        "line_thickness": 1.1667,
+        "backstop_distance": 51.0,
+        "sidestop_distance": 52.0
     }
 
     color_updates_1 = {
-        'plot_background': '#d2ab6f',
-        'defensive_half_court': '#d2ab6f',
-        'offensive_half_court': '#d2ab6f',
-        'court_apron': '#d2ab6f',
-        'center_circle_outline': ['#000000', '#13294b'],
-        'center_circle_fill': '#d2ab6f',
-        'division_line': '#000000',
-        'endline': '#000000',
-        'sideline': '#000000',
-        'two_point_range': ['#d2ab6f', '#e84a27'],
-        'three_point_line': '#000000',
-        'painted_area': '#d2ab6f',
-        'lane_boundary': '#000000',
-        'free_throw_circle_outline': '#000000',
-        'free_throw_circle_fill': '#d2ab6f',
-        'free_throw_circle_dash': '#000000',
-        'lane_space_mark': '#000000',
-        'inbounding_line': '#000000',
-        'substitution_line': '#000000',
-        'baseline_lower_defensive_box': '#000000',
-        'lane_lower_defensive_box': '#000000',
-        'team_bench_line': '#000000',
-        'restricted_arc': '#000000',
-        'backboard': '#000000',
-        'basket_ring': '#f55b33',
-        'net': '#ffffff'
+        "baseline": "#0088ce",
+        "singles_sideline": "#0088ce",
+        "doubles_sideline": "#0088ce",
+        "serviceline": "#0088ce",
+        "center_serviceline": "#0088ce",
+        "center_mark": "#0088ce",
+        "ad_court": "#000000",
+        "deuce_court": "#000000",
+        "backcourt": "#000000",
+        "doubles_alley": "#000000",
+        "court_apron": "#000000",
+        "net": "#0088ce"
     }
 
     test_court_1 = tennis_courts.TennisCourt(
@@ -525,105 +456,7 @@ def test_custom_court_params():
         colors_dict = color_updates_1
     )
 
-    court_2_parameters = {
-        "court_length": 94.0,
-        "court_width": 50.0,
-        "court_units": "ft",
-        "line_thickness": 0.1667,
-        "bench_side": "top",
-
-        "court_apron_endline": 8.0,
-        "court_apron_sideline": 5.0,
-        "court_apron_to_boundary": 0.0,
-
-        "center_circle_radius": 6.0,
-
-        "basket_center_to_baseline": 5.25,
-        "basket_center_to_three_point_arc": 0.0,
-        "basket_center_to_corner_three": [21.6563, 20.75],
-        "backboard_face_to_baseline": 4.0,
-
-        "lane_length": 19.0,
-        "lane_width": [16.0, 12.0],
-        "paint_margin": 0.0,
-
-        "free_throw_circle_radius": 0.0,
-        "free_throw_line_to_backboard": 15.0,
-        "free_throw_circle_overhang": 1.024,
-        "n_free_throw_circle_dashes": 6.0,
-        "free_throw_dash_length": 1.292,
-        "free_throw_dash_spacing": 1.292,
-
-        "lane_space_mark_lengths": 0.1667,
-        "lane_space_mark_widths": 0.5,
-        "lane_space_mark_separations": 1.5,
-
-        "painted_area_visibility": True,
-        "lane_boundary_visibility": True,
-        "lane_space_mark_visibility": True,
-        "lane_lower_defensive_box_marks_visibility": True,
-
-        "baseline_lower_defensive_box_marks_int_sep": 19.0,
-        "baseline_to_lane_lower_defensive_box_marks": 13.0,
-        "lane_lower_defensive_box_marks_int_sep": 10.0,
-        "lower_defensive_box_mark_extension": 0.5,
-
-        "inbounding_line_to_baseline": 28.0,
-        "inbounding_line_anchor_side": [1.0, -1.0],
-        "inbounding_line_in_play_ext": 3.0,
-        "inbounding_line_out_of_bounds_ext": 0.0,
-        "symmetric_inbounding_line": False,
-
-        "substitution_line_ext_sep": 8.5,
-        "substitution_line_width": 4.0,
-
-        "restricted_arc_radius": 4.0,
-
-        "backboard_width": 6.0,
-        "backboard_thickness": 0.171875,
-
-        "basket_ring_inner_radius": 0.0,
-        "basket_ring_connector_width": 0.5833,
-        "basket_ring_connector_extension": 0.5,
-        "basket_ring_thickness": 0.0656
-    }
-
-    color_updates_2 = {
-        'plot_background': '#d2ab6f',
-        'defensive_half_court': '#d2ab6f',
-        'offensive_half_court': '#d2ab6f',
-        'court_apron': '#d2ab6f',
-        'center_circle_outline': '#000000',
-        'center_circle_fill': ['#d2ab6f', '#e04e39'],
-        'division_line': '#000000',
-        'endline': '#000000',
-        'sideline': '#000000',
-        'two_point_range': '#d2ab6f',
-        'three_point_line': ['#000000'],
-        'painted_area': '#d2ab6f',
-        'lane_boundary': '#000000',
-        'free_throw_circle_outline': '#000000',
-        'free_throw_circle_fill': '#d2ab6f',
-        'free_throw_circle_dash': '#000000',
-        'lane_space_mark': '#000000',
-        'inbounding_line': '#000000',
-        'substitution_line': '#000000',
-        'baseline_lower_defensive_box': '#000000',
-        'lane_lower_defensive_box': '#000000',
-        'team_bench_line': '#000000',
-        'restricted_arc': '#000000',
-        'backboard': '#000000',
-        'basket_ring': '#f55b33',
-        'net': '#ffffff'
-    }
-
-    test_court_2 = tennis_courts.TennisCourt(
-        court_updates = court_2_parameters,
-        colors_dict = color_updates_2
-    )
-
     assert isinstance(test_court_1, tennis_courts.TennisCourt)
-    assert isinstance(test_court_2, tennis_courts.TennisCourt)
 
 
 def test_court_plot_rotation():
@@ -636,7 +469,7 @@ def test_court_plot_rotation():
 
     ax = tennis_courts.ITFCourt().draw(ax = ax, rotation = 90.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -652,7 +485,7 @@ def test_court_plot_tuple_xlim_and_ylim():
     ax2 = test_court.draw(xlim = (15.0, -15.0), ylim = (15.0, -15.0))
     ax3 = test_court.draw(xlim = (0.0, 0.0), ylim = (0.0, 0.0))
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -669,7 +502,7 @@ def test_court_plot_singular_xlim_and_ylim():
     ax1 = test_court.draw(xlim = 10.0, ylim = 10.0)
     ax2 = test_court.draw(xlim = 150.0, ylim = 65.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -683,23 +516,23 @@ def test_additional_feature():
     be a sideline shifted to either side of the court
     """
     new_sideline = {
-        'class': tennis_features.Sideline,
-        'x_anchor': 24.0,
-        'y_anchor': 0.0,
-        'court_length': 78.0,
-        'court_width': 27.0,
-        'feature_thickness': 0.1667,
-        'visible': True,
-        'facecolor': '#000000',
-        'edgecolor': None,
-        'zorder': 1
+        "class": tennis_features.Sideline,
+        "x_anchor": 24.0,
+        "y_anchor": 0.0,
+        "court_length": 78.0,
+        "court_width": 27.0,
+        "feature_thickness": 0.1667,
+        "visible": True,
+        "facecolor": "#000000",
+        "edgecolor": None,
+        "zorder": 1
     }
 
     ax = tennis_courts.ITFCourt(
         new_feature_1 = new_sideline,
     ).draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -711,7 +544,7 @@ def test_court_plot_with_xlim_ylim():
     of the court
     """
     ax1 = tennis_courts.NCAACourt().draw(
-        display_range = 'serve'
+        display_range = "serve"
     )
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
@@ -724,20 +557,20 @@ def test_rotated_surface_plot():
     plot of the surface
     """
     ax = tennis_courts.NCAACourt(rotation = 90).draw(
-        display_range = 'serve'
+        display_range = "serve"
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
 
 def test_display_range_none_empty_string():
-    """Test that the court defaults to display_range == 'full' if None passed.
+    """Test that the court defaults to display_range == "full" if None passed.
 
     This test should pass so long as there are no erros when drawing a court
     with no specified display range
     """
     ax1 = tennis_courts.ITFCourt().draw(display_range = None)
-    ax2 = tennis_courts.ITFCourt().draw(display_range = '')
+    ax2 = tennis_courts.ITFCourt().draw(display_range = "")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)

@@ -79,18 +79,18 @@ def test_cani_plot_leagues_no_league_code():
     available_league_codes.sort()
 
     # Generate the expected output for cani_plot_leagues() with no league code
-    exp_pl_empty_league_code = ''
+    exp_pl_empty_league_code = ""
 
     exp_pl_empty_league_code = (
-        'The following soccer leagues are available with sportypy:\n'
+        "The following soccer leagues are available with sportypy:\n"
     )
 
     for league_code in available_league_codes[:-1]:
-        new_league = f'- {league_code.upper()}'
-        exp_pl_empty_league_code = f'{exp_pl_empty_league_code}\n{new_league}'
+        new_league = f"- {league_code.upper()}"
+        exp_pl_empty_league_code = f"{exp_pl_empty_league_code}\n{new_league}"
 
-    exp_pl_empty_league_code = (f'{exp_pl_empty_league_code}\n'
-                                f'- {available_league_codes[-1].upper()}\n')
+    exp_pl_empty_league_code = (f"{exp_pl_empty_league_code}\n"
+                                f"- {available_league_codes[-1].upper()}\n")
 
     # Initialize the output-capture
     pl_empty_league_code = io.StringIO()
@@ -108,8 +108,8 @@ def test_cani_plot_leagues_no_league_code():
 def test_cani_plot_leagues_epl():
     """Test cani_plot_leagues() method will return appropriate message.
 
-    When passed either 'epl', 'EPL', or any combination of capitalized and
-    lower-case letters of 'E', 'P', and 'L', this should return the same
+    When passed either "epl", "EPL", or any combination of capitalized and
+    lower-case letters of "E", "P", and "L", this should return the same
     message
     """
     # Create a SoccerPitch() object to use for testing
@@ -117,7 +117,7 @@ def test_cani_plot_leagues_epl():
 
     # Generate the expected output for cani_plot_leagues() with a league code
     # (this will use EPL as a test)
-    exp_pl_epl_league_code = 'EPL comes with sportypy and is ready to use!\n'
+    exp_pl_epl_league_code = "EPL comes with sportypy and is ready to use!\n"
 
     # Initialize the output-captures
     pl_epl_league_code_lower = io.StringIO()
@@ -126,13 +126,13 @@ def test_cani_plot_leagues_epl():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_epl_league_code_lower
-    test_pitch.cani_plot_leagues('epl')
+    test_pitch.cani_plot_leagues("epl")
 
     sys.stdout = pl_epl_league_code_upper
-    test_pitch.cani_plot_leagues('EPL')
+    test_pitch.cani_plot_leagues("EPL")
 
     sys.stdout = pl_epl_league_code_mixed
-    test_pitch.cani_plot_leagues('EpL')
+    test_pitch.cani_plot_leagues("EpL")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -154,9 +154,9 @@ def test_cani_plot_leagues_bad_league_code():
     # Generate the expected output for cani_plot_leagues() with an invalid
     # league code (this will use test_league as a test)
     exp_pl_bad_league_code = (
-        'TEST_LEAGUE does not come with sportypy, but may be parameterized. '
-        'Use the cani_change_dimensions() to check what parameters are needed.'
-        '\n'
+        "TEST_LEAGUE does not come with sportypy, but may be parameterized. "
+        "Use the cani_change_dimensions() to check what parameters are needed."
+        "\n"
     )
 
     # Initialize the output-capture
@@ -164,7 +164,7 @@ def test_cani_plot_leagues_bad_league_code():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_bad_league_code
-    test_pitch.cani_plot_leagues('test_league')
+    test_pitch.cani_plot_leagues("test_league")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -183,33 +183,33 @@ def test_cani_change_dimensions():
 
     # Generate the expected output for cani_change_dimensions()
     exp_change_dimensions = (
-        'The following features can be reparameterized via the pitch_updates '
-        'parameter, with the current value in parenthesis:\n\n'
-        '- pitch_units (m)\n'
-        '- pitch_length (120.0)\n'
-        '- pitch_width (90.0)\n'
-        '- line_thickness (0.12)\n'
-        '- pitch_apron_touchline (1.0)\n'
-        '- pitch_apron_goal_line (1.0)\n'
-        '- center_circle_radius (9.15)\n'
-        '- center_mark_radius (0.3048)\n'
-        '- corner_arc_radius (1.0)\n'
-        '- goal_line_defensive_mark_visible (True)\n'
-        '- touchline_defensive_mark_visible (True)\n'
-        '- defensive_mark_depth (0.5)\n'
-        '- defensive_mark_distance (9.15)\n'
-        '- penalty_box_length (16.5)\n'
-        '- penalty_circle_radius (9.15)\n'
-        '- penalty_mark_dist (11.0)\n'
-        '- interior_of_goal_post_to_penalty_box (16.5)\n'
-        '- interior_of_goal_post_to_goal_box (5.5)\n'
-        '- goal_box_length (5.5)\n'
-        '- penalty_mark_radius (0.1524)\n'
-        '- goal_width (7.32)\n'
-        '- goal_depth (1.7)\n'
-        '\n'
-        'These parameters may be updated with the update_pitch_params() '
-        'method\n'
+        "The following features can be reparameterized via the pitch_updates "
+        "parameter, with the current value in parenthesis:\n\n"
+        "- pitch_units (m)\n"
+        "- pitch_length (120.0)\n"
+        "- pitch_width (90.0)\n"
+        "- line_thickness (0.12)\n"
+        "- pitch_apron_touchline (1.0)\n"
+        "- pitch_apron_goal_line (1.0)\n"
+        "- center_circle_radius (9.15)\n"
+        "- center_mark_radius (0.3048)\n"
+        "- corner_arc_radius (1.0)\n"
+        "- goal_line_defensive_mark_visible (True)\n"
+        "- touchline_defensive_mark_visible (True)\n"
+        "- defensive_mark_depth (0.5)\n"
+        "- defensive_mark_distance (9.15)\n"
+        "- penalty_box_length (16.5)\n"
+        "- penalty_circle_radius (9.15)\n"
+        "- penalty_mark_dist (11.0)\n"
+        "- interior_of_goal_post_to_penalty_box (16.5)\n"
+        "- interior_of_goal_post_to_goal_box (5.5)\n"
+        "- goal_box_length (5.5)\n"
+        "- penalty_mark_radius (0.1524)\n"
+        "- goal_width (7.32)\n"
+        "- goal_depth (1.7)\n"
+        "\n"
+        "These parameters may be updated with the update_pitch_params() "
+        "method\n"
     )
 
     # Initialize the output-capture
@@ -228,24 +228,24 @@ def test_cani_change_dimensions():
 def test_cani_color_features():
     """Test cani_color_features() method will return appropriate message.
 
-    When called, this should return a list of the ice pitch's features and
-    their default/standard colors
+    When called, this should return a list of the pitch's features and their
+    default/standard colors
     """
     # Create a SoccerPitch() object to use for testing
     test_pitch = soccer_pitches.SoccerPitch()
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        'The following features can be colored via the colors_dict parameter, '
-        'with the current value in parenthesis:\n'
+        "The following features can be colored via the colors_dict parameter, "
+        "with the current value in parenthesis:\n"
     )
 
     for k, v in test_pitch.feature_colors.items():
-        exp_color_features = f'{exp_color_features}\n- {k} ({v})'
+        exp_color_features = f"{exp_color_features}\n- {k} ({v})"
 
     exp_color_features = (
-        f'{exp_color_features}\n\nThese colors may be updated with the '
-        'update_colors() method\n'
+        f"{exp_color_features}\n\nThese colors may be updated with the "
+        "update_colors() method\n"
     )
 
     # Initialize the output-capture
@@ -277,7 +277,7 @@ def test_update_colors():
     # Update a color. The halfway line is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from white to yellow
-    test_epl.update_colors({'halfway_line': '#ffc805'})
+    test_epl.update_colors({"halfway_line": "#ffc805"})
 
     # Get the updated colors
     updated_colors = test_epl.feature_colors
@@ -305,7 +305,7 @@ def test_reset_colors():
     # Update a color. The halfway line is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from white to yellow
-    test_epl.update_colors({'halfway_line': '#ffc805'})
+    test_epl.update_colors({"halfway_line": "#ffc805"})
 
     # Get the updated colors
     updated_colors = test_epl.feature_colors
@@ -337,7 +337,7 @@ def test_update_pitch_params():
     # Update a dimension. The full-pitch length is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 120 meters to 200 meters
-    test_epl.update_pitch_params({'pitch_length': 200.0})
+    test_epl.update_pitch_params({"pitch_length": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_epl.pitch_params
@@ -365,7 +365,7 @@ def test_reset_pitch_params():
     # Update a dimension. The full-pitch length is what's updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 120 meters to 200 meters
-    test_epl.update_pitch_params({'pitch_length': 200.0})
+    test_epl.update_pitch_params({"pitch_length": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_epl.pitch_params
@@ -392,7 +392,7 @@ def test_unit_conversions():
     test_pitch_to_convert = soccer_pitches.EPLPitch()
 
     # Generate a pitch originating in feet
-    epl_pitch_m = soccer_pitches.EPLPitch(units = 'ft')
+    epl_pitch_m = soccer_pitches.EPLPitch(units = "ft")
 
     # Convert the pitch dimensions from meters to feet
     pitch_params_to_convert = test_pitch_to_convert.pitch_params
@@ -400,12 +400,12 @@ def test_unit_conversions():
     for k, v in pitch_params_to_convert.items():
         pitch_params_to_convert[k] = test_pitch_to_convert._convert_units(
             v,
-            'm',
-            'ft'
+            "m",
+            "ft"
         )
 
     # Convert the units to be meters
-    pitch_params_to_convert['pitch_units'] = 'ft'
+    pitch_params_to_convert["pitch_units"] = "ft"
 
     assert pitch_params_to_convert == epl_pitch_m.pitch_params
 
@@ -418,11 +418,11 @@ def test_supported_leagues():
     """
 
     league_class_dict = {
-        'epl': soccer_pitches.EPLPitch(),
-        'fifa': soccer_pitches.FIFAPitch(),
-        'mls': soccer_pitches.MLSPitch(),
-        'ncaa': soccer_pitches.NCAAPitch(),
-        'nwsl': soccer_pitches.NWSLPitch(),
+        "epl": soccer_pitches.EPLPitch(),
+        "fifa": soccer_pitches.FIFAPitch(),
+        "mls": soccer_pitches.MLSPitch(),
+        "ncaa": soccer_pitches.NCAAPitch(),
+        "nwsl": soccer_pitches.NWSLPitch(),
     }
 
     pitch = soccer_pitches.SoccerPitch()
@@ -436,9 +436,9 @@ def test_supported_leagues():
     ]
 
     if len(missing_leagues) > 0:
-        print('The following leagues are not tested:\n')
+        print("The following leagues are not tested:\n")
         for league in missing_leagues:
-            print(f'- {league}')
+            print(f"- {league}")
 
     else:
         for league in league_class_dict.keys():
@@ -484,21 +484,21 @@ def test_custom_pitch_params():
     }
 
     color_updates = {
-        'plot_background': '#196f0c',
-        'defensive_half_pitch': '#195f0c',
-        'offensive_half_pitch': '#195f0c',
-        'pitch_apron': '#195f0c',
-        'touchline': '#ffffff',
-        'goal_line': '#ffffff',
-        'corner_arc': '#ffffff',
-        'halfway_line': '#ffffff',
-        'center_circle': '#ffffff',
-        'center_mark': '#ffffff',
-        'penalty_box': '#ffffff',
-        'goal_box': '#ffffff',
-        'penalty_mark': '#ffffff',
-        'corner_defensive_mark': '#ffffff',
-        'goal': '#ffffff'
+        "plot_background": "#196f0c",
+        "defensive_half_pitch": "#195f0c",
+        "offensive_half_pitch": "#195f0c",
+        "pitch_apron": "#195f0c",
+        "touchline": "#ffffff",
+        "goal_line": "#ffffff",
+        "corner_arc": "#ffffff",
+        "halfway_line": "#ffffff",
+        "center_circle": "#ffffff",
+        "center_mark": "#ffffff",
+        "penalty_box": "#ffffff",
+        "goal_box": "#ffffff",
+        "penalty_mark": "#ffffff",
+        "corner_defensive_mark": "#ffffff",
+        "goal": "#ffffff"
     }
 
     test_pitch = soccer_pitches.SoccerPitch(
@@ -519,7 +519,7 @@ def test_pitch_plot_rotation():
 
     ax = soccer_pitches.EPLPitch().draw(ax = ax, rotation = 90.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -535,7 +535,7 @@ def test_pitch_plot_tuple_xlim_and_ylim():
     ax2 = test_pitch.draw(xlim = (15.0, -15.0), ylim = (15.0, -15.0))
     ax3 = test_pitch.draw(xlim = (0.0, 0.0), ylim = (0.0, 0.0))
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -552,7 +552,7 @@ def test_pitch_plot_singular_xlim_and_ylim():
     ax1 = test_pitch.draw(xlim = 10.0, ylim = 10.0)
     ax2 = test_pitch.draw(xlim = 150.0, ylim = 50.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -566,29 +566,29 @@ def test_additional_feature():
     be a halfway line shifted to either side of the pitch
     """
     new_halfway_line_1 = {
-        'class': soccer_features.HalfwayLine,
-        'x_anchor': 30.0,
-        'y_anchor': 0.0,
-        'pitch_length': 120.0,
-        'pitch_width': 90.0,
-        'feature_thickness': 0.12,
-        'visible': True,
-        'facecolor': '#ffc805',
-        'edgecolor': None,
-        'zorder': 50
+        "class": soccer_features.HalfwayLine,
+        "x_anchor": 30.0,
+        "y_anchor": 0.0,
+        "pitch_length": 120.0,
+        "pitch_width": 90.0,
+        "feature_thickness": 0.12,
+        "visible": True,
+        "facecolor": "#ffc805",
+        "edgecolor": None,
+        "zorder": 50
     }
 
     new_halfway_line_2 = {
-        'class': soccer_features.HalfwayLine,
-        'x_anchor': -23.5,
-        'y_anchor': 0.0,
-        'pitch_length': 94.0,
-        'pitch_width': 50.0,
-        'feature_thickness': 25.0,
-        'visible': True,
-        'facecolor': '#000000',
-        'edgecolor': None,
-        'zorder': 50
+        "class": soccer_features.HalfwayLine,
+        "x_anchor": -23.5,
+        "y_anchor": 0.0,
+        "pitch_length": 94.0,
+        "pitch_width": 50.0,
+        "feature_thickness": 25.0,
+        "visible": True,
+        "facecolor": "#000000",
+        "edgecolor": None,
+        "zorder": 50
     }
 
     ax = soccer_pitches.EPLPitch(
@@ -596,7 +596,7 @@ def test_additional_feature():
         new_feature_2 = new_halfway_line_2
     ).draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -608,14 +608,14 @@ def test_zero_radii():
     curved feature is created but the radius is 0.0
     """
     pitch_updates = {
-        'penalty_circle_radius': 0.0
+        "penalty_circle_radius": 0.0
     }
 
     ax = soccer_pitches.EPLPitch(
         pitch_updates = pitch_updates
     ).draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -627,7 +627,7 @@ def test_pitch_plot_with_xlim_ylim():
     of the pitch
     """
     ax1 = soccer_pitches.NCAAPitch().draw(
-        display_range = 'offensive half pitch'
+        display_range = "offensive half pitch"
     )
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
@@ -645,13 +645,13 @@ def test_rotated_surface_plot():
 
 
 def test_display_range_none_empty_string():
-    """Test that the pitch defaults to display_range == 'full' if None passed.
+    """Test that the pitch defaults to display_range == "full" if None passed.
 
     This test should pass so long as there are no erros when drawing a pitch
     with no specified display range
     """
     ax1 = soccer_pitches.EPLPitch().draw(display_range = None)
-    ax2 = soccer_pitches.EPLPitch().draw(display_range = '')
+    ax2 = soccer_pitches.EPLPitch().draw(display_range = "")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)

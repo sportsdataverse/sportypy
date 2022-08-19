@@ -41,7 +41,7 @@ class BaseballField(BaseSurfacePlot):
 
     Attributes
     ----------
-    - league_code : str (default: '')
+    - league_code : str (default: "")
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "Major League
         Baseball" should be either "MLB" or "mlb")
@@ -64,7 +64,7 @@ class BaseballField(BaseSurfacePlot):
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
 
-    - units : str (default: 'default')
+    - units : str (default: "default")
         The units that the final plot should utilize. The default units are the
         units specified in the rule book of the league
 
@@ -178,11 +178,11 @@ class BaseballField(BaseSurfacePlot):
         The radius of the dirt circle surrounding home plate
     """
 
-    def __init__(self, league_code = '', field_updates = {}, colors_dict = {},
+    def __init__(self, league_code = "", field_updates = {}, colors_dict = {},
                  rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = 'default', **added_features):
+                 units = "default", **added_features):
         # Load all pre-defined field dimensions for provided leagues
-        self._load_preset_dimensions(sport = 'baseball')
+        self._load_preset_dimensions(sport = "baseball")
 
         # Load all unit conversions
         self._load_unit_conversions()
@@ -211,15 +211,15 @@ class BaseballField(BaseSurfacePlot):
         self.field_params = field_params
 
         # Convert the field's units if needed
-        if units.lower() != 'default':
+        if units.lower() != "default":
             for k, v in field_params.items():
                 self.field_params[k] = self._convert_units(
                     v,
-                    self.field_params['field_units'],
+                    self.field_params["field_units"],
                     units.lower()
                 )
 
-            self.field_params['field_units'] = units.lower()
+            self.field_params["field_units"] = units.lower()
 
         # Set the rotation of the plot to be the supplied rotation value
         self.rotation_amt = rotation
@@ -240,16 +240,16 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the default colors of the field
         default_colors = {
-            'plot_background': '#395d33',
-            'infield_dirt': '#9b7653',
-            'infield_grass': '#395d33',
-            'pitchers_mound': '#9b7653',
-            'base': '#ffffff',
-            'pitchers_plate': '#ffffff',
-            'batters_box': '#ffffff',
-            'catchers_box': '#ffffff',
-            'foul_line': '#ffffff',
-            'running_lane': '#ffffff'
+            "plot_background": "#395d33",
+            "infield_dirt": "#9b7653",
+            "infield_grass": "#395d33",
+            "pitchers_mound": "#9b7653",
+            "base": "#ffffff",
+            "pitchers_plate": "#ffffff",
+            "batters_box": "#ffffff",
+            "catchers_box": "#ffffff",
+            "foul_line": "#ffffff",
+            "running_lane": "#ffffff"
         }
 
         # Combine the colors with a passed colors dictionary
@@ -266,15 +266,15 @@ class BaseballField(BaseSurfacePlot):
         # contained within the field's boundary. The feature itself is not
         # visible
         field_constraint_params = {
-            'class': baseball.FieldConstraint,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'feature_radius': self.field_params.get('corner_radius', 0.0),
-            'feature_thickness': self.field_params.get('board_thickness', 0.0),
-            'visible': False
+            "class": baseball.FieldConstraint,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "feature_radius": self.field_params.get("corner_radius", 0.0),
+            "feature_thickness": self.field_params.get("board_thickness", 0.0),
+            "visible": False
         }
         self._initialize_feature(field_constraint_params)
 
@@ -283,359 +283,359 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the infield dirt
         infield_dirt_params = {
-            'class': baseball.InfieldDirt,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'home_plate_circle_radius': self.field_params.get(
-                'home_plate_circle_radius',
+            "class": baseball.InfieldDirt,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "home_plate_circle_radius": self.field_params.get(
+                "home_plate_circle_radius",
                 0.0
             ),
-            'foul_line_to_foul_grass': self.field_params.get(
-                'foul_line_to_foul_grass',
+            "foul_line_to_foul_grass": self.field_params.get(
+                "foul_line_to_foul_grass",
                 0.0
             ),
-            'infield_arc_radius': self.field_params.get(
-                'infield_arc_radius',
+            "infield_arc_radius": self.field_params.get(
+                "infield_arc_radius",
                 0.0
             ),
-            'pitchers_plate_dist': self.field_params.get(
-                'pitchers_plate_front_to_home_plate',
+            "pitchers_plate_dist": self.field_params.get(
+                "pitchers_plate_front_to_home_plate",
                 0.0
             ),
-            'facecolor': self.feature_colors['infield_dirt'],
-            'edgecolor': None,
-            'zorder': 5
+            "facecolor": self.feature_colors["infield_dirt"],
+            "edgecolor": None,
+            "zorder": 5
         }
         self._initialize_feature(infield_dirt_params)
 
         # Initialize the infield grass
         infield_grass_params = {
-            'class': baseball.InfieldGrass,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'home_plate_circle_radius': self.field_params.get(
-                'home_plate_circle_radius',
+            "class": baseball.InfieldGrass,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "home_plate_circle_radius": self.field_params.get(
+                "home_plate_circle_radius",
                 0.0
             ),
-            'foul_line_to_infield_grass': self.field_params.get(
-                'foul_line_to_infield_grass',
+            "foul_line_to_infield_grass": self.field_params.get(
+                "foul_line_to_infield_grass",
                 0.0
             ),
-            'feature_radius': self.field_params.get(
-                'base_anchor_to_infield_grass_radius',
+            "feature_radius": self.field_params.get(
+                "base_anchor_to_infield_grass_radius",
                 0.0
             ),
-            'baseline_distance': self.field_params.get(
-                'baseline_distance',
+            "baseline_distance": self.field_params.get(
+                "baseline_distance",
                 0.0
             ),
-            'facecolor': self.feature_colors['infield_grass'],
-            'edgecolor': None,
-            'zorder': 6
+            "facecolor": self.feature_colors["infield_grass"],
+            "edgecolor": None,
+            "zorder": 6
         }
         self._initialize_feature(infield_grass_params)
 
         # Initialize the pitcher's mound
         pitchers_mound_params = {
-            'class': baseball.PitchersMound,
-            'x_anchor': 0.0,
-            'y_anchor': self.field_params.get(
-                'pitchers_mound_center_to_home_plate',
+            "class": baseball.PitchersMound,
+            "x_anchor": 0.0,
+            "y_anchor": self.field_params.get(
+                "pitchers_mound_center_to_home_plate",
                 0.0
             ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'feature_radius': self.field_params.get(
-                'pitchers_mound_radius',
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "feature_radius": self.field_params.get(
+                "pitchers_mound_radius",
                 0.0
             ),
-            'facecolor': self.feature_colors['pitchers_mound'],
-            'edgecolor': None,
-            'zorder': 7
+            "facecolor": self.feature_colors["pitchers_mound"],
+            "edgecolor": None,
+            "zorder": 7
         }
         self._initialize_feature(pitchers_mound_params)
 
         # Initialize home plate
         home_plate_params = {
-            'class': baseball.HomePlate,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'home_plate_edge_length': self.field_params.get(
-                'home_plate_edge_length',
+            "class": baseball.HomePlate,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "home_plate_edge_length": self.field_params.get(
+                "home_plate_edge_length",
                 0.0
             ),
-            'facecolor': self.feature_colors['base'],
-            'edgecolor': None,
-            'zorder': 16
+            "facecolor": self.feature_colors["base"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(home_plate_params)
 
         # Initialize first base
         first_base_params = {
-            'class': baseball.Base,
-            'x_anchor': (
-                self.field_params.get('baseline_distance', 0.0) *
+            "class": baseball.Base,
+            "x_anchor": (
+                self.field_params.get("baseline_distance", 0.0) *
                 math.cos(np.pi / 4.0)
             ),
-            'y_anchor': (
-                self.field_params.get('baseline_distance', 0.0) *
+            "y_anchor": (
+                self.field_params.get("baseline_distance", 0.0) *
                 math.sin(np.pi / 4.0)
             ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'base_side_length': self.field_params.get('base_side_length', 0.0),
-            'adjust_x_left': True,
-            'facecolor': self.feature_colors['base'],
-            'edgecolor': None,
-            'zorder': 16
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "base_side_length": self.field_params.get("base_side_length", 0.0),
+            "adjust_x_left": True,
+            "facecolor": self.feature_colors["base"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(first_base_params)
 
         # Initialize second base
         second_base_params = {
-            'class': baseball.Base,
-            'x_anchor': 0.0,
-            'y_anchor': (
-                self.field_params.get('baseline_distance', 0.0) *
+            "class": baseball.Base,
+            "x_anchor": 0.0,
+            "y_anchor": (
+                self.field_params.get("baseline_distance", 0.0) *
                 math.sqrt(2.0)
             ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'base_side_length': self.field_params.get('base_side_length', 0.0),
-            'adjust_x_left': False,
-            'facecolor': self.feature_colors['base'],
-            'edgecolor': None,
-            'zorder': 16
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "base_side_length": self.field_params.get("base_side_length", 0.0),
+            "adjust_x_left": False,
+            "facecolor": self.feature_colors["base"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(second_base_params)
 
         # Initialize third base
         third_base_params = {
-            'class': baseball.Base,
-            'x_anchor': (
-                self.field_params.get('baseline_distance', 0.0) *
+            "class": baseball.Base,
+            "x_anchor": (
+                self.field_params.get("baseline_distance", 0.0) *
                 math.cos(3.0 * np.pi / 4.0)
             ),
-            'y_anchor': (
-                self.field_params.get('baseline_distance', 0.0) *
+            "y_anchor": (
+                self.field_params.get("baseline_distance", 0.0) *
                 math.sin(3.0 * np.pi / 4.0)
             ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'base_side_length': self.field_params.get('base_side_length', 0.0),
-            'adjust_x_right': True,
-            'facecolor': self.feature_colors['base'],
-            'edgecolor': None,
-            'zorder': 16
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "base_side_length": self.field_params.get("base_side_length", 0.0),
+            "adjust_x_right": True,
+            "facecolor": self.feature_colors["base"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(third_base_params)
 
         # Initialize the pitcher's plate
         pitchers_plate_params = {
-            'class': baseball.PitchersPlate,
-            'x_anchor': 0.0,
-            'y_anchor': self.field_params.get(
-                'pitchers_plate_front_to_home_plate',
+            "class": baseball.PitchersPlate,
+            "x_anchor": 0.0,
+            "y_anchor": self.field_params.get(
+                "pitchers_plate_front_to_home_plate",
                 0.0
             ),
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'pitchers_plate_length': self.field_params.get(
-                'pitchers_plate_length'
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "pitchers_plate_length": self.field_params.get(
+                "pitchers_plate_length"
             ),
-            'feature_thickness': self.field_params.get(
-                'pitchers_plate_width',
+            "feature_thickness": self.field_params.get(
+                "pitchers_plate_width",
                 0.0
             ),
-            'facecolor': self.feature_colors['pitchers_plate'],
-            'edgecolor': None,
-            'zorder': 16
+            "facecolor": self.feature_colors["pitchers_plate"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(pitchers_plate_params)
 
         # Initialize the batter's boxes
         batters_box_params = {
-            'class': baseball.BattersBox,
-            'x_anchor': (
-                (self.field_params.get('home_plate_edge_length', 0.0) / 2.0) +
-                self.field_params.get('home_plate_side_to_batters_box', 0.0) +
-                (self.field_params.get('batters_box_width', 0.0) / 2.0)
+            "class": baseball.BattersBox,
+            "x_anchor": (
+                (self.field_params.get("home_plate_edge_length", 0.0) / 2.0) +
+                self.field_params.get("home_plate_side_to_batters_box", 0.0) +
+                (self.field_params.get("batters_box_width", 0.0) / 2.0)
             ),
-            'y_anchor': 0.0,
-            'reflect_x': True,
-            'reflect_y': False,
-            'is_constrained': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'feature_thickness': self.field_params.get('line_width', 0.0),
-            'batters_box_length': self.field_params.get(
-                'batters_box_length',
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "is_constrained": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "feature_thickness": self.field_params.get("line_width", 0.0),
+            "batters_box_length": self.field_params.get(
+                "batters_box_length",
                 0.0
             ),
-            'batters_box_width': self.field_params.get(
-                'batters_box_width',
+            "batters_box_width": self.field_params.get(
+                "batters_box_width",
                 0.0
             ),
-            'batters_box_y_adj': self.field_params.get(
-                'batters_box_y_adj',
+            "batters_box_y_adj": self.field_params.get(
+                "batters_box_y_adj",
                 0.0
             ),
-            'facecolor': self.feature_colors['batters_box'],
-            'edgecolor': None,
-            'zorder': 16
+            "facecolor": self.feature_colors["batters_box"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(batters_box_params)
 
         # Initialize the batter's boxes
         catchers_box_params = {
-            'class': baseball.CatchersBox,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'is_constrained': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'feature_thickness': self.field_params.get('line_width', 0.0),
-            'feature_radius': self.field_params.get(
-                'home_plate_circle_radius',
+            "class": baseball.CatchersBox,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "is_constrained": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "feature_thickness": self.field_params.get("line_width", 0.0),
+            "feature_radius": self.field_params.get(
+                "home_plate_circle_radius",
                 0.0
             ),
-            'catchers_box_depth': self.field_params.get(
-                'catchers_box_depth',
+            "catchers_box_depth": self.field_params.get(
+                "catchers_box_depth",
                 0.0
             ),
-            'catchers_box_width': self.field_params.get(
-                'catchers_box_width',
+            "catchers_box_width": self.field_params.get(
+                "catchers_box_width",
                 0.0
             ),
-            'batters_box_length': self.field_params.get(
-                'batters_box_length',
+            "batters_box_length": self.field_params.get(
+                "batters_box_length",
                 0.0
             ),
-            'batters_box_y_adj': self.field_params.get(
-                'batters_box_y_adj',
+            "batters_box_y_adj": self.field_params.get(
+                "batters_box_y_adj",
                 0.0
             ),
-            'catchers_box_shape': self.field_params.get(
-                'catchers_box_shape',
-                'rectangle'
+            "catchers_box_shape": self.field_params.get(
+                "catchers_box_shape",
+                "rectangle"
             ),
-            'facecolor': self.feature_colors['catchers_box'],
-            'edgecolor': None,
-            'zorder': 16
+            "facecolor": self.feature_colors["catchers_box"],
+            "edgecolor": None,
+            "zorder": 16
         }
         self._initialize_feature(catchers_box_params)
 
         # Initialize the left field foul line
         left_field_foul_line_params = {
-            'class': baseball.FoulLine,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'feature_thickness': self.field_params.get('line_width', 0.0),
-            'is_line_1b': False,
-            'line_distance': self.field_params.get(
-                'left_field_distance',
+            "class": baseball.FoulLine,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "feature_thickness": self.field_params.get("line_width", 0.0),
+            "is_line_1b": False,
+            "line_distance": self.field_params.get(
+                "left_field_distance",
                 0.0
             ),
-            'batters_box_length': self.field_params.get(
-                'batters_box_length',
+            "batters_box_length": self.field_params.get(
+                "batters_box_length",
                 0.0
             ),
-            'batters_box_width': self.field_params.get(
-                'batters_box_width',
+            "batters_box_width": self.field_params.get(
+                "batters_box_width",
                 0.0
             ),
-            'home_plate_side_to_batters_box': self.field_params.get(
-                'home_plate_side_to_batters_box',
+            "home_plate_side_to_batters_box": self.field_params.get(
+                "home_plate_side_to_batters_box",
                 0.0
             ),
-            'batters_box_y_adj': self.field_params.get(
-                'batters_box_y_adj',
+            "batters_box_y_adj": self.field_params.get(
+                "batters_box_y_adj",
                 0.0
             ),
-            'facecolor': self.feature_colors['foul_line'],
-            'edgecolor': None,
-            'zorder': 17
+            "facecolor": self.feature_colors["foul_line"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(left_field_foul_line_params)
 
         # Initialize the right field foul line
         right_field_foul_line_params = {
-            'class': baseball.FoulLine,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'feature_thickness': self.field_params.get('line_width', 0.0),
-            'is_line_1b': True,
-            'line_distance': self.field_params.get(
-                'right_field_distance',
+            "class": baseball.FoulLine,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "feature_thickness": self.field_params.get("line_width", 0.0),
+            "is_line_1b": True,
+            "line_distance": self.field_params.get(
+                "right_field_distance",
                 0.0
             ),
-            'batters_box_length': self.field_params.get(
-                'batters_box_length',
+            "batters_box_length": self.field_params.get(
+                "batters_box_length",
                 0.0
             ),
-            'batters_box_width': self.field_params.get(
-                'batters_box_width',
+            "batters_box_width": self.field_params.get(
+                "batters_box_width",
                 0.0
             ),
-            'home_plate_side_to_batters_box': self.field_params.get(
-                'home_plate_side_to_batters_box',
+            "home_plate_side_to_batters_box": self.field_params.get(
+                "home_plate_side_to_batters_box",
                 0.0
             ),
-            'batters_box_y_adj': self.field_params.get(
-                'batters_box_y_adj',
+            "batters_box_y_adj": self.field_params.get(
+                "batters_box_y_adj",
                 0.0
             ),
-            'facecolor': self.feature_colors['foul_line'],
-            'edgecolor': None,
-            'zorder': 17
+            "facecolor": self.feature_colors["foul_line"],
+            "edgecolor": None,
+            "zorder": 17
         }
         self._initialize_feature(right_field_foul_line_params)
 
         # Initialize the running lane on the first base line
         running_lane_params = {
-            'class': baseball.RunningLane,
-            'x_anchor': 0.0,
-            'y_anchor': 0.0,
-            'reflect_x': False,
-            'reflect_y': False,
-            'is_constrained': False,
-            'feature_units': self.field_params.get('field_units', 'ft'),
-            'feature_thickness': self.field_params.get('line_width', 0.0),
-            'running_lane_start_distance': self.field_params.get(
-                'running_lane_start_distance',
+            "class": baseball.RunningLane,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": False,
+            "reflect_y": False,
+            "is_constrained": False,
+            "feature_units": self.field_params.get("field_units", "ft"),
+            "feature_thickness": self.field_params.get("line_width", 0.0),
+            "running_lane_start_distance": self.field_params.get(
+                "running_lane_start_distance",
                 0.0
             ),
-            'running_lane_length': self.field_params.get(
-                'running_lane_length',
+            "running_lane_length": self.field_params.get(
+                "running_lane_length",
                 0.0
             ),
-            'running_lane_depth': self.field_params.get(
-                'running_lane_depth',
+            "running_lane_depth": self.field_params.get(
+                "running_lane_depth",
                 0.0
             ),
-            'facecolor': self.feature_colors['running_lane'],
-            'edgecolor': None,
-            'zorder': 18
+            "facecolor": self.feature_colors["running_lane"],
+            "edgecolor": None,
+            "zorder": 18
         }
         self._initialize_feature(running_lane_params)
 
@@ -643,7 +643,7 @@ class BaseballField(BaseSurfacePlot):
         for added_feature in added_features.values():
             self._initialize_feature(added_feature)
 
-    def draw(self, ax = None, display_range = 'full', xlim = None, ylim = None,
+    def draw(self, ax = None, display_range = "full", xlim = None, ylim = None,
              rotation = None):
         """Draw the field.
 
@@ -659,9 +659,9 @@ class BaseballField(BaseSurfacePlot):
             is shown in the final plot. The following explain what each display
             range corresponds to:
 
-            'full' : the entire surface
+            "full" : the entire surface
 
-            'infield': the infield portion of the baseball diamond
+            "infield": the infield portion of the baseball diamond
 
         xlim : float, tuple (float, float), or None (default: None)
             The display range in the x direction to be used. If a single float
@@ -694,15 +694,15 @@ class BaseballField(BaseSurfacePlot):
         # If an Axes object is not provided, create one to use for plotting
         if ax is None:
             fig, ax = plt.subplots()
-            fig.patch.set_facecolor(self.feature_colors['plot_background'])
+            fig.patch.set_facecolor(self.feature_colors["plot_background"])
             fig.set_size_inches(50, 50)
             ax = plt.gca()
 
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
-        ax.set_aspect('equal')
-        ax.grid(visible = False, which = 'both')
-        ax.axis('off')
+        ax.set_aspect("equal")
+        ax.grid(visible = False, which = "both")
+        ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
@@ -734,8 +734,8 @@ class BaseballField(BaseSurfacePlot):
                     # limits to be its minimum and maximum values of x
                     if self._feature_xlim is None:
                         self._feature_xlim = [
-                            feature_df['x'].min(),
-                            feature_df['x'].max()
+                            feature_df["x"].min(),
+                            feature_df["x"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -743,16 +743,16 @@ class BaseballField(BaseSurfacePlot):
                     # of its specified maximum and largest x value
                     else:
                         self._feature_xlim = [
-                            min(self._feature_xlim[0], feature_df['x'].min()),
-                            max(self._feature_xlim[1], feature_df['x'].max())
+                            min(self._feature_xlim[0], feature_df["x"].min()),
+                            max(self._feature_xlim[1], feature_df["x"].max())
                         ]
 
                     # If the feature doesn't have a limitation on y, set its
                     # limits to be its minimum and maximum values of y
                     if self._feature_ylim is None:
                         self._feature_ylim = [
-                            feature_df['y'].min(),
-                            feature_df['y'].max()
+                            feature_df["y"].min(),
+                            feature_df["y"].max()
                         ]
 
                     # Otherwise, set the limits to be the smaller of its
@@ -760,8 +760,8 @@ class BaseballField(BaseSurfacePlot):
                     # of its specified maximum and largest y value
                     else:
                         self._feature_ylim = [
-                            min(self._feature_ylim[0], feature_df['y'].min()),
-                            max(self._feature_ylim[1], feature_df['y'].max())
+                            min(self._feature_ylim[0], feature_df["y"].min()),
+                            max(self._feature_ylim[1], feature_df["y"].max())
                         ]
 
         # Set the plot's display range
@@ -808,26 +808,26 @@ class BaseballField(BaseSurfacePlot):
             # If the league code exists, return it as a list of length 1 with
             # a printed message
             if league_code in available_league_codes:
-                print(f'{league_code.upper()} comes with sportypy and is '
-                      'ready to use!')
+                print(f"{league_code.upper()} comes with sportypy and is "
+                      "ready to use!")
 
             # Otherwise, alert the user that they will need to manually specify
             # the parameters of the league
             else:
-                print(f'{league_code.upper()} does not come with sportypy, '
-                      'but may be parameterized. Use the '
-                      'cani_change_dimensions() to check what parameters are '
-                      'needed.')
+                print(f"{league_code.upper()} does not come with sportypy, "
+                      "but may be parameterized. Use the "
+                      "cani_change_dimensions() to check what parameters are "
+                      "needed.")
 
         # If no league code is provided, print out the list of all available
         else:
             # Preamble
-            print('The following baseball leagues are available with '
-                  'sportypy:\n')
+            print("The following baseball leagues are available with "
+                  "sportypy:\n")
 
             # Print the current leagues
             for league_code in available_league_codes:
-                print(f'- {league_code.upper()}')
+                print(f"- {league_code.upper()}")
 
     def cani_color_features(self):
         """Determine what features of the field can be colored.
@@ -841,15 +841,15 @@ class BaseballField(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be colored via the colors_dict '
-              'parameter, with the current value in parenthesis:\n')
+        print("The following features can be colored via the colors_dict "
+              "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.feature_colors.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese colors may be updated with the update_colors() method')
+        print("\nThese colors may be updated with the update_colors() method")
 
     def cani_change_dimensions(self):
         """Determine what features of the field can be re-parameterized.
@@ -865,17 +865,17 @@ class BaseballField(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print('The following features can be reparameterized via the '
-              'field_updates parameter, with the current value in '
-              'parenthesis:\n')
+        print("The following features can be reparameterized via the "
+              "field_updates parameter, with the current value in "
+              "parenthesis:\n")
 
         # Print the current values of the colors
         for k, v in self.field_params.items():
-            print(f'- {k} ({v})')
+            print(f"- {k} ({v})")
 
         # Footer
-        print('\nThese parameters may be updated with the '
-              'update_field_params() method')
+        print("\nThese parameters may be updated with the "
+              "update_field_params() method")
 
     def update_colors(self, color_updates = {}, *args, **kwargs):
         """Update the colors currently used in the plot.
@@ -955,16 +955,16 @@ class BaseballField(BaseSurfacePlot):
         """
         # Re-instantiate the class with the default colors
         default_colors = {
-            'plot_background': '#395d33',
-            'infield_dirt': '#9b7653',
-            'infield_grass': '#395d33',
-            'pitchers_mound': '#9b7653',
-            'base': '#ffffff',
-            'pitchers_plate': '#ffffff',
-            'batters_box': '#ffffff',
-            'catchers_box': '#ffffff',
-            'foul_line': '#ffffff',
-            'running_lane': '#ffffff'
+            "plot_background": "#395d33",
+            "infield_dirt": "#9b7653",
+            "infield_grass": "#395d33",
+            "pitchers_mound": "#9b7653",
+            "base": "#ffffff",
+            "pitchers_plate": "#ffffff",
+            "batters_box": "#ffffff",
+            "catchers_box": "#ffffff",
+            "foul_line": "#ffffff",
+            "running_lane": "#ffffff"
         }
 
         self.__init__(
@@ -989,14 +989,14 @@ class BaseballField(BaseSurfacePlot):
             colors_dict = self.feature_colors
         )
 
-    def _get_plot_range_limits(self, display_range = 'full', xlim = None,
+    def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
         """Get the x and y limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: 'full')
+        display_range : str (default: "full")
             The range of which to display the plot. This is a key that will
             be searched for in the ranges_dict parameter
 
@@ -1015,8 +1015,8 @@ class BaseballField(BaseSurfacePlot):
             The y-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
-        if display_range == '' or display_range is None:
-            display_range = 'full'
+        if display_range == "" or display_range is None:
+            display_range = "full"
 
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
@@ -1027,34 +1027,34 @@ class BaseballField(BaseSurfacePlot):
         # dimensions that are internal to the surface
         if for_plot:
             left_field_distance_x = (
-                self.field_params.get('left_field_distance', 0.0) *
+                self.field_params.get("left_field_distance", 0.0) *
                 math.cos(3.0 * np.pi / 4.0)
             )
             right_field_distance_x = (
-                self.field_params.get('right_field_distance', 0.0) *
+                self.field_params.get("right_field_distance", 0.0) *
                 math.cos(np.pi / 4.0)
             )
             left_infield_distance_x = (
-                -self.field_params.get('infield_arc_radius', 0.0)
+                -self.field_params.get("infield_arc_radius", 0.0)
             )
             right_infield_distance_x = (
-                self.field_params.get('infield_arc_radius', 0.0)
+                self.field_params.get("infield_arc_radius", 0.0)
             )
-            backstop_radius_y = -self.field_params.get('backstop_radius', 0.0)
+            backstop_radius_y = -self.field_params.get("backstop_radius", 0.0)
             center_field_distance_y = self.field_params.get(
-                'center_field_distance',
+                "center_field_distance",
                 0.0
             )
             home_plate_circle_y = -self.field_params.get(
-                'home_plate_circle_radius',
+                "home_plate_circle_radius",
                 0.0
             )
             infield_arc_y = (
                 self.field_params.get(
-                    'pitchers_plate_front_to_home_plate',
+                    "pitchers_plate_front_to_home_plate",
                     0.0
                 ) +
-                self.field_params.get('infield_arc_radius', 0.0)
+                self.field_params.get("infield_arc_radius", 0.0)
             )
 
         # If it's for display (e.g. the draw() method), add in the necessary
@@ -1062,52 +1062,52 @@ class BaseballField(BaseSurfacePlot):
         # play features)
         if for_display:
             left_field_distance_x = (
-                self.field_params.get('left_field_distance', 0.0) *
+                self.field_params.get("left_field_distance", 0.0) *
                 math.cos(3.0 * np.pi / 4.0)
             ) + 5.0
             right_field_distance_x = (
-                self.field_params.get('right_field_distance', 0.0) *
+                self.field_params.get("right_field_distance", 0.0) *
                 math.cos(np.pi / 4.0)
             ) + 5.0
             left_infield_distance_x = (
-                -self.field_params.get('infield_arc_radius', 0.0)
+                -self.field_params.get("infield_arc_radius", 0.0)
             ) - 5.0
             right_infield_distance_x = (
-                self.field_params.get('infield_arc_radius', 0.0)
+                self.field_params.get("infield_arc_radius", 0.0)
             ) + 5.0
             backstop_radius_y = -(
-                self.field_params.get('backstop_radius', 0.0) +
+                self.field_params.get("backstop_radius", 0.0) +
                 5.0
             )
             center_field_distance_y = self.field_params.get(
-                'center_field_distance',
+                "center_field_distance",
                 0.0
             ) + 5.0
             home_plate_circle_y = -(
                 self.field_params.get(
-                    'home_plate_circle_radius',
+                    "home_plate_circle_radius",
                     0.0
                 ) + 5.0
             )
             infield_arc_y = (
                 self.field_params.get(
-                    'pitchers_plate_front_to_home_plate',
+                    "pitchers_plate_front_to_home_plate",
                     0.0
                 ) +
-                self.field_params.get('infield_arc_radius', 0.0) +
+                self.field_params.get("infield_arc_radius", 0.0) +
                 5.0
             )
 
         # Set the x limits of the plot if they are not provided
         if not xlim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             xlims = {
                 # Full surface (default)
-                'full': (left_field_distance_x, right_field_distance_x),
-                'infield': (left_infield_distance_x, right_infield_distance_x)
+                "full": (left_field_distance_x, right_field_distance_x),
+                "infield": (left_infield_distance_x, right_infield_distance_x)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -1143,13 +1143,13 @@ class BaseballField(BaseSurfacePlot):
         # added here
         if not ylim:
             # Convert the search key to lower case
-            display_range = display_range.lower().replace(' ', '')
+            display_range = display_range.lower().replace(" ", "")
 
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                'full': (backstop_radius_y, center_field_distance_y),
-                'infield': (home_plate_circle_y, infield_arc_y)
+                "full": (backstop_radius_y, center_field_distance_y),
+                "infield": (home_plate_circle_y, infield_arc_y)
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
@@ -1209,7 +1209,7 @@ class LittleLeagueField(BaseballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the BaseballField class with the relevant parameters
         super().__init__(
-            league_code = 'little_league',
+            league_code = "little_league",
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1225,7 +1225,7 @@ class MiLBField(BaseballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the BaseballField class with the relevant parameters
         super().__init__(
-            league_code = 'milb',
+            league_code = "milb",
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1241,7 +1241,7 @@ class MLBField(BaseballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the BaseballField class with the relevant parameters
         super().__init__(
-            league_code = 'mlb',
+            league_code = "mlb",
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1257,7 +1257,7 @@ class NCAAField(BaseballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the BaseballField class with the relevant parameters
         super().__init__(
-            league_code = 'ncaa',
+            league_code = "ncaa",
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1273,7 +1273,7 @@ class NFHSField(BaseballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the BaseballField class with the relevant parameters
         super().__init__(
-            league_code = 'nfhs',
+            league_code = "nfhs",
             field_updates = field_updates,
             *args,
             **kwargs
@@ -1289,7 +1289,7 @@ class PonyField(BaseballField):
     def __init__(self, field_updates = {}, *args, **kwargs):
         # Initialize the BaseballField class with the relevant parameters
         super().__init__(
-            league_code = 'pony',
+            league_code = "pony",
             field_updates = field_updates,
             *args,
             **kwargs

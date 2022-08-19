@@ -17,13 +17,13 @@ def test_circle():
     resulting data frame, which should be 1.0.
     """
     test_circle = shapes.circle()
-    test_circle['radius'] = np.sqrt(
-        (test_circle['x'] ** 2) + (test_circle['y'] ** 2)
+    test_circle["radius"] = np.sqrt(
+        (test_circle["x"] ** 2) + (test_circle["y"] ** 2)
     )
 
     n_bad = test_circle[
-        (test_circle['radius'] < .999) & (test_circle['radius'] > 1)
-    ]['radius'].sum()
+        (test_circle["radius"] < .999) & (test_circle["radius"] > 1)
+    ]["radius"].sum()
 
     assert n_bad == 0.0
 
@@ -36,7 +36,7 @@ def test_rectangle():
     to 0.5 along y)
     """
     expected_rectangle = pd.DataFrame({
-        'x': [
+        "x": [
             -1.0,
             1.0,
             1.0,
@@ -44,7 +44,7 @@ def test_rectangle():
             -1.0
         ],
 
-        'y': [
+        "y": [
             -0.5,
             -0.5,
             0.5,
@@ -70,7 +70,7 @@ def test_square():
     centered at (0.0, 0.0)
     """
     expected_square = pd.DataFrame({
-        'x': [
+        "x": [
             -0.5,
             0.5,
             0.5,
@@ -78,7 +78,7 @@ def test_square():
             -0.5
         ],
 
-        'y': [
+        "y": [
             -0.5,
             -0.5,
             0.5,
@@ -102,7 +102,7 @@ def test_diamond():
     the origin).
     """
     expected_diamond = pd.DataFrame({
-        'x': [
+        "x": [
             -0.5,
             0.0,
             0.5,
@@ -110,7 +110,7 @@ def test_diamond():
             -0.5
         ],
 
-        'y': [
+        "y": [
             0.0,
             -0.5,
             0.0,
@@ -134,14 +134,14 @@ def test_triangle():
     with base 1 and height 1.
     """
     expected_triangle = pd.DataFrame({
-        'x': [
+        "x": [
             0.0,
             0.5,
             1.0,
             0.0
         ],
 
-        'y': [
+        "y": [
             0.0,
             1.0,
             0.0,

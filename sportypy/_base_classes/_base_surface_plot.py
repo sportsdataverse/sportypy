@@ -40,7 +40,7 @@ class BaseSurfacePlot(BaseSurface):
                     for_display = True, **kwargs):
             # Get the values to use for a hexbin plot. This controls how the
             # hexagons are defined in a hexbin
-            C = kwargs.pop('C', None)
+            C = kwargs.pop("C", None)
 
             # If no values are supplied, use the binning parameter C described
             # above
@@ -61,12 +61,12 @@ class BaseSurfacePlot(BaseSurface):
                 values = np.ravel(values)
 
                 # Force the x and y values to be symmetric
-                if kwargs.get('symmetrize', False):
+                if kwargs.get("symmetrize", False):
                     values = np.concatenate((values, values))
 
             # If x, y, and values are not symmetric in length, raise an error
             if len(x) != len(y) or len(x) != len(values):
-                raise Exception('x, y, and values must all be of same length')
+                raise Exception("x, y, and values must all be of same length")
 
             # Initialize the mask to be be false. The mask will indicate
             # whether a point lies within the defined limits for the plot
@@ -102,7 +102,7 @@ class BaseSurfacePlot(BaseSurface):
             # If the plot is constrained to exclude values outside its bounds,
             # then values outside of the boundaries of the surface should be
             # set to be nan
-            is_constrained = kwargs.get('is_constrained', True)
+            is_constrained = kwargs.get("is_constrained", True)
             if is_constrained:
                 values = self._outside_surface_to_nan(x, y, values)
 
@@ -144,15 +144,15 @@ class BaseSurfacePlot(BaseSurface):
         def wrapper(self, *args, **kwargs):
             # If no Axes object is passed as a keyword argument, create one to
             # use for the plot
-            if 'ax' not in kwargs:
-                kwargs['ax'] = plt.gca()
+            if "ax" not in kwargs:
+                kwargs["ax"] = plt.gca()
 
             # Convert the non-keyword arguments to a list
             args = list(args)
 
             # Check if any of the following are passed as keyword arguments to
             # the plot function
-            for coord in ('x', 'y', 'x1', 'y1', 'x2', 'y2'):
+            for coord in ("x", "y", "x1", "y1", "x2", "y2"):
                 # If they are, then append it to the list of arguments
                 if coord in kwargs:
                     args.append(kwargs.pop(coord))
@@ -163,7 +163,7 @@ class BaseSurfacePlot(BaseSurface):
 
                 is_y = i % 2
 
-                if kwargs.get('symmetrize', False):
+                if kwargs.get("symmetrize", False):
                     args[i] = np.concatenate((
                         args[i],
                         args[i] * (-1 if is_y else 1)
@@ -171,11 +171,11 @@ class BaseSurfacePlot(BaseSurface):
 
                 args[i] = args[i] - (self.y_trans if is_y else self.x_trans)
 
-            kwargs['transform'] = self._get_transform(kwargs['ax'])
-            kwargs['clip_on'] = kwargs.get(
-                'clip_on',
+            kwargs["transform"] = self._get_transform(kwargs["ax"])
+            kwargs["clip_on"] = kwargs.get(
+                "clip_on",
                 kwargs.get(
-                    'is_constrained',
+                    "is_constrained",
                     True
                 )
             )
@@ -244,7 +244,7 @@ class BaseSurfacePlot(BaseSurface):
 
         corner_radius : float (default: 0.0)
             The radius of the corner of the surface, in the units of the plot.
-            The default is 0.0, which corresponds to the corners' center points
+            The default is 0.0, which corresponds to the corners" center points
             being located at the actual corner
 
             NOTE: This is passed from the constraint's definition
@@ -507,7 +507,7 @@ class BaseSurfacePlot(BaseSurface):
             y,
             img,
             ax,
-            kwargs['transform'],
+            kwargs["transform"],
             is_constrained,
             update_display_range
         )
@@ -559,7 +559,7 @@ class BaseSurfacePlot(BaseSurface):
             y,
             scatter_plot,
             ax,
-            kwargs['transform'],
+            kwargs["transform"],
             is_constrained,
             update_display_range
         )
@@ -649,7 +649,7 @@ class BaseSurfacePlot(BaseSurface):
             [*y1, *y2],
             arrows,
             ax,
-            kwargs['transform'],
+            kwargs["transform"],
             is_constrained,
             update_display_range
         )
@@ -758,7 +758,7 @@ class BaseSurfacePlot(BaseSurface):
         A matplotlib.PolyCollection object of the hexbins
         """
         # Set the value of clip_on, defaulting to True if not passed
-        kwargs["clip_on"] = kwargs.get('clip_on', True)
+        kwargs["clip_on"] = kwargs.get("clip_on", True)
 
         # Try to determine the binsize
         try:
@@ -785,7 +785,7 @@ class BaseSurfacePlot(BaseSurface):
         )
 
         # Correct the rotation of the hexbins
-        transform = kwargs['transform'] - ax.transData
+        transform = kwargs["transform"] - ax.transData
         hexes = hexbin_plot.get_paths()[0]
         hexes.vertices = transform.transform(hexes.vertices)
         hexbin_plot.set_offsets(transform.transform(hexbin_plot.get_offsets()))
@@ -796,7 +796,7 @@ class BaseSurfacePlot(BaseSurface):
             y,
             hexbin_plot,
             ax,
-            kwargs['transform'],
+            kwargs["transform"],
             is_constrained,
             update_display_range
         )
@@ -808,7 +808,7 @@ class BaseSurfacePlot(BaseSurface):
     def heatmap(self, x, y, *, values = None, is_constrained = True,
                 update_display_range = True, symmetrize = False,
                 plot_range = None, plot_xlim = None, plot_ylim = None,
-                statistic = 'sum', binsize = 1, bins = None, zorder = 11,
+                statistic = "sum", binsize = 1, bins = None, zorder = 11,
                 ax = None, **kwargs):
         """Wrapper for pcolormesh function from matplotlib.
 
@@ -940,7 +940,7 @@ class BaseSurfacePlot(BaseSurface):
             y,
             heatmap_plot,
             ax,
-            kwargs['transform'],
+            kwargs["transform"],
             is_constrained,
             update_display_range
         )
@@ -952,7 +952,7 @@ class BaseSurfacePlot(BaseSurface):
     def contour(self, x, y, *, values = None, fill = True,
                 is_constrained = True, update_display_range = True,
                 symmetrize = False, plot_range = None, plot_xlim = None,
-                plot_ylim = None, statistic = 'sum', binsize = 1, bins = None,
+                plot_ylim = None, statistic = "sum", binsize = 1, bins = None,
                 zorder = 11, ax = None, **kwargs):
         """Wrapper for matplotlib contour and contourf functions.
 
@@ -1106,7 +1106,7 @@ class BaseSurfacePlot(BaseSurface):
             y,
             contour_plot.collections,
             ax,
-            kwargs['transform'],
+            kwargs["transform"],
             is_constrained,
             update_display_range
         )

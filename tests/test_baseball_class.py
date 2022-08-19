@@ -91,18 +91,18 @@ def test_cani_plot_leagues_no_league_code():
     available_league_codes.sort()
 
     # Generate the expected output for cani_plot_leagues() with no league code
-    exp_pl_empty_league_code = ''
+    exp_pl_empty_league_code = ""
 
     exp_pl_empty_league_code = (
-        'The following baseball leagues are available with sportypy:\n'
+        "The following baseball leagues are available with sportypy:\n"
     )
 
     for league_code in available_league_codes[:-1]:
-        new_league = f'- {league_code.upper()}'
-        exp_pl_empty_league_code = f'{exp_pl_empty_league_code}\n{new_league}'
+        new_league = f"- {league_code.upper()}"
+        exp_pl_empty_league_code = f"{exp_pl_empty_league_code}\n{new_league}"
 
-    exp_pl_empty_league_code = (f'{exp_pl_empty_league_code}\n'
-                                f'- {available_league_codes[-1].upper()}\n')
+    exp_pl_empty_league_code = (f"{exp_pl_empty_league_code}\n"
+                                f"- {available_league_codes[-1].upper()}\n")
 
     # Initialize the output-capture
     pl_empty_league_code = io.StringIO()
@@ -120,8 +120,8 @@ def test_cani_plot_leagues_no_league_code():
 def test_cani_plot_leagues_mlb():
     """Test cani_plot_leagues() method will return appropriate message.
 
-    When passed either 'mlb', 'MLB', or any combination of capitalized and
-    lower-case letters of 'M', 'L', and 'B', this should return the same
+    When passed either "mlb", "MLB", or any combination of capitalized and
+    lower-case letters of "M", "L", and "B", this should return the same
     message
     """
     # Create a BaseballField() object to use for testing
@@ -129,7 +129,7 @@ def test_cani_plot_leagues_mlb():
 
     # Generate the expected output for cani_plot_leagues() with a league code
     # (this will use MLB as a test)
-    exp_pl_mlb_league_code = 'MLB comes with sportypy and is ready to use!\n'
+    exp_pl_mlb_league_code = "MLB comes with sportypy and is ready to use!\n"
 
     # Initialize the output-captures
     pl_mlb_league_code_lower = io.StringIO()
@@ -138,13 +138,13 @@ def test_cani_plot_leagues_mlb():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_mlb_league_code_lower
-    test_field.cani_plot_leagues('mlb')
+    test_field.cani_plot_leagues("mlb")
 
     sys.stdout = pl_mlb_league_code_upper
-    test_field.cani_plot_leagues('MLB')
+    test_field.cani_plot_leagues("MLB")
 
     sys.stdout = pl_mlb_league_code_mixed
-    test_field.cani_plot_leagues('MlB')
+    test_field.cani_plot_leagues("MlB")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -166,9 +166,9 @@ def test_cani_plot_leagues_bad_league_code():
     # Generate the expected output for cani_plot_leagues() with an invalid
     # league code (this will use test_league as a test)
     exp_pl_bad_league_code = (
-        'TEST_LEAGUE does not come with sportypy, but may be parameterized. '
-        'Use the cani_change_dimensions() to check what parameters are needed.'
-        '\n'
+        "TEST_LEAGUE does not come with sportypy, but may be parameterized. "
+        "Use the cani_change_dimensions() to check what parameters are needed."
+        "\n"
     )
 
     # Initialize the output-capture
@@ -176,7 +176,7 @@ def test_cani_plot_leagues_bad_league_code():
 
     # Change the system output to be capturable and capture each testing output
     sys.stdout = pl_bad_league_code
-    test_field.cani_plot_leagues('test_league')
+    test_field.cani_plot_leagues("test_league")
 
     # Change back to standard output
     sys.stdout = sys.__stdout__
@@ -195,39 +195,39 @@ def test_cani_change_dimensions():
 
     # Generate the expected output for cani_change_dimensions()
     exp_change_dimensions = (
-        'The following features can be reparameterized via the field_updates '
-        'parameter, with the current value in parenthesis:\n\n'
-        '- field_units (ft)\n'
-        '- left_field_distance (355.0)\n'
-        '- right_field_distance (355.0)\n'
-        '- center_field_distance (400.0)\n'
-        '- baseline_distance (90.0)\n'
-        '- running_lane_start_distance (45.0)\n'
-        '- running_lane_depth (3.0)\n'
-        '- running_lane_length (48.0)\n'
-        '- pitchers_mound_center_to_home_plate (59.0)\n'
-        '- pitchers_mound_radius (9.0)\n'
-        '- pitchers_plate_front_to_home_plate (60.5)\n'
-        '- pitchers_plate_width (0.5)\n'
-        '- pitchers_plate_length (2.0)\n'
-        '- base_side_length (1.25)\n'
-        '- home_plate_edge_length (1.4167)\n'
-        '- infield_arc_radius (95.0)\n'
-        '- base_anchor_to_infield_grass_radius (13.0)\n'
-        '- line_width (0.25)\n'
-        '- foul_line_to_infield_grass (3.0)\n'
-        '- foul_line_to_foul_grass (3.0)\n'
-        '- batters_box_length (6.0)\n'
-        '- batters_box_width (4.0)\n'
-        '- batters_box_y_adj (0.7083)\n'
-        '- home_plate_side_to_batters_box (0.5)\n'
-        '- catchers_box_depth (8.0)\n'
-        '- catchers_box_width (3.5833)\n'
-        '- backstop_radius (60.0)\n'
-        '- home_plate_circle_radius (13.0)\n'
-        '\n'
-        'These parameters may be updated with the update_field_params() '
-        'method\n'
+        "The following features can be reparameterized via the field_updates "
+        "parameter, with the current value in parenthesis:\n\n"
+        "- field_units (ft)\n"
+        "- left_field_distance (355.0)\n"
+        "- right_field_distance (355.0)\n"
+        "- center_field_distance (400.0)\n"
+        "- baseline_distance (90.0)\n"
+        "- running_lane_start_distance (45.0)\n"
+        "- running_lane_depth (3.0)\n"
+        "- running_lane_length (48.0)\n"
+        "- pitchers_mound_center_to_home_plate (59.0)\n"
+        "- pitchers_mound_radius (9.0)\n"
+        "- pitchers_plate_front_to_home_plate (60.5)\n"
+        "- pitchers_plate_width (0.5)\n"
+        "- pitchers_plate_length (2.0)\n"
+        "- base_side_length (1.25)\n"
+        "- home_plate_edge_length (1.4167)\n"
+        "- infield_arc_radius (95.0)\n"
+        "- base_anchor_to_infield_grass_radius (13.0)\n"
+        "- line_width (0.25)\n"
+        "- foul_line_to_infield_grass (3.0)\n"
+        "- foul_line_to_foul_grass (3.0)\n"
+        "- batters_box_length (6.0)\n"
+        "- batters_box_width (4.0)\n"
+        "- batters_box_y_adj (0.7083)\n"
+        "- home_plate_side_to_batters_box (0.5)\n"
+        "- catchers_box_depth (8.0)\n"
+        "- catchers_box_width (3.5833)\n"
+        "- backstop_radius (60.0)\n"
+        "- home_plate_circle_radius (13.0)\n"
+        "\n"
+        "These parameters may be updated with the update_field_params() "
+        "method\n"
     )
 
     # Initialize the output-capture
@@ -254,16 +254,16 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        'The following features can be colored via the colors_dict parameter, '
-        'with the current value in parenthesis:\n'
+        "The following features can be colored via the colors_dict parameter, "
+        "with the current value in parenthesis:\n"
     )
 
     for k, v in test_field.feature_colors.items():
-        exp_color_features = f'{exp_color_features}\n- {k} ({v})'
+        exp_color_features = f"{exp_color_features}\n- {k} ({v})"
 
     exp_color_features = (
-        f'{exp_color_features}\n\nThese colors may be updated with the '
-        'update_colors() method\n'
+        f"{exp_color_features}\n\nThese colors may be updated with the "
+        "update_colors() method\n"
     )
 
     # Initialize the output-capture
@@ -295,7 +295,7 @@ def test_update_colors():
     # Update a color. Home plate is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from white to red
-    test_mlb.update_colors({'foul_line': '#c8102e'})
+    test_mlb.update_colors({"foul_line": "#c8102e"})
 
     # Get the updated colors
     updated_colors = test_mlb.feature_colors
@@ -322,7 +322,7 @@ def test_reset_colors():
     # Update a color. Home plate is what's updated here as a means of
     # demonstration, but this could work for any parameter. It will be changed
     # from white to red
-    test_mlb.update_colors({'foul_line': '#c8102e'})
+    test_mlb.update_colors({"foul_line": "#c8102e"})
 
     # Get the updated colors
     updated_colors = test_mlb.feature_colors
@@ -354,7 +354,7 @@ def test_update_field_params():
     # Update a dimension. The baseline distances are what are updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 90 feet to 200 feet
-    test_mlb.update_field_params({'baseline_distance': 200.0})
+    test_mlb.update_field_params({"baseline_distance": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_mlb.field_params
@@ -382,7 +382,7 @@ def test_reset_field_params():
     # Update a dimension. The baseline distances are what are updated here as a
     # means of demonstration, but this could work for any parameter. It will be
     # changed from 90 feet to 200 feet
-    test_mlb.update_field_params({'baseline_distance': 200.0})
+    test_mlb.update_field_params({"baseline_distance": 200.0})
 
     # Get the updated dimensions
     updated_dimensions = test_mlb.field_params
@@ -409,7 +409,7 @@ def test_unit_conversions():
     test_field_to_convert = baseball_fields.MLBField()
 
     # Generate a field originating in meters
-    mlb_field_m = baseball_fields.MLBField(units = 'm')
+    mlb_field_m = baseball_fields.MLBField(units = "m")
 
     # Convert the field dimensions from feet to meters
     field_params_to_convert = test_field_to_convert.field_params
@@ -417,12 +417,12 @@ def test_unit_conversions():
     for k, v in field_params_to_convert.items():
         field_params_to_convert[k] = test_field_to_convert._convert_units(
             v,
-            'ft',
-            'm'
+            "ft",
+            "m"
         )
 
     # Convert the units to be meters
-    field_params_to_convert['field_units'] = 'm'
+    field_params_to_convert["field_units"] = "m"
 
     assert field_params_to_convert == mlb_field_m.field_params
 
@@ -435,12 +435,12 @@ def test_supported_leagues():
     """
 
     league_class_dict = {
-        'little_league': baseball_fields.LittleLeagueField(),
-        'milb': baseball_fields.MiLBField(),
-        'mlb': baseball_fields.MLBField(),
-        'ncaa': baseball_fields.NCAAField(),
-        'nfhs': baseball_fields.NFHSField(),
-        'pony': baseball_fields.PonyField()
+        "little_league": baseball_fields.LittleLeagueField(),
+        "milb": baseball_fields.MiLBField(),
+        "mlb": baseball_fields.MLBField(),
+        "ncaa": baseball_fields.NCAAField(),
+        "nfhs": baseball_fields.NFHSField(),
+        "pony": baseball_fields.PonyField()
     }
 
     field = baseball_fields.BaseballField()
@@ -454,9 +454,9 @@ def test_supported_leagues():
     ]
 
     if len(missing_leagues) > 0:
-        print('The following leagues are not tested:\n')
+        print("The following leagues are not tested:\n")
         for league in missing_leagues:
-            print(f'- {league}')
+            print(f"- {league}")
 
     else:
         for league in league_class_dict.keys():
@@ -514,16 +514,16 @@ def test_custom_field_params():
     }
 
     color_updates = {
-        'plot_background': '#9b7653',
-        'infield_dirt': '#395d33',
-        'infield_grass': '#9b7653',
-        'pitchers_mound': '#395d33',
-        'base': '#c8102e',
-        'pitchers_plate': '#c8102e',
-        'batters_box': '#c8102e',
-        'catchers_box': '#c8102e',
-        'foul_line': '#c8102e',
-        'running_lane': '#c8102e'
+        "plot_background": "#9b7653",
+        "infield_dirt": "#395d33",
+        "infield_grass": "#9b7653",
+        "pitchers_mound": "#395d33",
+        "base": "#c8102e",
+        "pitchers_plate": "#c8102e",
+        "batters_box": "#c8102e",
+        "catchers_box": "#c8102e",
+        "foul_line": "#c8102e",
+        "running_lane": "#c8102e"
     }
 
     test_field = baseball_fields.BaseballField(
@@ -544,7 +544,7 @@ def test_field_plot_rotation():
 
     ax = baseball_fields.MLBField().draw(ax = ax, rotation = 90.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -560,7 +560,7 @@ def test_field_plot_tuple_xlim_and_ylim():
     ax2 = test_field.draw(xlim = (355.0, -355.0), ylim = (355.0, -355.0))
     ax3 = test_field.draw(xlim = (0.0, 0.0), ylim = (0.0, 0.0))
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -577,7 +577,7 @@ def test_field_plot_singular_xlim_and_ylim():
     ax1 = test_field.draw(xlim = 10.0, ylim = 10.0)
     ax2 = test_field.draw(xlim = -150.0, ylim = 50.0)
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
@@ -591,28 +591,28 @@ def test_additional_feature():
     be a safety base located next to first base
     """
     safety_base = {
-        'class': baseball_features.Base,
-        'x_anchor': (
+        "class": baseball_features.Base,
+        "x_anchor": (
             (90.0 * math.cos(np.pi / 4.0)) +
             (1.25 * math.cos(np.pi / 4.0))
         ),
-        'y_anchor': (
+        "y_anchor": (
             (90.0 * math.cos(np.pi / 4.0)) -
             (1.25 * math.cos(np.pi / 4.0))
         ),
-        'base_side_length': 1.25,
-        'adjust_x_left': True,
-        'visible': True,
-        'facecolor': '#c8102e',
-        'edgecolor': None,
-        'zorder': 1
+        "base_side_length": 1.25,
+        "adjust_x_left": True,
+        "visible": True,
+        "facecolor": "#c8102e",
+        "edgecolor": None,
+        "zorder": 1
     }
 
     ax = baseball_fields.MLBField(
         new_feature_1 = safety_base
     ).draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -624,17 +624,17 @@ def test_zero_radii():
     curved feature is created but the radius is 0.0
     """
     field_updates = {
-        'infield_arc_radius': 0.0,
-        'pitchers_mound_radius': 0.0,
-        'home_plate_circle_radius': 0.0,
-        'base_anchor_to_infield_grass_radius': 0.0
+        "infield_arc_radius": 0.0,
+        "pitchers_mound_radius": 0.0,
+        "home_plate_circle_radius": 0.0,
+        "base_anchor_to_infield_grass_radius": 0.0
     }
 
     ax = baseball_fields.LittleLeagueField(
         field_updates = field_updates
     ).draw()
 
-    plt.close('all')
+    plt.close("all")
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
@@ -646,7 +646,7 @@ def test_field_plot_with_xlim_ylim():
     of the field
     """
     ax1 = baseball_fields.MLBField().draw(
-        display_range = 'infield'
+        display_range = "infield"
     )
 
     ax2 = baseball_fields.MLBField().draw(
@@ -665,20 +665,20 @@ def test_rotated_surface_plot():
     plot of the surface
     """
     ax = baseball_fields.MLBField(rotation = 90).draw(
-        display_range = 'infield'
+        display_range = "infield"
     )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
 
 def test_display_range_none_empty_string():
-    """Test that the field defaults to display_range == 'full' if None passed.
+    """Test that the field defaults to display_range == "full" if None passed.
 
     This test should pass so long as there are no erros when drawing a field
     with no specified display range
     """
     ax1 = baseball_fields.MLBField().draw(display_range = None)
-    ax2 = baseball_fields.MLBField().draw(display_range = '')
+    ax2 = baseball_fields.MLBField().draw(display_range = "")
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
