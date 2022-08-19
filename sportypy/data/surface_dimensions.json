@@ -534,6 +534,8 @@
                 [0.0, 0.0, 0.0, 0.0]
             ],
 
+            "restricted_arc_visible": false,
+
             "painted_area_visibility": [true, true],
             "lane_boundary_visibility": [true, true],
             "lane_space_mark_visibility": [true, true],
