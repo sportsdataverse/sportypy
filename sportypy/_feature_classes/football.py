@@ -290,7 +290,7 @@ class FieldBorder(BaseFootballFeature):
                  surrounds_team_bench_area = False, *args, **kwargs):
         # Initialize the attributes that are unique to this feature
         self.endzone_length = endzone_length
-        self.boundary_thickness = boundary_thickness
+        self.boundary_line_thickness = boundary_thickness
         self.restricted_area_length = restricted_area_length
         self.restricted_area_width = restricted_area_width
         self.coaching_box_length = coaching_box_length
@@ -298,7 +298,7 @@ class FieldBorder(BaseFootballFeature):
         self.team_bench_length_field_side = team_bench_length_field_side
         self.team_bench_length_back_side = team_bench_length_back_side
         self.team_bench_width = team_bench_width
-        self.team_bench_border_thickness = team_bench_border_thickness
+        self.team_bench_area_border_thickness = team_bench_border_thickness
         self.surrounds_team_bench_area = surrounds_team_bench_area
         self.bench_shape = bench_shape
         super().__init__(*args, **kwargs)
@@ -314,84 +314,86 @@ class FieldBorder(BaseFootballFeature):
                 "x": [
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness
+                        self.boundary_line_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness
+                        self.boundary_line_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness +
-                        self.feature_thickness
+                        self.boundary_line_thickness +
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness +
-                        self.feature_thickness
+                        self.boundary_line_thickness +
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     )
                 ],
-
                 "y": [
-                    (self.field_width / 2.0) + self.boundary_thickness,
-                    (self.field_width / 2.0) + self.boundary_thickness,
-                    -((self.field_width / 2.0) + self.boundary_thickness),
-                    -((self.field_width / 2.0) + self.boundary_thickness),
+                    (self.field_width / 2.0) + self.boundary_line_thickness,
+                    (self.field_width / 2.0) + self.boundary_line_thickness,
+                    -((self.field_width / 2.0) + self.boundary_line_thickness),
+                    -((self.field_width / 2.0) + self.boundary_line_thickness),
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.feature_thickness
                     ),
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.feature_thickness
                     ),
-                    (self.field_width / 2.0) + self.boundary_thickness
+                    (
+                        (self.field_width / 2.0) +
+                        self.boundary_line_thickness
+                    )
                 ]
             })
         else:
             starting_depth = (
                 (self.field_width / 2.0) +
-                self.boundary_thickness +
+                self.boundary_line_thickness +
                 self.restricted_area_width +
                 self.coaching_box_width +
                 self.team_bench_width +
-                self.team_bench_border_thickness
+                self.team_bench_area_border_thickness
             )
 
             if self.bench_shape.lower() not in ["rectangle", "rectangular"]:
@@ -404,108 +406,108 @@ class FieldBorder(BaseFootballFeature):
                 y1 = (
                     starting_depth -
                     self.team_bench_width -
-                    self.team_bench_border_thickness
+                    self.team_bench_area_border_thickness
                 )
                 x1 = (
                     (self.team_bench_length_field_side / 2.0) +
-                    self.team_bench_border_thickness +
+                    self.team_bench_area_border_thickness +
                     self.feature_thickness
                 )
 
                 outer_corner_x_dist = (((y2 - y1) / m) + x1)
             else:
                 outer_corner_x_dist = (self.team_bench_length_back_side / 2.0)
-                outer_corner_x_dist += self.team_bench_border_thickness
-                outer_corner_x_dist += self.feature_thickness
+                outer_corner_x_dist += self.team_bench_area_border_thickness
+                outer_corner_x_dist += (self.feature_thickness / 2.0)
 
             field_border_df = pd.DataFrame({
                 "x": [
                     0.0,
                     (
                         (self.team_bench_length_back_side / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.team_bench_length_field_side / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.coaching_box_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness
+                        self.boundary_line_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness
+                        self.boundary_line_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.coaching_box_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.team_bench_length_field_side / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.team_bench_length_back_side / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     0.0,
                     0.0,
                     outer_corner_x_dist,
                     (
-                        (self.team_bench_length_field_side / 2.0) +
-                        self.team_bench_border_thickness +
+                        (self.team_bench_length_field_side / 2) +
+                        self.team_bench_area_border_thickness +
                         self.feature_thickness
                     ),
                     (
-                        (self.coaching_box_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        (self.coaching_box_length / 2) +
+                        self.team_bench_area_border_thickness +
                         self.feature_thickness
                     ),
                     (
-                        (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness +
-                        self.feature_thickness
-                    ),
-                    (
-                        (self.field_length / 2.0) +
-                        self.endzone_length +
-                        self.boundary_thickness +
+                        (self.restricted_area_length / 2) +
+                        self.team_bench_area_border_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
+                        self.feature_thickness
+                    ),
+                    (
+                        (self.field_length / 2.0) +
+                        self.endzone_length +
+                        self.boundary_line_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.coaching_box_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.team_bench_length_field_side / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.feature_thickness
                     ),
                     outer_corner_x_dist,
@@ -519,74 +521,72 @@ class FieldBorder(BaseFootballFeature):
                     (
                         starting_depth -
                         self.team_bench_width -
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         starting_depth -
                         self.team_bench_width -
-                        self.coaching_box_width -
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
-                    ((self.field_width / 2.0) + self.boundary_thickness),
-                    ((self.field_width / 2.0) + self.boundary_thickness),
-                    -((self.field_width / 2.0) + self.boundary_thickness),
-                    -((self.field_width / 2.0) + self.boundary_thickness),
-                    -(
-                        starting_depth -
-                        self.team_bench_width -
-                        self.coaching_box_width -
-                        self.team_bench_border_thickness
+                    (self.field_width / 2) + self.boundary_line_thickness,
+                    (self.field_width / 2) + self.boundary_line_thickness,
+                    -(self.field_width / 2) - self.boundary_line_thickness,
+                    -(self.field_width / 2) - self.boundary_line_thickness,
+                    (
+                        -starting_depth +
+                        self.team_bench_width +
+                        self.team_bench_area_border_thickness
                     ),
-                    -(
-                        starting_depth -
-                        self.team_bench_width -
-                        self.team_bench_border_thickness
+                    (
+                        -starting_depth +
+                        self.team_bench_width +
+                        self.team_bench_area_border_thickness
                     ),
                     -starting_depth,
                     -starting_depth,
-                    -(starting_depth + self.feature_thickness),
-                    -(starting_depth + self.feature_thickness),
-                    -(
-                        starting_depth -
-                        self.team_bench_width -
-                        self.team_bench_border_thickness
+                    -starting_depth - self.feature_thickness,
+                    -starting_depth - self.feature_thickness,
+                    (
+                        -starting_depth +
+                        self.team_bench_width +
+                        self.team_bench_area_border_thickness
                     ),
-                    -(
-                        starting_depth -
-                        self.team_bench_width -
-                        self.coaching_box_width -
-                        self.team_bench_border_thickness
+                    (
+                        -starting_depth +
+                        self.team_bench_width +
+                        self.team_bench_area_border_thickness +
+                        self.coaching_box_width
                     ),
-                    -(
-                        (self.field_width / 2.0) +
-                        self.boundary_thickness +
-                        self.feature_thickness
-                    ),
-                    -(
-                        (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                    (
+                        -(self.field_width / 2) -
+                        self.boundary_line_thickness -
                         self.feature_thickness
                     ),
                     (
-                        (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        -(self.field_width / 2) -
+                        self.boundary_line_thickness -
                         self.feature_thickness
                     ),
                     (
-                        (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        (self.field_width / 2) +
+                        self.boundary_line_thickness +
                         self.feature_thickness
                     ),
                     (
-                        starting_depth -
-                        self.team_bench_width -
-                        self.coaching_box_width -
-                        self.team_bench_border_thickness
+                        (self.field_width / 2) +
+                        self.boundary_line_thickness +
+                        self.feature_thickness
                     ),
                     (
                         starting_depth -
                         self.team_bench_width -
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness -
+                        self.coaching_box_width
+                    ),
+                    (
+                        starting_depth -
+                        self.team_bench_width -
+                        self.team_bench_area_border_thickness
                     ),
                     starting_depth + self.feature_thickness,
                     starting_depth + self.feature_thickness,
@@ -614,7 +614,7 @@ class FieldBorderOutline(BaseFootballFeature):
                  surrounds_team_bench_area = True, *args, **kwargs):
         # Initialize the attributes that are unique to this feature
         self.endzone_length = endzone_length
-        self.boundary_thickness = boundary_thickness
+        self.boundary_line_thickness = boundary_thickness
         self.restricted_area_length = restricted_area_length
         self.restricted_area_width = restricted_area_width
         self.coaching_box_length = coaching_box_length
@@ -622,7 +622,7 @@ class FieldBorderOutline(BaseFootballFeature):
         self.team_bench_length_field_side = team_bench_length_field_side
         self.team_bench_length_back_side = team_bench_length_back_side
         self.team_bench_width = team_bench_width
-        self.team_bench_border_thickness = team_bench_border_thickness
+        self.team_bench_area_border_thickness = team_bench_border_thickness
         self.field_border_thickness = field_border_thickness
         self.surrounds_team_bench_area = surrounds_team_bench_area
         self.bench_shape = bench_shape
@@ -639,100 +639,100 @@ class FieldBorderOutline(BaseFootballFeature):
                 "x": [
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     (
-                        (self.field_length / 2.0) +
+                        (self.field_length / 2) +
                         self.endzone_length +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     ),
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness
+                        self.team_bench_area_border_thickness
                     )
                 ],
 
                 "y": [
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     )
                 ]
@@ -740,11 +740,12 @@ class FieldBorderOutline(BaseFootballFeature):
         else:
             starting_depth = (
                 (self.field_width / 2.0) +
-                self.boundary_thickness +
+                self.boundary_line_thickness +
                 self.restricted_area_width +
                 self.coaching_box_width +
                 self.team_bench_width +
-                self.team_bench_border_thickness
+                self.team_bench_area_border_thickness +
+                self.field_border_thickness
             )
 
             if self.bench_shape.lower() not in ["rectangle", "rectangular"]:
@@ -757,347 +758,371 @@ class FieldBorderOutline(BaseFootballFeature):
                 y1 = (
                     starting_depth -
                     self.team_bench_width -
-                    self.team_bench_border_thickness
+                    self.team_bench_area_border_thickness
                 )
                 x1 = (
                     (self.team_bench_length_field_side / 2.0) +
-                    self.team_bench_border_thickness +
+                    self.team_bench_area_border_thickness +
                     self.field_border_thickness
                 )
 
                 outer_corner_x_dist = (((y2 - y1) / m) + x1)
             else:
                 outer_corner_x_dist = (self.team_bench_length_back_side / 2.0)
-                outer_corner_x_dist += self.team_bench_border_thickness
+                outer_corner_x_dist += self.team_bench_area_border_thickness
                 outer_corner_x_dist += self.field_border_thickness
 
             field_border_outline_df = pd.DataFrame({
                 "x": [
                     # Start
-                    0.0,
+                    .0,
+
                     # Short edge of bench (top)
                     outer_corner_x_dist,
+
                     # Long edge of bench (top)
                     (
                         (self.team_bench_length_field_side / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
+
                     # Coaching box (top)
                     (
                         (self.coaching_box_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
+
                     # Restricted area (top)
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
+
                     # Edge of field (top)
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
+
                     # Edge of field (bottom)
                     (
                         (self.field_length / 2.0) +
                         self.endzone_length +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
+
                     # Restricted area (bottom)
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
+
                     # Coaching box (bottom)
                     (
                         (self.coaching_box_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
+
                     # Long edge of bench (bottom)
                     (
                         (self.team_bench_length_field_side / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
+
                     # Short edge of bench (bottom)
                     outer_corner_x_dist,
+
                     # Zero
                     0.0,
+
                     # Outward
                     0.0,
+
                     # Short edge of bench (bottom)
                     outer_corner_x_dist + self.feature_thickness,
+
                     # Long edge of bench (bottom)
                     (
                         (self.team_bench_length_field_side / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
+
                     # Coaching box (bottom)
                     (
                         (self.coaching_box_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
+
                     # Restricted area (bottom)
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
+
                     # Edge of field (bottom)
                     (
                         (self.field_length / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.endzone_length +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
+
                     # Edge of field (top)
                     (
                         (self.field_length / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.endzone_length +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
+
                     # Restricted area (top)
                     (
                         (self.restricted_area_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
+
                     # Coaching box (top)
                     (
                         (self.coaching_box_length / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
+
                     # Long edge of bench (top)
                     (
                         (self.team_bench_length_field_side / 2.0) +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
+
                     # Short edge of bench (top)
                     outer_corner_x_dist + self.feature_thickness,
+
                     # Zero
                     0.0,
+
                     # End
-                    0.0,
+                    0.0
                 ],
 
                 "y": [
                     # Start
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
                     # Short edge of bench (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
                     # Long edge of bench (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width
                     ),
                     # Coaching box (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width
                     ),
                     # Restricted area (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     # Edge of field (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     # Edge of field (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     # Restricted area (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness
                     ),
                     # Coaching box (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width
                     ),
                     # Long edge of bench (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width
                     ),
                     # Short edge of bench (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
                     # Zero
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     ),
                     # Outward
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     # Short edge of bench (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     # Long edge of bench (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width
                     ),
                     # Coaching box (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width
                     ),
                     # Restricted area (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     # Edge of field (bottom)
                     -(
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     # Edge of field (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     # Restricted area (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     # Coaching box (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width
                     ),
                     # Long edge of bench (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width
                     ),
                     # Short edge of bench (top)
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     # Zero
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness +
                         self.feature_thickness
                     ),
                     # End
                     (
                         (self.field_width / 2.0) +
-                        self.boundary_thickness +
+                        self.boundary_line_thickness +
                         self.restricted_area_width +
                         self.coaching_box_width +
                         self.team_bench_width +
-                        self.team_bench_border_thickness +
+                        self.team_bench_area_border_thickness +
                         self.field_border_thickness
                     )
                 ]
