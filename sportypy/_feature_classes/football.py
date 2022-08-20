@@ -138,6 +138,67 @@ class DefensiveHalf(BaseFootballFeature):
         return defensive_half_df
 
 
+class FieldApron(BaseFootballFeature):
+    """The apron of the field.
+
+    The field should have an apron to appropriately see all out-of-bounds
+    features. This is typically the same color as the field itself, but will be
+    created separately so as to allow for more customized plotting
+    """
+
+    def __init__(self, endzone_length = 0.0, boundary_thickness = 0.0,
+                 field_border_thickness = 0.0, restricted_area_length = 0.0,
+                 restricted_area_width = 0, coaching_box_length = 0.0,
+                 coaching_box_width = 0.0, team_bench_length_field_side = 0.0,
+                 team_bench_length_back_side = 0.0, team_bench_width = 0.0,
+                 team_bench_area_border_thickness = 0.0,
+                 extra_apron_padding = 0.0, *args, **kwargs):
+        # Initialize the attributes unique to this feature
+        self.endzone_length = endzone_length
+        self.boundary_thickness = boundary_thickness
+        self.field_border_thickness = field_border_thickness
+        self.restricted_area_length = restricted_area_length
+        self.restricted_area_width = restricted_area_width
+        self.coaching_box_length = coaching_box_length
+        self.coaching_box_width = coaching_box_width
+        self.team_bench_length_field_side = team_bench_length_field_side
+        self.team_bench_length_back_side = team_bench_length_back_side
+        self.team_bench_width = team_bench_width
+        self.team_bench_area_border_thickness = \
+            team_bench_area_border_thickness,
+        self.extra_apron_padding = extra_apron_padding
+        super().__init__(*args, **kwargs)
+
+    def _get_centered_feature(self):
+        # Define the extreme values of x and y
+        ext_x = (
+            (self.field_length / 2.0) +
+            self.endzone_length +
+            self.boundary_thickness +
+            self.field_border_thickness +
+            self.extra_apron_padding
+        )
+
+        ext_y = (
+            (self.field_width / 2.0) +
+            self.boundary_thickness +
+            self.field_border_thickness +
+            self.restricted_area_width +
+            self.coaching_box_width +
+            self.team_bench_width +
+            self.extra_apron_padding
+        )
+
+        field_apron_df = self.create_rectangle(
+            x_min = -ext_x,
+            x_max = ext_x,
+            y_min = -ext_y,
+            y_max = ext_y
+        )
+
+        return field_apron_df
+
+
 class Endzone(BaseFootballFeature):
     """The endzones.
 
