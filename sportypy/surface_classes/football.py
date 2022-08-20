@@ -13,8 +13,10 @@ import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.transforms as mtrans
 from matplotlib.transforms import Affine2D
 import sportypy._feature_classes.football as football
+from sportypy._base_functions._plot_helpers import text_with_autofit
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
@@ -269,6 +271,7 @@ class FootballField(BaseSurfacePlot):
         # Initialize the default colors of the field
         default_colors = {
             "plot_background": "#196f0c00",
+            "field_apron": "#196f0c",
             "offensive_half": "#196f0c",
             "defensive_half": "#196f0c",
             "offensive_endzone": "#196f0c",
@@ -360,6 +363,68 @@ class FootballField(BaseSurfacePlot):
             "zorder": 5
         }
         self._initialize_feature(defensive_half_params)
+
+        # Initialize the field apron
+        field_apron_params = {
+            "class": football.FieldApron,
+            "x_anchor": 0.0,
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "endzone_length": self.field_params.get("endzone_length", 0.0),
+            "boundary_thickness": self.field_params.get(
+                "boundary_line_thickness",
+                0.0
+            ),
+            "field_border_thickness": self.field_params.get(
+                "field_border_thickness",
+                0.0
+            ),
+            "restricted_area_length": self.field_params.get(
+                "team_bench_length_field_side",
+                0.0
+            ),
+            "restricted_area_width": self.field_params.get(
+                "restricted_area_width",
+                0.0
+            ),
+            "coaching_box_length": self.field_params.get(
+                "team_bench_length_field_side",
+                0.0
+            ),
+            "coaching_box_width": self.field_params.get(
+                "coaching_box_width",
+                0.0
+            ),
+            "team_bench_length_field_side": self.field_params.get(
+                "team_bench_length_field_side",
+                0.0
+            ),
+            "team_bench_length_back_side": self.field_params.get(
+                "team_bench_length_back_side",
+                0.0
+            ),
+            "team_bench_width": self.field_params.get(
+                "team_bench_width",
+                0.0
+            ),
+            "team_bench_area_border_thickness": self.field_params.get(
+                "team_bench_area_border_thickness",
+                0.0
+            ),
+            "extra_apron_padding": self.field_params.get(
+                "extra_apron_padding",
+                0.0
+            ),
+            "is_constrained": False,
+            "visible": True,
+            "facecolor": self.feature_colors["field_apron"],
+            "edgecolor": None,
+            "zorder": 5
+        }
+        self._initialize_feature(field_apron_params)
 
         # Initialize the endzones
         offensive_endzone_params = {
@@ -575,7 +640,7 @@ class FootballField(BaseSurfacePlot):
             "edgecolor": None,
             "zorder": 16
         }
-        self._initialize_feature(coaching_box_line_params)        
+        self._initialize_feature(coaching_box_line_params)
 
         # Initialize the end lines
         end_line_params = {
@@ -1252,19 +1317,19 @@ class FootballField(BaseSurfacePlot):
                 y_anchor = y_anchor_r
                 rotation += self.rotation_amt
 
-            ax.text(
-                x = x_anchor,
-                y = y_anchor,
-                s = s,
-                color = color,
+            text_with_autofit(
+                ax,
+                s,
+                (x_anchor, y_anchor),
+                self.field_params.get("number_width", 0.0),
+                self.field_params.get("number_height", 0.0),
                 rotation = rotation,
                 fontweight = "heavy",
                 fontname = number_font,
+                color = color,
                 ha = "center",
                 va = "center",
                 rotation_mode = "anchor",
-                transform_rotates_text = True,
-                fontsize = 50,
                 zorder = 17
             )
 
@@ -1282,6 +1347,19 @@ class FootballField(BaseSurfacePlot):
             for_plot = False,
             for_display = True
         )
+
+        # Clip yardage markings to not display if outside of plot range
+        trans = mtrans.blended_transform_factory(ax.transAxes, fig.transFigure)
+        clippath = plt.Rectangle(
+            (0.0, 0.0),
+            1,
+            1,
+            transform = trans,
+            clip_on = False
+        )
+
+        for txt in ax.texts:
+            txt.set_clip_path(clippath)
 
         return ax
 
@@ -1465,6 +1543,7 @@ class FootballField(BaseSurfacePlot):
         # Re-instantiate the class with the default colors
         default_colors = {
             "plot_background": "#196f0c00",
+            "field_apron": "#196f0c",
             "offensive_half": "#196f0c",
             "defensive_half": "#196f0c",
             "offensive_endzone": "#196f0c",
@@ -1550,6 +1629,11 @@ class FootballField(BaseSurfacePlot):
             )
             half_field_width = self.field_params.get("field_width", 0.0) / 2.0
 
+            red_zone_start = (
+                (self.field_params.get("field_length", 0.0) / 2.0) -
+                20.0
+            )
+
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. sidelines and boundaries)
         if for_display:
@@ -1561,11 +1645,24 @@ class FootballField(BaseSurfacePlot):
                 self.field_params.get("boundary_line_thickness", 0.0) +
                 self.field_params.get("field_border_thickness", 0.0) +
                 self.field_params.get("minor_line_thickness", 0.0) +
-                3.0
+                5.0
             )
 
             half_field_width = (
-                (self.field_params.get("field_width", 0.0) / 2.0) + 20.0
+                (self.field_params.get("field_width", 0.0) / 2.0) +
+                self.field_params.get("boundary_line_thickness", 0.0) +
+                self.field_params.get("restricted_area_width", 0.0) +
+                self.field_params.get("coaching_box_width", 0.0) +
+                self.field_params.get("team_bench_width", 0.0) +
+                self.field_params.get("field_border_thickness", 0.0) +
+                self.field_params.get("minor_line_thickness", 0.0) +
+                5.0
+            )
+
+            red_zone_start = (
+                (self.field_params.get("field_length", 0.0) / 2.0) -
+                # Setting to 22 so that entire 20 yard line is visible
+                22.0
             )
 
         # Set the x limits of the plot if they are not provided
@@ -1581,6 +1678,9 @@ class FootballField(BaseSurfacePlot):
                 # Offensive half-field
                 "offense": (0.0, half_field_length),
                 "offence": (0.0, half_field_length),
+                "offensivehalf": (0.0, half_field_length),
+                "offensive_half": (0.0, half_field_length),
+                "offensive half": (0.0, half_field_length),
                 "offensivehalffield": (0.0, half_field_length),
                 "offensive_half_field": (0.0, half_field_length),
                 "offensive half field": (0.0, half_field_length),
@@ -1588,9 +1688,25 @@ class FootballField(BaseSurfacePlot):
                 # Defensive half-field
                 "defense": (-half_field_length, 0.0),
                 "defence": (-half_field_length, 0.0),
+                "defensivehalf": (-half_field_length, 0.0),
+                "defensive_half": (-half_field_length, 0.0),
+                "defensive half": (-half_field_length, 0.0),
                 "defensivehalffield": (-half_field_length, 0.0),
                 "defensive_half_field": (-half_field_length, 0.0),
-                "defensive half field": (-half_field_length, 0.0)
+                "defensive half field": (-half_field_length, 0.0),
+
+                # Offensive Red Zone
+                "redzone": (red_zone_start, half_field_length),
+                "red_zone": (red_zone_start, half_field_length),
+                "red zone": (red_zone_start, half_field_length),
+                "oredzone": (red_zone_start, half_field_length),
+                "offensive_red_zone": (red_zone_start, half_field_length),
+                "offensive red zone": (red_zone_start, half_field_length),
+
+                # Defensive Red Zone
+                "dredzone": (-half_field_length, -red_zone_start),
+                "defensive_red_zone": (-half_field_length, -red_zone_start),
+                "defensive red zone": (-half_field_length, -red_zone_start)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -1631,17 +1747,40 @@ class FootballField(BaseSurfacePlot):
             # Get the limits from the viable display ranges
             ylims = {
                 # Full surface (default)
-                "full": (-(half_field_width), half_field_width),
+                "full": (-half_field_width, half_field_width),
+                
+                # Offensive half-field
                 "offense": (-half_field_width, half_field_width),
                 "offence": (-half_field_width, half_field_width),
+                "offensivehalf": (-half_field_width, half_field_width),
+                "offensive_half": (-half_field_width, half_field_width),
+                "offensive half": (-half_field_width, half_field_width),
                 "offensivehalffield": (-half_field_width, half_field_width),
                 "offensive_half_field": (-half_field_width, half_field_width),
                 "offensive half field": (-half_field_width, half_field_width),
+
+                # Defensive half-field
                 "defense": (-half_field_width, half_field_width),
                 "defence": (-half_field_width, half_field_width),
+                "defensivehalf": (-half_field_width, half_field_width),
+                "defensive_half": (-half_field_width, half_field_width),
+                "defensive half": (-half_field_width, half_field_width),
                 "defensivehalffield": (-half_field_width, half_field_width),
                 "defensive_half_field": (-half_field_width, half_field_width),
                 "defensive half field": (-half_field_width, half_field_width),
+
+                # Offensive Red Zone
+                "redzone": (-half_field_width, half_field_width),
+                "red_zone": (-half_field_width, half_field_width),
+                "red zone": (-half_field_width, half_field_width),
+                "oredzone": (-half_field_width, half_field_width),
+                "offensive_red_zone": (-half_field_width, half_field_width),
+                "offensive red zone": (-half_field_width, half_field_width),
+
+                # Defensive Red Zone
+                "dredzone": (-half_field_width, half_field_width),
+                "defensive_red_zone": (-half_field_width, half_field_width),
+                "defensive red zone": (-half_field_width, half_field_width)
             }
 
             # Extract the y limit from the dictionary, defaulting to the full
