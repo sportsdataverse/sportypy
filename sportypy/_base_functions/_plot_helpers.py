@@ -63,8 +63,4 @@ def text_with_autofit(
     adjusted_size = (30 * fontsize) / bbox.width
     text.set_fontsize(adjusted_size)
 
-    if show_rect:
-        rect = mpatches.Rectangle(a0, width, height, fill=False, ls='--')
-        ax.add_patch(rect)
-
     return text
