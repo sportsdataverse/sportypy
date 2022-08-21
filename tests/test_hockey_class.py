@@ -7,7 +7,7 @@ import io
 import sys
 import matplotlib
 import matplotlib.pyplot as plt
-import sportypy.surface_classes.hockey as hockey_rinks
+import sportypy.surfaces.hockey as hockey_rinks
 import sportypy._feature_classes.hockey as hockey_features
 
 

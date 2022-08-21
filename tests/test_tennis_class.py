@@ -7,7 +7,7 @@ import io
 import sys
 import matplotlib
 import matplotlib.pyplot as plt
-import sportypy.surface_classes.tennis as tennis_courts
+import sportypy.surfaces.tennis as tennis_courts
 import sportypy._feature_classes.tennis as tennis_features
 
 

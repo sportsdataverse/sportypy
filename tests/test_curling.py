@@ -7,7 +7,7 @@ import io
 import sys
 import matplotlib
 import matplotlib.pyplot as plt
-import sportypy.surface_classes.curling as curling_sheets
+import sportypy.surfaces.curling as curling_sheets
 import sportypy._feature_classes.curling as curling_features
 
 

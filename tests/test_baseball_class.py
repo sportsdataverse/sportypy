@@ -9,7 +9,7 @@ import math
 import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
-import sportypy.surface_classes.baseball as baseball_fields
+import sportypy.surfaces.baseball as baseball_fields
 import sportypy._feature_classes.baseball as baseball_features
 
 

@@ -7,13 +7,13 @@ import pytest
 import matplotlib
 import pandas as pd
 import matplotlib.pyplot as plt
-from sportypy.surface_classes.soccer import EPLPitch
-from sportypy.surface_classes.tennis import ATPCourt
-from sportypy.surface_classes.curling import WCFSheet
-from sportypy.surface_classes.football import NFLField
-from sportypy.surface_classes.basketball import NBACourt
-from sportypy.surface_classes.hockey import NHLRink, PHFRink
-from sportypy.surface_classes.baseball import LittleLeagueField
+from sportypy.surfaces.soccer import EPLPitch
+from sportypy.surfaces.tennis import ATPCourt
+from sportypy.surfaces.curling import WCFSheet
+from sportypy.surfaces.football import NFLField
+from sportypy.surfaces.basketball import NBACourt
+from sportypy.surfaces.hockey import NHLRink, PHFRink
+from sportypy.surfaces.baseball import LittleLeagueField
 
 
 def test_plot():

@@ -7,7 +7,7 @@ import io
 import sys
 import matplotlib
 import matplotlib.pyplot as plt
-import sportypy.surface_classes.basketball as basketball_courts
+import sportypy.surfaces.basketball as basketball_courts
 import sportypy._feature_classes.basketball as basketball_features
 
 

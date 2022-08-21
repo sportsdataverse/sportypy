@@ -7,7 +7,7 @@ import io
 import sys
 import matplotlib
 import matplotlib.pyplot as plt
-import sportypy.surface_classes.soccer as soccer_pitches
+import sportypy.surfaces.soccer as soccer_pitches
 import sportypy._feature_classes.soccer as soccer_features
 
 
