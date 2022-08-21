@@ -1349,7 +1349,7 @@ class FootballField(BaseSurfacePlot):
         )
 
         # Clip yardage markings to not display if outside of plot range
-        trans = mtrans.blended_transform_factory(ax.transAxes, fig.transFigure)
+        trans = mtrans.blended_transform_factory(ax.transAxes, ax.transAxes)
         clippath = plt.Rectangle(
             (0.0, 0.0),
             1,
