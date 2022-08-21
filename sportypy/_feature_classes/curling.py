@@ -81,10 +81,11 @@ class End(BaseCurlingFeature):
     """
 
     def __init__(self, tee_line_to_center = 0.0, hog_line_to_tee_line = 0.0,
-                 *args, **kwargs):
+                 drawn_direction = "upward", *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.tee_line_to_center = tee_line_to_center
         self.hog_line_to_tee_line = hog_line_to_tee_line
+        self.drawn_direction = drawn_direction
         super().__init__(*args, **kwargs)
 
     def _get_centered_feature(self):
@@ -99,12 +100,20 @@ class End(BaseCurlingFeature):
             self.hog_line_to_tee_line
         )
 
-        end_df = self.create_rectangle(
-            x_min = -self.sheet_width / 2.0,
-            x_max = self.sheet_width / 2.0,
-            y_min = 0,
-            y_max = end_length
-        )
+        if self.drawn_direction.lower() == "upward":
+            end_df = self.create_rectangle(
+                x_min = -self.sheet_width / 2.0,
+                x_max = self.sheet_width / 2.0,
+                y_min = 0.0,
+                y_max = end_length
+            )
+        else:
+            end_df = self.create_rectangle(
+                x_min = -self.sheet_width / 2.0,
+                x_max = self.sheet_width / 2.0,
+                y_min = -end_length,
+                y_max = 0.0
+            )
 
         return end_df
 

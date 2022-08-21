@@ -265,10 +265,11 @@ class CurlingSheet(BaseSurfacePlot):
                 self.sheet_params.get("hog_line_to_tee_line", 0.0)
             ),
             "reflect_x": False,
-            "reflect_y": True,
+            "reflect_y": False,
             "feature_units": self.sheet_params.get("sheet_units", "ft"),
             "sheet_length": self.sheet_params.get("sheet_length", 0.0),
             "sheet_width": self.sheet_params.get("sheet_width", 0.0),
+            "drawn_direction": "downward",
             "tee_line_to_center": self.sheet_params.get(
                 "tee_line_to_center",
                 0.0
