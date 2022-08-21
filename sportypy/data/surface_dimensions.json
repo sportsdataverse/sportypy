@@ -659,18 +659,19 @@
         "cfl": {
             "field_units": "yd",
             "field_length": 110.0,
-            "field_width": 65,
+            "field_width": 65.0,
             "endzone_length": 20.0,
+            "extra_apron_padding": 2.0,
 
             "minor_line_thickness": 0.1111,
             "goal_line_thickness": 0.1111,
-            "boundary_line_thickness": 0.1111,
+            "boundary_line_thickness": 1.3333,
             "minor_yard_line_height": 0.6667,
-            "field_border_thickness": 1.3333,
-            "field_border_behind_bench": true,
+            "field_border_thickness": 0.0,
+            "field_border_behind_bench": false,
 
             "major_yard_line_distance": 5.0,
-            
+
             "sideline_to_major_yard_line": 0.1111,
             "inbound_cross_hashmark_length": 0.2778,
             "inbound_hashmark_separation": 15.6667,
@@ -721,13 +722,13 @@
 
             "additional_minor_yard_lines": [-5.0, -10.0, -15.0],
 
-            "restricted_area_width": 0.5,
-            "coaching_box_width": 0.5,
-            "team_bench_width": 4.0,
+            "restricted_area_width": 0.0,
+            "coaching_box_width": 0.0,
+            "team_bench_width": 0.0,
             "team_bench_length_field_side": 30.0,
             "team_bench_length_back_side": 30.0,
-            "team_bench_area_border_thickness": 0.1111,
-            "bench_shape": "rectangular",
+            "team_bench_area_border_thickness": 0.0,
+            "bench_shape": "",
             "field_bordered": false
         },
 
@@ -736,6 +737,7 @@
             "field_length": 100.0,
             "field_width": 53.3333,
             "endzone_length": 10.0,
+            "extra_apron_padding": 2.0,
             "field_border_thickness": 1.3333,
             "field_border_behind_bench": true,
 
@@ -745,7 +747,7 @@
             "minor_yard_line_height": 0.6667,
 
             "major_yard_line_distance": 5.0,
-            
+
             "sideline_to_major_yard_line": 0.1111,
             "inbound_cross_hashmark_length": 0.2778,
             "inbound_hashmark_separation": 13.3333,
@@ -800,7 +802,7 @@
             "team_bench_length_back_side": 50.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": false
+            "field_bordered": true
         },
 
         "nfhs11": {
@@ -808,6 +810,7 @@
             "field_length": 100.0,
             "field_width": 53.3333,
             "endzone_length": 10.0,
+            "extra_apron_padding": 5.0,
 
             "minor_line_thickness": 0.1111,
             "goal_line_thickness": 0.2222,
@@ -815,7 +818,7 @@
             "minor_yard_line_height": 0.6667,
 
             "major_yard_line_distance": 5.0,
-            
+
             "sideline_to_major_yard_line": 0.2222,
             "inbound_cross_hashmark_length": 0.2778,
             "inbound_hashmark_separation": 17.7778,
@@ -870,7 +873,7 @@
             "team_bench_length_back_side": 50.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": false
+            "field_bordered": true
         },
 
         "nfhs9": {
@@ -878,6 +881,7 @@
             "field_length": 80.0,
             "field_width": 40.0,
             "endzone_length": 10.0,
+            "extra_apron_padding": 5.0,
 
             "minor_line_thickness": 0.1111,
             "goal_line_thickness": 0.2222,
@@ -885,7 +889,7 @@
             "minor_yard_line_height": 0.6667,
 
             "major_yard_line_distance": 5.0,
-            
+
             "sideline_to_major_yard_line": 0.2222,
             "inbound_cross_hashmark_length": 0.2778,
             "inbound_hashmark_separation": 7.7778,
@@ -936,7 +940,7 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": false
+            "field_bordered": true
         },
 
         "nfhs8": {
@@ -944,6 +948,7 @@
             "field_length": 80.0,
             "field_width": 40.0,
             "endzone_length": 10.0,
+            "extra_apron_padding": 5.0,
 
             "minor_line_thickness": 0.1111,
             "goal_line_thickness": 0.2222,
@@ -951,7 +956,7 @@
             "minor_yard_line_height": 0.6667,
 
             "major_yard_line_distance": 5.0,
-            
+
             "sideline_to_major_yard_line": 0.2222,
             "inbound_cross_hashmark_length": 0.2778,
             "inbound_hashmark_separation": 10.0,
@@ -1002,7 +1007,7 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": false
+            "field_bordered": true
         },
 
         "nfhs6": {
@@ -1010,6 +1015,7 @@
             "field_length": 80.0,
             "field_width": 40.0,
             "endzone_length": 10.0,
+            "extra_apron_padding": 5.0,
 
             "minor_line_thickness": 0.1111,
             "goal_line_thickness": 0.2222,
@@ -1017,7 +1023,7 @@
             "minor_yard_line_height": 0.6667,
 
             "major_yard_line_distance": 5.0,
-            
+
             "sideline_to_major_yard_line": 0.2222,
             "inbound_cross_hashmark_length": 0.2778,
             "inbound_hashmark_separation": 10.0,
@@ -1068,7 +1074,7 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": false
+            "field_bordered": true
         },
 
         "nfl": {
@@ -1076,6 +1082,7 @@
             "field_length": 100.0,
             "field_width": 53.3333,
             "endzone_length": 10.0,
+            "extra_apron_padding": 2.0,
 
             "minor_line_thickness": 0.1111,
             "goal_line_thickness": 0.2222,
@@ -1085,7 +1092,7 @@
             "field_border_behind_bench": true,
 
             "major_yard_line_distance": 5.0,
-            
+
             "sideline_to_major_yard_line": 0.2222,
             "inbound_cross_hashmark_length": 0.2778,
             "inbound_hashmark_separation": 6.1667,
@@ -1140,7 +1147,7 @@
             "team_bench_length_back_side": 37.2639,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "trapezoid",
-            "field_bordered": false
+            "field_bordered": true
         }
     },
 
