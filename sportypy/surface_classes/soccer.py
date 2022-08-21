@@ -284,7 +284,7 @@ class SoccerPitch(BaseSurfacePlot):
             "class": soccer.PitchApron,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
-            "reflect_x": False,
+            "reflect_x": True,
             "reflect_y": False,
             "pitch_apron_touchline": self.pitch_params.get(
                 "pitch_apron_touchline",
@@ -294,6 +294,7 @@ class SoccerPitch(BaseSurfacePlot):
                 "pitch_apron_goal_line",
                 0.0
             ),
+            "is_constrained": False,
             "goal_depth": self.pitch_params.get("goal_depth", 0.0),
             "pitch_length": self.pitch_params.get("pitch_length", 0.0),
             "pitch_width": self.pitch_params.get("pitch_width", 0.0),
@@ -977,7 +978,8 @@ class SoccerPitch(BaseSurfacePlot):
         if for_display:
             half_pitch_length = (
                 (self.pitch_params.get("pitch_length", 0.0) / 2.0) +
-                (self.pitch_params.get("pitch_apron_goal_line", 0.0))
+                self.pitch_params.get("goal_depth", 0.0) +
+                self.pitch_params.get("pitch_apron_goal_line", 0.0)
             )
 
             half_pitch_width = (
