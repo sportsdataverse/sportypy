@@ -53,7 +53,7 @@ class BaseSurfacePlot(BaseSurface):
             # If there are no values, make a series of 1s to serve as
             # placeholders that is the same shape as the x and y values
             if values is None:
-                values = np.ones(x.shape)
+                values = np.ones_like(x)
 
             # Otherwise, use the actual values and flatten them (if necessary)
             # to a one-dimensional array
@@ -86,8 +86,8 @@ class BaseSurfacePlot(BaseSurface):
             else:
                 plot_xlim, plot_ylim = self._get_plot_range_limits(
                     plot_range,
-                    self.copy_(plot_xlim),
-                    self.copy_(plot_ylim),
+                    plot_xlim,
+                    plot_ylim,
                     for_plot = True,
                     for_display = False
                 )
@@ -774,6 +774,19 @@ class BaseSurfacePlot(BaseSurface):
                 int((plot_ylim[1] - plot_ylim[0]) / binsize[1])
             )
 
+        # Reduce function needs to change since hexbin uses count when C is
+        # None and np.mean when values are included
+        if np.all(values == 1):
+            kwargs["reduce_C_function"] = kwargs.get(
+                "reduce_C_function",
+                np.sum
+            )
+
+        # The transformation should be applied to the hexagons only *after* the
+        # hexbin is drawn
+        transform = kwargs.pop("transform")
+        hexagon_transform = transform - ax.transData
+
         # Add the hexagons to the plot
         hexbin_plot = ax.hexbin(
             x,
@@ -785,10 +798,13 @@ class BaseSurfacePlot(BaseSurface):
         )
 
         # Correct the rotation of the hexbins
-        transform = kwargs["transform"] - ax.transData
         hexes = hexbin_plot.get_paths()[0]
-        hexes.vertices = transform.transform(hexes.vertices)
-        hexbin_plot.set_offsets(transform.transform(hexbin_plot.get_offsets()))
+        hexes.vertices = hexagon_transform.transform(hexes.vertices)
+        hexbin_plot.set_offsets(
+            hexagon_transform.transform(
+                hexbin_plot.get_offsets()
+            )
+        )
 
         # Bound the resulting plot to be inside the surface
         self._bound_surface(
@@ -796,7 +812,7 @@ class BaseSurfacePlot(BaseSurface):
             y,
             hexbin_plot,
             ax,
-            kwargs["transform"],
+            transform,
             is_constrained,
             update_display_range
         )
@@ -1082,23 +1098,18 @@ class BaseSurfacePlot(BaseSurface):
         if plot_ylim is not None:
             y_centers[-1] = max(y_centers[-1], plot_ylim[1])
 
+        # Remove the clip_on argument if it's not used in the function
+        kwargs.pop("clip_on", None)
+
         # Create the contour plot
-        if fill:
-            contour_plot = ax.contourf(
-                x_centers,
-                y_centers,
-                stat,
-                zorder = zorder,
-                **kwargs
-            )
-        else:
-            contour_plot = ax.contour(
-                x_centers,
-                y_centers,
-                stat,
-                zorder = zorder,
-                **kwargs
-            )
+        contour_function = ax.contourf if fill else ax.contour
+        contour_plot = contour_function(
+            x_centers,
+            y_centers,
+            stat,
+            zorder = zorder,
+            **kwargs
+        )
 
         # Bound the resulting plot to be inside the surface
         self._bound_surface(
