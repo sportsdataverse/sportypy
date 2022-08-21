@@ -644,7 +644,6 @@ class CurlingSheet(BaseSurfacePlot):
         if ax is None:
             fig, ax = plt.subplots()
             fig.patch.set_facecolor(self.feature_colors["plot_background"])
-            fig.set_size_inches(50, 50)
             ax = plt.gca()
 
         # Set the aspect ratio to be equal and remove the axis to leave only
