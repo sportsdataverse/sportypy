@@ -308,7 +308,7 @@
             "court_apron_endline": 8.0,
             "court_apron_sideline": 5.0,
             "court_apron_to_boundary": 0.0,
-
+            
             "center_circle_radius": [6.0, 2.1667],
 
             "basket_center_to_baseline": 5.25,
@@ -316,9 +316,9 @@
             "basket_center_to_corner_three": 22.0,
             "backboard_face_to_baseline": 4.0,
 
-            "lane_length": 19.0,
-            "lane_width": 16.0,
-            "paint_margin": 0.0,
+            "lane_length": [19.0, 19.0],
+            "lane_width": [16.0, 12.0],
+            "paint_margin": [0.0, 0.0],
 
             "free_throw_circle_radius": 6.0,
             "free_throw_line_to_backboard": 15.0,
@@ -328,16 +328,18 @@
             "free_throw_dash_spacing": 1.292,
 
             "lane_space_mark_lengths": [
-                [0.1667, 0.1667, 0.1667, 0.1667]
+                [0.1667, 0.1667, 0.1667, 0.1667],
+                [1.0, 0.1667, 0.1667, 0.1667]
             ],
-            "lane_space_mark_widths": 0.5,
+            "lane_space_mark_widths": [0.5, 0.75],
             "lane_space_mark_separations": [
-                [3.0, 0.8333, 3.0, 3.0]
+                [3.0, 0.8333, 3.0, 3.0],
+                [3.0, 3.0, 3.0, 3.0]
             ],
 
-            "painted_area_visibility": true,
-            "lane_boundary_visibility": true,
-            "lane_space_mark_visibility": true,
+            "painted_area_visibility": [true, true],
+            "lane_boundary_visibility": [true, true],
+            "lane_space_mark_visibility": [true, false],
             "lane_lower_defensive_box_marks_visibility": true,
 
             "baseline_lower_defensive_box_marks_int_sep": 19.0,
@@ -358,7 +360,7 @@
 
             "backboard_width": 6.0,
             "backboard_thickness": 0.171875,
-
+            
             "basket_ring_inner_radius": 0.75,
             "basket_ring_connector_width": 0.5833,
             "basket_ring_connector_extension": 0.5,
@@ -406,7 +408,7 @@
 
             "painted_area_visibility": [true, true],
             "lane_boundary_visibility": [true, true],
-            "lane_space_mark_visibility": [true, true],
+            "lane_space_mark_visibility": [true, false],
             "lane_lower_defensive_box_marks_visibility": true,
 
             "baseline_lower_defensive_box_marks_int_sep": 19.0,
@@ -591,7 +593,7 @@
 
             "painted_area_visibility": [true, true],
             "lane_boundary_visibility": [true, true],
-            "lane_space_mark_visibility": [true, true],
+            "lane_space_mark_visibility": [true, false],
             "lane_lower_defensive_box_marks_visibility": true,
 
             "baseline_lower_defensive_box_marks_int_sep": 19.0,
