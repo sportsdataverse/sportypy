@@ -186,7 +186,9 @@ NCAACourt(
 
 ## Adding Analyses and Plotting Data
 
-In addition to just creating the baseline plots, `sportypy` has several methods to display analyses on top of the surfaces that the classes create. The syntax is meant to wrap `matplotlib` methods. Here's a few examples:
+In addition to just creating the baseline plots, `sportypy` has several methods to display analyses on top of the surfaces that the classes create. The syntax is meant to wrap `matplotlib` methods.
+
+Due to the nature of the layering of the surface's features, it's recommended to use the `zorder` parameter in the range of `11` to `15` to display model outputs, and `zorder >= 20` to display individual tracking data points. This allows the features of the surface to be displayed when plotting models while also representing a birds-eye view of any action on the surface (e.g. player positions).
 
 ```python
 # Plot shot locations provided by the Big Data Cup
