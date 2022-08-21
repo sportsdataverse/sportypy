@@ -40,7 +40,7 @@ def test_nba_params():
         "court_apron_endline": 8.0,
         "court_apron_sideline": 5.0,
         "court_apron_to_boundary": 0.0,
-
+        
         "center_circle_radius": [6.0, 2.1667],
 
         "basket_center_to_baseline": 5.25,
@@ -48,9 +48,9 @@ def test_nba_params():
         "basket_center_to_corner_three": 22.0,
         "backboard_face_to_baseline": 4.0,
 
-        "lane_length": 19.0,
-        "lane_width": 16.0,
-        "paint_margin": 0.0,
+        "lane_length": [19.0, 19.0],
+        "lane_width": [16.0, 12.0],
+        "paint_margin": [0.0, 0.0],
 
         "free_throw_circle_radius": 6.0,
         "free_throw_line_to_backboard": 15.0,
@@ -60,16 +60,18 @@ def test_nba_params():
         "free_throw_dash_spacing": 1.292,
 
         "lane_space_mark_lengths": [
-            [0.1667, 0.1667, 0.1667, 0.1667]
+            [0.1667, 0.1667, 0.1667, 0.1667],
+            [1.0, 0.1667, 0.1667, 0.1667]
         ],
-        "lane_space_mark_widths": 0.5,
+        "lane_space_mark_widths": [0.5, 0.75],
         "lane_space_mark_separations": [
-            [3.0, 0.8333, 3.0, 3.0]
+            [3.0, 0.8333, 3.0, 3.0],
+            [3.0, 3.0, 3.0, 3.0]
         ],
 
-        "painted_area_visibility": True,
-        "lane_boundary_visibility": True,
-        "lane_space_mark_visibility": True,
+        "painted_area_visibility": [True, True],
+        "lane_boundary_visibility": [True, True],
+        "lane_space_mark_visibility": [True, False],
         "lane_lower_defensive_box_marks_visibility": True,
 
         "baseline_lower_defensive_box_marks_int_sep": 19.0,
@@ -90,7 +92,7 @@ def test_nba_params():
 
         "backboard_width": 6.0,
         "backboard_thickness": 0.171875,
-
+        
         "basket_ring_inner_radius": 0.75,
         "basket_ring_connector_width": 0.5833,
         "basket_ring_connector_extension": 0.5,
@@ -235,21 +237,23 @@ def test_cani_change_dimensions():
         "- basket_center_to_three_point_arc (23.75)\n"
         "- basket_center_to_corner_three (22.0)\n"
         "- backboard_face_to_baseline (4.0)\n"
-        "- lane_length (19.0)\n"
-        "- lane_width (16.0)\n"
-        "- paint_margin (0.0)\n"
+        "- lane_length ([19.0, 19.0])\n"
+        "- lane_width ([16.0, 12.0])\n"
+        "- paint_margin ([0.0, 0.0])\n"
         "- free_throw_circle_radius (6.0)\n"
         "- free_throw_line_to_backboard (15.0)\n"
         "- free_throw_circle_overhang (1.024)\n"
         "- n_free_throw_circle_dashes (6.0)\n"
         "- free_throw_dash_length (1.292)\n"
         "- free_throw_dash_spacing (1.292)\n"
-        "- lane_space_mark_lengths ([[0.1667, 0.1667, 0.1667, 0.1667]])\n"
-        "- lane_space_mark_widths (0.5)\n"
-        "- lane_space_mark_separations ([[3.0, 0.8333, 3.0, 3.0]])\n"
-        "- painted_area_visibility (True)\n"
-        "- lane_boundary_visibility (True)\n"
-        "- lane_space_mark_visibility (True)\n"
+        "- lane_space_mark_lengths ([[0.1667, 0.1667, 0.1667, 0.1667], "
+        "[1.0, 0.1667, 0.1667, 0.1667]])\n"
+        "- lane_space_mark_widths ([0.5, 0.75])\n"
+        "- lane_space_mark_separations ([[3.0, 0.8333, 3.0, 3.0], "
+        "[3.0, 3.0, 3.0, 3.0]])\n"
+        "- painted_area_visibility ([True, True])\n"
+        "- lane_boundary_visibility ([True, True])\n"
+        "- lane_space_mark_visibility ([True, False])\n"
         "- lane_lower_defensive_box_marks_visibility (True)\n"
         "- baseline_lower_defensive_box_marks_int_sep (19.0)\n"
         "- baseline_to_lane_lower_defensive_box_marks (13.0)\n"
@@ -298,8 +302,8 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        "The following features can be colored via the colors_dict parameter, "
-        "with the current value in parenthesis:\n"
+        "The following features can be colored via the color_updates "
+        "parameter, with the current value in parenthesis:\n"
     )
 
     for k, v in test_court.feature_colors.items():
@@ -481,7 +485,7 @@ def test_supported_leagues():
     league_class_dict = {
         "fiba": basketball_courts.FIBACourt(),
         "nba": basketball_courts.NBACourt(),
-        "nba g league": basketball_courts.GLeagueCourt(),
+        "nba g league": basketball_courts.NBAGLeagueCourt(),
         "ncaa": basketball_courts.NCAACourt(),
         "nfhs": basketball_courts.NFHSCourt(),
         "wnba": basketball_courts.WNBACourt()
@@ -505,8 +509,10 @@ def test_supported_leagues():
     else:
         for league in league_class_dict.keys():
             test_court = league_class_dict[league]
+            test_court_plot = test_court.draw()
 
             assert isinstance(test_court, basketball_courts.BasketballCourt)
+            assert isinstance(test_court_plot, matplotlib.axes.SubplotBase)
 
 
 def test_custom_court_params():
@@ -614,7 +620,7 @@ def test_custom_court_params():
 
     test_court_1 = basketball_courts.BasketballCourt(
         court_updates = court_1_parameters,
-        colors_dict = color_updates_1
+        color_updates = color_updates_1
     )
 
     court_2_parameters = {
@@ -711,7 +717,7 @@ def test_custom_court_params():
 
     test_court_2 = basketball_courts.BasketballCourt(
         court_updates = court_2_parameters,
-        colors_dict = color_updates_2
+        color_updates = color_updates_2
     )
 
     assert isinstance(test_court_1, basketball_courts.BasketballCourt)

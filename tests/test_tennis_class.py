@@ -207,8 +207,8 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        "The following features can be colored via the colors_dict parameter, "
-        "with the current value in parenthesis:\n"
+        "The following features can be colored via the color_updates "
+        "parameter, with the current value in parenthesis:\n"
     )
 
     for k, v in test_court.feature_colors.items():
@@ -453,7 +453,7 @@ def test_custom_court_params():
 
     test_court_1 = tennis_courts.TennisCourt(
         court_updates = court_1_parameters,
-        colors_dict = color_updates_1
+        color_updates = color_updates_1
     )
 
     assert isinstance(test_court_1, tennis_courts.TennisCourt)

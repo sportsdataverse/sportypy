@@ -281,8 +281,8 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        "The following features can be colored via the colors_dict parameter, "
-        "with the current value in parenthesis:\n"
+        "The following features can be colored via the color_updates "
+        "parameter, with the current value in parenthesis:\n"
     )
 
     for k, v in test_rink.feature_colors.items():
@@ -602,9 +602,9 @@ def test_rectangular_goal_lines():
         rink_updates = {"goal_line_to_boards": 35.0}
     )
 
-    # The goal line is the 7th and 8th (1-indexed) features instantiated in the
-    # HockeyRink class
-    goal_line_df = test_rink._features[7]._get_centered_feature()
+    # The goal line is the 13th and 14th (1-indexed) features instantiated in
+    # the HockeyRink class
+    goal_line_df = test_rink._features[13]._get_centered_feature()
 
     # If rectangular, this should have beenc reated via the create_rectangle()
     # method of the BaseFeature class, which has exactly five points

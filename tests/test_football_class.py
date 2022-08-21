@@ -298,8 +298,8 @@ def test_cani_color_features():
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        "The following features can be colored via the colors_dict parameter, "
-        "with the current value in parenthesis:\n"
+        "The following features can be colored via the color_updates "
+        "parameter, with the current value in parenthesis:\n"
     )
 
     for k, v in test_field.feature_colors.items():

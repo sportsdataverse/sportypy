@@ -11,7 +11,6 @@ the attributes of the class.
 """
 import math
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
 import sportypy._feature_classes.baseball as baseball
@@ -59,7 +58,7 @@ class BaseballField(BaseSurfacePlot):
         the +y axis extends from the back tip of home plate out towards center
         field when viewing the field in TV view
 
-    - colors_dict : dict
+    - color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
@@ -178,9 +177,9 @@ class BaseballField(BaseSurfacePlot):
         The radius of the dirt circle surrounding home plate
     """
 
-    def __init__(self, league_code = "", field_updates = {}, colors_dict = {},
-                 rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = "default", **added_features):
+    def __init__(self, league_code = "", field_updates = {},
+                 color_updates = {}, rotation = 0.0, x_trans = 0.0,
+                 y_trans = 0.0, units = "default", **added_features):
         # Load all pre-defined field dimensions for provided leagues
         self._load_preset_dimensions(sport = "baseball")
 
@@ -253,13 +252,13 @@ class BaseballField(BaseSurfacePlot):
         }
 
         # Combine the colors with a passed colors dictionary
-        if not colors_dict:
-            colors_dict = {}
+        if not color_updates:
+            color_updates = {}
 
         # Create the final color set for the features of the field
         self.feature_colors = {
             **default_colors,
-            **colors_dict
+            **color_updates
         }
 
         # Initialize the constraint on the field to confine all features to be
@@ -841,7 +840,7 @@ class BaseballField(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print("The following features can be colored via the colors_dict "
+        print("The following features can be colored via the color_updates "
               "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
@@ -881,7 +880,7 @@ class BaseballField(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the colors_dict parameter, but this method allows the colors to be
+        the color_updates parameter, but this method allows the colors to be
         updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
@@ -909,7 +908,7 @@ class BaseballField(BaseSurfacePlot):
         # Re-instantiate the class with the new colors
         self.__init__(
             field_updates = self.field_params,
-            colors_dict = updated_colors
+            color_updates = updated_colors
         )
 
     def update_field_params(self, field_param_updates = {}, *args, **kwargs):
@@ -942,14 +941,14 @@ class BaseballField(BaseSurfacePlot):
         # Re-instantiate the class with the new parameters
         self.__init__(
             field_updates = updated_field_params,
-            colors_dict = self.feature_colors
+            color_updates = self.feature_colors
         )
 
     def reset_colors(self):
         """Reset the features of the field to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the colors_dict parameter, and through the update_colors() method,
+        the color_updates parameter, and through the update_colors() method,
         these can be changed. This method allows the colors to be reset to
         their default values after experiencing such a change
         """
@@ -969,7 +968,7 @@ class BaseballField(BaseSurfacePlot):
 
         self.__init__(
             field_updates = self.field_params,
-            colors_dict = default_colors
+            color_updates = default_colors
         )
 
     def reset_field_params(self):
@@ -986,7 +985,7 @@ class BaseballField(BaseSurfacePlot):
 
         self.__init__(
             field_updates = default_params,
-            colors_dict = self.feature_colors
+            color_updates = self.feature_colors
         )
 
     def _get_plot_range_limits(self, display_range = "full", xlim = None,

@@ -30,37 +30,37 @@ def test_wcf_params():
     instantiated with the correct parameters.
     """
     wcf_params = {
-            "sheet_units": "ft",
-            "sheet_length": 150.0,
-            "sheet_width": 15.5833,
-    
-            "apron_behind_back": 1.5,
-            "apron_along_side": 1.5,
-    
-            "tee_line_to_center": 57.0,
-            "tee_line_thickness": 0.0417,
-    
-            "back_line_thickness": 0.0417,
-            "back_line_to_tee_line": 6.0,
-    
-            "hack_line_thickness": 0.0417,
-            "hack_foothold_width": 0.5,
-            "hack_foothold_gap": 0.5,
-            "hack_foothold_depth": 0.6667,
-    
-            "hog_line_to_tee_line": 21.0,
-            "hog_line_thickness": 0.3333,
-    
-            "centre_line_extension": 12.0,
-            "centre_line_thickness": 0.0417,
-    
-            "house_ring_radii": [6.0, 4.0, 2.0],
-            "button_radius": 0.5,
-    
-            "courtesy_line_thickness": 0.0417,
-            "courtesy_line_length": 0.5,
-            "courtesy_line_to_hog_line": 4.0
-        }
+        "sheet_units": "ft",
+        "sheet_length": 150.0,
+        "sheet_width": 15.5833,
+
+        "apron_behind_back": 1.5,
+        "apron_along_side": 1.5,
+
+        "tee_line_to_center": 57.0,
+        "tee_line_thickness": 0.0417,
+
+        "back_line_thickness": 0.0417,
+        "back_line_to_tee_line": 6.0,
+
+        "hack_line_thickness": 0.0417,
+        "hack_foothold_width": 0.5,
+        "hack_foothold_gap": 0.5,
+        "hack_foothold_depth": 0.6667,
+
+        "hog_line_to_tee_line": 21.0,
+        "hog_line_thickness": 0.3333,
+
+        "centre_line_extension": 12.0,
+        "centre_line_thickness": 0.0417,
+
+        "house_ring_radii": [6.0, 4.0, 2.0],
+        "button_radius": 0.5,
+
+        "courtesy_line_thickness": 0.0417,
+        "courtesy_line_length": 0.5,
+        "courtesy_line_to_hog_line": 4.0
+    }
 
     test_params = curling_sheets.WCFSheet().sheet_params
 
@@ -177,8 +177,8 @@ def test_cani_plot_leagues_bad_league_code():
 def test_cani_change_dimensions():
     """Test cani_change_dimensions() method will return appropriate message.
 
-    When called, this should return a list of the parameterizations of the sheet
-    that may be changed by a user
+    When called, this should return a list of the parameterizations of the
+    sheet that may be changed by a user
     """
     # Create a CurlingSheet() object to use for testing
     test_sheet = curling_sheets.WCFSheet()
@@ -230,16 +230,16 @@ def test_cani_change_dimensions():
 def test_cani_color_features():
     """Test cani_color_features() method will return appropriate message.
 
-    When called, this should return a list of the ice sheet's features and their
-    default/standard colors
+    When called, this should return a list of the ice sheet's features and
+    their default/standard colors
     """
     # Create a CurlingSheet() object to use for testing
     test_sheet = curling_sheets.CurlingSheet()
 
     # Generate the expected output for cani_color_features()
     exp_color_features = (
-        "The following features can be colored via the colors_dict parameter, "
-        "with the current value in parenthesis:\n"
+        "The following features can be colored via the color_updates "
+        "parameter, with the current value in parenthesis:\n"
     )
 
     for k, v in test_sheet.feature_colors.items():
@@ -276,9 +276,9 @@ def test_update_colors():
     # comparison
     standard_colors = test_wcf.feature_colors
 
-    # Update a color. The top end of the sheet color is what's updated here as a
-    # means of demonstration, but this could work for any parameter. It will be
-    # changed from white to dark blue
+    # Update a color. The top end of the sheet color is what's updated here as
+    # a means of demonstration, but this could work for any parameter. It will
+    # be changed from white to dark blue
     test_wcf.update_colors({"end_1": "#13294b"})
 
     # Get the updated colors
@@ -304,9 +304,9 @@ def test_reset_colors():
     # comparison
     standard_colors = test_wcf.feature_colors
 
-    # Update a color. The top end of the sheet color is what's updated here as a
-    # means of demonstration, but this could work for any parameter. It will be
-    # changed from white to dark blue
+    # Update a color. The top end of the sheet color is what's updated here as
+    # a means of demonstration, but this could work for any parameter. It will
+    # be changed from white to dark blue
     test_wcf.update_colors({"end_1": "#13294b"})
 
     # Get the updated colors
@@ -552,8 +552,8 @@ def test_additional_feature():
     """Test that additional features can be added to the sheet.
 
     This test should pass so long as an additional feature may be added to the
-    sheet plot. The additional feature tested here is arbitrarily selected to be
-    the hog lines shifted in either direction
+    sheet plot. The additional feature tested here is arbitrarily selected to
+    be the hog lines shifted in either direction
     """
     new_hog_line_1 = {
         "class": curling_features.HogLine,

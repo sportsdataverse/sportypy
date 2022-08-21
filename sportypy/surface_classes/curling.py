@@ -56,7 +56,7 @@ class CurlingSheet(BaseSurfacePlot):
         the +y axis extends from the center of the ice surface towards the
         top of the sheet when viewing the sheet in TV view
 
-    - colors_dict : dict
+    - color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
@@ -150,9 +150,9 @@ class CurlingSheet(BaseSurfacePlot):
         line
     """
 
-    def __init__(self, league_code = "", sheet_updates = {}, colors_dict = {},
-                 rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = "default", **added_features):
+    def __init__(self, league_code = "", sheet_updates = {},
+                 color_updates = {}, rotation = 0.0, x_trans = 0.0,
+                 y_trans = 0.0, units = "default", **added_features):
         # Load all pre-defined sheet dimensions for provided leagues
         self._load_preset_dimensions(sport = "curling")
 
@@ -228,13 +228,13 @@ class CurlingSheet(BaseSurfacePlot):
         }
 
         # Combine the colors with a passed colors dictionary
-        if not colors_dict:
-            colors_dict = {}
+        if not color_updates:
+            color_updates = {}
 
         # Create the final color set for the features of the sheet
         self.feature_colors = {
             **default_colors,
-            **colors_dict
+            **color_updates
         }
 
         # Initialize the constraint on the sheet to confine all features to be
@@ -787,7 +787,7 @@ class CurlingSheet(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print("The following features can be colored via the colors_dict "
+        print("The following features can be colored via the color_updates "
               "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
@@ -827,7 +827,7 @@ class CurlingSheet(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the colors_dict parameter, but this method allows the colors to be
+        the color_updates parameter, but this method allows the colors to be
         updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
@@ -855,7 +855,7 @@ class CurlingSheet(BaseSurfacePlot):
         # Re-instantiate the class with the new colors
         self.__init__(
             sheet_updates = self.sheet_params,
-            colors_dict = updated_colors
+            color_updates = updated_colors
         )
 
     def update_sheet_params(self, sheet_param_updates = {}, *args, **kwargs):
@@ -888,14 +888,14 @@ class CurlingSheet(BaseSurfacePlot):
         # Re-instantiate the class with the new parameters
         self.__init__(
             sheet_updates = updated_sheet_params,
-            colors_dict = self.feature_colors
+            color_updates = self.feature_colors
         )
 
     def reset_colors(self):
         """Reset the features of the sheet to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the colors_dict parameter, and through the update_colors() method,
+        the color_updates parameter, and through the update_colors() method,
         these can be changed. This method allows the colors to be reset to
         their default values after experiencing such a change
         """
@@ -919,7 +919,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         self.__init__(
             sheet_updates = self.sheet_params,
-            colors_dict = default_colors
+            color_updates = default_colors
         )
 
     def reset_sheet_params(self):
@@ -936,7 +936,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         self.__init__(
             sheet_updates = default_params,
-            colors_dict = self.feature_colors
+            color_updates = self.feature_colors
         )
 
     def _get_plot_range_limits(self, display_range = "full", xlim = None,

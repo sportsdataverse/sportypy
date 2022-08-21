@@ -9,7 +9,6 @@ the attributes of the class.
 
 @author: Ross Drucker
 """
-import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -59,7 +58,7 @@ class BasketballCourt(BaseSurfacePlot):
         the +y axis extends from the center of the surface towards the
         top of the court when viewing the court in TV view
 
-    - colors_dict : dict
+    - color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled
@@ -266,9 +265,9 @@ class BasketballCourt(BaseSurfacePlot):
         The thickness of the basket ring in the court's specified units
     """
 
-    def __init__(self, league_code = "", court_updates = {}, colors_dict = {},
-                 rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
-                 units = "default", **added_features):
+    def __init__(self, league_code = "", court_updates = {},
+                 color_updates = {}, rotation = 0.0, x_trans = 0.0,
+                 y_trans = 0.0, units = "default", **added_features):
         # Load all pre-defined court dimensions for provided leagues
         self._load_preset_dimensions(sport = "basketball")
 
@@ -357,13 +356,13 @@ class BasketballCourt(BaseSurfacePlot):
         }
 
         # Combine the colors with a passed colors dictionary
-        if not colors_dict:
-            colors_dict = {}
+        if not color_updates:
+            color_updates = {}
 
         # Create the final color set for the features of the court
         self.feature_colors = {
             **default_colors,
-            **colors_dict
+            **color_updates
         }
 
         # Initialize the constraint on the court to confine all features to be
@@ -849,7 +848,7 @@ class BasketballCourt(BaseSurfacePlot):
         while(len(lane_boundary_visibility) != n_lanes):
             if len(lane_boundary_visibility) < n_lanes:
                 lane_boundary_visibility.append(False)
-        
+
         # The lane dimensions are combined into a data frame here so that the
         # parameters may be ordered easily and together. The ordering
         # allows larger features (e.g. an NBA lane and painted area) to be
@@ -1864,7 +1863,7 @@ class BasketballCourt(BaseSurfacePlot):
         Nothing, but a message will be printed out
         """
         # Preamble
-        print("The following features can be colored via the colors_dict "
+        print("The following features can be colored via the color_updates "
               "parameter, with the current value in parenthesis:\n")
 
         # Print the current values of the colors
@@ -1904,7 +1903,7 @@ class BasketballCourt(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the colors_dict parameter, but this method allows the colors to be
+        the color_updates parameter, but this method allows the colors to be
         updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
@@ -1932,7 +1931,7 @@ class BasketballCourt(BaseSurfacePlot):
         # Re-instantiate the class with the new colors
         self.__init__(
             court_updates = self.court_params,
-            colors_dict = updated_colors
+            color_updates = updated_colors
         )
 
     def update_court_params(self, court_param_updates = {}, *args, **kwargs):
@@ -1965,14 +1964,14 @@ class BasketballCourt(BaseSurfacePlot):
         # Re-instantiate the class with the new parameters
         self.__init__(
             court_updates = updated_court_params,
-            colors_dict = self.feature_colors
+            color_updates = self.feature_colors
         )
 
     def reset_colors(self):
         """Reset the features of the court to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the colors_dict parameter, and through the update_colors() method,
+        the color_updates parameter, and through the update_colors() method,
         these can be changed. This method allows the colors to be reset to
         their default values after experiencing such a change
         """
@@ -2008,7 +2007,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         self.__init__(
             court_updates = self.court_params,
-            colors_dict = default_colors
+            color_updates = default_colors
         )
 
     def reset_court_params(self):
@@ -2025,7 +2024,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         self.__init__(
             court_updates = default_params,
-            colors_dict = self.feature_colors
+            color_updates = self.feature_colors
         )
 
     def _get_plot_range_limits(self, display_range = "full", xlim = None,
@@ -2061,7 +2060,10 @@ class BasketballCourt(BaseSurfacePlot):
         # If the limits are being gotten for plotting purposes, use the
         # dimensions that are internal to the surface
         if for_plot:
-            half_court_length = self.court_params.get("court_length", 0.0) / 2.0
+            half_court_length = self.court_params.get(
+                "court_length",
+                0.0
+            ) / 2.0
             half_court_width = self.court_params.get("court_width", 0.0) / 2.0
 
         # If it's for display (e.g. the draw() method), add in the necessary
@@ -2192,7 +2194,7 @@ class BasketballCourt(BaseSurfacePlot):
                     )
                 ),
 
-                "defensive_key": (
+                "defensive key": (
                     -half_court_length,
                     -(
                         (self.court_params.get("court_length", 0.0) / 2.0) -
@@ -2232,6 +2234,7 @@ class BasketballCourt(BaseSurfacePlot):
                 "offensivepaint": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
@@ -2239,6 +2242,7 @@ class BasketballCourt(BaseSurfacePlot):
                 "offensive_paint": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
@@ -2246,6 +2250,7 @@ class BasketballCourt(BaseSurfacePlot):
                 "attackingpaint": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
@@ -2253,6 +2258,7 @@ class BasketballCourt(BaseSurfacePlot):
                 "attacking_paint": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
@@ -2260,6 +2266,7 @@ class BasketballCourt(BaseSurfacePlot):
                 "offensivelane": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
@@ -2267,6 +2274,15 @@ class BasketballCourt(BaseSurfacePlot):
                 "offensive_lane": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
+                    self.court_params.get("free_throw_circle_radius", 0.0),
+                    half_court_length
+                ),
+
+                "offensive lane": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
@@ -2274,6 +2290,7 @@ class BasketballCourt(BaseSurfacePlot):
                 "attackinglane": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
@@ -2281,6 +2298,15 @@ class BasketballCourt(BaseSurfacePlot):
                 "attacking_lane": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
+                    self.court_params.get("free_throw_circle_radius", 0.0),
+                    half_court_length
+                ),
+
+                "attacking lane": (
+                    (self.court_params.get("court_length", 0.0) / 2.0) -
+                    lane_length -
+                    self.court_params.get("basket_center_to_baseline", 0.0) -
                     self.court_params.get("free_throw_circle_radius", 0.0),
                     half_court_length
                 ),
@@ -2388,6 +2414,19 @@ class BasketballCourt(BaseSurfacePlot):
                         self.court_params.get("free_throw_circle_radius", 0.0)
                     )
                 ),
+
+                "defending lane": (
+                    -half_court_length,
+                    -(
+                        (self.court_params.get("court_length", 0.0) / 2.0) -
+                        self.court_params.get(
+                            "basket_center_to_baseline",
+                            0.0
+                        ) -
+                        lane_length -
+                        self.court_params.get("free_throw_circle_radius", 0.0)
+                    )
+                )
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
@@ -2552,22 +2591,6 @@ class FIBACourt(BasketballCourt):
         )
 
 
-class GLeagueCourt(BasketballCourt):
-    """A subclass of BasketballCourt specific to the NBA G League.
-
-    See BasketballCourt class documentation for full description.
-    """
-
-    def __init__(self, court_updates = {}, *args, **kwargs):
-        # Initialize the BasketballCourt class with the relevant parameters
-        super().__init__(
-            league_code = "nba g league",
-            court_updates = court_updates,
-            *args,
-            **kwargs
-        )
-
-
 class NBACourt(BasketballCourt):
     """A subclass of BasketballCourt specific to the NBA.
 
@@ -2578,6 +2601,22 @@ class NBACourt(BasketballCourt):
         # Initialize the BasketballCourt class with the relevant parameters
         super().__init__(
             league_code = "nba",
+            court_updates = court_updates,
+            *args,
+            **kwargs
+        )
+
+
+class NBAGLeagueCourt(BasketballCourt):
+    """A subclass of BasketballCourt specific to the NBA G League.
+
+    See BasketballCourt class documentation for full description.
+    """
+
+    def __init__(self, court_updates = {}, *args, **kwargs):
+        # Initialize the BasketballCourt class with the relevant parameters
+        super().__init__(
+            league_code = "nba g league",
             court_updates = court_updates,
             *args,
             **kwargs
