@@ -43,7 +43,10 @@ def test_plot():
 
     # Add the plot of each team's shots
     phf.plot(bos_shots["X Coordinate"], bos_shots["Y Coordinate"])
-    phf.plot(min_shots["X Coordinate"], min_shots["Y Coordinate"])
+    phf.plot(
+        200.0 - min_shots["X Coordinate"],
+        85.0 - min_shots["Y Coordinate"]
+    )
 
     assert isinstance(ax, matplotlib.axes.SubplotBase)
 
