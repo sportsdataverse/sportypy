@@ -1550,6 +1550,8 @@ class HockeyRink(BaseSurfacePlot):
             half_rink_length = self.rink_params.get("rink_length", 0.0) / 2.0
             half_rink_width = self.rink_params.get("rink_width", 0.0) / 2.0
             half_nzone_length = self.rink_params.get("nzone_length", 0.0) / 2.0
+            ozone_start = half_nzone_length
+            dzone_start = -half_nzone_length
 
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. penalty boxes and boards)
@@ -1572,6 +1574,16 @@ class HockeyRink(BaseSurfacePlot):
             half_nzone_length = (
                 (self.rink_params.get("nzone_length", 0.0) / 2.0) +
                 self.rink_params.get("major_line_thickness", 0.0) +
+                5.0
+            )
+
+            ozone_start = (
+                (self.rink_params.get("nzone_length", 0.0) / 2.0) -
+                5.0
+            )
+
+            dzone_start = (
+                -(self.rink_params.get("nzone_length", 0.0) / 2.0) +
                 5.0
             )
 
@@ -1598,68 +1610,18 @@ class HockeyRink(BaseSurfacePlot):
                 "neutral zone": (-half_nzone_length, half_nzone_length),
 
                 # Offensive zone
-                "ozone": (
-                    half_nzone_length -
-                    self.rink_params.get("major_line_thickness", 0.0) -
-                    10.0,
-                    half_rink_length
-                ),
-                "offensive_zone": (
-                    half_nzone_length -
-                    self.rink_params.get("major_line_thickness", 0.0) -
-                    10.0,
-                    half_rink_length
-                ),
-                "offensive zone": (
-                    half_nzone_length -
-                    self.rink_params.get("major_line_thickness", 0.0) -
-                    10.0,
-                    half_rink_length
-                ),
-                "attacking_zone": (
-                    half_nzone_length -
-                    self.rink_params.get("major_line_thickness", 0.0) -
-                    10.0,
-                    half_rink_length
-                ),
-                "attacking zone": (
-                    half_nzone_length -
-                    self.rink_params.get("major_line_thickness", 0.0) -
-                    10.0,
-                    half_rink_length
-                ),
+                "ozone": (ozone_start, half_rink_length),
+                "offensive_zone": (ozone_start, half_rink_length),
+                "offensive zone": (ozone_start, half_rink_length),
+                "attacking_zone": (ozone_start, half_rink_length),
+                "attacking zone": (ozone_start, half_rink_length),
 
                 # Defensive zone
-                "dzone": (
-                    -half_rink_length,
-                    -half_nzone_length +
-                    self.rink_params.get("major_line_thickness", 0.0) +
-                    10.0
-                ),
-                "defensive_zone": (
-                    -half_rink_length,
-                    -half_nzone_length +
-                    self.rink_params.get("major_line_thickness", 0.0) +
-                    10.0
-                ),
-                "defensive zone": (
-                    -half_rink_length,
-                    -half_nzone_length +
-                    self.rink_params.get("major_line_thickness", 0.0) +
-                    10.0
-                ),
-                "defending_zone": (
-                    -half_rink_length,
-                    -half_nzone_length +
-                    self.rink_params.get("major_line_thickness", 0.0) +
-                    10.0
-                ),
-                "defending zone": (
-                    -half_rink_length,
-                    -half_nzone_length +
-                    self.rink_params.get("major_line_thickness", 0.0) +
-                    10.0
-                )
+                "dzone": (-half_rink_length, dzone_start),
+                "defensive_zone": (-half_rink_length, dzone_start),
+                "defensive zone": (-half_rink_length, dzone_start),
+                "defending_zone": (-half_rink_length, dzone_start),
+                "defending zone": (-half_rink_length, dzone_start)
             }
 
             # Extract the x limit from the dictionary, defaulting to the full
