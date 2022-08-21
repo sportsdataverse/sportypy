@@ -457,30 +457,6 @@ class HockeyRink(BaseSurfacePlot):
         }
         self._initialize_feature(zone_line_params)
 
-        # Initialize the goal lines
-        goal_line_params = {
-            "class": hockey.GoalLine,
-            "x_anchor": (
-                (self.rink_params.get("rink_length", 0.0) / 2.0) -
-                self.rink_params.get("goal_line_to_boards", 0.0)
-            ),
-            "y_anchor": 0.0,
-            "reflect_x": True,
-            "reflect_y": False,
-            "feature_units": self.rink_params.get("rink_units", "ft"),
-            "rink_length": self.rink_params.get("rink_length", 0.0),
-            "rink_width": self.rink_params.get("rink_width", 0.0),
-            "feature_thickness": self.rink_params.get(
-                "minor_line_thickness",
-                0.0
-            ),
-            "feature_radius": self.rink_params.get("corner_radius", 0.0),
-            "facecolor": self.feature_colors["goal_line"],
-            "edgecolor": self.feature_colors["goal_line"],
-            "zorder": 16
-        }
-        self._initialize_feature(goal_line_params)
-
         # Initialize the goalkeeper's restricted area (if it's required)
         if self.rink_params.get("has_trapezoid", False):
             goaltenders_restricted_area_params = {
@@ -512,6 +488,41 @@ class HockeyRink(BaseSurfacePlot):
                 "zorder": 16
             }
             self._initialize_feature(goaltenders_restricted_area_params)
+
+        # Initialize the goal crease's filled-in interior
+        goal_crease_fill_params = {
+            "class": hockey.GoalCreaseFill,
+            "x_anchor": (
+                (self.rink_params.get("rink_length", 0.0) / 2.0) -
+                self.rink_params.get("goal_line_to_boards", 0.0)
+            ),
+            "y_anchor": 0.0,
+            "reflect_x": True,
+            "reflect_y": False,
+            "feature_units": self.rink_params.get("rink_units", "ft"),
+            "rink_length": self.rink_params.get("rink_length", 0.0),
+            "rink_width": self.rink_params.get("rink_width", 0.0),
+            "crease_length": self.rink_params.get("goal_crease_length", 0.0),
+            "crease_width": self.rink_params.get("goal_crease_width", 0.0),
+            "notch_dist_x": self.rink_params.get(
+                "goal_crease_notch_dist_x",
+                0.0
+            ),
+            "notch_width": self.rink_params.get(
+                "goal_crease_notch_width",
+                0.0
+            ),
+            "feature_thickness": self.rink_params.get(
+                "minor_line_thickness",
+                0.0
+            ),
+            "crease_style": self.rink_params.get("goal_crease_style", "nhl98"),
+            "feature_radius": self.rink_params.get("goal_crease_radius", 0.0),
+            "facecolor": self.feature_colors["goal_crease_fill"],
+            "edgecolor": self.feature_colors["goal_crease_fill"],
+            "zorder": 16
+        }
+        self._initialize_feature(goal_crease_fill_params)
 
         # Initialize the goal crease outlines
         goal_crease_outline_params = {
@@ -548,9 +559,9 @@ class HockeyRink(BaseSurfacePlot):
         }
         self._initialize_feature(goal_crease_outline_params)
 
-        # Initialize the goal crease"s filled-in interior
-        goal_crease_fill_params = {
-            "class": hockey.GoalCreaseFill,
+        # Initialize the goal lines
+        goal_line_params = {
+            "class": hockey.GoalLine,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("goal_line_to_boards", 0.0)
@@ -561,27 +572,16 @@ class HockeyRink(BaseSurfacePlot):
             "feature_units": self.rink_params.get("rink_units", "ft"),
             "rink_length": self.rink_params.get("rink_length", 0.0),
             "rink_width": self.rink_params.get("rink_width", 0.0),
-            "crease_length": self.rink_params.get("goal_crease_length", 0.0),
-            "crease_width": self.rink_params.get("goal_crease_width", 0.0),
-            "notch_dist_x": self.rink_params.get(
-                "goal_crease_notch_dist_x",
-                0.0
-            ),
-            "notch_width": self.rink_params.get(
-                "goal_crease_notch_width",
-                0.0
-            ),
             "feature_thickness": self.rink_params.get(
                 "minor_line_thickness",
                 0.0
             ),
-            "crease_style": self.rink_params.get("goal_crease_style", "nhl98"),
-            "feature_radius": self.rink_params.get("goal_crease_radius", 0.0),
-            "facecolor": self.feature_colors["goal_crease_fill"],
-            "edgecolor": self.feature_colors["goal_crease_fill"],
+            "feature_radius": self.rink_params.get("corner_radius", 0.0),
+            "facecolor": self.feature_colors["goal_line"],
+            "edgecolor": self.feature_colors["goal_line"],
             "zorder": 16
         }
-        self._initialize_feature(goal_crease_fill_params)
+        self._initialize_feature(goal_line_params)
 
         # Initialize the goal frame
         goal_frame_params = {
@@ -1571,7 +1571,7 @@ class HockeyRink(BaseSurfacePlot):
             )
 
             half_nzone_length = (
-                self.rink_params.get("nzone_length", 0.0) / 2.0 +
+                (self.rink_params.get("nzone_length", 0.0) / 2.0) +
                 self.rink_params.get("major_line_thickness", 0.0) +
                 5.0
             )
@@ -1599,29 +1599,67 @@ class HockeyRink(BaseSurfacePlot):
                 "neutral zone": (-half_nzone_length, half_nzone_length),
 
                 # Offensive zone
-                "ozone": (half_nzone_length, half_rink_length),
-                "offensive_zone": (half_nzone_length, half_rink_length),
-                "offensive zone": (half_nzone_length, half_rink_length),
-                "attacking_zone": (half_nzone_length, half_rink_length),
-                "attacking zone": (half_nzone_length, half_rink_length),
+                "ozone": (
+                    half_nzone_length -
+                    self.rink_params.get("major_line_thickness", 0.0) -
+                    10.0,
+                    half_rink_length
+                ),
+                "offensive_zone": (
+                    half_nzone_length -
+                    self.rink_params.get("major_line_thickness", 0.0) -
+                    10.0,
+                    half_rink_length
+                ),
+                "offensive zone": (
+                    half_nzone_length -
+                    self.rink_params.get("major_line_thickness", 0.0) -
+                    10.0,
+                    half_rink_length
+                ),
+                "attacking_zone": (
+                    half_nzone_length -
+                    self.rink_params.get("major_line_thickness", 0.0) -
+                    10.0,
+                    half_rink_length
+                ),
+                "attacking zone": (
+                    half_nzone_length -
+                    self.rink_params.get("major_line_thickness", 0.0) -
+                    10.0,
+                    half_rink_length
+                ),
 
                 # Defensive zone
-                "dzone": (-half_rink_length, -half_nzone_length),
+                "dzone": (
+                    -half_rink_length,
+                    -half_nzone_length +
+                    self.rink_params.get("major_line_thickness", 0.0) +
+                    10.0
+                ),
                 "defensive_zone": (
                     -half_rink_length,
-                    -half_nzone_length
+                    -half_nzone_length +
+                    self.rink_params.get("major_line_thickness", 0.0) +
+                    10.0
                 ),
                 "defensive zone": (
                     -half_rink_length,
-                    -half_nzone_length
+                    -half_nzone_length +
+                    self.rink_params.get("major_line_thickness", 0.0) +
+                    10.0
                 ),
                 "defending_zone": (
                     -half_rink_length,
-                    -half_nzone_length
+                    -half_nzone_length +
+                    self.rink_params.get("major_line_thickness", 0.0) +
+                    10.0
                 ),
                 "defending zone": (
                     -half_rink_length,
-                    -half_nzone_length
+                    -half_nzone_length +
+                    self.rink_params.get("major_line_thickness", 0.0) +
+                    10.0
                 )
             }
 
