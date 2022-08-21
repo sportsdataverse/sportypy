@@ -35,6 +35,7 @@ def test_nfl_params():
         "field_length": 100.0,
         "field_width": 53.3333,
         "endzone_length": 10.0,
+        "extra_apron_padding": 2.0,
 
         "minor_line_thickness": 0.1111,
         "goal_line_thickness": 0.2222,
@@ -99,7 +100,7 @@ def test_nfl_params():
         "team_bench_length_back_side": 37.2639,
         "team_bench_area_border_thickness": 0.1111,
         "bench_shape": "trapezoid",
-        "field_bordered": False
+        "field_bordered": True
     }
 
     test_params = football_fields.NFLField().field_params
@@ -231,6 +232,7 @@ def test_cani_change_dimensions():
         "- field_length (100.0)\n"
         "- field_width (53.3333)\n"
         "- endzone_length (10.0)\n"
+        "- extra_apron_padding (2.0)\n"
         "- minor_line_thickness (0.1111)\n"
         "- goal_line_thickness (0.2222)\n"
         "- boundary_line_thickness (2.0)\n"
@@ -266,7 +268,7 @@ def test_cani_change_dimensions():
         "- team_bench_length_back_side (37.2639)\n"
         "- team_bench_area_border_thickness (0.1111)\n"
         "- bench_shape (trapezoid)\n"
-        "- field_bordered (False)\n"
+        "- field_bordered (True)\n"
         "\n"
         "These parameters may be updated with the update_field_params() "
         "method\n"
@@ -474,8 +476,10 @@ def test_supported_leagues():
     else:
         for league in league_class_dict.keys():
             test_field = league_class_dict[league]
+            test_field_plot = test_field.draw()
 
             assert isinstance(test_field, football_fields.FootballField)
+            assert isinstance(test_field_plot, matplotlib.axes.SubplotBase)
 
 
 def test_custom_field_params():
