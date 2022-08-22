@@ -1,8 +1,8 @@
 # sportypy
 
-[![Version-Number](https://img.shields.io/github/r-package/v/sportsdataverse/sportypy?label=sportypy&logo=python&style=flat&color=ff552e&logoColor=1d9bf0)](https://github.com/sportsdataverse/sportypy/)
-[![codecov](https://img.shields.io/codecov/c/github/sportsdataverse/sportypy?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/sportsdataverse/sportypy)
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat&logo=github&color=ff552e)](https://github.com/sportsdataverse/sportypy/)
+[![Version-Number](https://img.shields.io/github/r-package/v/rossdrucker/sportypy?label=sportypy&logo=python&style=flat&color=ff552e&logoColor=1d9bf0)](https://github.com/rossdrucker/sportypy/)
+[![codecov](https://img.shields.io/codecov/c/github/rossdrucker/sportypy?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/rossdrucker/sportypy)
+[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat&logo=github&color=ff552e)](https://github.com/rossdrucker/sportypy/)
 [![Twitter
 Follow](https://img.shields.io/twitter/follow/sportypy?&label=%40sportypy&logo=twitter&style=flat&color=ff552e)](https://twitter.com/sportypy)
 [![Twitter
@@ -10,7 +10,7 @@ Follow](https://img.shields.io/twitter/follow/sportsdataverse?&label=%40sportsda
 
 As the field of sports analytics evolves, there's a growing need for methods to both track and visualize players throughout the game. This package aims to make this easy regardless of sport needed to be plotted.
 
-This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for NHL, MLB, NBA, NFL, and NCAA basketball games in **Python**. For the **R** version of this package, click [here](https://github.com/sportsdataverse/sportypy).
+This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for NHL, MLB, NBA, NFL, and NCAA basketball games in **Python**. For the **R** version of this package, click [here](https://github.com/rossdrucker/sportypy).
 
 ## Installation
 
@@ -433,7 +433,7 @@ nba.heatmap(
 
 ## License
 
-This package is released under the [GPL 3.0 License](https://github.com/sportsdataverse/sportypy/blob/master/LICENSE).
+This package is released under the [GPL 3.0 License](https://github.com/rossdrucker/sportypy/blob/master/LICENSE).
 
 ## Contributions
 
