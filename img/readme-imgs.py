@@ -13,7 +13,7 @@ import sportypy.surfaces.basketball as basketball
 # Draw the NFL Red Zone plot
 nfl = football.NFLField(x_trans = 50.0, y_trans = 26.6667)
 fig, ax = plt.subplots(1, 1)
-fig.set_size_inches(20, 10)
+fig.set_size_inches(10, 10)
 nfl.draw(ax = ax, display_range = "red zone")
 plt.savefig(
     "img/nfl-red-zone.png",
@@ -39,7 +39,7 @@ plt.close()
 # Draw the curling house
 wcf = curling.WCFSheet()
 fig, ax = plt.subplots(1, 1)
-fig.set_size_inches(20, 10)
+fig.set_size_inches(5, 15)
 wcf.draw(ax = ax, display_range = "house")
 plt.savefig(
     "img/curling-house.png",
@@ -166,7 +166,7 @@ shot_data = pd.read_csv(
 
 # Define the matplotlib instances to plot onto
 fig, ax = plt.subplots(1, 1)
-fig.set_size_inches(20, 10)
+fig.set_size_inches(10, 10)
 
 # Start by instantiating a court class. NBA shot data is what's used, so
 # an NBA court is selected. The rotation is to display a traditional shot
