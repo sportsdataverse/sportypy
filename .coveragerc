@@ -1,0 +1,7 @@
+[report]
+exclude_lines =
+    # Skip any pass lines (e.g. a pass statement in an @abstractmethod)
+    pass
+    
+    # Standard pragma
+    pragma: no cover
