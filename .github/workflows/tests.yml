@@ -29,6 +29,3 @@ jobs:
       - name: Test sportypy
         run: |
           pytest --cov=sportypy tests/ --cov-config=.coveragerc
-
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-actions@v2
