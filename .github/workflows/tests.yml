@@ -1,0 +1,34 @@
+name: Test sportypy
+on: [pull_request, pull, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip setuptools wheel
+
+      - name: Install requirements.txt
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install sportypy
+        run: |
+          pip install .
+
+      - name: Test sportypy
+        run: |
+          pytest --cov=sportypy tests/ --cov-config=.coveragerc
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-actions@v2
