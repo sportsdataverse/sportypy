@@ -1,6 +1,5 @@
 # sportypy
 
-[![Version-Number](https://img.shields.io/github/r-package/v/rossdrucker/sportypy?label=sportypy&logo=python&style=flat&color=ff552e&logoColor=1d9bf0)](https://github.com/rossdrucker/sportypy/)
 [![codecov](https://img.shields.io/codecov/c/github/rossdrucker/sportypy?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/rossdrucker/sportypy)
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat&logo=github&color=ff552e)](https://github.com/rossdrucker/sportypy/)
 [![Twitter
