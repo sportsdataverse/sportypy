@@ -1,0 +1,6 @@
+matplotlib==3.5.1
+nba_api==1.1.11
+numpy==1.22.1
+pandas==1.3.2
+pytest==6.2.4
+scipy==1.7.1
