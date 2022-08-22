@@ -29,7 +29,7 @@ jobs:
 
       - name: Generate Report
         run: |
-          pip install coverage
+          pip install coverage==5.5
           coverage run -m pytest --cov-config=.coveragerc
 
       - name: Upload coverage to codecov
