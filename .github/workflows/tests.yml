@@ -28,4 +28,4 @@ jobs:
 
       - name: Test sportypy
         run: |
-          pytest --cov=sportypy tests/ --cov-config=.coveragerc
+          pytest
