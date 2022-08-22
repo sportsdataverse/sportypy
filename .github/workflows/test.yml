@@ -17,7 +17,8 @@ jobs:
     - name: Install pytest and pytest-cov
       run: |
         pip install pytest pytest-cov
-        pip install -r requirements.txt
+    - name: Install Python dependencies
+      uses: py-actions/py-dependency-install@v3
     - uses: actions/cache@v2
       name: Configure pip caching
       with:
