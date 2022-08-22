@@ -1,5 +1,5 @@
 name: Test sportypy
-on: [pull_request, pull, workflow_dispatch]
+on: [pull_request, push, workflow_dispatch]
 
 jobs:
   build:
