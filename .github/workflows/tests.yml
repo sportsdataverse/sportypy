@@ -4,16 +4,13 @@ on: [pull_request, push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10"]
     
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.9"
       
       - name: Install dependencies
         run: python -m pip install --upgrade pip setuptools wheel
@@ -29,3 +26,12 @@ jobs:
       - name: Test sportypy
         run: |
           pytest
+
+      - name: Generate Report
+        run: |
+          pip install coverage
+          coverage run -m pytest --cov-config=.coveragerc
+
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@v2
+
