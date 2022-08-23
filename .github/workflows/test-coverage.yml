@@ -18,6 +18,9 @@ jobs:
     - name: Install pytest, pytest-cov, and coverage
       run: python -m pip install pytest pytest-cov coverage
 
+    - name: Install sportypy
+      run: python -m pip install .
+
     - name: Run tests and collect coverage
       run: pytest --cov-config=.coveragerc --cov-report=xml
 
