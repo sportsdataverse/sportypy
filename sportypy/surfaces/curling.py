@@ -1,7 +1,7 @@
 """Extension of the BaseSurfacePlot class to create a curling sheet.
 
 This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. Sportypy will ship with pre-defined
+have access to its attributes and methods. `sportypy` will ship with pre-defined
 leagues that will have their own subclass, but a user can manually specify
 their own sheet parameters to create a totally-customized sheet. The sheet's
 features are parameterized by the basic dimensions of the sheet, which comprise
@@ -26,8 +26,8 @@ class CurlingSheet(BaseSurfacePlot):
     child class (see below) or by directly specifying all necessary attributes
     of a valid ice curling sheet. The attributes needed to instantiate a
     particular league's surface must be specified in the sheet_params
-    dictionary. For many leagues, these will be provided in the curling.json
-    file in the data/ subdirectory of this module.
+    dictionary. For many leagues, these will be provided in the
+    surface_dimensions.json file in the data/ subdirectory of `sportypy`.
 
     See the BaseSurfacePlot and BaseSurface class definitions for full details.
 
@@ -41,29 +41,38 @@ class CurlingSheet(BaseSurfacePlot):
     - league_code : str (default: "")
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "World Curling
-        Federation" should be either "WCF" or "wcf")
+        Federation" should be either "WCF" or "wcf"). The default is an empty
+        string
 
-    - rotation : float (default: 0.0)
-        The angle (in degrees) through which to rotate the final plot
+    - rotation : float
+        The angle (in degrees) through which to rotate the final plot. The
+        default is ``0.0``
 
-    - x_trans : float (default: 0.0)
+    - x_trans : float
         The amount that the x coordinates are to be shifted. By convention,
         the +x axis extends from the center of the ice surface towards the
-        right-hand goal when viewing the sheet in TV view
+        right-hand house when viewing the sheet in TV view. The default is
+        ``0.0``
 
-    - y_trans : float (default: 0.0)
+    - y_trans : float
         The amount that the y coordinates are to be shifted. By convention,
         the +y axis extends from the center of the ice surface towards the
-        top of the sheet when viewing the sheet in TV view
+        top of the sheet when viewing the sheet in TV view. The default is
+        ``0.0``
+
+    - sheet_updates : dict
+        A dictionary of updated parameters to use to create the curling sheet.
+        The default is an empty dictionary
 
     - color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
-        be more heavily customized/styled
+        be more heavily customized/styled. The default is an empty dictionary
 
     - units : str (default: "default")
         The units that the final plot should utilize. The default units are the
-        units specified in the rule book of the league
+        units specified in the rule book of the league. The default is
+        ``"default"``
 
     * sheet_length : float
         The full length of the sheet. Length is defined as the distance between

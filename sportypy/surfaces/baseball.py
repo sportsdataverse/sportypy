@@ -1,7 +1,7 @@
 """Extension of the BaseSurfacePlot class to create a baseball field.
 
 This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. Sportypy will ship with pre-defined
+have access to its attributes and methods. `sportypy` will ship with pre-defined
 leagues that will have their own subclass, but a user can manually specify
 their own field parameters to create a totally-customized field. The field's
 features are parameterized by the basic dimensions of the field, which comprise
@@ -21,51 +21,60 @@ class BaseballField(BaseSurfacePlot):
     """A subclass of the BaseSurfacePlot class to make a baseball field.
 
     This allows for the creation of the baseball field in a way that is
-    entirely parameterized by the field's baseline characteristics.
+    entirely parameterized by the field's baseline characteristics. By
+    convention, TV view for baseball is identical to the view from the high
+    home plate camera.
 
     All attributes should default to 0.0 (if of a numeric type) or an empty
     string (if of a string type). Customized parameters may be specified via a
     child class (see below) or by directly specifying all necessary attributes
     of a valid baseball field. The attributes needed to instantiate a
-    particular league's surface must be specified in the field_params
-    dictionary. For many leagues, these will be provided in the baseball.json
-    file in the data/ subdirectory of this module.
+    particular league's surface must be specified in the `field_params`
+    dictionary. For many leagues, these will be provided in the
+    surface_dimensions.json file in the data/ subdirectory of `sportypy`.
 
     See the BaseSurfacePlot and BaseSurface class definitions for full details.
 
     NOTE: Any attribute below that is prefixed with an asterisk (*) should be
-    specified via the field_updates dictionary as these parameters are specific
+    specified via the `field_updates` dictionary as these parameters are specific
     to each league. Attributes prefixed with a hyphen (-) are specified at the
     time that the surface class is created
 
     Attributes
     ----------
-    - league_code : str (default: "")
+    - league_code : str
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "Major League
-        Baseball" should be either "MLB" or "mlb")
+        Baseball" should be either "MLB" or "mlb"). The default is an empty
+        string
 
-    - rotation : float (default: 0.0)
-        The angle (in degrees) through which to rotate the final plot
+    - rotation : float
+        The angle (in degrees) through which to rotate the final plot. The
+        default is 0.0
 
-    - x_trans : float (default: 0.0)
+    - x_trans : float
         The amount that the x coordinates are to be shifted. By convention,
         the +x axis extends from the pitcher's plate towards first base when
-        viewing the field in TV view
+        viewing the field in TV view. The default is ``0.0``
 
-    - y_trans : float (default: 0.0)
+    - y_trans : float
         The amount that the y coordinates are to be shifted. By convention,
         the +y axis extends from the back tip of home plate out towards center
-        field when viewing the field in TV view
+        field when viewing the field in TV view. The default is ``0.0``
+
+    - field_updates: dict
+        A dictionary of updated parameters to use to create the baseball field.
+        The default is an empty dictionary
 
     - color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
-        be more heavily customized/styled
+        be more heavily customized/styled. The default is an empty dictionary
 
-    - units : str (default: "default")
+    - units : str
         The units that the final plot should utilize. The default units are the
-        units specified in the rule book of the league
+        units specified in the rule book of the league. The default is
+        ``"default"``
 
     * left_field_distance : float
         The straight-line distance from the back tip of home plate to the left
@@ -779,7 +788,7 @@ class BaseballField(BaseSurfacePlot):
 
         A user may wish to know if a specific baseball league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with sportypy for easier plotting (if they provide the league
+        shipped with `sportypy` for easier plotting (if they provide the league
         code), or can also show what leagues are available to be plotted
 
         Parameters
@@ -787,7 +796,7 @@ class BaseballField(BaseSurfacePlot):
         league_code : str or None (default: None)
             A league code that may or may not be shipped with the package. If
             the league code is None, this will display all leagues that do come
-            shipped with sportypy
+            shipped with `sportypy`
 
         Returns
         -------
@@ -914,7 +923,7 @@ class BaseballField(BaseSurfacePlot):
         """Update the field's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by sportypy
+        not currently supported by `sportypy`
 
         Parameters
         ----------

@@ -1,7 +1,7 @@
 """Extension of the BaseSurfacePlot class to create a basketball court.
 
 This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. Sportypy will ship with pre-defined
+have access to its attributes and methods. `sportypy` will ship with pre-defined
 leagues that will have their own subclass, but a user can manually specify
 their own court parameters to create a totally-customized court. The court's
 features are parameterized by the basic dimensions of the court, which comprise
@@ -28,8 +28,8 @@ class BasketballCourt(BaseSurfacePlot):
     child class (see below) or by directly specifying all necessary attributes
     of a valid basketball court. The attributes needed to instantiate a
     particular league's surface must be specified in the court_params
-    dictionary. For many leagues, these will be provided in the basketball.json
-    file in the data/ subdirectory of this module.
+    dictionary. For many leagues, these will be provided in the
+    surface_dimensions.json file in the data/ subdirectory of `sportypy`.
 
     See the BaseSurfacePlot and BaseSurface class definitions for full details.
 
@@ -40,32 +40,41 @@ class BasketballCourt(BaseSurfacePlot):
 
     Attributes
     ----------
-    - league_code : str (default: "")
+    - league_code : str
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "National
-        Basketball Association" should be either "NBA" or "nba")
+        Basketball Association" should be either "NBA" or "nba"). The default
+        is an empty string
 
-    - rotation : float (default: 0.0)
-        The angle (in degrees) through which to rotate the final plot
+    - rotation : float
+        The angle (in degrees) through which to rotate the final plot. The
+        default is ``0.0``
 
-    - x_trans : float (default: 0.0)
+    - x_trans : float
         The amount that the x coordinates are to be shifted. By convention,
         the +x axis extends from the center of the surface towards the
-        right-hand basket when viewing the court in TV view
+        right-hand basket when viewing the court in TV view. The default is
+        ``0.0``
 
-    - y_trans : float (default: 0.0)
+    - y_trans : float
         The amount that the y coordinates are to be shifted. By convention,
         the +y axis extends from the center of the surface towards the
-        top of the court when viewing the court in TV view
+        top of the court when viewing the court in TV view. The default is
+        ``0.0``
+
+    - court_updates : dict
+        A dictionary of updated parameters to use to create the basketball
+        court. The default is an empty dictionary
 
     - color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
-        be more heavily customized/styled
+        be more heavily customized/styled. The default is an empty dictionary
 
-    - units : str (default: "default")
+    - units : str
         The units that the final plot should utilize. The default units are the
-        units specified in the rule book of the league
+        units specified in the rule book of the league. The default is
+        ``"default"``
 
     * court_length : float
         The length of the court in the court's specified units
