@@ -12,3 +12,4 @@ eggs/
 .vscode/
 htmlcov/
 coverage.xml
+.venv/
