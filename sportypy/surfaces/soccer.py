@@ -11,7 +11,7 @@ the attributes of the class.
 """
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
-import sportypy._feature_classes.soccer as soccer
+import sportypy._feature_classes.soccer as soccer_features
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
@@ -234,7 +234,7 @@ class SoccerPitch(BaseSurfacePlot):
         # contained within the pitch. The feature itself is not visible (as
         # it's created by the soccer.pitch class)
         pitch_constraint_params = {
-            "class": soccer.PitchConstraint,
+            "class": soccer_features.PitchConstraint,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -251,7 +251,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the offensive half of the pitch
         defensive_half_params = {
-            "class": soccer.HalfPitch,
+            "class": soccer_features.HalfPitch,
             "x_anchor": -self.pitch_params.get("pitch_length", 0.0) / 4.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -266,7 +266,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the offensive half of the pitch
         offensive_half_params = {
-            "class": soccer.HalfPitch,
+            "class": soccer_features.HalfPitch,
             "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 4.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -281,7 +281,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the pitch apron
         pitch_apron_params = {
-            "class": soccer.PitchApron,
+            "class": soccer_features.PitchApron,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -306,7 +306,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the touchlines
         touchline_params = {
-            "class": soccer.Touchline,
+            "class": soccer_features.Touchline,
             "x_anchor": 0.0,
             "y_anchor": self.pitch_params.get("pitch_width", 0.0) / 2.0,
             "reflect_x": False,
@@ -322,7 +322,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the goal lines
         goal_line_params = {
-            "class": soccer.GoalLine,
+            "class": soccer_features.GoalLine,
             "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 2.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -338,7 +338,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize corner arcs
         corner_arc_params = {
-            "class": soccer.CornerArc,
+            "class": soccer_features.CornerArc,
             "x_anchor": (
                 (self.pitch_params.get("pitch_length", 0.0) / 2.0) -
                 (self.pitch_params.get("line_thickness", 0.0) / 2.0)
@@ -361,7 +361,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the halfway line
         halfway_line_params = {
-            "class": soccer.HalfwayLine,
+            "class": soccer_features.HalfwayLine,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -377,7 +377,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the penalty (16.5m) box
         penalty_box_params = {
-            "class": soccer.PenaltyBox,
+            "class": soccer_features.PenaltyBox,
             "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 2.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -407,7 +407,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the goal box (5.5 m box)
         goal_box_params = {
-            "class": soccer.GoalBox,
+            "class": soccer_features.GoalBox,
             "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 2.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -429,7 +429,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the center circle
         center_circle_params = {
-            "class": soccer.CenterCircle,
+            "class": soccer_features.CenterCircle,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -449,7 +449,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the penalty mark
         penalty_mark_params = {
-            "class": soccer.PenaltyMark,
+            "class": soccer_features.PenaltyMark,
             "x_anchor": (
                 (self.pitch_params.get("pitch_length", 0.0) / 2.0) -
                 self.pitch_params.get("penalty_mark_dist", 0.0)
@@ -472,7 +472,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the center mark
         center_mark_params = {
-            "class": soccer.CenterMark,
+            "class": soccer_features.CenterMark,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -489,7 +489,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the corner defensive mark on the touchline
         touchline_corner_defensive_mark_params = {
-            "class": soccer.CornerDefensiveMark,
+            "class": soccer_features.CornerDefensiveMark,
             "x_anchor": (
                 (self.pitch_params.get("pitch_length", 0.0) / 2.0) -
                 self.pitch_params.get("defensive_mark_distance", 0.0)
@@ -519,7 +519,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the corner defensive mark on the goal line
         goal_line_corner_defensive_mark_params = {
-            "class": soccer.CornerDefensiveMark,
+            "class": soccer_features.CornerDefensiveMark,
             "x_anchor": self.pitch_params.get("pitch_length", 0.0) / 2.0,
             "y_anchor": (
                 (self.pitch_params.get("pitch_width", 0.0) / 2.0) -
@@ -549,7 +549,7 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Initialize the goal
         goal_params = {
-            "class": soccer.Goal,
+            "class": soccer_features.Goal,
             "x_anchor": (
                 (self.pitch_params.get("pitch_length", 0.0) / 2.0) -
                 self.pitch_params.get("line_thickness", 0.0)
@@ -661,7 +661,10 @@ class SoccerPitch(BaseSurfacePlot):
                 # Assuming the feature is visible (and is not the pitch), get
                 # the feature's x and y limits to ensure it lies within the
                 # bounds of the pitch
-                if visible and not isinstance(feature, soccer.PitchConstraint):
+                if visible and not isinstance(
+                    feature,
+                    soccer_features.PitchConstraint
+                ):
                     feature_df = feature._translate_feature()
 
                     # If the feature doesn't have a limitation on x, set its

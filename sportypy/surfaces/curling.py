@@ -11,7 +11,7 @@ the attributes of the class.
 """
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
-import sportypy._feature_classes.curling as curling
+import sportypy._feature_classes.curling as curling_features
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
@@ -241,7 +241,7 @@ class CurlingSheet(BaseSurfacePlot):
         # contained within the surface. The feature itself is not visible (as
         # it's created by the curling.SheetApron class)
         sheet_constraint_params = {
-            "class": curling.Boundary,
+            "class": curling_features.Boundary,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -258,7 +258,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the lower end
         end_1_params = {
-            "class": curling.End,
+            "class": curling_features.End,
             "x_anchor": 0.0,
             "y_anchor": (
                 (-self.sheet_params.get("tee_line_to_center", 0.0)) +
@@ -287,7 +287,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the upper end
         end_2_params = {
-            "class": curling.End,
+            "class": curling_features.End,
             "x_anchor": 0.0,
             "y_anchor": (
                 (self.sheet_params.get("tee_line_to_center", 0.0)) -
@@ -315,7 +315,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the centre zone
         centre_zone_params = {
-            "class": curling.CentreZone,
+            "class": curling_features.CentreZone,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -340,7 +340,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the hog line
         hog_line_params = {
-            "class": curling.HogLine,
+            "class": curling_features.HogLine,
             "x_anchor": 0.0,
             "y_anchor": (
                 self.sheet_params.get("tee_line_to_center", 0.0) -
@@ -364,7 +364,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the hack line
         hack_line_params = {
-            "class": curling.HackLine,
+            "class": curling_features.HackLine,
             "x_anchor": 0.0,
             "y_anchor": (
                 self.sheet_params.get("tee_line_to_center", 0.0) +
@@ -392,7 +392,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the courtesy lines
         courtesy_line_params = {
-            "class": curling.CourtesyLine,
+            "class": curling_features.CourtesyLine,
             "x_anchor": self.sheet_params.get("sheet_width", 0.0) / 2.0,
             "y_anchor": (
                 self.sheet_params.get("tee_line_to_center", 0.0) -
@@ -421,7 +421,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the hack line
         hack_params = {
-            "class": curling.HackFoothold,
+            "class": curling_features.HackFoothold,
             "x_anchor": self.sheet_params.get("hack_foothold_gap", 0.0),
             "y_anchor": (
                 self.sheet_params.get("tee_line_to_center", 0.0) +
@@ -456,7 +456,7 @@ class CurlingSheet(BaseSurfacePlot):
         # Iterate over the number of rings
         for i, radius in enumerate(house_ring_radii):
             house_ring_params = {
-                "class": curling.HouseRing,
+                "class": curling_features.HouseRing,
                 "x_anchor": 0.0,
                 "y_anchor": self.sheet_params.get("tee_line_to_center", 0.0),
                 "reflect_x": False,
@@ -474,7 +474,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the button
         button_params = {
-            "class": curling.Button,
+            "class": curling_features.Button,
             "x_anchor": 0.0,
             "y_anchor": self.sheet_params.get("tee_line_to_center", 0.0),
             "reflect_x": False,
@@ -492,7 +492,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the centre line
         centre_line_params = {
-            "class": curling.CentreLine,
+            "class": curling_features.CentreLine,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -521,7 +521,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the tee line
         tee_line_params = {
-            "class": curling.TeeLine,
+            "class": curling_features.TeeLine,
             "x_anchor": 0.0,
             "y_anchor": self.sheet_params.get("tee_line_to_center", 0.0),
             "reflect_x": False,
@@ -542,7 +542,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the back line
         back_line_params = {
-            "class": curling.BackLine,
+            "class": curling_features.BackLine,
             "x_anchor": 0.0,
             "y_anchor": (
                 self.sheet_params.get("tee_line_to_center", 0.0) +
@@ -566,7 +566,7 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Initialize the sheet apron
         sheet_apron_params = {
-            "class": curling.SheetApron,
+            "class": curling_features.SheetApron,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -672,7 +672,10 @@ class CurlingSheet(BaseSurfacePlot):
                 # Assuming the feature is visible (and is not the boundary),
                 # get the feature's x and y limits to ensure it lies within the
                 # bounds of the sheet
-                if visible and not isinstance(feature, curling.Boundary):
+                if visible and not isinstance(
+                    feature,
+                    curling_features.Boundary
+                ):
                     feature_df = feature._translate_feature()
 
                     # If the feature doesn't have a limitation on x, set its

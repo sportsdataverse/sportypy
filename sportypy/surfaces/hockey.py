@@ -11,7 +11,7 @@ the attributes of the class.
 """
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
-import sportypy._feature_classes.hockey as hockey
+import sportypy._feature_classes.hockey as hockey_features
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
@@ -342,7 +342,7 @@ class HockeyRink(BaseSurfacePlot):
         # contained within the boards. The feature itself is not visible (as
         # it's created by the hockey.Boards class)
         boards_constraint_params = {
-            "class": hockey.BoardsConstraint,
+            "class": hockey_features.BoardsConstraint,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -361,7 +361,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the defensive zone
         dzone_params = {
-            "class": hockey.DefensiveZone,
+            "class": hockey_features.DefensiveZone,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -380,7 +380,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the neutral zone
         nzone_params = {
-            "class": hockey.NeutralZone,
+            "class": hockey_features.NeutralZone,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -398,7 +398,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the offensive zone
         ozone_params = {
-            "class": hockey.OffensiveZone,
+            "class": hockey_features.OffensiveZone,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -417,7 +417,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the center (red) line
         center_line_params = {
-            "class": hockey.CenterLine,
+            "class": hockey_features.CenterLine,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -440,7 +440,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the zone (blue) lines
         zone_line_params = {
-            "class": hockey.ZoneLine,
+            "class": hockey_features.ZoneLine,
             "x_anchor": self.rink_params.get("nzone_length", 0.0) / 2.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -460,7 +460,7 @@ class HockeyRink(BaseSurfacePlot):
         # Initialize the goalkeeper's restricted area (if it's required)
         if self.rink_params.get("has_trapezoid", False):
             goaltenders_restricted_area_params = {
-                "class": hockey.GoaltendersRestrictedArea,
+                "class": hockey_features.GoaltendersRestrictedArea,
                 "x_anchor": (
                     (self.rink_params.get("rink_length", 0.0) / 2.0) -
                     self.rink_params.get("goal_line_to_boards", 0.0)
@@ -491,7 +491,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the goal crease's filled-in interior
         goal_crease_fill_params = {
-            "class": hockey.GoalCreaseFill,
+            "class": hockey_features.GoalCreaseFill,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("goal_line_to_boards", 0.0)
@@ -526,7 +526,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the goal crease outlines
         goal_crease_outline_params = {
-            "class": hockey.GoalCreaseOutline,
+            "class": hockey_features.GoalCreaseOutline,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("goal_line_to_boards", 0.0)
@@ -561,7 +561,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the goal lines
         goal_line_params = {
-            "class": hockey.GoalLine,
+            "class": hockey_features.GoalLine,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("goal_line_to_boards", 0.0)
@@ -585,7 +585,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the goal frame
         goal_frame_params = {
-            "class": hockey.GoalFrame,
+            "class": hockey_features.GoalFrame,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("goal_line_to_boards", 0.0)
@@ -609,7 +609,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the goal frame's filled-in interior
         goal_frame_fill_params = {
-            "class": hockey.GoalFrameFill,
+            "class": hockey_features.GoalFrameFill,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("goal_line_to_boards", 0.0)
@@ -633,7 +633,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the faceoff circles in the offensive/defensive zones
         odzone_faceoff_circle_params = {
-            "class": hockey.ODZoneFaceoffCircle,
+            "class": hockey_features.ODZoneFaceoffCircle,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("odzone_faceoff_spot_to_boards", 0.0)
@@ -663,7 +663,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the faceoff spot rings in the offensive/defensive zones
         odzone_faceoff_spot_ring_params = {
-            "class": hockey.NODZoneFaceoffSpotRing,
+            "class": hockey_features.NODZoneFaceoffSpotRing,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("odzone_faceoff_spot_to_boards", 0.0)
@@ -691,7 +691,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the faceoff spot stripes in the offensive/defensive zones
         odzone_faceoff_spot_stripe_params = {
-            "class": hockey.NODZoneFaceoffSpotStripe,
+            "class": hockey_features.NODZoneFaceoffSpotStripe,
             "x_anchor": (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) -
                 self.rink_params.get("odzone_faceoff_spot_to_boards", 0.0)
@@ -731,7 +731,7 @@ class HockeyRink(BaseSurfacePlot):
         for over_x in [False, True]:
             for over_y in [False, True]:
                 odzone_faceoff_line_params = {
-                    "class": hockey.ODZoneFaceoffLines,
+                    "class": hockey_features.ODZoneFaceoffLines,
                     "x_anchor": (
                         (self.rink_params.get("rink_length", 0.0) / 2.0) -
                         self.rink_params.get(
@@ -776,7 +776,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the faceoff spots in the neutral zone
         nzone_faceoff_spot_ring_params = {
-            "class": hockey.NODZoneFaceoffSpotRing,
+            "class": hockey_features.NODZoneFaceoffSpotRing,
             "x_anchor": (
                 (self.rink_params.get("nzone_length", 0.0) / 2.0) -
                 self.rink_params.get("nzone_faceoff_spot_to_zone_line", 0.0)
@@ -804,7 +804,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the faceoff spot stripes in the neutral zone
         nzone_faceoff_spot_stripe_params = {
-            "class": hockey.NODZoneFaceoffSpotStripe,
+            "class": hockey_features.NODZoneFaceoffSpotStripe,
             "x_anchor": (
                 (self.rink_params.get("nzone_length", 0.0) / 2.0) -
                 self.rink_params.get("nzone_faceoff_spot_to_zone_line", 0.0)
@@ -836,7 +836,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the center faceoff circle
         center_faceoff_circle_params = {
-            "class": hockey.CenterFaceoffCircle,
+            "class": hockey_features.CenterFaceoffCircle,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -858,7 +858,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the referee's crease
         referee_crease_params = {
-            "class": hockey.RefereeCrease,
+            "class": hockey_features.RefereeCrease,
             "x_anchor": 0.0,
             "y_anchor": -self.rink_params.get("rink_width", 0.0) / 2.0,
             "reflect_x": True,
@@ -881,7 +881,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the center faceoff spot
         center_faceoff_spot_params = {
-            "class": hockey.CenterFaceoffSpot,
+            "class": hockey_features.CenterFaceoffSpot,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "feature_units": self.rink_params.get("rink_units", "ft"),
@@ -898,7 +898,7 @@ class HockeyRink(BaseSurfacePlot):
         # Initialize the bench for Team A. This will be located on the TV-left
         # team bench area
         team_a_bench_params = {
-            "class": hockey.PlayerBenchFill,
+            "class": hockey_features.PlayerBenchFill,
             "x_anchor": -(
                 (self.rink_params.get("bench_separation", 0.0) / 2.0) +
                 (self.rink_params.get("bench_length", 0.0) / 2.0)
@@ -920,7 +920,7 @@ class HockeyRink(BaseSurfacePlot):
         # Initialize the bench for Team B. This will be located on the TV-right
         # team bench area
         team_b_bench_params = {
-            "class": hockey.PlayerBenchFill,
+            "class": hockey_features.PlayerBenchFill,
             "x_anchor": (
                 (self.rink_params.get("bench_separation", 0.0) / 2.0) +
                 (self.rink_params.get("bench_length", 0.0) / 2.0)
@@ -942,7 +942,7 @@ class HockeyRink(BaseSurfacePlot):
         # Initialize the penalty box for Team A. This will be located on the
         # TV-left team bench area
         team_a_penalty_box_params = {
-            "class": hockey.PenaltyBoxFill,
+            "class": hockey_features.PenaltyBoxFill,
             "x_anchor": -(
                 (self.rink_params.get("penalty_box_separation", 0.0) / 2.0) +
                 self.rink_params.get("board_thickness", 0.0) +
@@ -978,7 +978,7 @@ class HockeyRink(BaseSurfacePlot):
         # Initialize the penalty box for Team B. This will be located on the
         # TV-right team bench area
         team_b_penalty_box_params = {
-            "class": hockey.PenaltyBoxFill,
+            "class": hockey_features.PenaltyBoxFill,
             "x_anchor": (
                 (self.rink_params.get("penalty_box_separation", 0.0) / 2.0) +
                 self.rink_params.get("board_thickness", 0.0) +
@@ -1013,7 +1013,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the off-ice officials' box
         off_ice_officials_box_params = {
-            "class": hockey.OffIceOfficialsBox,
+            "class": hockey_features.OffIceOfficialsBox,
             "x_anchor": 0.0,
             "y_anchor": -(self.rink_params.get("rink_width", 0.0) / 2.0),
             "reflect_x": False,
@@ -1039,7 +1039,7 @@ class HockeyRink(BaseSurfacePlot):
         # highest here to be plotted over any other features that it may
         # overlap
         board_params = {
-            "class": hockey.Boards,
+            "class": hockey_features.Boards,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -1058,7 +1058,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the player benches outline
         bench_outline_params = {
-            "class": hockey.PlayerBenchOutline,
+            "class": hockey_features.PlayerBenchOutline,
             "x_anchor": self.rink_params.get("bench_separation", 0.0) / 2.0,
             "y_anchor": self.rink_params.get("rink_width", 0.0) / 2.0,
             "reflect_x": True,
@@ -1076,7 +1076,7 @@ class HockeyRink(BaseSurfacePlot):
 
         # Initialize the penalty box outlines
         penalty_box_outline_params = {
-            "class": hockey.PenaltyBoxOutline,
+            "class": hockey_features.PenaltyBoxOutline,
             "x_anchor": 0.0,
             "y_anchor": -(
                 (self.rink_params.get("rink_width", 0.0) / 2.0) -
@@ -1233,7 +1233,7 @@ class HockeyRink(BaseSurfacePlot):
                 # Assuming the feature is visible (and is not the boards), get
                 # the feature's x and y limits to ensure it lies within the
                 # bounds of the rink
-                if visible and not isinstance(feature, hockey.Boards):
+                if visible and not isinstance(feature, hockey_features.Boards):
                     feature_df = feature._translate_feature()
 
                     # If the feature doesn't have a limitation on x, set its

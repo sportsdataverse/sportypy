@@ -13,7 +13,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
-import sportypy._feature_classes.baseball as baseball
+import sportypy._feature_classes.baseball as baseball_features
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
@@ -265,7 +265,7 @@ class BaseballField(BaseSurfacePlot):
         # contained within the field's boundary. The feature itself is not
         # visible
         field_constraint_params = {
-            "class": baseball.FieldConstraint,
+            "class": baseball_features.FieldConstraint,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -282,7 +282,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the infield dirt
         infield_dirt_params = {
-            "class": baseball.InfieldDirt,
+            "class": baseball_features.InfieldDirt,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -312,7 +312,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the infield grass
         infield_grass_params = {
-            "class": baseball.InfieldGrass,
+            "class": baseball_features.InfieldGrass,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -342,7 +342,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the pitcher's mound
         pitchers_mound_params = {
-            "class": baseball.PitchersMound,
+            "class": baseball_features.PitchersMound,
             "x_anchor": 0.0,
             "y_anchor": self.field_params.get(
                 "pitchers_mound_center_to_home_plate",
@@ -363,7 +363,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize home plate
         home_plate_params = {
-            "class": baseball.HomePlate,
+            "class": baseball_features.HomePlate,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -381,7 +381,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize first base
         first_base_params = {
-            "class": baseball.Base,
+            "class": baseball_features.Base,
             "x_anchor": (
                 self.field_params.get("baseline_distance", 0.0) *
                 math.cos(np.pi / 4.0)
@@ -403,7 +403,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize second base
         second_base_params = {
-            "class": baseball.Base,
+            "class": baseball_features.Base,
             "x_anchor": 0.0,
             "y_anchor": (
                 self.field_params.get("baseline_distance", 0.0) *
@@ -422,7 +422,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize third base
         third_base_params = {
-            "class": baseball.Base,
+            "class": baseball_features.Base,
             "x_anchor": (
                 self.field_params.get("baseline_distance", 0.0) *
                 math.cos(3.0 * np.pi / 4.0)
@@ -444,7 +444,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the pitcher's plate
         pitchers_plate_params = {
-            "class": baseball.PitchersPlate,
+            "class": baseball_features.PitchersPlate,
             "x_anchor": 0.0,
             "y_anchor": self.field_params.get(
                 "pitchers_plate_front_to_home_plate",
@@ -468,7 +468,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the batter's boxes
         batters_box_params = {
-            "class": baseball.BattersBox,
+            "class": baseball_features.BattersBox,
             "x_anchor": (
                 (self.field_params.get("home_plate_edge_length", 0.0) / 2.0) +
                 self.field_params.get("home_plate_side_to_batters_box", 0.0) +
@@ -500,7 +500,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the batter's boxes
         catchers_box_params = {
-            "class": baseball.CatchersBox,
+            "class": baseball_features.CatchersBox,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -540,7 +540,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the left field foul line
         left_field_foul_line_params = {
-            "class": baseball.FoulLine,
+            "class": baseball_features.FoulLine,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -576,7 +576,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the right field foul line
         right_field_foul_line_params = {
-            "class": baseball.FoulLine,
+            "class": baseball_features.FoulLine,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -612,7 +612,7 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the running lane on the first base line
         running_lane_params = {
-            "class": baseball.RunningLane,
+            "class": baseball_features.RunningLane,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -724,7 +724,7 @@ class BaseballField(BaseSurfacePlot):
                 # constraint), get the feature's x and y limits to ensure it
                 # lies within the bounds of the field
                 if visible and not isinstance(
-                    feature, baseball.FieldConstraint
+                    feature, baseball_features.FieldConstraint
                 ):
                     feature_df = feature._translate_feature()
 

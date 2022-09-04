@@ -15,7 +15,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.transforms as mtrans
 from matplotlib.transforms import Affine2D
-import sportypy._feature_classes.football as football
+import sportypy._feature_classes.football as football_features
 from sportypy._base_functions._plot_helpers import text_with_autofit
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
@@ -307,7 +307,7 @@ class FootballField(BaseSurfacePlot):
         # contained within the field. The feature itself is not visible (as
         # it's created by the football.field class)
         field_constraint_params = {
-            "class": football.FieldConstraint,
+            "class": football_features.FieldConstraint,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -324,7 +324,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the offensive half of the field
         offensive_half_params = {
-            "class": football.OffensiveHalf,
+            "class": football_features.OffensiveHalf,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -345,7 +345,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the defensive half of the field
         defensive_half_params = {
-            "class": football.DefensiveHalf,
+            "class": football_features.DefensiveHalf,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -366,7 +366,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the field apron
         field_apron_params = {
-            "class": football.FieldApron,
+            "class": football_features.FieldApron,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -428,7 +428,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the endzones
         offensive_endzone_params = {
-            "class": football.Endzone,
+            "class": football_features.Endzone,
             "x_anchor": (
                 (self.field_params.get("field_length", 0.0) / 2.0) +
                 (self.field_params.get("endzone_length", 0.0)) / 2.0
@@ -451,7 +451,7 @@ class FootballField(BaseSurfacePlot):
         self._initialize_feature(offensive_endzone_params)
 
         defensive_endzone_params = {
-            "class": football.Endzone,
+            "class": football_features.Endzone,
             "x_anchor": -(
                 (self.field_params.get("field_length", 0.0) / 2.0) +
                 (self.field_params.get("endzone_length", 0.0)) / 2.0
@@ -475,7 +475,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the restricted areas
         restricted_area_params = {
-            "class": football.RestrictedArea,
+            "class": football_features.RestrictedArea,
             "x_anchor": 0.0,
             "y_anchor": (
                 (self.field_params.get("field_width", 0.0) / 2.0) +
@@ -502,7 +502,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the coaching boxes
         coaching_box_params = {
-            "class": football.CoachingBox,
+            "class": football_features.CoachingBox,
             "x_anchor": 0.0,
             "y_anchor": (
                 (self.field_params.get("field_width", 0.0) / 2.0) +
@@ -530,7 +530,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the team bench areas
         team_bench_area_params = {
-            "class": football.TeamBenchArea,
+            "class": football_features.TeamBenchArea,
             "x_anchor": 0.0,
             "y_anchor": (
                 (self.field_params.get("field_width", 0.0) / 2.0) +
@@ -564,7 +564,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the outline of the team bench areas
         team_bench_area_outline_params = {
-            "class": football.TeamBenchAreaOutline,
+            "class": football_features.TeamBenchAreaOutline,
             "x_anchor": 0.0,
             "y_anchor": (
                 (self.field_params.get("field_width", 0.0) / 2.0) +
@@ -615,7 +615,7 @@ class FootballField(BaseSurfacePlot):
 
         # Restricted area line
         coaching_box_line_params = {
-            "class": football.CoachingBoxLine,
+            "class": football_features.CoachingBoxLine,
             "x_anchor": 0.0,
             "y_anchor": (
                 (self.field_params.get("field_width", 0.0) / 2.0) +
@@ -644,7 +644,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the end lines
         end_line_params = {
-            "class": football.EndLine,
+            "class": football_features.EndLine,
             "x_anchor": (
                 (self.field_params.get("field_length", 0.0) / 2.0) +
                 self.field_params.get("endzone_length", 0.0)
@@ -667,7 +667,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the sidelines
         sideline_params = {
-            "class": football.Sideline,
+            "class": football_features.Sideline,
             "x_anchor": 0.0,
             "y_anchor": self.field_params.get("field_width", 0.0) / 2.0,
             "reflect_x": False,
@@ -688,7 +688,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the field border
         field_border_params = {
-            "class": football.FieldBorder,
+            "class": football_features.FieldBorder,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -754,7 +754,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the outline of the field border
         field_border_outline_params = {
-            "class": football.FieldBorderOutline,
+            "class": football_features.FieldBorderOutline,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -850,7 +850,7 @@ class FootballField(BaseSurfacePlot):
 
             # Initialize the major yard line
             major_yard_line_params = {
-                "class": football.MajorYardLine,
+                "class": football_features.MajorYardLine,
                 "x_anchor": yard_line_name,
                 "y_anchor": 0.0,
                 "reflect_x": True,
@@ -882,7 +882,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the goal lines
         goal_line_params = {
-            "class": football.GoalLine,
+            "class": football_features.GoalLine,
             "x_anchor": self.field_params.get("field_length", 0.0) / 2.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -926,7 +926,7 @@ class FootballField(BaseSurfacePlot):
 
             # Initialize the minor yard lines closest to the sideline
             outer_minor_yard_line_params = {
-                "class": football.MinorYardLine,
+                "class": football_features.MinorYardLine,
                 "x_anchor": yard_line_name,
                 "y_anchor": (
                     (self.field_params.get("field_width", 0.0) / 2.0) -
@@ -955,7 +955,7 @@ class FootballField(BaseSurfacePlot):
             # Initialize the minor yard lines closest to the center of the
             # field
             inner_minor_yard_line_params = {
-                "class": football.MinorYardLine,
+                "class": football_features.MinorYardLine,
                 "x_anchor": yard_line_name,
                 "y_anchor": self.field_params.get(
                     "inbound_hashmark_separation",
@@ -994,7 +994,7 @@ class FootballField(BaseSurfacePlot):
         for arrow_line in arrow_lines:
             # Initialize the directional arrows where necessary
             arrow_params = {
-                "class": football.Arrow,
+                "class": football_features.Arrow,
                 "x_anchor": arrow_line - self.field_params.get(
                     "yard_line_to_arrow"
                 ),
@@ -1021,7 +1021,7 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the try marking
         try_mark_params = {
-            "class": football.TryMark,
+            "class": football_features.TryMark,
             "x_anchor": (
                 self.field_params.get("field_length", 0.0) / 2.0 -
                 self.field_params.get("try_mark_distance", 0.0)
@@ -1212,7 +1212,8 @@ class FootballField(BaseSurfacePlot):
                 # constraint), get the feature's x and y limits to ensure it
                 # lies within the bounds of the field
                 if visible and not isinstance(
-                    feature, football.FieldConstraint
+                    feature,
+                    football_features.FieldConstraint
                 ):
                     feature_df = feature._translate_feature()
 

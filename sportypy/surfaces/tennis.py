@@ -11,7 +11,7 @@ the attributes of the class.
 """
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
-import sportypy._feature_classes.tennis as tennis
+import sportypy._feature_classes.tennis as tennis_features
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
@@ -189,7 +189,7 @@ class TennisCourt(BaseSurfacePlot):
         # contained within the court. The feature itself is not visible (as
         # it's created by the tennis.court class)
         court_constraint_params = {
-            "class": tennis.CourtConstraint,
+            "class": tennis_features.CourtConstraint,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -206,7 +206,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the ad court
         ad_court_lower_params = {
-            "class": tennis.FrontcourtHalf,
+            "class": tennis_features.FrontcourtHalf,
             "x_anchor": -self.court_params.get("serviceline_distance", 0.0),
             "y_anchor": -self.court_params.get("singles_width", 0.0) / 4.0,
             "reflect_x": False,
@@ -225,7 +225,7 @@ class TennisCourt(BaseSurfacePlot):
         self._initialize_feature(ad_court_lower_params)
 
         ad_court_upper_params = {
-            "class": tennis.FrontcourtHalf,
+            "class": tennis_features.FrontcourtHalf,
             "x_anchor": 0.0,
             "y_anchor": self.court_params.get("singles_width", 0.0) / 4.0,
             "reflect_x": False,
@@ -245,7 +245,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the deuce court
         deuce_court_lower_params = {
-            "class": tennis.FrontcourtHalf,
+            "class": tennis_features.FrontcourtHalf,
             "x_anchor": -self.court_params.get("serviceline_distance", 0.0),
             "y_anchor": self.court_params.get("singles_width", 0.0) / 4.0,
             "reflect_x": False,
@@ -264,7 +264,7 @@ class TennisCourt(BaseSurfacePlot):
         self._initialize_feature(deuce_court_lower_params)
 
         deuce_court_upper_params = {
-            "class": tennis.FrontcourtHalf,
+            "class": tennis_features.FrontcourtHalf,
             "x_anchor": 0.0,
             "y_anchor": -self.court_params.get("singles_width", 0.0) / 4.0,
             "reflect_x": False,
@@ -284,7 +284,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the backcourt
         backcourt_params = {
-            "class": tennis.Backcourt,
+            "class": tennis_features.Backcourt,
             "x_anchor": self.court_params.get(
                 "serviceline_distance",
                 0.0
@@ -307,7 +307,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the doubles alley
         doubles_alley_params = {
-            "class": tennis.DoublesAlley,
+            "class": tennis_features.DoublesAlley,
             "x_anchor": 0.0,
             "y_anchor": self.court_params.get("singles_width", 0.0) / 2.0,
             "reflect_x": False,
@@ -326,7 +326,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the baselines
         baseline_params = {
-            "class": tennis.Baseline,
+            "class": tennis_features.Baseline,
             "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -342,7 +342,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the singles sideline
         singles_sideline_params = {
-            "class": tennis.Sideline,
+            "class": tennis_features.Sideline,
             "x_anchor": 0.0,
             "y_anchor": self.court_params.get("singles_width", 0.0) / 2.0,
             "reflect_x": True,
@@ -358,7 +358,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the doubles sideline
         doubles_sideline_params = {
-            "class": tennis.Sideline,
+            "class": tennis_features.Sideline,
             "x_anchor": 0.0,
             "y_anchor": self.court_params.get("doubles_width", 0.0) / 2.0,
             "reflect_x": True,
@@ -374,7 +374,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the serviceline
         serviceline_params = {
-            "class": tennis.ServiceLine,
+            "class": tennis_features.ServiceLine,
             "x_anchor": self.court_params.get("serviceline_distance", 0.0),
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -391,7 +391,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the center serviceline
         center_serviceline_params = {
-            "class": tennis.CenterServiceline,
+            "class": tennis_features.CenterServiceline,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -411,7 +411,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the center mark
         center_mark_params = {
-            "class": tennis.CenterMark,
+            "class": tennis_features.CenterMark,
             "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -431,7 +431,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the court apron
         court_apron_params = {
-            "class": tennis.CourtApron,
+            "class": tennis_features.CourtApron,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -455,7 +455,7 @@ class TennisCourt(BaseSurfacePlot):
 
         # Initialize the net
         net_params = {
-            "class": tennis.Net,
+            "class": tennis_features.Net,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -564,7 +564,10 @@ class TennisCourt(BaseSurfacePlot):
                 # Assuming the feature is visible (and is not the court
                 # constraint), get the feature's x and y limits to ensure it
                 # lies within the bounds of the court
-                if visible and not isinstance(feature, tennis.CourtConstraint):
+                if visible and not isinstance(
+                    feature,
+                    tennis_features.CourtConstraint
+                ):
                     feature_df = feature._translate_feature()
 
                     # If the feature doesn't have a limitation on x, set its

@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.transforms import Affine2D
-import sportypy._feature_classes.basketball as basketball
+import sportypy._feature_classes.basketball as basketball_features
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
@@ -369,7 +369,7 @@ class BasketballCourt(BaseSurfacePlot):
         # contained within the court. The feature itself is not visible (as
         # it's created by the basketball.court class)
         court_constraint_params = {
-            "class": basketball.CourtConstraint,
+            "class": basketball_features.CourtConstraint,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -386,7 +386,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the defensive half-court
         defensive_half_court_params = {
-            "class": basketball.HalfCourt,
+            "class": basketball_features.HalfCourt,
             "x_anchor": -0.25 * self.court_params.get("court_length", 0.0),
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -401,7 +401,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the offensive half-court
         offensive_half_court_params = {
-            "class": basketball.HalfCourt,
+            "class": basketball_features.HalfCourt,
             "x_anchor": 0.25 * self.court_params.get("court_length", 0.0),
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -416,7 +416,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the court apron
         court_apron_params = {
-            "class": basketball.CourtApron,
+            "class": basketball_features.CourtApron,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -515,7 +515,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         for circle_no, circle in center_circle_params.iterrows():
             center_circle_outline_params = {
-                "class": basketball.CenterCircleOutline,
+                "class": basketball_features.CenterCircleOutline,
                 "x_anchor": 0.0,
                 "y_anchor": 0.0,
                 "reflect_x": True,
@@ -532,7 +532,7 @@ class BasketballCourt(BaseSurfacePlot):
             self._initialize_feature(center_circle_outline_params)
 
             center_circle_fill_params = {
-                "class": basketball.CenterCircleFill,
+                "class": basketball_features.CenterCircleFill,
                 "x_anchor": 0.0,
                 "y_anchor": 0.0,
                 "reflect_x": False,
@@ -550,7 +550,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the division line
         division_line_params = {
-            "class": basketball.DivisionLine,
+            "class": basketball_features.DivisionLine,
             "x_anchor": 0.0,
             "y_anchor": 0.0,
             "reflect_x": False,
@@ -680,7 +680,7 @@ class BasketballCourt(BaseSurfacePlot):
             # Create the two-point shot range. This is the area inside the
             # three-point arc
             two_point_range_params = {
-                "class": basketball.TwoPointRange,
+                "class": basketball_features.TwoPointRange,
                 "x_anchor": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     self.court_params.get("basket_center_to_baseline", 0.0)
@@ -713,7 +713,7 @@ class BasketballCourt(BaseSurfacePlot):
 
             # Create the three-point line
             three_point_line_params = {
-                "class": basketball.ThreePointLine,
+                "class": basketball_features.ThreePointLine,
                 "x_anchor": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     self.court_params.get("basket_center_to_baseline", 0.0)
@@ -874,7 +874,7 @@ class BasketballCourt(BaseSurfacePlot):
         # and lane boundary (as required)
         for lane_no, dims in lane_params.iterrows():
             painted_area_params = {
-                "class": basketball.PaintedArea,
+                "class": basketball_features.PaintedArea,
                 "x_anchor": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     dims["lane_length"] +
@@ -900,7 +900,7 @@ class BasketballCourt(BaseSurfacePlot):
             self._initialize_feature(painted_area_params)
 
             lane_boundary_params = {
-                "class": basketball.FreeThrowLaneBoundary,
+                "class": basketball_features.FreeThrowLaneBoundary,
                 "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
                 "y_anchor": 0.0,
                 "visible": dims["lane_boundary_visibility"],
@@ -1047,7 +1047,7 @@ class BasketballCourt(BaseSurfacePlot):
                 x_anchor -= separations[mark_no]
 
                 mark_params = {
-                    "class": basketball.LaneSpaceMark,
+                    "class": basketball_features.LaneSpaceMark,
                     "x_anchor": x_anchor,
                     "y_anchor": dims["y_anchor"],
                     "reflect_x": True,
@@ -1066,7 +1066,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the free-throw circle
         free_throw_circle_outline_params = {
-            "class": basketball.FreeThrowCircleOutline,
+            "class": basketball_features.FreeThrowCircleOutline,
             "x_anchor": (
                 (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get("backboard_face_to_baseline", 0.0) -
@@ -1090,7 +1090,7 @@ class BasketballCourt(BaseSurfacePlot):
         self._initialize_feature(free_throw_circle_outline_params)
 
         free_throw_circle_fill_params = {
-            "class": basketball.FreeThrowCircleFill,
+            "class": basketball_features.FreeThrowCircleFill,
             "x_anchor": (
                 (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get("backboard_face_to_baseline", 0.0) -
@@ -1123,7 +1123,7 @@ class BasketballCourt(BaseSurfacePlot):
         end_theta = 0.5 - end_theta
 
         free_throw_circle_overhang_params = {
-            "class": basketball.FreeThrowCircleOutlineDash,
+            "class": basketball_features.FreeThrowCircleOutlineDash,
             "x_anchor": (
                 (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get("backboard_face_to_baseline", 0.0) -
@@ -1194,7 +1194,7 @@ class BasketballCourt(BaseSurfacePlot):
             # Create the dashes
             for dash in range(0, int(n_dashes)):
                 free_throw_circle_dash_params = {
-                    "class": basketball.FreeThrowCircleOutlineDash,
+                    "class": basketball_features.FreeThrowCircleOutlineDash,
                     "x_anchor": (
                         (self.court_params.get("court_length", 0.0) / 2.0) -
                         self.court_params.get(
@@ -1231,7 +1231,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the end lines
         endline_params = {
-            "class": basketball.Endline,
+            "class": basketball_features.Endline,
             "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
             "y_anchor": 0.0,
             "reflect_x": True,
@@ -1248,7 +1248,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the sidelines
         sideline_params = {
-            "class": basketball.Sideline,
+            "class": basketball_features.Sideline,
             "x_anchor": 0.0,
             "y_anchor": self.court_params.get("court_width", 0.0) / 2.0,
             "reflect_x": False,
@@ -1265,7 +1265,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the lower defensive box marks
         baseline_lower_defensive_box_mark_params = {
-            "class": basketball.LowerDefensiveBoxMark,
+            "class": basketball_features.LowerDefensiveBoxMark,
             "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
             "y_anchor": self.court_params.get(
                 "baseline_lower_defensive_box_marks_int_sep",
@@ -1288,7 +1288,7 @@ class BasketballCourt(BaseSurfacePlot):
         self._initialize_feature(baseline_lower_defensive_box_mark_params)
 
         lane_lower_defensive_box_mark_params = {
-            "class": basketball.LowerDefensiveBoxMark,
+            "class": basketball_features.LowerDefensiveBoxMark,
             "x_anchor": (
                 (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get(
@@ -1456,7 +1456,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         for set_no, dims in inbounding_lines.iterrows():
             inbounding_line_params = {
-                "class": basketball.InboundingLine,
+                "class": basketball_features.InboundingLine,
                 "x_anchor": (
                     (self.court_params.get("court_length", 0.0) / 2.0) -
                     dims["inbounding_line_to_baseline"]
@@ -1493,7 +1493,7 @@ class BasketballCourt(BaseSurfacePlot):
             drawn_direction = "top_down"
 
         substitution_line_params = {
-            "class": basketball.SubstitutionLine,
+            "class": basketball_features.SubstitutionLine,
             "x_anchor": (
                 self.court_params.get("substitution_line_ext_sep", 0.0) / 2.0
             ),
@@ -1520,7 +1520,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the team bench areas
         team_bench_line_params = {
-            "class": basketball.TeamBenchLine,
+            "class": basketball_features.TeamBenchLine,
             "x_anchor": self.court_params.get("court_length", 0.0) / 2.0,
             "y_anchor": (
                 bench_side * (
@@ -1544,7 +1544,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the restricted arcs
         restricted_arc_params = {
-            "class": basketball.RestrictedArc,
+            "class": basketball_features.RestrictedArc,
             "x_anchor": (
                 (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get("backboard_face_to_baseline", 0.0)
@@ -1572,7 +1572,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the backboards
         backboard_params = {
-            "class": basketball.Backboard,
+            "class": basketball_features.Backboard,
             "x_anchor": (
                 (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get("backboard_face_to_baseline", 0.0)
@@ -1598,7 +1598,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the basket rings
         basket_ring_params = {
-            "class": basketball.BasketRing,
+            "class": basketball_features.BasketRing,
             "x_anchor": (
                 (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get("backboard_face_to_baseline", 0.0)
@@ -1636,7 +1636,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Initialize the nets
         net_params = {
-            "class": basketball.Net,
+            "class": basketball_features.Net,
             "x_anchor": (
                 (self.court_params.get("court_length", 0.0) / 2.0) -
                 self.court_params.get("basket_center_to_baseline", 0.0)
@@ -1747,7 +1747,7 @@ class BasketballCourt(BaseSurfacePlot):
                 # lies within the bounds of the court
                 if visible and not isinstance(
                     feature,
-                    basketball.CourtConstraint
+                    basketball_features.CourtConstraint
                 ):
                     feature_df = feature._translate_feature()
 
