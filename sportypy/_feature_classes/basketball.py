@@ -2,8 +2,9 @@
 
 The features are all parameterized by the basic characteristics of a basketball
 court. A user can manually specify their own court parameters in the
-BasketballCourt class that will adjust the placement of these features, however
-the features themselves will be consistent across all basketball surfaces.
+``BasketballCourt`` class that will adjust the placement of these features,
+however the features themselves will be consistent across all basketball
+surfaces.
 
 @author: Ross Drucker
 """
@@ -14,35 +15,37 @@ from sportypy._base_classes._base_feature import BaseFeature
 
 
 class BaseBasketballFeature(BaseFeature):
-    """An extension of the BaseFeature class for basketball features.
+    """An extension of the ``BaseFeature`` class for basketball features.
 
     The following attributes are specific to basketball features only. For more
-    information on inherited attributes, please see the BaseFeature class
+    information on inherited attributes, please see the ``BaseFeature`` class
     definition. The default values are provided to ensure that the feature can
     at least be created.
 
     Attributes
     ----------
-    court_length : float (default: 0.0)
-        The length of the court in TV view
+    court_length : float
+        The length of the court in TV view. The default is ``0.0``
 
-    court_width : float (default: 0.0)
-        The width of the court in TV view
+    court_width : float
+        The width of the court in TV view. The default is ``0.0``
 
-    feature_radius : float (default: 0.0)
+    feature_radius : float
         The radius needed to draw the feature. This may not be needed for all
-        features
+        features. The default is ``0.0``
 
-    feature_thickness : float (default: 0.0)
+    feature_thickness : float
         The thickness with which to draw the feature. This is normally given
         as the horizontal width of the feature in TV view, however it may be
-        used to specify other thicknesses as needed
+        used to specify other thicknesses as needed. The default is ``0.0``
+
+    field_units : str
+        The units with which the feature is drawn. The default is ``"ft"``
     """
 
     def __init__(self, court_length = 0.0, court_width = 0.0,
                  feature_radius = 0.0, feature_thickness = 0.0,
                  feature_units = "ft", *args, **kwargs):
-
         # Set the full-sized dimensions of the court
         self.court_length = court_length
         self.court_width = court_width
@@ -112,6 +115,19 @@ class CourtApron(BaseBasketballFeature):
     The apron is the colored boundary around the exterior of some courts. If no
     such colored boundary exists, this should take the same color as the court
     floor
+
+    Attributes
+    ----------
+    court_apron_endline : float
+        The thickness of the court's apron beyond the endline
+
+    court_apron_sideline : float
+        The thickness of the court's apron beyond the sideline
+
+    court_apron_to_boundary : float
+        The distance from the inner edge of the court apron to the outer edge
+        of the court's boundary line (sideline and endline will be spaced the
+        same)
     """
 
     def __init__(self, court_apron_endline = 0.0, court_apron_sideline = 0.0,
@@ -245,6 +261,12 @@ class DivisionLine(BaseBasketballFeature):
     time line or half-court line. The center of this line goes through the y
     axis, with half of the line lying in a team's offensive half court and the
     other half in their defensive half court
+
+    Attributes
+    ----------
+    division_line_extension : float
+        The distance that the division line extends beyond the sidelines. This
+        may be omitted if the value is 0
     """
 
     def __init__(self, division_line_extension = 0.0, *args, **kwargs):
@@ -291,6 +313,16 @@ class TwoPointRange(BaseBasketballFeature):
 
     This is the area enclosed by the three-point line's outer edge and the
     baseline's inner edge
+
+    Attributes
+    ----------
+    basket_center_to_baseline : float
+        The distance from the center of the basket ring to the inner edge of
+        the baseline
+
+    basket_center_to_corner_three : float
+        The distance from the center of the basket ring to the outer edge of
+        the three-point line in the corner
     """
 
     def __init__(self, basket_center_to_baseline = 0.0,
@@ -375,6 +407,16 @@ class ThreePointLine(BaseBasketballFeature):
     Made shots inside this line count for two points, and made shots from
     beyond this line are worth three points. The radius of the feature should
     be to its exterior
+
+    Attributes
+    ----------
+    basket_center_to_baseline : float
+        The distance from the center of the basket ring to the inner edge of
+        the baseline
+
+    basket_center_to_corner_three : float
+        The distance from the center of the basket ring to the outer edge of
+        the three-point line in the corner
     """
 
     def __init__(self, basket_center_to_baseline = 0.0,
@@ -497,6 +539,20 @@ class PaintedArea(BaseBasketballFeature):
 
     The painted area may have a margin from the interior edges of the free
     throw lane, although this margin will default to 0.0 units
+
+    Attributes
+    ----------
+    lane_length : float
+        The distance from the inner edge of the baseline to the center-court
+        side of the free-throw lane in TV view
+
+    lane_width : float
+        The distance from the outer edges of the free-throw lane when viewing
+        the court in TV view
+
+    paint_margin : float
+        The distance from the painted area of the lane to the lane boundary
+        lines
     """
 
     def __init__(self, lane_length = 0.0, lane_width = 0.0, paint_margin = 0.0,
@@ -539,7 +595,17 @@ class FreeThrowLaneBoundary(BaseBasketballFeature):
     The lines providing the boundary to the free-throw lane. When a player is
     shooting a free-throw, all non-shooting players must be outside of this
     boundary. NOTE: This does not include lane space markings (blocks), which
-    will be created via the LaneSpaceMark class
+    will be created via the ``LaneSpaceMark`` class
+
+    Attributes
+    ----------
+    lane_length : float
+        The distance from the inner edge of the baseline to the center-court
+        side of the free-throw lane in TV view
+
+    lane_width : float
+        The distance from the outer edges of the free-throw lane when viewing
+        the court in TV view
     """
 
     def __init__(self, lane_length = 0.0, lane_width = 0.0, *args, **kwargs):
@@ -639,6 +705,14 @@ class FreeThrowCircleOutlineDash(BaseBasketballFeature):
     """The dashed part of a free-throw circle.
 
     The dashes may not be required by certain leagues
+
+    Attributes
+    ----------
+    start_angle : float
+        The angle at which the dash should start
+
+    end_angle : float
+        The angle at which the dash should end
     """
 
     def __init__(self, start_angle = 0.0, end_angle = 0.0, *args, **kwargs):
@@ -678,6 +752,12 @@ class LaneSpaceMark(BaseBasketballFeature):
     These are the marks where non-shooting players stand during free-throws.
     Players may not cross these lines before the ball touches the rim on the
     shot attempt
+
+    Attributes
+    ----------
+    mark_depth : float
+        The length (measurement in the baseline-to-free-throw-line direction)
+        of lane space marks (blocks) of the free-throw lane
     """
 
     def __init__(self, mark_depth = 0.0, *args, **kwargs):
@@ -755,6 +835,19 @@ class InboundingLine(BaseBasketballFeature):
     This is where the ball is inbounded on the sideline when necessary. Lines
     drawn on the top of the court should be drawn in a top-down direction, and
     lines on the bottom of the court should be drawn in the bottom-up direction
+
+    Attributes
+    ----------
+    in_play_ext : float
+        The distance into the court (measured from the inner edge of the
+        sideline) that the inbounding lines protrude into the court
+
+    out_of_bounds_ext : float
+        The distance away from the court (measured from the outer edge of the
+        sideline) that the inbounding lines protrude away the court
+
+    drawn_direction : str
+        The direction in which to draw the inbounding line
     """
 
     def __init__(self, in_play_ext = 0.0, out_of_bounds_ext = 0.0,
@@ -796,6 +889,15 @@ class SubstitutionLine(BaseBasketballFeature):
     This is where players checking into the game wait for a stoppage. Lines
     drawn on the top of the court should be drawn in a top-down direction, and
     lines on the bottom of the court should be drawn in the bottom-up direction
+
+    Attributes
+    ----------
+    substitution_line_width : float
+        The distance away from the court (measured from the outer edge of the
+        sideline) that the substitution lines protrude away from the court
+
+    drawn_direction : str
+        The direction in which to draw the substitution line
     """
 
     def __init__(self, substitution_line_width = 0.0, drawn_direction = "",
@@ -840,6 +942,15 @@ class LowerDefensiveBoxMark(BaseBasketballFeature):
     determine when a block/charge call should take place, as an offensive
     player is entitled to move outside of (and subsequently enter) this box
     without contact
+
+    Attributes
+    ----------
+    extension : float
+        The distance that the lower defensive box markings extend from their
+        anchor points
+
+    drawn_direction : str
+        The direction in which to draw the lower defensive box mark
     """
 
     def __init__(self, extension = 0.0, drawn_direction = "", *args, **kwargs):
@@ -879,6 +990,14 @@ class TeamBenchLine(BaseBasketballFeature):
 
     Players not in the game must stay within these lines unless moving to the
     substitution area (see SubstitutionLine class)
+
+    Attributes
+    ----------
+    extension : float
+        The distance that the team bench line extends from its anchor point
+
+    drawn_direction : str
+        The direction in which to draw the lower defensive box mark
     """
 
     def __init__(self, extension = 0.0, drawn_direction = "", *args, **kwargs):
@@ -918,6 +1037,12 @@ class RestrictedArc(BaseBasketballFeature):
 
     The arc located in the free-throw lane. The interior radius should be
     specified for this feature.
+
+    Attributes
+    ----------
+    backboard_to_center_of_basket : float
+        The distance from the front face of the backboard to the center of the
+        basket ring
     """
 
     def __init__(self, backboard_to_center_of_basket = 0.0, *args, **kwargs):
@@ -976,6 +1101,12 @@ class Backboard(BaseBasketballFeature):
 
     This is the backing onto which the basket ring (created separately) is
     affixed
+
+    Attributes
+    ----------
+    backboard_thickness : float
+        The thickness of the backboard. This is the observed thickness when
+        viewing the court from a bird's eye view
     """
 
     def __init__(self, backboard_width = 0.0, *args, **kwargs):
@@ -1003,6 +1134,21 @@ class BasketRing(BaseBasketballFeature):
     """The basket ring.
 
     The hoop through which the ball must pass to score points for a team
+
+    Attributes
+    ----------
+    basket_ring_connector_extension : float
+        The distance the basket ring's connector extends from the backboard
+        into the free-throw lane
+
+    basket_ring_connector_width : float
+        The dimension of the piece of the basket ring that connects the
+        backboard to the basket ring. When viewing the court in TV view from
+        above, this is the dimension in the ``y`` direction
+
+    backboard_to_center_of_basket : float
+        The distance from the front face of the backboard to the center of the
+        basket ring
     """
 
     def __init__(self, basket_ring_connector_extension = 0.0,

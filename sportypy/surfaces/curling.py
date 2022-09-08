@@ -1,11 +1,11 @@
-"""Extension of the BaseSurfacePlot class to create a curling sheet.
+"""Extension of the ``BaseSurfacePlot`` class to create a curling sheet.
 
-This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. `sportypy` will ship with pre-defined
-leagues that will have their own subclass, but a user can manually specify
-their own sheet parameters to create a totally-customized sheet. The sheet's
-features are parameterized by the basic dimensions of the sheet, which comprise
-the attributes of the class.
+This is a second-level child class of the ``BaseSurface`` class, and as such
+will have access to its attributes and methods. `sportypy` will ship with
+pre-defined leagues that will have their own subclass, but a user can manually
+specify their own sheet parameters to create a totally-customized sheet. The
+sheet's features are parameterized by the basic dimensions of the sheet, which
+comprise the attributes of the class.
 
 @author: Ross Drucker
 """
@@ -16,152 +16,189 @@ from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
 class CurlingSheet(BaseSurfacePlot):
-    """A subclass of the BaseSurfacePlot class to make a generic curling sheet.
+    """A subclass of ``BaseSurfacePlot`` to make a generic curling sheet.
 
     This allows for the creation of the curling sheet in a way that is entirely
     parameterized by the sheet's baseline characteristics.
 
-    All attributes should default to 0.0 (if of a numeric type) or an empty
+    All attributes should default to ``0.0`` (if of a numeric type) or an empty
     string (if of a string type). Customized parameters may be specified via a
     child class (see below) or by directly specifying all necessary attributes
-    of a valid ice curling sheet. The attributes needed to instantiate a
-    particular league's surface must be specified in the sheet_params
-    dictionary. For many leagues, these will be provided in the
-    surface_dimensions.json file in the data/ subdirectory of `sportypy`.
+    of a valid curling sheet. The attributes needed to instantiate a particular
+    league's surface must be specified in the ``sheet_params`` dictionary. For
+    many leagues, these will be provided in the surface_dimensions.json file in
+    the data/ subdirectory of `sportypy`.
 
-    See the BaseSurfacePlot and BaseSurface class definitions for full details.
-
-    NOTE: Any attribute below that is prefixed with an asterisk (*) should be
-    specified via the sheet_updates dictionary as these parameters are specific
-    to each league. Attributes prefixed with a hyphen (-) are specified at the
-    time that the surface class is created
+    See the ``BaseSurfacePlot`` and ``BaseSurface`` class definitions for full
+    details.
 
     Attributes
     ----------
-    - league_code : str (default: "")
+    league_code : str
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "World Curling
-        Federation" should be either "WCF" or "wcf"). The default is an empty
-        string
+        Federation" should be either "WCF" or "wcf"). The default
+        is an empty string
 
-    - rotation : float
+    rotation_amt : float
         The angle (in degrees) through which to rotate the final plot. The
         default is ``0.0``
 
-    - x_trans : float
-        The amount that the x coordinates are to be shifted. By convention,
-        the +x axis extends from the center of the ice surface towards the
-        right-hand house when viewing the sheet in TV view. The default is
+    x_trans : float
+        The amount that the ``x`` coordinates are to be shifted. By convention,
+        the +``x`` axis extends from the center of the surface towards the
+        right-hand side wall when viewing the sheet in TV view. The default is
         ``0.0``
 
-    - y_trans : float
-        The amount that the y coordinates are to be shifted. By convention,
-        the +y axis extends from the center of the ice surface towards the
-        top of the sheet when viewing the sheet in TV view. The default is
+    y_trans : float
+        The amount that the ``y`` coordinates are to be shifted. By convention,
+        the +``y`` axis extends from the center of the surface towards the
+        top house when viewing the sheet in TV view. The default is
         ``0.0``
 
-    - sheet_updates : dict
-        A dictionary of updated parameters to use to create the curling sheet.
-        The default is an empty dictionary
+    feature_colors : dict
+        A dictionary of coloring parameters to pass to the plot
 
-    - color_updates : dict
-        A dictionary of coloring parameters to pass to the plot. Defaults are
-        provided in the class per each rule book, but this allows the plot to
-        be more heavily customized/styled. The default is an empty dictionary
+    sheet_params : dict
+        A dictionary containing the following parameters of the sheet::
 
-    - units : str (default: "default")
-        The units that the final plot should utilize. The default units are the
-        units specified in the rule book of the league. The default is
-        ``"default"``
+            - sheet_length : float
+                The full length of the sheet. Length is defined as the distance
+                between the inner edge of the boards behind each house
 
-    * sheet_length : float
-        The full length of the sheet. Length is defined as the distance between
-        the inner edge of the boards behind each house
+            - sheet_width : float
+                The full width of the sheet. Width is defined as the distance
+                between the inner edge of the side walls
 
-    * sheet_width : float
-        The full width of the sheet. Width is defined as the distance between
-        the inner edge of the side walls
+            - sheet_units : str
+                The units with which to draw the sheet
 
-    * sheet_units : str
-        The units with which to draw the sheet
+            - apron_behind_back : float
+                The dimension of the sheet's apron behind the back board. In TV
+                view, this is in the ``y`` direction
 
-    * apron_behind_back : float
-        The dimension of the sheet's apron behind the back board. In TV view,
-        this is in the y direction
+            - apron_along_side : float
+                The dimension of the sheet's apron beyond the side wall. In TV
+                view, this is in the +``x`` direction
 
-    * apron_along_side : float
-        The dimension of the sheet's apron beyond the side wall. In TV view,
-        this is in the +x direction
+            - tee_line_to_center : float
+                The distance from the center of the shet to the center of the
+                tee line
 
-    * tee_line_to_center : float
-        The distance from the center of the shet to the center of the tee line
+            - tee_line_thickness : float
+                The thickness of the tee line. This is the line that runs
+                through the center of the house, from side wall to side wall
 
-    * tee_line_thickness : float
-        The thickness of the tee line. This is the line that runs through the
-        center of the house, from side wall to side wall
+            - back_line_thickness : float
+                The thickness of the back line. This is the line between the
+                house and the hack
 
-    * back_line_thickness : float
-        The thickness of the back line. This is the line between the house and
-        the hack
+            - back_line_to_tee_line : float
+                The distance from the center of the tee line to the outside
+                edge of the back line (which runs between the house and the
+                hack)
 
-    * back_line_to_tee_line : float
-        The distance from the center of the tee line to the outside edge of the
-        back line (which runs between the house and the hack)
+            - hack_line_thickness : float
+                The thickness of the hack line
 
-    * hack_line_thickness : float
-        The thickness of the hack line
+            - hack_foothold_width : float
+                The width of a foothold of the hack. In TV view, this is the
+                dimension of the foothold in the ``x`` direction (parallel to
+                the tee line)
 
-    * hack_foothold_width : float
-        The width of a foothold of the hack. In TV view, this is the dimension
-        of the foothold in the x direction (parallel to the tee line)
+            - hack_foothold_gap : float
+                The interior separation between the two footholds in the hack
 
-    * hack_foothold_gap : float
-        The interior separation between the two footholds in the hack
+            - hack_foothold_depth : float
+                The distance from the house-side to the back wall side of the
+                foothold of the hack. The back of the foothold will lie along
+                the hack line
 
-    * hack_foothold_depth : float
-        The distance from the house-side to the back wall side of the foothold
-        of the hack. The back of the foothold will lie along the hack line
+            - hog_line_to_tee_line : float
+                The distance from the inside edge of the hog line (the edge
+                nearest the house) to the tee line
 
-    * hog_line_to_tee_line : float
-        The distance from the inside edge of the hog line (the edge nearest the
-        house) to the tee line
+            - hog_line_thickness : float
+                The thickness of the hog line
 
-    * hog_line_thickness : float
-        The thickness of the hog line
+            - centre_line_extension : float
+                The distance beyond the center of the tee line that the centre
+                line extends towards the back wall
 
-    * centre_line_extension : float
-        The distance beyond the center of the tee line that the centre line
-        extends towards the back wall
+            - centre_line_thickness : float
+                The thickness of the centre line
 
-    * centre_line_thickness : float
-        The thickness of the centre line
+            - house_ring_radii : list of floats
+                The radii of the house rings. These will be reordered to be
+                descending by default. This should NOT include the button, as
+                this will be handled separately
 
-    * house_ring_radii : list of floats
-        The radii of the house rings. These will be reordered to be descending
-        by default. This should NOT include the button, as this will be handled
-        separately
+            - button_radius : float
+                The radius of the button (the center ring of the house)
 
-    * button_radius : float
-        The radius of the button (the center ring of the house)
+            - courtesy_line_thickness : float
+                The thickness of the courtesy lines. These are the lines
+                marking where players on the non-throwing team should stand
+                while awaiting their next throw. This dimension should be in
+                the ``y`` direction when viewing the sheet in TV view
 
-    * courtesy_line_thickness : float
-        The thickness of the courtesy lines. These are the lines marking where
-        players on the non-throwing team should stand while awaiting their next
-        throw. This dimension should be in the y direction when viewing the
-        sheet in TV view
+            - courtesy_line_length : float
+                The distance outward from the inner edge of the side wall that
+                the courtesy line extends towards the center of the sheet
 
-    * courtesy_line_length : float
-        The distance outward from the inner edge of the side wall that the
-        courtesy line extends towards the center of the sheet
-
-    * courtesy_line_to_hog_line : float
-        The distance between the outer edges of the hog line and the courtesy
-        line
+            - courtesy_line_to_hog_line : float
+                The distance between the outer edges of the hog line and the
+                courtesy line
     """
 
     def __init__(self, league_code = "", sheet_updates = {},
                  color_updates = {}, rotation = 0.0, x_trans = 0.0,
                  y_trans = 0.0, units = "default", **added_features):
+        """Initialize an instance of a ``CurlingSheet`` class.
+
+        Parameters
+        ----------
+        league_code : str
+            The league for which the plot should be drawn. This is
+            case-insensitive but should be the shortened name of the league
+            (e.g. "World Curling Federation" should be either "WCF" or
+            "wcf"). The default is an empty string
+
+        rotation : float
+            The angle (in degrees) through which to rotate the final plot. The
+            default is ``0.0``
+
+        x_trans : float
+            The amount that the ``x`` coordinates are to be shifted. By
+            convention, the +``x`` axis extends from the center of the surface
+            towards the right-hand side wall when viewing the sheet in TV view.
+            The default is ``0.0``
+
+        y_trans : float
+            The amount that the ``y`` coordinates are to be shifted. By
+            convention, the +``y`` axis extends from the center of the surface
+            towards the top house when viewing the sheet in TV view. The
+            default is ``0.0``
+
+        sheet_updates : dict
+            A dictionary of updated parameters to use to create the curling
+            sheet. The default is an empty dictionary
+
+        color_updates : dict
+            A dictionary of coloring parameters to pass to the plot. Defaults
+            are provided in the class per each rule book, but this allows the
+            plot to be more heavily customized/styled. The default is an empty
+            dictionary
+
+        units : str
+            The units that the final plot should utilize. The default units are
+            the units specified in the rule book of the league. The default is
+            ``"default"``
+
+        Returns
+        -------
+        Nothing, but instantiates the class
+        """
         # Load all pre-defined sheet dimensions for provided leagues
         self._load_preset_dimensions(sport = "curling")
 
@@ -607,42 +644,44 @@ class CurlingSheet(BaseSurfacePlot):
         Parameters
         ----------
         ax : matplotlib.Axes
-            An axes object onto which the plot can be drawn. If None is
+            An axes object onto which the plot can be drawn. If ``None`` is
             supplied, then the currently-active Axes object will be used
 
-        display_range : str; default "full"
+        display_range : str
             The portion of the surface to display. The entire surface
             will always be drawn under the hood, however this parameter
             limits what is shown in the final plot. The following explain what
-            each display range corresponds to:
+            each display range corresponds to::
 
-            "full" : the entire surface
+                - ``"full"``: The entire surface
+                - ``"house"``: The top house on the surface when viewing the
+                    sheet in TV view
 
-            "house": the top house on the surface when viewing the sheet in
-                TV-view
+            The default is ``"full"``
 
-        xlim : float, tuple (float, float), or None (default: None)
-            The display range in the x direction to be used. If a single
+        xlim : float or tuple of floats or None
+            The display range in the ``x`` direction to be used. If a single
             float is provided, this will be used as the lower bound of
-            the x coordinates to display and the upper bound will be the
-            +x end of the surface. If a tuple, the two values will be
-            used to determine the bounds. If None, then the
-            display_range will be used instead to set the bounds
+            the ``x`` coordinates to display and the upper bound will be the
+            +``x`` end of the sheet. If a tuple, the two values will be
+            used to determine the bounds. If ``None``, then the
+            `display_range` will be used instead to set the bounds. The default
+            is ``None``
 
-        ylim : float, tuple (float, float), or None (default: None)
-            The display range in the y direction to be used. If a single
-            float is provided, this will be used as the lower bound of
-            the y coordinates to display and the upper bound will be the
-            +y side of the sheet. If a tuple, the two values will be used
-            to determine the bounds. If None, then the display_range
-            will be used instead to set the bounds
+        ylim : float or tuple of floats or None
+            The display range in the ``y`` direction to be used. If a single
+            float is provided, this will be used as the lower bound of the y
+            coordinates to display and the upper bound will be the +``y`` side
+            of the sheet. If a tuple, the two values will be used to determine
+            the bounds. If ``None``, then the `display_range` will be used
+            instead to set the bounds.  The default is ``None``
 
-        rotation : float or None (default: None)
-            Angle (in degrees) through which to rotate the sheet when
-            drawing. If used, this will set the class attribute of
-            self._rotation. A value of 0.0 will correspond to a TV View
-            of the sheet, where +x is to the right and +y is on top. The
-            rotation occurs counter clockwise
+        rotation : float or None
+            Angle (in degrees) through which to rotate the sheet when drawing.
+            If used, this will set the class attribute of `_rotation`. A value
+            of ``0.0`` will correspond to a TV view of the sheet, where +``x``
+            is to the right and +``y`` is on top. The rotation occurs
+            counterclockwise. The default is ``None``
         """
         # If there is a rotation to be applied, apply it first and set it as
         # the class attribute self._rotation
@@ -738,15 +777,15 @@ class CurlingSheet(BaseSurfacePlot):
 
         A user may wish to know if a specific curling league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with sportypy for easier plotting (if they provide the league
+        shipped with `sportypy` for easier plotting (if they provide the league
         code), or can also show what leagues are available to be plotted
 
         Parameters
         ----------
-        league_code : str or None (default: None)
+        league_code : str or None
             A league code that may or may not be shipped with the package. If
-            the league code is None, this will display all leagues that do come
-            shipped with sportypy
+            the league code is ``None``, this will display all leagues that do
+            come shipped with `sportypy`. The default is ``None``
 
         Returns
         -------
@@ -838,16 +877,16 @@ class CurlingSheet(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, but this method allows the colors to be
+        the `color_updates` parameter, but this method allows the colors to be
         updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
-        color_updates : dict (default: {}; an empty dictionary)
+        color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see cani_color_features() method for
-            a list of these names)
+            that's color is to be updated (see `cani_color_features()` method
+            for a list of these names). The default is an empty dictionary
 
         Returns
         -------
@@ -873,14 +912,15 @@ class CurlingSheet(BaseSurfacePlot):
         """Update the sheet's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by sportypy
+        not currently supported by `sportypy`
 
         Parameters
         ----------
-        sheet_updates : dict (default: {}; an empty dictionary)
+        sheet_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the sheet that is to be updated (see cani_change_dimensions()
-            method for a list of these parameters)
+            of the sheet that is to be updated (see `cani_change_dimensions()`
+            method for a list of these parameters). The default is an empty
+            dictionary
 
         Returns
         -------
@@ -906,9 +946,9 @@ class CurlingSheet(BaseSurfacePlot):
         """Reset the features of the sheet to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, and through the update_colors() method,
-        these can be changed. This method allows the colors to be reset to
-        their default values after experiencing such a change
+        the `color_updates` parameter, and through the `update_colors()`
+        method, these can be changed. This method allows the colors to be reset
+        to their default values after experiencing such a change
         """
         # Re-instantiate the class with the default colors
         default_colors = {
@@ -937,10 +977,10 @@ class CurlingSheet(BaseSurfacePlot):
         """Reset the features of the sheet to their default parameterizations.
 
         The sheet parameters can be passed at the initial instantiation of the
-        class via the sheet_updates parameter, and through the
-        update_sheet_params() method, these can be changed. This method allows
-        the feature parameterization to be reset to their default values after
-        experiencing such a change
+        class via the `sheet_updates` parameter, and through the
+        `update_sheet_params()` method, these can be changed. This method
+        allows the feature parameterization to be reset to their default values
+        after experiencing such a change
         """
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
@@ -953,27 +993,47 @@ class CurlingSheet(BaseSurfacePlot):
     def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
-        """Get the x and y limits for the displayed plot.
+        """Get the ``x`` and ``y`` limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: "full")
+        display_range : str
             The range of which to display the plot. This is a key that will
-            be searched for in the ranges_dict parameter
+            be searched for in the possible display ranges. The following are
+            valid `display_range`s::
 
-        xlim : float or None (default: None)
-            A specific limit on x for the plot
+                - ``"full"``: The entire surface
+                - ``"house"``: The top house on the surface when viewing the
+                    sheet in TV view
 
-        ylim : float or None (default: None)
-            A specific limit on y for the plot
+            The default is ``"full"``
+
+        xlim : float or None
+            A specific limit on ``x`` for the plot. The default is ``None``
+
+        ylim : float or None
+            A specific limit on ``y`` for the plot. The default is ``None``
+
+        for_plot : bool
+            Whether the plot range limits are being set for a plot (e.g. a
+            model being displayed over the surface). This utilizes the surface
+            constraint to restrict the model to be inbounds. The default is
+            ``False``
+
+        for_display : bool
+            Whether the plot range limits are being set for a display (e.g. to
+            show the entirety of the surface in the resulting graphic). This
+            will ignore the surface constraint in the resulting graphic, but
+            the constraint will be respected when drawing features. The default
+            is ``False``
 
         Returns
         -------
         xlim : tuple
-            The x-directional limits for displaying the plot
+            The ``x``-directional limits for displaying the plot
 
         ylim : tuple
-            The y-directional limits for displaying the plot
+            The ``y``-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
         if display_range == "" or display_range is None:
@@ -1125,9 +1185,9 @@ class CurlingSheet(BaseSurfacePlot):
 
 
 class WCFSheet(CurlingSheet):
-    """A subclass of CurlingSheet specific to the WCF.
+    """A subclass of ``CurlingSheet`` specific to the WCF.
 
-    See CurlingSheet class documentation for full description.
+    See ``CurlingSheet`` class documentation for full description.
     """
 
     def __init__(self, sheet_updates = {}, *args, **kwargs):

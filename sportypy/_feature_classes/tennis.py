@@ -1,8 +1,8 @@
-"""Extensions of the BaseFeature class to be specific to tennis courts.
+"""Extensions of the ``BaseFeature`` class to be specific to tennis courts.
 
 The features are all parameterized by the basic characteristics of a tennis
 court. A user can manually specify their own court parameters in the
-TennisCourt class that will adjust the placement of these features, however
+``TennisCourt`` class that will adjust the placement of these features, however
 the features themselves will be consistent across all tennis surfaces.
 
 @author: Ross Drucker
@@ -12,29 +12,32 @@ from sportypy._base_classes._base_feature import BaseFeature
 
 
 class BaseTennisFeature(BaseFeature):
-    """An extension of the BaseFeature class for tennis features.
+    """An extension of the ``BaseFeature`` class for tennis features.
 
     The following attributes are specific to tennis features only. For more
-    information on inherited attributes, please see the BaseFeature class
+    information on inherited attributes, please see the ``BaseFeature`` class
     definition. The default values are provided to ensure that the feature can
     at least be created.
 
     Attributes
     ----------
-    court_length : float (default: 0.0)
-        The length of the court in TV view
+    court_length : float
+        The length of the court in TV view. The default is ``0.0``
 
-    court_width : float (default: 0.0)
-        The width of the court in TV view
+    court_width : float
+        The width of the court in TV view. The default is ``0.0``
 
-    feature_radius : float (default: 0.0)
+    feature_radius : float
         The radius needed to draw the feature. This may not be needed for all
-        features
+        features. The default is ``0.0``
 
-    feature_thickness : float (default: 0.0)
+    feature_thickness : float
         The thickness with which to draw the feature. This is normally given
         as the horizontal width of the feature in TV view, however it may be
-        used to specify other thicknesses as needed
+        used to specify other thicknesses as needed. The default is ``0.0``
+
+    field_units : str
+        The units with which the feature is drawn. The default is ``"ft"``
     """
 
     def __init__(self, court_length = 0.0, court_width = 0.0,
@@ -93,7 +96,7 @@ class Baseline(BaseTennisFeature):
         """Generate the points comprising the baseline of the court.
 
         Lines are considered in play, so the outer edge of the baseline will
-        lie along y = {court_length / 2.0}
+        lie along ``y = {court_length / 2.0}``
         """
         baseline_df = self.create_rectangle(
             x_min = -self.feature_thickness,
@@ -115,7 +118,7 @@ class Sideline(BaseTennisFeature):
         """Generate the points comprising a sideline on the court.
 
         Lines are considered in play, so the outer edge of the sideline will
-        lie along x = {court_width / 2.0}
+        lie along ``x = {court_width / 2.0}``
         """
         sideline_df = self.create_rectangle(
             x_min = -self.court_length / 2.0,
@@ -132,6 +135,11 @@ class ServiceLine(BaseTennisFeature):
 
     A serve must land between the net and this line on the proper side of the
     court to be considered legal and in play.
+
+    Attributes
+    ----------
+    singles_width : float
+        The width of a singles court in the court's specified units
     """
 
     def __init__(self, singles_width = 0.0, *args, **kwargs):
@@ -160,6 +168,11 @@ class CenterServiceline(BaseTennisFeature):
 
     This line divides the service area into two parts: the ad court (left) and
     the deuce court (right)
+
+    Attributes
+    ----------
+    center_serviceline_length : float
+        The length of the center serviceline
     """
 
     def __init__(self, center_serviceline_length = 0.0, *args, **kwargs):
@@ -187,6 +200,12 @@ class CenterMark(BaseTennisFeature):
     """The center mark on the baseline of the court.
 
     This line identifies the center point of the baseline.
+
+    Attributes
+    ----------
+    center_mark_length : float
+        The distance that the center mark on the baseline protrudes forward
+        from its anchor point at the back edge of the baseline
     """
 
     def __init__(self, center_mark_length = 0.0, *args, **kwargs):
@@ -214,6 +233,15 @@ class FrontcourtHalf(BaseTennisFeature):
 
     The left-hand side of the court when facing the net from the nearest
     baseline is the ad court, and the right-hand side is the deuce court
+
+    Attributes
+    ----------
+    singles_width : float
+        The width of a singles court in the court's specified units
+
+    serviceline_distance : float
+        The distance from the net to the outer edge of the serviceline (the
+        line in front of which a serve must land)
     """
 
     def __init__(self, singles_width = 0.0, serviceline_distance = 0.0, *args,
@@ -243,6 +271,15 @@ class Backcourt(BaseTennisFeature):
 
     This is the area behind the serviceline on the court, contained within the
     singles sidelines
+
+    Attributes
+    ----------
+    singles_width : float
+        The width of a singles court in the court's specified units
+
+    serviceline_distance : float
+        The distance from the net to the outer edge of the serviceline (the
+        line in front of which a serve must land)
     """
 
     def __init__(self, singles_width = 0.0, serviceline_distance = 0.0, *args,
@@ -289,6 +326,16 @@ class CourtApron(BaseTennisFeature):
     """The boundary that surrounds the tennis court.
 
     This is the backstop and the sidestop
+
+    Attributes
+    ----------
+    backstop_distance : float
+        The distance from the back edge of the baseline to the barrier behind
+        it in the court's specified units
+
+    sidestop_distance : float
+        The distance from the outer edge of the sideline to the barrier that
+        runs parallel to it in the court's specified units
     """
 
     def __init__(self, backstop_distance = 0.0, sidestop_distance = 0.0, *args,
@@ -337,6 +384,12 @@ class Net(BaseTennisFeature):
     """The net on the tennis court.
 
     This divides the court into two halves
+
+    Attributes
+    ----------
+    net_length : float
+        The length of the net, from post to post, in the court's specified
+        units
     """
 
     def __init__(self, net_length = 0.0, *args, **kwargs):

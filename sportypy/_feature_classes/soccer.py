@@ -1,8 +1,8 @@
-"""Extensions of the BaseFeature class to be specific to soccer pitches.
+"""Extensions of the ``BaseFeature`` class to be specific to soccer pitches.
 
 The features are all parameterized by the basic characteristics of a soccer
 pitch. A user can manually specify their own pitch parameters in the
-SoccerPitch class that will adjust the placement of these features, however
+``SoccerPitch`` class that will adjust the placement of these features, however
 the features themselves will be consistent across all soccer surfaces.
 
 @author: Ross Drucker
@@ -14,29 +14,32 @@ from sportypy._base_classes._base_feature import BaseFeature
 
 
 class BaseSoccerFeature(BaseFeature):
-    """An extension of the BaseFeature class for soccer features.
+    """An extension of the ``BaseFeature`` class for soccer features.
 
     The following attributes are specific to soccer features only. For more
-    information on inherited attributes, please see the BaseFeature class
+    information on inherited attributes, please see the ``BaseFeature`` class
     definition. The default values are provided to ensure that the feature can
     at least be created.
 
     Attributes
     ----------
-    pitch_length : float (default: 0.0)
-        The length of the pitch in TV view
+    pitch_length : float
+        The length of the pitch in TV view. The default is ``0.0``
 
-    pitch_width : float (default: 0.0)
-        The width of the pitch in TV view
+    pitch_width : float
+        The width of the pitch in TV view. The default is ``0.0``
 
-    feature_radius : float (default: 0.0)
+    feature_radius : float
         The radius needed to draw the feature. This may not be needed for all
-        features
+        features. The default is ``0.0``
 
-    feature_thickness : float (default: 0.0)
+    feature_thickness : float
         The thickness with which to draw the feature. This is normally given
         as the horizontal width of the feature in TV view, however it may be
-        used to specify other thicknesses as needed
+        used to specify other thicknesses as needed. The default is ``0.0``
+
+    field_units : str
+        The units with which the feature is drawn. The default is ``"ft"``
     """
 
     def __init__(self, pitch_length = 0.0, pitch_width = 0.0,
@@ -86,14 +89,15 @@ class PitchConstraint(BaseSoccerFeature):
 
 class HalfPitch(BaseSoccerFeature):
     """One half, either the offensive or defensive half, of the pitch.
-    
-    This allows each half to take on its own color and be plotted independently,
-    but the halves may take the same color so they look symmetrical
+
+    This allows each half to take on its own color and be plotted
+    independently, but the halves may take the same color so they look
+    symmetrical
     """
 
     def _get_centered_feature(self):
         """Generate the points comprising the half of the pitch.
-        
+
         The pitch half is constrained to be inside of the touchlines
         """
         pitch_half_df = self.create_rectangle(
@@ -108,14 +112,15 @@ class HalfPitch(BaseSoccerFeature):
 
 class PitchApron(BaseSoccerFeature):
     """The apron of the pitch beyond the touchline and goal line.
-    
+
     This is to allow a more accurate representation of the pitch, as no ads are
     allowed within a certain distance of the exterior edge of the touchline and
     goal line
     """
 
-    def __init__(self, pitch_apron_touchline = 0.0, pitch_apron_goal_line = 0.0,
-                 goal_depth = 0.0, *args, **kwargs):
+    def __init__(self, pitch_apron_touchline = 0.0,
+                  pitch_apron_goal_line = 0.0, goal_depth = 0.0, *args,
+                  **kwargs):
         # Initialize the attributes unique to this feature
         self.pitch_apron_touchline = pitch_apron_touchline
         self.pitch_apron_goal_line = pitch_apron_goal_line
@@ -124,7 +129,7 @@ class PitchApron(BaseSoccerFeature):
 
     def _get_centered_feature(self):
         """Generate the points comprising the pitch apron's boundary.
-        
+
         This should extend fully outside of the pitch, and is forced to be
         symmetric
         """
@@ -311,6 +316,20 @@ class PenaltyBox(BaseSoccerFeature):
     """The penalty box.
 
     This is usually the 16.5 m (18 yd) box, but may be parameterized
+
+    Attributes
+    ----------
+    box_length : float
+        The length of the penalty box in TV view. This is the larger of the two
+        boxes, and is usually 16.5 m (18 yards) from the back edge of the goal
+        line
+
+    half_box_width : float
+        Half the width of the penalty box
+
+    penalty_mark_dist : float
+        The distance from the back edge of the goal line to the center of the
+        penalty mark
     """
 
     def __init__(self, box_length = 0.0, penalty_mark_dist = 0.0,
@@ -388,6 +407,16 @@ class GoalBox(BaseSoccerFeature):
     """The goal box.
 
     This is usually the 5.5 m (6 yd) box, but may be parameterized
+
+    Attributes
+    ----------
+    box_length : float
+        The length of the goal box in TV view. This is the smaller of the two
+        boxes, and is usually 5.5 m (6 yards) from the back edge of the goal
+        line
+
+    half_box_width : float
+        Half the width of the goal box
     """
 
     def __init__(self, box_length = 0.0, goal_width = 0.0,
@@ -481,6 +510,22 @@ class CornerDefensiveMark(BaseSoccerFeature):
     These are optional marks on the pitch, located 9.15 m (10 yd) from the
     corner of the pitch. Defenders should be beyond these marks (either more
     towards the goal or more towards the halfway line) during corner kicks
+
+    Attributes
+    ----------
+    is_touchline : bool
+        Whether or not the corner defensive mark is along the touchline
+
+    is_goal_line : bool
+        Whether or not the corner defensive mark is along the goal line
+
+    depth : float
+        The depth (in any direction) of the defensive marks beyond the goal
+        line or touchline
+
+    separation_from_line : float
+        The distance from the exterior edge of the goal line to the interior
+        edge of the defensive mark
     """
 
     def __init__(self, is_touchline = False, is_goal_line = False, depth = 0.0,
@@ -519,6 +564,14 @@ class Goal(BaseSoccerFeature):
     """The goal.
 
     The goals located beyond each goal line.
+
+    Attributes
+    ----------
+    goal_width : float
+        The interior distance between the goal posts
+
+    goal_depth : float
+        The depth of the goal from the back edge of the goal line
     """
 
     def __init__(self, goal_width = 0.0, goal_depth = 0.0, *args, **kwargs):

@@ -1,9 +1,10 @@
-"""Extensions of the BaseFeature class to be specific to football field.
+"""Extensions of the ``BaseFeature`` class to be specific to football field.
 
 The features are all parameterized by the basic characteristics of a football
 field. A user can manually specify their own field parameters in the
-FootballField class that will adjust the placement of these features, however
-the features themselves will be consistent across all football surfaces.
+``FootballField`` class that will adjust the placement of these features,
+however the features themselves will be consistent across all football
+surfaces.
 
 @author: Ross Drucker
 """
@@ -12,29 +13,32 @@ from sportypy._base_classes._base_feature import BaseFeature
 
 
 class BaseFootballFeature(BaseFeature):
-    """An extension of the BaseFeature class for football features.
+    """An extension of the ``BaseFeature`` class for football features.
 
     The following attributes are specific to football features only. For more
-    information on inherited attributes, please see the BaseFeature class
+    information on inherited attributes, please see the ``BaseFeature`` class
     definition. The default values are provided to ensure that the feature can
     at least be created.
 
     Attributes
     ----------
-    field_length : float (default: 0.0)
-        The length of the field in TV view
+    field_length : float
+        The length of the field in TV view. The default is ``0.0``
 
-    field_width : float (default: 0.0)
-        The width of the field in TV view
+    field_width : float
+        The width of the field in TV view. The default is ``0.0``
 
-    feature_radius : float (default: 0.0)
+    feature_radius : float
         The radius needed to draw the feature. This may not be needed for all
-        features
+        features. The default is ``0.0``
 
-    feature_thickness : float (default: 0.0)
+    feature_thickness : float
         The thickness with which to draw the feature. This is normally given
         as the horizontal width of the feature in TV view, however it may be
-        used to specify other thicknesses as needed
+        used to specify other thicknesses as needed. The default is ``0.0``
+
+    field_units : str
+        The units with which the feature is drawn. The default is ``"yd"``
     """
 
     def __init__(self, field_length = 0.0, field_width = 0.0,
@@ -57,6 +61,12 @@ class FieldConstraint(BaseFootballFeature):
 
     This confines all interior features to be constrained inside the field, as
     well as any interior plots.
+
+    Attributes
+    ----------
+    endzone_length : float
+        The length of the endzone in TV view. This is measured from the field
+        side of the goal line
     """
 
     def __init__(self, endzone_length = 0.0, *args, **kwargs):
@@ -90,6 +100,12 @@ class OffensiveHalf(BaseFootballFeature):
     """The offensive half of the field.
 
     This is the right half of the field in TV view
+
+    Attributes
+    ----------
+    endzone_length : float
+        The length of the endzone in TV view. This is measured from the field
+        side of the goal line
     """
 
     def __init__(self, endzone_length = 0.0, *args, **kwargs):
@@ -116,6 +132,12 @@ class DefensiveHalf(BaseFootballFeature):
     """The defensive half of the field.
 
     This is the left half of the field in TV view
+
+    Attributes
+    ----------
+    endzone_length : float
+        The length of the endzone in TV view. This is measured from the field
+        side of the goal line
     """
 
     def __init__(self, endzone_length = 0.0, *args, **kwargs):
@@ -144,6 +166,48 @@ class FieldApron(BaseFootballFeature):
     The field should have an apron to appropriately see all out-of-bounds
     features. This is typically the same color as the field itself, but will be
     created separately so as to allow for more customized plotting
+
+    Attributes
+    ----------
+    endzone_length : float
+        The length of the endzone in TV view. This is measured from the field
+        side of the goal line
+
+    boundary_line_thickness : float
+        The thickness of the boundary lines. This should not include any border
+        around the sidelines, the restricted areas, or team bench areas
+
+    field_border_thickness : float
+        The thickness of the border around the field. This will be uniform
+        around the entirety of the field. This should not include the thickness
+        of the boundary lines
+
+    restricted_area_length : float
+        The length of the restricted area in the direction parallel to the
+        sideline of the field
+
+    coaching_box_length : float
+        The length of the coaching box in the direction parallel to the
+        sideline of the field
+
+    coaching_box_width : float
+        The width of the coaching box
+
+    team_bench_length_field_side : float
+        The length of the team bench's edge closest to the field
+
+    team_bench_length_back_side : float
+        The length of the team bench's edge furthest from the field
+
+    team_bench_width : float
+        The width of the team bench area
+
+    team_bench_area_border_thickness : float
+        The thickness of the border around the team bench area. This should not
+        include any borders around the field
+
+    extra_apron_padding : float
+        Any additional padding around the field apron
     """
 
     def __init__(self, endzone_length = 0.0, boundary_thickness = 0.0,
@@ -203,6 +267,12 @@ class Endzone(BaseFootballFeature):
     """The endzones.
 
     The area beyond the goal line.
+
+    Attributes
+    ----------
+    endzone_length : float
+        The length of the endzone in TV view. This is measured from the field
+        side of the goal line
     """
 
     def __init__(self, endzone_length = 0.0, *args, **kwargs):
@@ -252,6 +322,12 @@ class Sideline(BaseFootballFeature):
 
     The sidelines are typically white in color, and its interior edge is out of
     bounds
+
+    Attributes
+    ----------
+    endzone_length : float
+        The length of the endzone in TV view. This is measured from the field
+        side of the goal line
     """
 
     def __init__(self, endzone_length = 0.0, *args, **kwargs):
@@ -279,6 +355,55 @@ class FieldBorder(BaseFootballFeature):
 
     This is not present on every field, but is not the same as the sideline
     or end line (although they may be the same in color)
+
+    Attributes
+    ----------
+    endzone_length : float
+        The length of the endzone in TV view. This is measured from the field
+        side of the goal line
+
+    boundary_line_thickness : float
+        The thickness of the boundary lines. This should not include any border
+        around the sidelines, the restricted areas, or team bench areas
+
+    field_border_thickness : float
+        The thickness of the border around the field. This will be uniform
+        around the entirety of the field. This should not include the thickness
+        of the boundary lines
+
+    restricted_area_length : float
+        The length of the restricted area in the direction parallel to the
+        sideline of the field
+
+    restricted_area_width : float
+        The width of the restricted area
+
+    coaching_box_length : float
+        The length of the coaching box in the direction parallel to the
+        sideline of the field
+
+    coaching_box_width : float
+        The width of the coaching box
+
+    team_bench_length_field_side : float
+        The length of the team bench's edge closest to the field
+
+    team_bench_length_back_side : float
+        The length of the team bench's edge furthest from the field
+
+    team_bench_width : float
+        The width of the team bench area
+
+    team_bench_border_thickness : float
+        The thickness of the border around the team bench area. This should not
+        include any borders around the field
+
+    surrounds_team_bench_area : bool
+        Whether or not the field border should surround the team bench area
+
+    bench_shape : str
+        The shape of the bench area. This should be either ``"rectangle"`` or
+        ``"trapezoid"``
     """
 
     def __init__(self, endzone_length = 0.0, boundary_thickness = 0.0,
@@ -602,6 +727,55 @@ class FieldBorderOutline(BaseFootballFeature):
 
     This is not present on every field, but is not the same as the sideline
     or end line (although they may be the same in color)
+
+    Attributes
+    ----------
+    endzone_length : float
+        The length of the endzone in TV view. This is measured from the field
+        side of the goal line
+
+    boundary_line_thickness : float
+        The thickness of the boundary lines. This should not include any border
+        around the sidelines, the restricted areas, or team bench areas
+
+    field_border_thickness : float
+        The thickness of the border around the field. This will be uniform
+        around the entirety of the field. This should not include the thickness
+        of the boundary lines
+
+    restricted_area_length : float
+        The length of the restricted area in the direction parallel to the
+        sideline of the field
+
+    restricted_area_width : float
+        The width of the restricted area
+
+    coaching_box_length : float
+        The length of the coaching box in the direction parallel to the
+        sideline of the field
+
+    coaching_box_width : float
+        The width of the coaching box
+
+    team_bench_length_field_side : float
+        The length of the team bench's edge closest to the field
+
+    team_bench_length_back_side : float
+        The length of the team bench's edge furthest from the field
+
+    team_bench_width : float
+        The width of the team bench area
+
+    team_bench_border_thickness : float
+        The thickness of the border around the team bench area. This should not
+        include any borders around the field
+
+    surrounds_team_bench_area : bool
+        Whether or not the field border should surround the team bench area
+
+    bench_shape : str
+        The shape of the bench area. This should be either ``"rectangle"`` or
+        ``"trapezoid"``
     """
 
     def __init__(self, endzone_length = 0.0, boundary_thickness = 0.0,
@@ -1135,6 +1309,23 @@ class MajorYardLine(BaseFootballFeature):
     """The major yard lines on the field.
 
     These are the yard lines that span the entire width of the field
+
+    Attributes
+    ----------
+    dist_to_sideline : float
+        The distance separating the major yard line from the interior edge of
+        the boundary lines
+
+    cross_hash_length : float
+        The length, in TV view, of the hash mark that crosses major yard lines
+
+    cross_hash_separation : float
+        The separation between the hash marks (i.e. the minor yard lines) when
+        measured from their interior edges
+
+    yard_line_name : str
+        The name of the yard line. This is to make identifying them easier, but
+        have no bearing on the final plot
     """
 
     def __init__(self, dist_to_sideline = 0.0, cross_hash_length = 0.0,
@@ -1233,6 +1424,16 @@ class MinorYardLine(BaseFootballFeature):
     """The minor yard lines on the field.
 
     These are the yard lines spaced closer than every five yards on the field
+
+    Attributes
+    ----------
+    yard_line_height : float
+        The height of the minor yard lines on the field in the ``y`` direction
+        when viewing the field in TV view
+
+    yard_line_name : str
+        The name of the yard line. This is to make identifying them easier, but
+        have no bearing on the final plot
     """
 
     def __init__(self, yard_line_height = 0.0, yard_line_name = "",
@@ -1240,7 +1441,6 @@ class MinorYardLine(BaseFootballFeature):
         # Initialize the attributes unique to this feature
         self.yard_line_height = yard_line_height
         self.yard_line_name = yard_line_name
-        self.dist_to_sideline = dist_to_sideline
         super().__init__(*args, **kwargs)
 
     def _get_centered_feature(self):
@@ -1264,6 +1464,16 @@ class Arrow(BaseFootballFeature):
 
     These arrows are described by their base (which runs parallel to the goal
     line) and their length, which extends from the tip to the base
+
+    Attributes
+    ----------
+    arrow_base : float
+        The length of the base of the directional arrow. This is the component
+        of the arrow that is parallel to the major yard line to which the arrow
+        corresponds
+
+    arrow_length : float
+        The distance between the tip of the directional arrow and the base
     """
 
     def __init__(self, arrow_base = 0.0, arrow_length = 0.0, *args, **kwargs):
@@ -1302,6 +1512,11 @@ class TryMark(BaseFootballFeature):
 
     This is usually around the two or three yard line and located in the
     vertical center of the field (in TV view)
+
+    Attributes
+    ----------
+    try_mark_width : float
+        The width of the try mark
     """
 
     def __init__(self, try_mark_width = 0.0, *args, **kwargs):
@@ -1329,6 +1544,11 @@ class RestrictedArea(BaseFootballFeature):
 
     This is the area between the coaching box and the exterior edge of the
     sideline
+
+    Attributes
+    ----------
+    restricted_area_length : float
+        The length of the restricted area
     """
 
     def __init__(self, restricted_area_length = 0.0, *args, **kwargs):
@@ -1352,6 +1572,12 @@ class CoachingBoxLine(BaseFootballFeature):
 
     The line should be a different color than either the team bench area or the
     coaching box
+
+    Attributes
+    ----------
+    coaching_box_line_length : float
+        The length of the coaching box line in the ``x`` direction when viewing
+        the field in TV view
     """
 
     def __init__(self, coaching_box_line_length = 0.0, *args, **kwargs):
@@ -1378,6 +1604,12 @@ class CoachingBox(BaseFootballFeature):
 
     This is the area beyond the restricted area designated for coaches. It is
     between the restricted area and the team area
+
+    Attributes
+    ----------
+    coaching_box_length : float
+        The length of the coaching box in the direction parallel to the
+        sideline of the field
     """
 
     def __init__(self, coaching_box_length = 0.0, *args, **kwargs):
@@ -1402,6 +1634,17 @@ class TeamBenchArea(BaseFootballFeature):
     This is the area beyond the restricted area and coaching box. It is where
     the team benches, non-playing players, and team staff are to remain during
     the game
+
+    Attributes
+    ----------
+    team_bench_length_field_side : float
+        The length of the team bench's edge closest to the field
+
+    team_bench_length_back_side : float
+        The length of the team bench's edge furthest from the field
+
+    team_bench_width : float
+        The width of the team bench area
     """
 
     def __init__(self, team_bench_length_field_side = 0.0,
@@ -1443,6 +1686,31 @@ class TeamBenchAreaOutline(BaseFootballFeature):
     """The outline of the bench area (border, not broken line).
 
     The border may not be necessary in all drawings
+
+    Attributes
+    ----------
+    restricted_area_length : float
+        The length of the restricted area in the direction parallel to the
+        sideline of the field
+
+    restricted_area_width : float
+        The width of the restricted area
+
+    coaching_box_length : float
+        The length of the coaching box in the direction parallel to the
+        sideline of the field
+
+    coaching_box_width : float
+        The width of the coaching box
+
+    team_bench_length_field_side : float
+        The length of the team bench's edge closest to the field
+
+    team_bench_length_back_side : float
+        The length of the team bench's edge furthest from the field
+
+    team_bench_width : float
+        The width of the team bench area
     """
 
     def __init__(self, restricted_area_length = 0.0,

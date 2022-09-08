@@ -1,11 +1,11 @@
-"""Extension of the BaseSurfacePlot class to create a hockey rink.
+"""Extension of the ``BaseSurfacePlot`` class to create a hockey rink.
 
-This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. `sportypy` will ship with pre-defined
-leagues that will have their own subclass, but a user can manually specify
-their own rink parameters to create a totally-customized rink. The rink's
-features are parameterized by the basic dimensions of the rink, which comprise
-the attributes of the class.
+This is a second-level child class of the ``BaseSurface`` class, and as such
+will have access to its attributes and methods. `sportypy` will ship with
+pre- defined leagues that will have their own subclass, but a user can manually
+specify their own rink parameters to create a totally-customized rink. The
+rink's features are parameterized by the basic dimensions of the rink, which
+comprise the attributes of the class.
 
 @author: Ross Drucker
 """
@@ -16,242 +16,295 @@ from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
 class HockeyRink(BaseSurfacePlot):
-    """A subclass of the BaseSurfacePlot class to make a generic hockey rink.
+    """A subclass of ``BaseSurfacePlot`` to make a generic hockey rink.
 
     This allows for the creation of the hockey rink in a way that is entirely
     parameterized by the rink's baseline characteristics.
 
-    All attributes should default to 0.0 (if of a numeric type) or an empty
+    All attributes should default to ``0.0`` (if of a numeric type) or an empty
     string (if of a string type). Customized parameters may be specified via a
     child class (see below) or by directly specifying all necessary attributes
-    of a valid ice hockey rink. The attributes needed to instantiate a
-    particular league's surface must be specified in the rink_params
+    of a valid hockey rink. The attributes needed to instantiate a
+    particular league's surface must be specified in the ``rink_params``
     dictionary. For many leagues, these will be provided in the
     surface_dimensions.json file in the data/ subdirectory of `sportypy`.
 
-    See the BaseSurfacePlot and BaseSurface class definitions for full details.
-
-    NOTE: Any attribute below that is prefixed with an asterisk (*) should be
-    specified via the rink_updates dictionary as these parameters are specific
-    to each league. Attributes prefixed with a hyphen (-) are specified at the
-    time that the surface class is created
+    See the ``BaseSurfacePlot`` and ``BaseSurface`` class definitions for full
+    details.
 
     Attributes
     ----------
-    - league_code : str
+    league_code : str
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "National Hockey
         League" should be either "NHL" or "nhl"). The default is an empty
         string
 
-    - rotation : float
+    rotation : float
         The angle (in degrees) through which to rotate the final plot. The
         default is ``0.0``
 
-    - x_trans : float
-        The amount that the x coordinates are to be shifted. By convention,
-        the +x axis extends from the center of the ice surface towards the
+    x_trans : float
+        The amount that the ``x`` coordinates are to be shifted. By convention,
+        the +``x`` axis extends from the center of the surface towards the
         right-hand goal when viewing the rink in TV view. The default is
         ``0.0``
 
-    - y_trans : float
-        The amount that the y coordinates are to be shifted. By convention,
-        the +y axis extends from the center of the ice surface towards the
+    y_trans : float
+        The amount that the ``y`` coordinates are to be shifted. By convention,
+        the +``y`` axis extends from the center of the surface towards the
         top of the rink when viewing the rink in TV view. The default is
         ``0.0``
 
-    - rink_updates : dict
+    rink_updates : dict
         A dictionary of updated parameters to use for the hockey rink. The
         default is an empty dictionary
 
-    - color_updates : dict
+    color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled. The default is an empty dictionary
 
-    - units : str
+    units : str
         The units that the final plot should utilize. The default units are the
         units specified in the rule book of the league. The default is
         ``"default"``
 
-    * rink_length : float
-        The full length of the rink. Length is defined as the distance between
-        the inner edge of the boards behind each goal at its widest point
+    rink_params : dict
+        A dictionary containing the following parameters of the rink::
 
-    * rink_width : float
-        The full width of the rink. Width is defined as the distance between
-        the inner edge of the boards between the team bench and the penalty box
-        on the other side of the ice
+            - rink_length : float
+                The full length of the rink. Length is defined as the distance
+                between the inner edge of the boards behind each goal at its
+                widest point
 
-    * rink_units : str
-        The units with which to draw the rink
+            - rink_width : float
+                The full width of the rink. Width is defined as the distance
+                between the inner edge of the boards between the team bench and
+                the penalty box on the other side of the ice
 
-    * corner_radius : float
-        The radius of the circle that comprises the rink's corners
+            - rink_units : str
+                The units with which to draw the rink
 
-    * board_thickness : float
-        The thickness of the boards. This is to give the boundary of the rink a
-        clearer-to-see definition, although only the inner edge of the boards
-        is considered in play and the boundary of the rink
+            - corner_radius : float
+                The radius of the circle that comprises the rink's corners
 
-    * referee_crease_radius : float
-        The outer radius of the semi-circle that comprises the referee's crease
+            - board_thickness : float
+                The thickness of the boards. This is to give the boundary of
+                the rink a clearer-to-see definition, although only the inner
+                edge of the boards is considered in play and the boundary of
+                the rink
 
-    * nzone_length : float
-        The length of the neutral zone, measured from the interior edges of the
-        zone lines (blue lines)
+            - referee_crease_radius : float
+                The outer radius of the semi-circle that comprises the
+                referee's crease
 
-    * goal_line_to_boards : float
-        The x position of the center of the right-hand goal line relative to
-        the boards behind the right-hand goal when viewing the rink in TV view
+            - nzone_length : float
+                The length of the neutral zone, measured from the interior
+                edges of the zone lines (blue lines)
 
-    * major_line_thickness : float
-        The thickness of the major lines on the ice surface. Major lines are
-        considered to be the center line (red line) and zone lines (blue lines)
+            - goal_line_to_boards : float
+                The ``x`` position of the center of the right-hand goal line
+                relative to the boards behind the right-hand goal
 
-    * minor_line_thickness : float
-        The thickness of the minor lines on the ice surface. Minor lines are
-        those such as goal lines, hash marks, faceoff markings, or circle
-        thicknesses
+            - major_line_thickness : float
+                The thickness of the major lines on the ice surface. Major
+                lines are considered to be the center line (red line) and zone
+                lines (blue lines)
 
-    * faceoff_circle_radius : float
-        The radius of the faceoff circles, both center and non-center, on the
-        ice
+            - minor_line_thickness : float
+                The thickness of the minor lines on the ice surface. Minor
+                lines are those such as goal lines, hash marks, faceoff
+                markings, or circle thicknesses
 
-    * center_faceoff_spot_radius : float
-        The radius of the center faceoff spot on the ice
+            - faceoff_circle_radius : float
+                The radius of the faceoff circles, both center and non-center,
+                on the ice
 
-    * noncenter_faceoff_spot_radius : float
-        The radius of the non-centered faceoff spots on the ice. These are in
-        the defensive, neutral, and offensive zones
+            - center_faceoff_spot_radius : float
+                The radius of the center faceoff spot on the ice
 
-    * nzone_faceoff_spot_to_zone_line : float
-        The x position of the right-side faceoff spots in the neutral zone
-        relative to the neutral-zone side of the zone (blue) line when viewing
-        the rink in TV view
+            - center_faceoff_spot_gap : float
+                The gap in the center line that surrounds the center faceoff
+                spot. This is measured between the inner edges of the two
+                halves of the center line
 
-    * odzone_faceoff_spot_to_boards : float
-        The distance (in the x direction) from the end of the rink to the
-        center of the defensive/offensive zone faceoff spot
+            - noncenter_faceoff_spot_radius : float
+                The radius of the non-centered faceoff spots on the ice. These
+                are in the defensive, neutral, and offensive zones
 
-    * noncenter_faceoff_spot_y : float
-        The y position of the upper faceoff spots in the defensive, neutral,
-        and offensive zones on the ice when viewing the rink in TV view
+            - nzone_faceoff_spot_to_zone_line : float
+                The ``x`` position of the right-side faceoff spots in the
+                neutral zone relative to the neutral-zone side of the zone
+                (blue) line
 
-    * noncenter_faceoff_spot_gap_width : float
-        The gap between the interior edge of a non-centered faceoff spot ring
-        and the stripe running across it
+            - odzone_faceoff_spot_to_boards : float
+                The distance (in the ``x`` direction) from the end of the rink
+                to the center of the defensive/offensive zone faceoff spot
 
-    * hashmark_width : float
-        The width of the hashmarks on the exterior of the defensive and
-        offensive faceoff circles. Note that width refers to a distance solely
-        in the y direction when viewing the rink in TV View
+            - noncenter_faceoff_spot_y : float
+                The ``y`` position of the upper faceoff spots in the defensive,
+                neutral, and offensive zones on the ice
 
-    * hashmark_ext_spacing : float
-        The exterior horizontal spacing between the hashmarks on the exterior
-        of the defensive and offensive faceoff circles when viewing the rink in
-        TV view. Note that this is solely in the x direction
+            - noncenter_faceoff_spot_gap_width : float
+                The gap between the interior edge of a non-centered faceoff
+                spot ring and the stripe running across it
 
-    * faceoff_line_dist_x : float
-        The distance from the center of the defensive and offensive faceoff
-        spot to the left-most edge of the upper-right faceoff line when viewing
-        the rink in TV view
+            - hashmark_width : float
+                The width of the hashmarks on the exterior of the defensive and
+                offensive faceoff circles. Note that width refers to a
+                distance solely in the ``y`` direction
 
-    * faceoff_line_dist_y: float
-        The distance from the center of the defensive and offensive faceoff
-        spot to the bottom edge of the upper-right faceoff line when viewing
-        the rink in TV view
+            - hashmark_ext_spacing : float
+                The exterior horizontal spacing between the hashmarks on the
+                exterior of the defensive and offensive faceoff circles. Note
+                that this is solely in the ``x`` direction
 
-    * faceoff_line_length : float
-        The exterior length of the faceoff line when viewing the rink in TV
-        view
+            - faceoff_line_dist_x : float
+                The distance from the center of the defensive and offensive
+                faceoff spot to the left-most edge of the upper-right faceoff
+                line
 
-    * faceoff_line_width : float
-        The exterior width of the faceoff line when viewing the rink in TV view
+            - faceoff_line_dist_y: float
+                The distance from the center of the defensive and offensive
+                faceoff spot to the bottom edge of the upper-right faceoff line
 
-    * has_trapezoid : boolean
-        Indicator of whether or not the rink has a goalkeeper's restricted area
-        (trapezoid) behind each goal
+            - faceoff_line_length : float
+                The exterior length of the faceoff line
 
-    * short_base_width : float
-        The exterior base-width of the trapezoid (should it exist) that lies
-        along the goal line
+            - faceoff_line_width : float
+                The exterior width of the faceoff line
 
-    * long_base_width : float
-        The exterior base-width of the trapezoid (should it exist) that lies
-        along the boards
+            - has_trapezoid : bool
+                Indicator of whether or not the rink has a goalkeeper's
+                restricted area (trapezoid) behind each goal
 
-    * goal_crease_style : str
-        The style of goal crease to implement. Viable options are:
-            nhl98 : the current iteration of the NHL goal crease. This is what
-                is used for most professional leagues
+            - short_base_width : float
+                The exterior base-width of the trapezoid (should it exist)
+                that lies along the goal line
 
-            nhl92 : the previous iteration of an NHL goal crease. It is drawn
-                as a semi-circle with two L-shaped notches at the edge of the
-                crease intersecting the semi-circle
+            - long_base_width : float
+                The exterior base-width of the trapezoid (should it exist) that
+                lies along the boards
 
-            ushl1 : the current iteration of a USA Hockey goal crease. This is
-                what is currently used in the USHL (United States Hockey
-                League)
+            - goal_crease_style : str
+                The style of goal crease to implement. Viable options are:
+                    - nhl98 : the current iteration of the NHL goal crease.
+                        This is what is used for most professional leagues
 
-    * goal_crease_radius : float
-        The radius of the rounded portion of the goal crease, as taken from the
-        center of the goal line
+                    - nhl92 : the previous iteration of an NHL goal crease. It
+                        is drawn as a semi-circle with two L-shaped notches at
+                        the edge of the crease intersecting the semi-circle
 
-    * goal_crease_length : float
-        The distance from the center of the goal line to the start of the arc
-        of the goal crease
+                    - ushl1 : the current iteration of a USA Hockey goal
+                        crease. This is what is currently used in the USHL
+                        (United States Hockey League)
 
-    * goal_crease_width : float
-        The exterior width of the goal crease
+            - goal_crease_radius : float
+                The radius of the rounded portion of the goal crease, as taken
+                from the center of the goal line
 
-    * goal_crease_notch_dist_x : float
-        The distance from the center of the goal line to the notch (if one
-        exists) in the goal crease
+            - goal_crease_length : float
+                The distance from the center of the goal line to the start of
+                the arc of the goal crease
 
-    * goal_crease_notch_width : float
-        The width of the notch (if one exists) in the goal crease
+            - goal_crease_width : float
+                The exterior width of the goal crease
 
-    * goal_mouth_width : float
-        The interior distance between the goalposts
+            - goal_crease_notch_dist_x : float
+                The distance from the center of the goal line to the notch (if
+                one exists) in the goal crease
 
-    * goal_back_width : float
-        The exterior distance between the widest part of the goal frame's
-        footprint
+            - goal_crease_notch_width : float
+                The width of the notch (if one exists) in the goal crease
 
-    * goal_depth : float
-        The depth of the goal frame from the center of the goal line to the
-        exterior of the back pipe of the goal frame
+            - goal_mouth_width : float
+                The interior distance between the goalposts
 
-    * goal_post_diameter : float
-        The diameter of the posts of the goal frame
+            - goal_back_width : float
+                The exterior distance between the widest part of the goal
+                frame's footprint
 
-    * goal_radius : float
-        The interior radius of the goal frame
+            - goal_depth : float
+                The depth of the goal frame from the center of the goal line to
+                the exterior of the back pipe of the goal frame
 
-    * bench_length : float
-        The exterior length of a single team's bench area
+            - goal_post_diameter : float
+                The diameter of the posts of the goal frame
 
-    * bench_depth : float
-        The interior depth off the boards of a single team's bench area
+            - goal_radius : float
+                The interior radius of the goal frame
 
-    * bench_separation : float
-        The separation between the two teams' bench areas
+            - bench_length : float
+                The exterior length of a single team's bench area
 
-    * penalty_box_length : float
-        The interior length of a single penalty box
+            - bench_depth : float
+                The interior depth off the boards of a single team's bench area
 
-    * penalty_box_depth : float
-        The interior depth off of the boards of a single team's penalty box
+            - bench_separation : float
+                The separation between the two teams' bench areas
 
-    * penalty_box_separation : float
-        The distance that separates each team's penalty box area. This should
-        be equivalent to the length of the off-ice officials' box
+            - penalty_box_length : float
+                The interior length of a single penalty box
+
+            - penalty_box_depth : float
+                The interior depth off of the boards of a single team's penalty
+                box
+
+            - penalty_box_separation : float
+                The distance that separates each team's penalty box area. This
+                should be equivalent to the length of the off-ice officials'
+                box
     """
 
     def __init__(self, league_code = "", rink_updates = {}, color_updates = {},
                  rotation = 0.0, x_trans = 0.0, y_trans = 0.0,
                  units = "default", **added_features):
+        """Initialize an instance of a ``HockeyRink`` class.
+
+        Parameters
+        ----------
+        league_code : str
+            The league for which the plot should be drawn. This is
+            case-insensitive but should be the shortened name of the league
+            (e.g. "National Hockey League" should be either "NFL" or "nfl").
+            The default is an empty string
+
+        rotation : float
+            The angle (in degrees) through which to rotate the final plot. The
+            default is ``0.0``
+
+        x_trans : float
+            The amount that the ``x`` coordinates are to be shifted. By
+            convention, the +``x`` axis extends from the center of the surface
+            towards the right-hand goal when viewing the rink in TV view. The
+            default is ``0.0``
+
+        y_trans : float
+            The amount that the ``y`` coordinates are to be shifted. By
+            convention, the +``y`` axis extends from the center of the surface
+            towards the top of the rink when viewing the rink in TV view. The
+            default is ``0.0``
+
+        rink_updates : dict
+            A dictionary of updated parameters to use to create the hockey
+            rink. The default is an empty dictionary
+
+        color_updates : dict
+            A dictionary of coloring parameters to pass to the plot. Defaults
+            are provided in the class per each rule book, but this allows the
+            plot to be more heavily customized/styled. The default is an empty
+            dictionary
+
+        units : str
+            The units that the final plot should utilize. The default units are
+            the units specified in the rule book of the league. The default is
+            ``"default"``
+
+        Returns
+        -------
+        Nothing, but instantiates the class
+        """
         # Load all pre-defined rink dimensions for provided leagues
         self._load_preset_dimensions(sport = "hockey")
 
@@ -1125,85 +1178,78 @@ class HockeyRink(BaseSurfacePlot):
         Parameters
         ----------
         ax : matplotlib.Axes
-            An axes object onto which the plot can be drawn. If None is
+            An axes object onto which the plot can be drawn. If ``None`` is
             supplied, then the currently-active Axes object will be used
 
-        display_range : str; default "full"
+        display_range : str
             The portion of the surface to display. The entire surface
             will always be drawn under the hood, however this parameter
             limits what is shown in the final plot. The following explain what
-            each display range corresponds to:
+            each display range corresponds to::
 
-            "full" : the entire ice surface
+                - ``"full"``: The entire ice surface
+                - ``"offense"``: the offensive (TV-right) half of the ice
+                    surface
+                - ``"offence"``: the offensive (TV-right) half of the ice
+                    surface
+                - ``"defense"``: the defensive (TV-left) half of the ice
+                    surface
+                - ``"defence"``: the defensive (TV-left) half of the ice
+                    surface
+                - ``"nzone"``: the neutral zone (the area between the zone
+                    lines)
+                - ``"neutral``: the neutral zone (the area between the zone
+                    lines)
+                - ``"neutral_zone"``: the neutral zone (the area between the
+                    zone lines)
+                - ``"neutral zone"``: the neutral zone (the area between the
+                    zone lines)
+                - ``"ozone"``: the offensive zone. This is the area (TV-right)
+                    of the neutral zone
+                - ``"offensive_zone``: the offensive zone. This is the area
+                    (TV-right) of the neutral zone
+                - ``"offensive zone``: the offensive zone. This is the area
+                    (TV-right) of the neutral zone
+                - ``"attacking_zone``: the offensive zone. This is the area
+                    (TV-right) of the neutral zone
+                - ``"attacking zone``: the offensive zone. This is the area
+                    (TV-right) of the neutral zone
+                - ``"dzone``: the defensive zone. This is the area (TV-left)
+                    of the neutral zone
+                - ``"defensive_zone``: the defensive zone. This is the area
+                    (TV-left) of the neutral zone
+                - ``"defensive zone``: the defensive zone. This is the area
+                    (TV-left) of the neutral zone
+                - ``"defending_zone``: the defensive zone. This is the area
+                    (TV-left) of the neutral zone
+                - ``"defending zone``: the defensive zone. This is the area
+                    (TV-left) of the neutral zone
 
-            "offense" : the offensive (TV-right) half of the ice surface
+            The default is ``"full"``
 
-            "offence" : the offensive (TV-right) half of the ice surface
-
-            "defense" : the defensive (TV-left) half of the ice surface
-
-            "defence" : the defensive (TV-left) half of the ice surface
-
-            "nzone" : the neutral zone (the area between the zone lines)
-
-            "neutral" : the neutral zone (the area between the zone lines)
-
-            "neutral_zone" : the neutral zone (the area between the zone lines)
-
-            "neutral zone" : the neutral zone (the area between the zone lines)
-
-            "ozone" : the offensive zone. This is the area (TV-right) of the
-                neutral zone
-
-            "offensive_zone" : the offensive zone. This is the area (TV-right)
-                of the neutral zone
-
-            "offensive zone" : the offensive zone. This is the area (TV-right)
-                of the neutral zone
-
-            "attacking_zone" : the offensive zone. This is the area (TV-right)
-                of the neutral zone
-
-            "attacking zone" : the offensive zone. This is the area (TV-right)
-                of the neutral zone
-
-            "dzone" : the defensive zone. This is the area (TV-left) of the
-                neutral zone
-
-            "defensive_zone" : the defensive zone. This is the area (TV-left)
-                of the neutral zone
-
-            "defensive zone" : the defensive zone. This is the area (TV-left)
-                of the neutral zone
-
-            "defending_zone" : the defensive zone. This is the area (TV-left)
-                of the neutral zone
-
-            "defending zone" : the defensive zone. This is the area (TV-left)
-                of the neutral zone
-
-        xlim : float, tuple (float, float), or None (default: None)
-            The display range in the x direction to be used. If a single
+        xlim : float or tuple of floats or None
+            The display range in the ``x`` direction to be used. If a single
             float is provided, this will be used as the lower bound of
-            the x coordinates to display and the upper bound will be the
-            +x end of the boards. If a tuple, the two values will be
-            used to determine the bounds. If None, then the
-            display_range will be used instead to set the bounds
+            the ``x`` coordinates to display and the upper bound will be the
+            +``x`` end of the boards. If a tuple, the two values will be
+            used to determine the bounds. If ``None``, then the
+            `display_range` will be used instead to set the bounds. The default
+            is ``None``
 
-        ylim : float, tuple (float, float), or None (default: None)
-            The display range in the y direction to be used. If a single
+        ylim : float or tuple of floats or None
+            The display range in the ``y`` direction to be used. If a single
             float is provided, this will be used as the lower bound of
-            the y coordinates to display and the upper bound will be the
-            +y side of the rink. If a tuple, the two values will be used
-            to determine the bounds. If None, then the display_range
-            will be used instead to set the bounds
+            the ``y`` coordinates to display and the upper bound will be the
+            +``y`` side of the rink. If a tuple, the two values will be used
+            to determine the bounds. If ``None``, then the display_range
+            `will` be used instead to set the bounds. The default is ``None``
 
-        rotation : float or None (default: None)
+        rotation : float or None
             Angle (in degrees) through which to rotate the rink when
             drawing. If used, this will set the class attribute of
-            self._rotation. A value of 0.0 will correspond to a TV View
-            of the rink, where +x is to the right and +y is on top. The
-            rotation occurs counter clockwise
+            `_rotation`. A value of ``0.0`` will correspond to a TV view
+            of the rink, where +``x`` is to the right and +``y`` is on top. The
+            rotation occurs counter clockwise. The default is ``None``
         """
         # If there is a rotation to be applied, apply it first and set it as
         # the class attribute self._rotation
@@ -1294,17 +1340,17 @@ class HockeyRink(BaseSurfacePlot):
     def cani_plot_leagues(self, league_code = None):
         """Show if a league can be plotted, or what leagues are pre-defined.
 
-        A user may wish to know if a specific hockey league can be plotted.
+        A user may wish to know if a specific curling league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with sportypy for easier plotting (if they provide the league
+        shipped with `sportypy` for easier plotting (if they provide the league
         code), or can also show what leagues are available to be plotted
 
         Parameters
         ----------
-        league_code : str or None (default: None)
+        league_code : str or None
             A league code that may or may not be shipped with the package. If
-            the league code is None, this will display all leagues that do come
-            shipped with sportypy
+            the league code is ``None``, this will display all leagues that do
+            come shipped with `sportypy`. The default is ``None``
 
         Returns
         -------
@@ -1396,16 +1442,16 @@ class HockeyRink(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, but this method allows the colors to be
+        the `color_updates` parameter, but this method allows the colors to be
         updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
-        color_updates : dict (default: {}; an empty dictionary)
+        color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see cani_color_features() method for
-            a list of these names)
+            that's color is to be updated (see `cani_color_features()` method
+            for a list of these names). The default is an empty dictionary
 
         Returns
         -------
@@ -1431,14 +1477,15 @@ class HockeyRink(BaseSurfacePlot):
         """Update the rink's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by sportypy
+        not currently supported by `sportypy`
 
         Parameters
         ----------
-        rink_updates : dict (default: {}; an empty dictionary)
+        rink_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the rink that is to be updated (see cani_change_dimensions()
-            method for a list of these parameters)
+            of the rink that is to be updated (see `cani_change_dimensions()`
+            method for a list of these parameters). The default is an empty
+            dictionary
 
         Returns
         -------
@@ -1464,9 +1511,9 @@ class HockeyRink(BaseSurfacePlot):
         """Reset the features of the rink to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, and through the update_colors() method,
-        these can be changed. This method allows the colors to be reset to
-        their default values after experiencing such a change
+        the `color_updates` parameter, and through the `update_colors()`
+        method, these can be changed. This method allows the colors to be reset
+        to their default values after experiencing such a change
         """
         # Re-instantiate the class with the default colors
         default_colors = {
@@ -1506,8 +1553,8 @@ class HockeyRink(BaseSurfacePlot):
         """Reset the features of the rink to their default parameterizations.
 
         The rink parameters can be passed at the initial instantiation of the
-        class via the rink_updates parameter, and through the
-        update_rink_params() method, these can be changed. This method allows
+        class via the `rink_updates` parameter, and through the
+        `update_rink_params()` method, these can be changed. This method allows
         the feature parameterization to be reset to their default values after
         experiencing such a change
         """
@@ -1522,27 +1569,79 @@ class HockeyRink(BaseSurfacePlot):
     def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
-        """Get the x and y limits for the displayed plot.
+        """Get the ``x`` and ``y`` limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: "full")
+        display_range : str
             The range of which to display the plot. This is a key that will
-            be searched for in the ranges_dict parameter
+            be searched for in the possible display ranges. The following are
+            valid `display_range`s::
 
-        xlim : float or None (default: None)
-            A specific limit on x for the plot
+                - ``"full"``: The entire ice surface
+                - ``"offense"``: the offensive (TV-right) half of the ice
+                    surface
+                - ``"offence"``: the offensive (TV-right) half of the ice
+                    surface
+                - ``"defense"``: the defensive (TV-left) half of the ice
+                    surface
+                - ``"defence"``: the defensive (TV-left) half of the ice
+                    surface
+                - ``"nzone"``: the neutral zone (the area between the zone
+                    lines)
+                - ``"neutral``: the neutral zone (the area between the zone
+                    lines)
+                - ``"neutral_zone"``: the neutral zone (the area between the
+                    zone lines)
+                - ``"neutral zone"``: the neutral zone (the area between the
+                    zone lines)
+                - ``"ozone"``: the offensive zone. This is the area (TV-right)
+                    of the neutral zone
+                - ``"offensive_zone``: the offensive zone. This is the area
+                    (TV-right) of the neutral zone
+                - ``"offensive zone``: the offensive zone. This is the area
+                    (TV-right) of the neutral zone
+                - ``"attacking_zone``: the offensive zone. This is the area
+                    (TV-right) of the neutral zone
+                - ``"attacking zone``: the offensive zone. This is the area
+                    (TV-right) of the neutral zone
+                - ``"dzone``: the defensive zone. This is the area (TV-left)
+                    of the neutral zone
+                - ``"defensive_zone``: the defensive zone. This is the area
+                    (TV-left) of the neutral zone
+                - ``"defensive zone``: the defensive zone. This is the area
+                    (TV-left) of the neutral zone
+                - ``"defending_zone``: the defensive zone. This is the area
+                    (TV-left) of the neutral zone
+                - ``"defending zone``: the defensive zone. This is the area
+                    (TV-left) of the neutral zone
 
-        ylim : float or None (default: None)
-            A specific limit on y for the plot
+        xlim : float or None
+            A specific limit on ``x`` for the plot. The default is ``None``
+
+        ylim : float or None
+            A specific limit on ``y`` for the plot. The default is ``None``
+
+        for_plot : bool
+            Whether the plot range limits are being set for a plot (e.g. a
+            model being displayed over the surface). This utilizes the surface
+            constraint to restrict the model to be inbounds. The default is
+            ``False``
+
+        for_display : bool
+            Whether the plot range limits are being set for a display (e.g. to
+            show the entirety of the surface in the resulting graphic). This
+            will ignore the surface constraint in the resulting graphic, but
+            the constraint will be respected when drawing features. The default
+            is ``False``
 
         Returns
         -------
         xlim : tuple
-            The x-directional limits for displaying the plot
+            The ``x``-directional limits for displaying the plot
 
         ylim : tuple
-            The y-directional limits for displaying the plot
+            The ``y``-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
         if display_range == "" or display_range is None:
@@ -1749,9 +1848,9 @@ class HockeyRink(BaseSurfacePlot):
 
 
 class AHLRink(HockeyRink):
-    """A subclass of HockeyRink specific to the AHL.
+    """A subclass of ``HockeyRink`` specific to the AHL.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1765,9 +1864,9 @@ class AHLRink(HockeyRink):
 
 
 class ECHLRink(HockeyRink):
-    """A subclass of HockeyRink specific to the ECHL.
+    """A subclass of ``HockeyRink`` specific to the ECHL.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1781,9 +1880,9 @@ class ECHLRink(HockeyRink):
 
 
 class IIHFRink(HockeyRink):
-    """A subclass of HockeyRink specific to the IIHF.
+    """A subclass of ``HockeyRink`` specific to the IIHF.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1797,9 +1896,9 @@ class IIHFRink(HockeyRink):
 
 
 class PHFRink(HockeyRink):
-    """A subclass of HockeyRink specific to the PHF.
+    """A subclass of ``HockeyRink`` specific to the PHF.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1813,9 +1912,9 @@ class PHFRink(HockeyRink):
 
 
 class NCAARink(HockeyRink):
-    """A subclass of HockeyRink specific to the NCAA.
+    """A subclass of ``HockeyRink`` specific to the NCAA.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1829,9 +1928,9 @@ class NCAARink(HockeyRink):
 
 
 class NHLRink(HockeyRink):
-    """A subclass of HockeyRink specific to the NHL.
+    """A subclass of ``HockeyRink`` specific to the NHL.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1845,13 +1944,13 @@ class NHLRink(HockeyRink):
 
 
 class NWHLRink(HockeyRink):
-    """A subclass of HockeyRink specific to the NWHL.
+    """A subclass of ``HockeyRink`` specific to the NWHL.
 
     This class is created for historical reference; as of 2021 the NWHL has
     changed names to the Premier Hockey Federation. Please use PHFRink class
     going forward
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1870,9 +1969,9 @@ class NWHLRink(HockeyRink):
 
 
 class OHLRink(HockeyRink):
-    """A subclass of HockeyRink specific to the OHL.
+    """A subclass of ``HockeyRink`` specific to the OHL.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1886,9 +1985,9 @@ class OHLRink(HockeyRink):
 
 
 class QMJHLRink(HockeyRink):
-    """A subclass of HockeyRink specific to the QMJHL.
+    """A subclass of ``HockeyRink`` specific to the QMJHL.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
@@ -1902,9 +2001,9 @@ class QMJHLRink(HockeyRink):
 
 
 class USHLRink(HockeyRink):
-    """A subclass of HockeyRink specific to the USHL.
+    """A subclass of ``HockeyRink`` specific to the USHL.
 
-    See HockeyRink class documentation for full description.
+    See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):

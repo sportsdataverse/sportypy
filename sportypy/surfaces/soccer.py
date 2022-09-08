@@ -1,11 +1,11 @@
-"""Extension of the BaseSurfacePlot class to create a soccer pitch.
+"""Extension of the ``BaseSurfacePlot`` class to create a soccer pitch.
 
-This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. `sportypy` will ship with pre-defined
-leagues that will have their own subclass, but a user can manually specify
-their own pitch parameters to create a totally-customized pitch. The pitch's
-features are parameterized by the basic dimensions of the pitch, which comprise
-the attributes of the class.
+This is a second-level child class of the ``BaseSurface`` class, and as such
+will have access to its attributes and methods. `sportypy` will ship with
+pre-defined leagues that will have their own subclass, but a user can manually
+specify their own pitch parameters to create a totally-customized pitch. The
+pitch's features are parameterized by the basic dimensions of the pitch, which
+comprise the attributes of the class.
 
 @author: Ross Drucker
 """
@@ -16,143 +16,188 @@ from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
 class SoccerPitch(BaseSurfacePlot):
-    """A subclass of BaseSurfacePlot to make a generic soccer pitch.
+    """A subclass of ``BaseSurfacePlot`` to make a generic soccer pitch.
 
     This allows for the creation of the soccer pitch in a way that is entirely
     parameterized by the pitch's baseline characteristics.
 
-    All attributes should default to 0.0 (if of a numeric type) or an empty
+    All attributes should default to ``0.0`` (if of a numeric type) or an empty
     string (if of a string type). Customized parameters may be specified via a
     child class (see below) or by directly specifying all necessary attributes
-    of a valid soccer pitch. The attributes needed to instantiate a particular
-    league's surface must be specified in the pitch_params dictionary. For many
-    leagues, these will be provided in the surface_dimensions.json file in the
-    data/ subdirectory of `sportypy`.
+    of a valid soccer pitch. The attributes needed to instantiate a
+    particular league's surface must be specified in the ``pitch_params``
+    dictionary. For many leagues, these will be provided in the
+    surface_dimensions.json file in the data/ subdirectory of `sportypy`.
 
-    See the BaseSurfacePlot and BaseSurface class definitions for full details.
-
-    NOTE: Any attribute below that is prefixed with an asterisk (*) should be
-    specified via the pitch_updates dictionary as these parameters are specific
-    to each league. Attributes prefixed with a hyphen (-) are specified at the
-    time that the surface class is created
+    See the ``BaseSurfacePlot`` and ``BaseSurface`` class definitions for full
+    details.
 
     Attributes
     ----------
-    - league_code : str
+    league_code : str
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "Major League
         Soccer" should be either "MLS" or "mls"). The default is an empty
         string
 
-    - rotation : float
+    rotation : float
         The angle (in degrees) through which to rotate the final plot. The
         default is ``0.0``
 
-    - x_trans : float
-        The amount that the x coordinates are to be shifted. By convention,
-        the +x axis extends from the center of the surface towards the
+    x_trans : float
+        The amount that the ``x`` coordinates are to be shifted. By convention,
+        the +``x`` axis extends from the center of the surface towards the
         right-hand goal when viewing the pitch in TV view. The default is
         ``0.0``
 
-    - y_trans : float
-        The amount that the y coordinates are to be shifted. By convention,
-        the +y axis extends from the center of the surface towards the
+    y_trans : float
+        The amount that the ``y`` coordinates are to be shifted. By convention,
+        the +``y`` axis extends from the center of the surface towards the
         top of the pitch when viewing the pitch in TV view. The default is
         ``0.0``
 
-    - pitch_updates : dict
+    pitch_updates : dict
         A dictionary of updated parameters to use for the soccer pitch. The
         default is an empty dictionary
 
-    - color_updates : dict
+    color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
         be more heavily customized/styled. The default is an empty dictionary
 
-    - units : str
+    units : str
         The units that the final plot should utilize. The default units are the
         units specified in the rule book of the league. The default is
         ``"default"``
 
-    * pitch_length : float
-        The length of the pitch in TV view
+    pitch_params : dict
+        A dictionary containing the following parameters of the pitch::
 
-    * pitch_width : float
-        The width of the pitch in TV view
+            - pitch_length : float
+                The length of the pitch in TV view
 
-    * line_thickness : float
-        The thickness of the lines on the pitch. All lines should have the same
-        thickness
+            - pitch_width : float
+                The width of the pitch in TV view
 
-    * center_circle_radius : float
-        The (outer) radius of the center circle on the pitch
+            - line_thickness : float
+                The thickness of the lines on the pitch. All lines should have
+                the same thickness
 
-    * center_mark_radius : float
-        The radius of the mark at the center at the pitch
+            - center_circle_radius : float
+                The (outer) radius of the center circle on the pitch
 
-    * corner_arc_radius : float
-        The (outer) radius of the arcs in the corners of the pitch
+            - center_mark_radius : float
+                The radius of the mark at the center at the pitch
 
-    * goal_line_defensive_mark_visible : boolean
-        Whether or not the defensive marks beyond the goal line should be
-        visible in the resulting plot
+            - corner_arc_radius : float
+                The (outer) radius of the arcs in the corners of the pitch
 
-    * touchline_defensive_mark_visible : boolean
-        Whether or not the defensive marks beyond the touchline should be
-        visible in the resulting plot
+            - goal_line_defensive_mark_visible : boolean
+                Whether or not the defensive marks beyond the goal line should
+                be visible in the resulting plot
 
-    * defensive_mark_depth : float
-        The depth (in any direction) of the defensive marks beyond the goal
-        line or touchline
+            - touchline_defensive_mark_visible : boolean
+                Whether or not the defensive marks beyond the touchline should
+                be visible in the resulting plot
 
-    * defensive_mark_distance : float
-        The distance from the interior edge of the goal post to the defensive
-        mark beyond the goal line. This will also be used to determine the
-        distance from the goal line to the defensive mark beyond the touchline
+            - defensive_mark_depth : float
+                The depth (in any direction) of the defensive marks beyond the
+                goal line or touchline
 
-    * defensive_mark_separation_from_line : float
-        The distance from the exterior edge of the goal line to the interior
-        edge of the defensive mark
+            - defensive_mark_distance : float
+                The distance from the interior edge of the goal post to the
+                defensive mark beyond the goal line. This will also be used to
+                determine the distance from the goal line to the defensive mark
+                beyond the touchline
 
-    * penalty_box_length : float
-        The length of the penalty box in TV view. This is the larger of the two
-        boxes, and is usually 16.5 m (18 yards) from the back edge of the goal
-        line
+            - defensive_mark_separation_from_line : float
+                The distance from the exterior edge of the goal line to the
+                interior edge of the defensive mark
 
-    * penalty_circle_radius : float
-        The radius of the arc at the top of the penalty box. This is measured
-        from the center of the penalty mark
+            - penalty_box_length : float
+                The length of the penalty box in TV view. This is the larger of
+                the two boxes, and is usually 16.5 m (18 yards) from the back
+                edge of the goal line
 
-    * penalty_mark_dist : float
-        The distance from the back edge of the goal line to the center of the
-        penalty mark
+            - penalty_circle_radius : float
+                The radius of the arc at the top of the penalty box. This is
+                measured from the center of the penalty mark
 
-    * interior_of_goal_post_to_penalty_box : float
-        The distance from the interior edge of the goal post to the nearest
-        edge of the penalty box
+            - penalty_mark_dist : float
+                The distance from the back edge of the goal line to the center
+                of the penalty mark
 
-    * interior_of_goal_post_to_goal_box : float
-        The distance from the interior edge of the goal post to the nearest
-        edge of the goal box
+            - interior_of_goal_post_to_penalty_box : float
+                The distance from the interior edge of the goal post to the
+                nearest edge of the penalty box
 
-    * goal_box_length : float
-        The length of the goal box in TV view. This is the smaller of the two
-        boxes, and is usually 5.5 m (6 yards) from the back edge of the goal
-        line
+            - interior_of_goal_post_to_goal_box : float
+                The distance from the interior edge of the goal post to the
+                nearest edge of the goal box
 
-    * penalty_mark_radius : float
-        The radius of the penalty mark
+            - goal_box_length : float
+                The length of the goal box in TV view. This is the smaller of
+                the two boxes, and is usually 5.5 m (6 yards) from the back
+                edge of the goal line
 
-    * goal_width : float
-        The interior distance between the goal posts
+            - penalty_mark_radius : float
+                The radius of the penalty mark
 
-    * goal_depth : float
-        The depth of the goal from the back edge of the goal line
+            - goal_width : float
+                The interior distance between the goal posts
+
+            - goal_depth : float
+                The depth of the goal from the back edge of the goal line
     """
 
     def __init__(self, league_code = "", pitch_updates = {},
                  color_updates = {}, rotation = 0.0, x_trans = 0.0,
                  y_trans = 0.0, units = "default", **added_features):
+        """Initialize an instance of a ``SoccerPitch`` class.
+
+        Parameters
+        ----------
+        league_code : str
+            The league for which the plot should be drawn. This is
+            case-insensitive but should be the shortened name of the league
+            (e.g. "Major League Soccer" should be either "MLS" or "mls"). The
+            default is an empty string
+
+        rotation : float
+            The angle (in degrees) through which to rotate the final plot. The
+            default is ``0.0``
+
+        x_trans : float
+            The amount that the ``x`` coordinates are to be shifted. By
+            convention, the +``x`` axis extends from the center of the surface
+            towards the right-hand goal when viewing the pitch in TV view. The
+            default is ``0.0``
+
+        y_trans : float
+            The amount that the ``y`` coordinates are to be shifted. By
+            convention, the +``y`` axis extends from the center of the surface
+            towards the top of the pitch when viewing the pitch in TV view. The
+            default is ``0.0``
+
+        pitch_updates : dict
+            A dictionary of updated parameters to use to create the soccer
+            pitch. The default is an empty dictionary
+
+        color_updates : dict
+            A dictionary of coloring parameters to pass to the plot. Defaults
+            are provided in the class per each rule book, but this allows the
+            plot to be more heavily customized/styled. The default is an empty
+            dictionary
+
+        units : str
+            The units that the final plot should utilize. The default units are
+            the units specified in the rule book of the league. The default is
+            ``"default"``
+
+        Returns
+        -------
+        Nothing, but instantiates the class
+        """
         # Load all pre-defined pitch dimensions for provided leagues
         self._load_preset_dimensions(sport = "soccer")
 
@@ -590,48 +635,63 @@ class SoccerPitch(BaseSurfacePlot):
         Parameters
         ----------
         ax : matplotlib.Axes
-            An axes object onto which the plot can be drawn. If None is
+            An axes object onto which the plot can be drawn. If ``None`` is
             supplied, then the currently-active Axes object will be used
 
-        display_range : str; default "full"
-            The portion of the surface to display. The entire surface will
-            always be drawn under the hood, however this parameter limits what
-            is shown in the final plot. The following explain what each display
-            range corresponds to:
+        display_range : str
+            The portion of the surface to display. The entire surface
+            will always be drawn under the hood, however this parameter
+            limits what is shown in the final plot. The following explain what
+            each display range corresponds to::
 
-                "full" : the entire pitch
-                "offense" : the TV-right half of the pitch
-                "offence" : the TV-right half of the pitch
-                "offensivehalfpitch" : the TV-right half of the pitch
-                "offensive_half_pitch" : the TV-right half of the pitch
-                "offensive half pitch" : the TV-right half of the pitch
-                "defense" : the TV-left half of the pitch
-                "defence" : the TV-left half of the pitch
-                "defensivehalfpitch" : the TV-left half of the pitch
-                "defensive_half_pitch": : the TV-left half of the pitch
-                "defensive half pitch" : the TV-left half of the pitch
+                - ``"full"``: The entire pitch
+                - ``"offense"``: The offensive half of the pitch. This is the
+                        TV-right half
+                - ``"offence"``: The offensive half of the pitch. This is the
+                        TV-right half
+                - ``"offensivehalfpitch"``: The offensive half of the pitch.
+                        This is the TV-right half
+                - ``"offensive_half_pitch"``: The offensive half of the pitch.
+                        This is the TV-right half
+                - ``"offensive half pitch"``: The offensive half of the pitch.
+                        This is the TV-right half
+                - ``"defense"``: The defensive half of the pitch. This is the
+                        TV-left half
+                - ``"defence"``: The defensive half of the pitch. This is the
+                        TV-left half
+                - ``"defensivehalfpitch"``: The defensive half of the pitch.
+                        This is the TV-left half
+                - ``"defensive_half_pitch"``: The defensive half of the pitch.
+                        This is the TV-left half
+                - ``"defensive half pitch"``: The defensive half of the pitch.
+                        This is the TV-left half
 
-        xlim : float, tuple (float, float), or None (default: None)
-            The display range in the x direction to be used. If a single
+            The default is ``"full"``
+
+
+        xlim : float or tuple of floats or None
+            The display range in the ``x`` direction to be used. If a single
             float is provided, this will be used as the lower bound of
-            the x coordinates to display and the upper bound will be the
-            +x end of the pitch. If a tuple, the two values will be
-            used to determine the bounds. If None, then the
-            display_range will be used instead to set the bounds
+            the ``x`` coordinates to display and the upper bound will be the
+            +``x`` end of the pitch. If a tuple, the two values will be
+            used to determine the bounds. If ``None``, then the
+            `display_range` will be used instead to set the bounds. The default
+            is ``None``
 
-        ylim : float, tuple (float, float), or None (default: None)
-            The display range in the y direction to be used. If a single
-            float is provided, this will be used as the lower bound of the y
-            coordinates to display and the upper bound will be the +y side of
-            the pitch. If a tuple, the two values will be used to determine the
-            bounds. If None, then the display_range will be used instead to set
-            the bounds
+        ylim : float or tuple of floats or None
+            The display range in the ``y`` direction to be used. If a single
+            float is provided, this will be used as the lower bound of
+            the ``y`` coordinates to display and the upper bound will be the
+            +``y`` upper touchline. If a tuple, the two values will be used
+            to determine the bounds. If ``None``, then the display_range
+            `will` be used instead to set the bounds. The default is ``None``
 
-        rotation : float or None (default: None)
-            Angle (in degrees) through which to rotate the pitch when drawing.
-            If used, this will set the class attribute of self._rotation. A
-            value of 0.0 will correspond to a TV View of the pitch, where +x is
-            to the right and +y is on top. The rotation occurs counterclockwise
+        rotation : float or None
+            Angle (in degrees) through which to rotate the pitch when
+            drawing. If used, this will set the class attribute of `_rotation`.
+            A value of ``0.0`` will correspond to a TV view of the pitch, where
+            +``x`` is to the right and +``y`` is on top. The rotation occurs
+            counter clockwise. The default is ``None``
         """
         # If there is a rotation to be applied, apply it first and set it as
         # the class attribute self._rotation
@@ -725,17 +785,17 @@ class SoccerPitch(BaseSurfacePlot):
     def cani_plot_leagues(self, league_code = None):
         """Show if a league can be plotted, or what leagues are pre-defined.
 
-        A user may wish to know if a specific soccer league can be plotted.
+        A user may wish to know if a specific curling league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with sportypy for easier plotting (if they provide the league
+        shipped with `sportypy` for easier plotting (if they provide the league
         code), or can also show what leagues are available to be plotted
 
         Parameters
         ----------
-        league_code : str or None (default: None)
+        league_code : str or None
             A league code that may or may not be shipped with the package. If
-            the league code is None, this will display all leagues that do come
-            shipped with sportypy
+            the league code is ``None``, this will display all leagues that do
+            come shipped with `sportypy`. The default is ``None``
 
         Returns
         -------
@@ -827,16 +887,16 @@ class SoccerPitch(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, but this method allows the colors to be
+        the `color_updates` parameter, but this method allows the colors to be
         updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
-        color_updates : dict (default: {}; an empty dictionary)
+        color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that"s color is to be updated (see cani_color_features() method for
-            a list of these names)
+            that's color is to be updated (see `cani_color_features()` method
+            for a list of these names). The default is an empty dictionary
 
         Returns
         -------
@@ -862,14 +922,15 @@ class SoccerPitch(BaseSurfacePlot):
         """Update the pitch's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by sportypy
+        not currently supported by `sportypy`
 
         Parameters
         ----------
-        pitch_updates : dict (default: {}; an empty dictionary)
+        pitch_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the pitch that is to be updated (see cani_change_dimensions()
-            method for a list of these parameters)
+            of the pitch that is to be updated (see `cani_change_dimensions()`
+            method for a list of these parameters). The default is an empty
+            dictionary
 
         Returns
         -------
@@ -895,9 +956,9 @@ class SoccerPitch(BaseSurfacePlot):
         """Reset the features of the pitch to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, and through the update_colors() method,
-        these can be changed. This method allows the colors to be reset to
-        their default values after experiencing such a change
+        the `color_updates` parameter, and through the `update_colors()`
+        method, these can be changed. This method allows the colors to be reset
+        to their default values after experiencing such a change
         """
         # Re-instantiate the class with the default colors
         default_colors = {
@@ -927,10 +988,10 @@ class SoccerPitch(BaseSurfacePlot):
         """Reset the features of the pitch to their default parameterizations.
 
         The pitch parameters can be passed at the initial instantiation of the
-        class via the pitch_updates parameter, and through the
-        update_pitch_params() method, these can be changed. This method allows
-        the feature parameterization to be reset to their default values after
-        experiencing such a change
+        class via the `pitch_updates` parameter, and through the
+        `update_pitch_params()` method, these can be changed. This method
+        allows the feature parameterization to be reset to their default values
+        after experiencing such a change
         """
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
@@ -943,27 +1004,63 @@ class SoccerPitch(BaseSurfacePlot):
     def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
-        """Get the x and y limits for the displayed plot.
+        """Get the ``x`` and ``y`` limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: "full")
+        display_range : str
             The range of which to display the plot. This is a key that will
-            be searched for in the ranges_dict parameter
+            be searched for in the possible display ranges. The following are
+            valid `display_range`s::
 
-        xlim : float or None (default: None)
-            A specific limit on x for the plot
+                - ``"full"``: The entire pitch
+                - ``"offense"``: The offensive half of the pitch. This is the
+                        TV-right half
+                - ``"offence"``: The offensive half of the pitch. This is the
+                        TV-right half
+                - ``"offensivehalfpitch"``: The offensive half of the pitch.
+                        This is the TV-right half
+                - ``"offensive_half_pitch"``: The offensive half of the pitch.
+                        This is the TV-right half
+                - ``"offensive half pitch"``: The offensive half of the pitch.
+                        This is the TV-right half
+                - ``"defense"``: The defensive half of the pitch. This is the
+                        TV-left half
+                - ``"defence"``: The defensive half of the pitch. This is the
+                        TV-left half
+                - ``"defensivehalfpitch"``: The defensive half of the pitch.
+                        This is the TV-left half
+                - ``"defensive_half_pitch"``: The defensive half of the pitch.
+                        This is the TV-left half
+                - ``"defensive half pitch"``: The defensive half of the pitch.
+                        This is the TV-left half
 
-        ylim : float or None (default: None)
-            A specific limit on y for the plot
+        xlim : float or None
+            A specific limit on ``x`` for the plot. The default is ``None``
+
+        ylim : float or None
+            A specific limit on ``y`` for the plot. The default is ``None``
+
+        for_plot : bool
+            Whether the plot range limits are being set for a plot (e.g. a
+            model being displayed over the surface). This utilizes the surface
+            constraint to restrict the model to be inbounds. The default is
+            ``False``
+
+        for_display : bool
+            Whether the plot range limits are being set for a display (e.g. to
+            show the entirety of the surface in the resulting graphic). This
+            will ignore the surface constraint in the resulting graphic, but
+            the constraint will be respected when drawing features. The default
+            is ``False``
 
         Returns
         -------
         xlim : tuple
-            The x-directional limits for displaying the plot
+            The ``x``-directional limits for displaying the plot
 
         ylim : tuple
-            The y-directional limits for displaying the plot
+            The ``y``-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
         if display_range == "" or display_range is None:
@@ -1123,9 +1220,9 @@ class SoccerPitch(BaseSurfacePlot):
 
 
 class EPLPitch(SoccerPitch):
-    """A subclass of SoccerPitch specific to the English Premier League.
+    """A subclass of ``SoccerPitch`` specific to the English Premier League.
 
-    See SoccerPitch class documentation for full description.
+    See ``SoccerPitch`` class documentation for full description.
     """
 
     def __init__(self, pitch_updates = {}, *args, **kwargs):
@@ -1139,9 +1236,9 @@ class EPLPitch(SoccerPitch):
 
 
 class FIFAPitch(SoccerPitch):
-    """A subclass of SoccerPitch specific to FIFA.
+    """A subclass of ``SoccerPitch`` specific to FIFA.
 
-    See SoccerPitch class documentation for full description.
+    See ``SoccerPitch`` class documentation for full description.
     """
 
     def __init__(self, pitch_updates = {}, *args, **kwargs):
@@ -1155,9 +1252,9 @@ class FIFAPitch(SoccerPitch):
 
 
 class MLSPitch(SoccerPitch):
-    """A subclass of SoccerPitch specific to FIFA.
+    """A subclass of ``SoccerPitch`` specific to FIFA.
 
-    See SoccerPitch class documentation for full description.
+    See ``SoccerPitch`` class documentation for full description.
     """
 
     def __init__(self, pitch_updates = {}, *args, **kwargs):
@@ -1171,9 +1268,9 @@ class MLSPitch(SoccerPitch):
 
 
 class NCAAPitch(SoccerPitch):
-    """A subclass of SoccerPitch specific to FIFA.
+    """A subclass of ``SoccerPitch`` specific to FIFA.
 
-    See SoccerPitch class documentation for full description.
+    See ``SoccerPitch`` class documentation for full description.
     """
 
     def __init__(self, pitch_updates = {}, *args, **kwargs):
@@ -1187,9 +1284,9 @@ class NCAAPitch(SoccerPitch):
 
 
 class NWSLPitch(SoccerPitch):
-    """A subclass of SoccerPitch specific to FIFA.
+    """A subclass of ``SoccerPitch`` specific to FIFA.
 
-    See SoccerPitch class documentation for full description.
+    See ``SoccerPitch`` class documentation for full description.
     """
 
     def __init__(self, pitch_updates = {}, *args, **kwargs):

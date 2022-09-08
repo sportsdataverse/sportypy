@@ -23,28 +23,32 @@ class BaseFeature(ABC):
 
     Attributes
     ----------
-    feature_df : pandas.DataFrame (default: empty data frame)
-        The dataframe containing the coordinates necessary to draw the feature
+    feature_df : pandas.DataFrame
+        The data frame containing the coordinates necessary to draw the feature
 
-    x_anchor : float (default: 0.0)
-        The x coordinate corresponding to the feature's anchored position in
-        the surface's coordinate system
+    x_anchor : float
+        The ``x`` coordinate corresponding to the feature's anchored position
+        in the surface's coordinate system. The default is ``0.0``
 
-    y_anchor : float (default: 0.0)
-        The y coordinate corresponding to the feature's anchored position in
-        the surface's coordinate system
+    y_anchor : float
+        The ``y`` coordinate corresponding to the feature's anchored position
+        in the surface's coordinate system. The default is ``0.0``
 
-    reflected_over_x : bool (default: False)
-        Whether or not the feature should be reflected over the x axis
+    reflected_over_x : bool
+        Whether or not the feature should be reflected over the ``x`` axis. The
+        default is ``False``
 
-    reflect_over_y : bool (default: True)
-        Whether or not the feature should be reflected over the y axis
+    reflect_over_y : bool
+        Whether or not the feature should be reflected over the ``y`` axis. The
+        default is ``True``
 
-    visible : bool (default: False)
-        Whether or not the feature should be visible on the final plot
+    visible : bool
+        Whether or not the feature should be visible on the final plot. The
+        default is ``False``
 
     plot_kwargs : dict
-        Additional arguments the feature requires to be plotted
+        Additional arguments the feature requires to be plotted. These may
+        include things such as ``zorder``, ``facecolor``, ``edgecolor``, etc.
     """
 
     def __init__(self, feature_df = pd.DataFrame(), x_anchor = 0.0,
@@ -96,7 +100,7 @@ class BaseFeature(ABC):
         -------
         feature_df : pandas.DataFrame
             The data frame containing the feature's x and y coordinates if they
-            were to be drawn at (0, 0)
+            were to be drawn at ``(0.0, 0.0)``
         """
         pass
 
@@ -109,13 +113,13 @@ class BaseFeature(ABC):
         Parameters
         ----------
         None passed, but utilizes the data frame returned by the
-        _get_centered_feature() method
+        ``_get_centered_feature()`` method
 
         Returns
         -------
         feature_df: pandas.DataFrame
-            The data frame containing the feature's x and y coordinates in the
-            correct location on the surface.
+            The data frame containing the feature's ``x`` and ``y`` coordinates
+            in the correct location on the surface
         """
         # Start by getting the coordinates of the feature as if it were
         # centered around the point (0, 0) through using the
@@ -134,7 +138,7 @@ class BaseFeature(ABC):
         Parameters
         ----------
         None passed, but uses the numpy ndarrays returned by the
-        self._translate_feature() method
+        ``_translate_feature()`` method
 
         Returns
         -------
@@ -159,34 +163,37 @@ class BaseFeature(ABC):
                       start = 0.0, end = 2.0):
         """Generate a data frame that contains the points that form a circle.
 
-        This function generates a set of x and y coordinates that form a circle
-        (or the arc of a circle)
+        This function generates a set of ``x`` and ``y`` coordinates that form
+        a circle (or the arc of a circle)
 
         Parameters
         ----------
-        center : tuple (float, float) (default: (0.0, 0.0))
-            The (x, y) coordinates of the center of the circle
+        center : tuple
+            The ``(x, y)`` coordinates of the center of the circle. The default
+            is ``(0.0, 0.0)``
 
-        npoints : int (default: 1000)
+        npoints : int
             The number of points with which to create the circle. This will
-            also be the length of the resulting data frame
+            also be the length of the resulting data frame. The default is
+            ``1000``
 
-        r : float (default: 1.0)
-            Radius of the circle IN THE UNITS OF THE SURFACE
+        r : float
+            Radius of the circle **in the units of the surface**. The default
+            is ``1.0``
 
-        start : float (default: 0.0)
+        start : float
             The angle (in radians) at which to start drawing the circle, where
-            zero runs along the +x axis
+            zero runs along the +x axis. The default is ``0.0``
 
-        end : float (default: 0.0)
+        end : float
             The angle (in radians) at which to stop drawing the circle, where
-            zero runs along the +x axis
+            zero runs along the +x axis. The default is ``0.0``
 
         Returns
         -------
         circle_pts : pandas.DataFrame
-            A pandas data frame containing the necessary x and y coordinates
-            for a circle
+            A pandas data frame containing the necessary ``x`` and ``y``
+            coordinates for a circle
         """
         # Create a vector of numbers that are evenly spaced apart between the
         # starting and ending angles. They should be multiplied by pi to be in
@@ -217,23 +224,23 @@ class BaseFeature(ABC):
 
         Parameters
         ----------
-        x_min : float (default: 0.0)
-            The lower of the two x coordinates
+        x_min : float
+            The lower of the two ``x`` coordinates. The default is ``0.0``
 
-        x_max : float (default: 0.0)
-            The higher of the two x coordinates
+        x_max : float
+            The higher of the two ``x`` coordinates. The default is ``0.0``
 
-        y_min : float (default: 0.0)
-            The lower of the two y coordinates
+        y_min : float
+            The lower of the two ``y`` coordinates. The default is ``0.0``
 
-        y_max : float (default: 0.0)
-            The higher of the two y coordinates
+        y_max : float
+            The higher of the two ``y`` coordinates. The default is ``0.0``
 
         Returns
         -------
         rect_pts : pandas.DataFrame
-            A pandas data frame containing the necessary x and y coordinates
-            for a rectangle
+            A pandas data frame containing the necessary ``x`` and ``y``
+            coordinates for a rectangle
         """
         # A rectangle's bounding box is described by going along the following
         # path:
@@ -273,17 +280,17 @@ class BaseFeature(ABC):
 
         Parameters
         ----------
-        side_length : float (default: 1.0)
-            The length of the side of the square
+        side_length : float
+            The length of the side of the square. The default is ``1.0``
 
-        center : tuple (float, float) (default: (0.0, 0.0))
-            Where to center the square
+        center : tuple
+            Where to center the square. The default is ``(0.0, 0.0)``
 
         Returns
         -------
         square_pts : pandas.DataFrame
-            A pandas data frame containing the necessary x and y coordinates
-            for a square
+            A pandas data frame containing the necessary ``x`` and ``y``
+            coordinates for a square
         """
         # A unit square centered at (0, 0) can have its boundary described as
         # the path traced by the following:
@@ -324,20 +331,20 @@ class BaseFeature(ABC):
 
         Parameters
         ----------
-        height : float (default: 0.0)
-            The vertical height of the diamond
+        height : float
+            The vertical height of the diamond. The default is ``0.0``
 
-        width : float (default: 0.0)
-            The horizontal width of the diamond
+        width : float
+            The horizontal width of the diamond. The default is ``0.0``
 
-        center : tuple (float, float) (default: (0.0, 0.0))
-            Where to center the diamond
+        center : tuple
+            Where to center the diamond. The default is ``(0.0, 0.0)``
 
         Returns
         -------
         diamond_pts : pandas.DataFrame
-            A pandas data frame containing the necessary x and y coordinates
-            for a diamond
+            A pandas data frame containing the necessary ``x`` and ``y``
+            coordinates for a diamond
         """
         # A unit diamond's bounding box is described by going along the
         # following path:
@@ -377,7 +384,9 @@ class BaseFeature(ABC):
         ax : matplotlib.Axes
             Axes onto which the feature should be drawn
 
-        transform : matplotlib.Transform or None (default: None)
+        transform : matplotlib.Transform, optional
+            The matplotlib.Transform to apply to the plot. The default is
+            ``None``
 
         Returns
         -------
@@ -387,7 +396,7 @@ class BaseFeature(ABC):
         """
         # Set the transformation to be data coordinates if none is passed
         if not transform:
-            transform = ax.transData # pragma: no cover
+            transform = ax.transData  # pragma: no cover
 
         # Get the feature's matplotlib.Polygon
         patch = self.create_feature_mpl_polygon()
@@ -408,11 +417,13 @@ class BaseFeature(ABC):
         df : pandas.DataFrame
             A data frame with points to reflect
 
-        over_x : bool (default: False)
-            Whether or not to reflect the points over the x axis
+        over_x : bool False
+            Whether or not to reflect the points over the ``x`` axis. The
+            default is ``False``
 
-        over_y : bool (default: False)
-            Whether or not to reflect the points over the y axis
+        over_y : bool False
+            Whether or not to reflect the points over the ``y`` axis. The
+            default is ``False``
 
         Returns
         -------
@@ -428,20 +439,21 @@ class BaseFeature(ABC):
         return out_df
 
     def _rotate(self, df, angle = 0.25):
-        """Mathematical rotation about (0.0, 0.0).
+        """Mathematical rotation about ``(0.0, 0.0)``.
 
-        This rotation is given as:
-            x" = x * cos(theta) - y * sin(theta)
-            y" = x * sin(theta) + y * cos(theta)
+        This rotation is given as::
+
+            x' = x * cos(theta) - y * sin(theta)
+            y' = x * sin(theta) + y * cos(theta)
 
         Parameters
         ----------
         df : pandas.DataFrame
             A data frame with points to rotate
 
-        angle : float (default: 0.5)
+        angle : float
             The angle (in radians) by which to rotate the coordinates, divided
-            by pi
+            by pi. The default is ``0.5``
 
         Returns
         -------
