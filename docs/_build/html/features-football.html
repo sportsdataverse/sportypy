@@ -1,0 +1,1081 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Football &#8212; sportypy  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Hockey" href="features-hockey.html" />
+    <link rel="prev" title="Curling" href="features-curling.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="football">
+<h1>Football<a class="headerlink" href="#football" title="Permalink to this heading">¶</a></h1>
+<p>Football relies on the following parameterizedfeatures:</p>
+<span class="target" id="module-sportypy._feature_classes.football"></span><p>Extensions of the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class to be specific to football field.</p>
+<p>The features are all parameterized by the basic characteristics of a football
+field. A user can manually specify their own field parameters in the
+<code class="docutils literal notranslate"><span class="pre">FootballField</span></code> class that will adjust the placement of these features,
+however the features themselves will be consistent across all football
+surfaces.</p>
+<p>&#64;author: Ross Drucker</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.Arrow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">Arrow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrow_base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.Arrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>The arrows pointing to the nearest end zone.</p>
+<p>These arrows are described by their base (which runs parallel to the goal
+line) and their length, which extends from the tip to the base</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.Arrow.arrow_base">
+<span class="sig-name descname"><span class="pre">arrow_base</span></span><a class="headerlink" href="#sportypy._feature_classes.football.Arrow.arrow_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the base of the directional arrow. This is the component
+of the arrow that is parallel to the major yard line to which the arrow
+corresponds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.Arrow.arrow_length">
+<span class="sig-name descname"><span class="pre">arrow_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.Arrow.arrow_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The distance between the tip of the directional arrow and the base</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.BaseFootballFeature">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">BaseFootballFeature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yd'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.BaseFootballFeature" title="Permalink to this definition">¶</a></dt>
+<dd><p>An extension of the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class for football features.</p>
+<p>The following attributes are specific to football features only. For more
+information on inherited attributes, please see the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class
+definition. The default values are provided to ensure that the feature can
+at least be created.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.BaseFootballFeature.field_length">
+<span class="sig-name descname"><span class="pre">field_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.BaseFootballFeature.field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the field in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.BaseFootballFeature.field_width">
+<span class="sig-name descname"><span class="pre">field_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.BaseFootballFeature.field_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the field in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.BaseFootballFeature.feature_radius">
+<span class="sig-name descname"><span class="pre">feature_radius</span></span><a class="headerlink" href="#sportypy._feature_classes.football.BaseFootballFeature.feature_radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>The radius needed to draw the feature. This may not be needed for all
+features. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.BaseFootballFeature.feature_thickness">
+<span class="sig-name descname"><span class="pre">feature_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.BaseFootballFeature.feature_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness with which to draw the feature. This is normally given
+as the horizontal width of the feature in TV view, however it may be
+used to specify other thicknesses as needed. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.BaseFootballFeature.field_units">
+<span class="sig-name descname"><span class="pre">field_units</span></span><a class="headerlink" href="#sportypy._feature_classes.football.BaseFootballFeature.field_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>The units with which the feature is drawn. The default is <code class="docutils literal notranslate"><span class="pre">&quot;yd&quot;</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.CoachingBox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">CoachingBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coaching_box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.CoachingBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>The coaching box.</p>
+<p>This is the area beyond the restricted area designated for coaches. It is
+between the restricted area and the team area</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.CoachingBox.coaching_box_length">
+<span class="sig-name descname"><span class="pre">coaching_box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.CoachingBox.coaching_box_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the coaching box in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.CoachingBoxLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">CoachingBoxLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coaching_box_line_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.CoachingBoxLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The line separating the coaching box from the team bench area.</p>
+<p>The line should be a different color than either the team bench area or the
+coaching box</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.CoachingBoxLine.coaching_box_line_length">
+<span class="sig-name descname"><span class="pre">coaching_box_line_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.CoachingBoxLine.coaching_box_line_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the coaching box line in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction when viewing
+the field in TV view</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.DefensiveHalf">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">DefensiveHalf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.DefensiveHalf" title="Permalink to this definition">¶</a></dt>
+<dd><p>The defensive half of the field.</p>
+<p>This is the left half of the field in TV view</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.DefensiveHalf.endzone_length">
+<span class="sig-name descname"><span class="pre">endzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.DefensiveHalf.endzone_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the endzone in TV view. This is measured from the field
+side of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.EndLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">EndLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yd'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.EndLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The line beyond the endzone.</p>
+<p>The end line is typically white in color, and its interior edge is out of
+bounds</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.Endzone">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">Endzone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.Endzone" title="Permalink to this definition">¶</a></dt>
+<dd><p>The endzones.</p>
+<p>The area beyond the goal line.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.Endzone.endzone_length">
+<span class="sig-name descname"><span class="pre">endzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.Endzone.endzone_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the endzone in TV view. This is measured from the field
+side of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">FieldApron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_border_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricted_area_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricted_area_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coaching_box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coaching_box_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_field_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_back_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_area_border_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_apron_padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron" title="Permalink to this definition">¶</a></dt>
+<dd><p>The apron of the field.</p>
+<p>The field should have an apron to appropriately see all out-of-bounds
+features. This is typically the same color as the field itself, but will be
+created separately so as to allow for more customized plotting</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.endzone_length">
+<span class="sig-name descname"><span class="pre">endzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.endzone_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the endzone in TV view. This is measured from the field
+side of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.boundary_line_thickness">
+<span class="sig-name descname"><span class="pre">boundary_line_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.boundary_line_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the boundary lines. This should not include any border
+around the sidelines, the restricted areas, or team bench areas</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.field_border_thickness">
+<span class="sig-name descname"><span class="pre">field_border_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.field_border_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the border around the field. This will be uniform
+around the entirety of the field. This should not include the thickness
+of the boundary lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.restricted_area_length">
+<span class="sig-name descname"><span class="pre">restricted_area_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.restricted_area_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the restricted area in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.coaching_box_length">
+<span class="sig-name descname"><span class="pre">coaching_box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.coaching_box_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the coaching box in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.coaching_box_width">
+<span class="sig-name descname"><span class="pre">coaching_box_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.coaching_box_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the coaching box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.team_bench_length_field_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_field_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.team_bench_length_field_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge closest to the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.team_bench_length_back_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_back_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.team_bench_length_back_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge furthest from the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.team_bench_width">
+<span class="sig-name descname"><span class="pre">team_bench_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.team_bench_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the team bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.team_bench_area_border_thickness">
+<span class="sig-name descname"><span class="pre">team_bench_area_border_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.team_bench_area_border_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the border around the team bench area. This should not
+include any borders around the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldApron.extra_apron_padding">
+<span class="sig-name descname"><span class="pre">extra_apron_padding</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldApron.extra_apron_padding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any additional padding around the field apron</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">FieldBorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricted_area_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricted_area_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coaching_box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coaching_box_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_field_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_back_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_border_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bench_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrounds_team_bench_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder" title="Permalink to this definition">¶</a></dt>
+<dd><p>The border around the outside of the sideline and end line.</p>
+<p>This is not present on every field, but is not the same as the sideline
+or end line (although they may be the same in color)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.endzone_length">
+<span class="sig-name descname"><span class="pre">endzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.endzone_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the endzone in TV view. This is measured from the field
+side of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.boundary_line_thickness">
+<span class="sig-name descname"><span class="pre">boundary_line_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.boundary_line_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the boundary lines. This should not include any border
+around the sidelines, the restricted areas, or team bench areas</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.field_border_thickness">
+<span class="sig-name descname"><span class="pre">field_border_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.field_border_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the border around the field. This will be uniform
+around the entirety of the field. This should not include the thickness
+of the boundary lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.restricted_area_length">
+<span class="sig-name descname"><span class="pre">restricted_area_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.restricted_area_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the restricted area in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.restricted_area_width">
+<span class="sig-name descname"><span class="pre">restricted_area_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.restricted_area_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the restricted area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.coaching_box_length">
+<span class="sig-name descname"><span class="pre">coaching_box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.coaching_box_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the coaching box in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.coaching_box_width">
+<span class="sig-name descname"><span class="pre">coaching_box_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.coaching_box_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the coaching box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.team_bench_length_field_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_field_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.team_bench_length_field_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge closest to the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.team_bench_length_back_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_back_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.team_bench_length_back_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge furthest from the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.team_bench_width">
+<span class="sig-name descname"><span class="pre">team_bench_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.team_bench_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the team bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.team_bench_border_thickness">
+<span class="sig-name descname"><span class="pre">team_bench_border_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.team_bench_border_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the border around the team bench area. This should not
+include any borders around the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.surrounds_team_bench_area">
+<span class="sig-name descname"><span class="pre">surrounds_team_bench_area</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.surrounds_team_bench_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not the field border should surround the team bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorder.bench_shape">
+<span class="sig-name descname"><span class="pre">bench_shape</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorder.bench_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>The shape of the bench area. This should be either <code class="docutils literal notranslate"><span class="pre">&quot;rectangle&quot;</span></code> or
+<code class="docutils literal notranslate"><span class="pre">&quot;trapezoid&quot;</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">FieldBorderOutline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricted_area_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricted_area_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coaching_box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coaching_box_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_field_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_back_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_border_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bench_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_border_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrounds_team_bench_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline" title="Permalink to this definition">¶</a></dt>
+<dd><p>The outline of the border around the field.</p>
+<p>This is not present on every field, but is not the same as the sideline
+or end line (although they may be the same in color)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.endzone_length">
+<span class="sig-name descname"><span class="pre">endzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.endzone_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the endzone in TV view. This is measured from the field
+side of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.boundary_line_thickness">
+<span class="sig-name descname"><span class="pre">boundary_line_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.boundary_line_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the boundary lines. This should not include any border
+around the sidelines, the restricted areas, or team bench areas</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.field_border_thickness">
+<span class="sig-name descname"><span class="pre">field_border_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.field_border_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the border around the field. This will be uniform
+around the entirety of the field. This should not include the thickness
+of the boundary lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.restricted_area_length">
+<span class="sig-name descname"><span class="pre">restricted_area_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.restricted_area_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the restricted area in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.restricted_area_width">
+<span class="sig-name descname"><span class="pre">restricted_area_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.restricted_area_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the restricted area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.coaching_box_length">
+<span class="sig-name descname"><span class="pre">coaching_box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.coaching_box_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the coaching box in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.coaching_box_width">
+<span class="sig-name descname"><span class="pre">coaching_box_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.coaching_box_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the coaching box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.team_bench_length_field_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_field_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.team_bench_length_field_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge closest to the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.team_bench_length_back_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_back_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.team_bench_length_back_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge furthest from the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.team_bench_width">
+<span class="sig-name descname"><span class="pre">team_bench_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.team_bench_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the team bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.team_bench_border_thickness">
+<span class="sig-name descname"><span class="pre">team_bench_border_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.team_bench_border_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thickness of the border around the team bench area. This should not
+include any borders around the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.surrounds_team_bench_area">
+<span class="sig-name descname"><span class="pre">surrounds_team_bench_area</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.surrounds_team_bench_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not the field border should surround the team bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldBorderOutline.bench_shape">
+<span class="sig-name descname"><span class="pre">bench_shape</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldBorderOutline.bench_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>The shape of the bench area. This should be either <code class="docutils literal notranslate"><span class="pre">&quot;rectangle&quot;</span></code> or
+<code class="docutils literal notranslate"><span class="pre">&quot;trapezoid&quot;</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldConstraint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">FieldConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.FieldConstraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>The constraint around the interior edge of the field’s boundary lines.</p>
+<p>This confines all interior features to be constrained inside the field, as
+well as any interior plots.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.FieldConstraint.endzone_length">
+<span class="sig-name descname"><span class="pre">endzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.FieldConstraint.endzone_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the endzone in TV view. This is measured from the field
+side of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.GoalLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">GoalLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yd'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.GoalLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The goal line.</p>
+<p>The interior edge (relative to the field of play) should lie at the 0 yard
+line. The center of the 1 yard line should be exactly 1 yard from this edge
+of the goal line</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.MajorYardLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">MajorYardLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist_to_sideline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cross_hash_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cross_hash_separation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yard_line_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.MajorYardLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The major yard lines on the field.</p>
+<p>These are the yard lines that span the entire width of the field</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.MajorYardLine.dist_to_sideline">
+<span class="sig-name descname"><span class="pre">dist_to_sideline</span></span><a class="headerlink" href="#sportypy._feature_classes.football.MajorYardLine.dist_to_sideline" title="Permalink to this definition">¶</a></dt>
+<dd><p>The distance separating the major yard line from the interior edge of
+the boundary lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.MajorYardLine.cross_hash_length">
+<span class="sig-name descname"><span class="pre">cross_hash_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.MajorYardLine.cross_hash_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length, in TV view, of the hash mark that crosses major yard lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.MajorYardLine.cross_hash_separation">
+<span class="sig-name descname"><span class="pre">cross_hash_separation</span></span><a class="headerlink" href="#sportypy._feature_classes.football.MajorYardLine.cross_hash_separation" title="Permalink to this definition">¶</a></dt>
+<dd><p>The separation between the hash marks (i.e. the minor yard lines) when
+measured from their interior edges</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.MajorYardLine.yard_line_name">
+<span class="sig-name descname"><span class="pre">yard_line_name</span></span><a class="headerlink" href="#sportypy._feature_classes.football.MajorYardLine.yard_line_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the yard line. This is to make identifying them easier, but
+have no bearing on the final plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.MinorYardLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">MinorYardLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yard_line_height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yard_line_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_to_sideline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.MinorYardLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The minor yard lines on the field.</p>
+<p>These are the yard lines spaced closer than every five yards on the field</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.MinorYardLine.yard_line_height">
+<span class="sig-name descname"><span class="pre">yard_line_height</span></span><a class="headerlink" href="#sportypy._feature_classes.football.MinorYardLine.yard_line_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>The height of the minor yard lines on the field in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction
+when viewing the field in TV view</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.MinorYardLine.yard_line_name">
+<span class="sig-name descname"><span class="pre">yard_line_name</span></span><a class="headerlink" href="#sportypy._feature_classes.football.MinorYardLine.yard_line_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the yard line. This is to make identifying them easier, but
+have no bearing on the final plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.OffensiveHalf">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">OffensiveHalf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.OffensiveHalf" title="Permalink to this definition">¶</a></dt>
+<dd><p>The offensive half of the field.</p>
+<p>This is the right half of the field in TV view</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.OffensiveHalf.endzone_length">
+<span class="sig-name descname"><span class="pre">endzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.OffensiveHalf.endzone_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the endzone in TV view. This is measured from the field
+side of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.RestrictedArea">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">RestrictedArea</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">restricted_area_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.RestrictedArea" title="Permalink to this definition">¶</a></dt>
+<dd><p>The restricted area.</p>
+<p>This is the area between the coaching box and the exterior edge of the
+sideline</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.RestrictedArea.restricted_area_length">
+<span class="sig-name descname"><span class="pre">restricted_area_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.RestrictedArea.restricted_area_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the restricted area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.Sideline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">Sideline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.Sideline" title="Permalink to this definition">¶</a></dt>
+<dd><p>The lines that run the length of the field.</p>
+<p>The sidelines are typically white in color, and its interior edge is out of
+bounds</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.Sideline.endzone_length">
+<span class="sig-name descname"><span class="pre">endzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.Sideline.endzone_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the endzone in TV view. This is measured from the field
+side of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchArea">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">TeamBenchArea</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">team_bench_length_field_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_back_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchArea" title="Permalink to this definition">¶</a></dt>
+<dd><p>The team bench area.</p>
+<p>This is the area beyond the restricted area and coaching box. It is where
+the team benches, non-playing players, and team staff are to remain during
+the game</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchArea.team_bench_length_field_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_field_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchArea.team_bench_length_field_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge closest to the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchArea.team_bench_length_back_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_back_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchArea.team_bench_length_back_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge furthest from the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchArea.team_bench_width">
+<span class="sig-name descname"><span class="pre">team_bench_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchArea.team_bench_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the team bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchAreaOutline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">TeamBenchAreaOutline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">restricted_area_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricted_area_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coaching_box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coaching_box_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_field_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_length_back_side</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_bench_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchAreaOutline" title="Permalink to this definition">¶</a></dt>
+<dd><p>The outline of the bench area (border, not broken line).</p>
+<p>The border may not be necessary in all drawings</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchAreaOutline.restricted_area_length">
+<span class="sig-name descname"><span class="pre">restricted_area_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchAreaOutline.restricted_area_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the restricted area in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchAreaOutline.restricted_area_width">
+<span class="sig-name descname"><span class="pre">restricted_area_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchAreaOutline.restricted_area_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the restricted area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchAreaOutline.coaching_box_length">
+<span class="sig-name descname"><span class="pre">coaching_box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchAreaOutline.coaching_box_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the coaching box in the direction parallel to the
+sideline of the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchAreaOutline.coaching_box_width">
+<span class="sig-name descname"><span class="pre">coaching_box_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchAreaOutline.coaching_box_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the coaching box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchAreaOutline.team_bench_length_field_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_field_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchAreaOutline.team_bench_length_field_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge closest to the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchAreaOutline.team_bench_length_back_side">
+<span class="sig-name descname"><span class="pre">team_bench_length_back_side</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchAreaOutline.team_bench_length_back_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the team bench’s edge furthest from the field</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TeamBenchAreaOutline.team_bench_width">
+<span class="sig-name descname"><span class="pre">team_bench_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TeamBenchAreaOutline.team_bench_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the team bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TryMark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.football.</span></span><span class="sig-name descname"><span class="pre">TryMark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">try_mark_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.football.TryMark" title="Permalink to this definition">¶</a></dt>
+<dd><p>The marking where a two-point try begins.</p>
+<p>This is usually around the two or three yard line and located in the
+vertical center of the field (in TV view)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.football.TryMark.try_mark_width">
+<span class="sig-name descname"><span class="pre">try_mark_width</span></span><a class="headerlink" href="#sportypy._feature_classes.football.TryMark.try_mark_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the try mark</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">sportypy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="surfaces.html">Surfaces</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="features.html">Features</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="features.html">Features</a><ul>
+      <li>Previous: <a href="features-curling.html" title="previous chapter">Curling</a></li>
+      <li>Next: <a href="features-hockey.html" title="next chapter">Hockey</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Ross Drucker <ross.a.drucker@gmail.com>.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/features-football.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
