@@ -1,7 +1,7 @@
 """Extension of the ``BaseSurfacePlot`` class to create a basketball court.
 
 This is a second-level child class of the ``BaseSurface`` class, and as such
-will have access to its attributes and methods. `sportypy` will ship with
+will have access to its attributes and methods. ``sportypy`` will ship with
 pre-defined leagues that will have their own subclass, but a user can manually
 specify their own court parameters to create a totally-customized court. The
 court's features are parameterized by the basic dimensions of the court, which
@@ -23,13 +23,13 @@ class BasketballCourt(BaseSurfacePlot):
     This allows for the creation of the basketball court in a way that is
     entirely parameterized by the court's baseline characteristics.
 
-    All attributes should default to ``0.0``(if of a numeric type) or an empty
+    All attributes should default to ``0.0`` (if of a numeric type) or an empty
     string (if of a string type). Customized parameters may be specified via a
     child class (see below) or by directly specifying all necessary attributes
     of a valid basketball court. The attributes needed to instantiate a
     particular league's surface must be specified in the ``court_params``
     dictionary. For many leagues, these will be provided in the
-    surface_dimensions.json file in the data/ subdirectory of `sportypy`.
+    surface_dimensions.json file in the data/ subdirectory of ``sportypy``.
 
     See the ``BaseSurfacePlot`` and ``BaseSurface`` class definitions for full
     details.
@@ -62,7 +62,7 @@ class BasketballCourt(BaseSurfacePlot):
         A dictionary of coloring parameters to pass to the plot
 
     court_params : dict
-        A dictionary containing the following parameters of the court::
+        A dictionary containing the following parameters of the court:
 
         - court_length : float
             The length of the court
@@ -1717,7 +1717,7 @@ class BasketballCourt(BaseSurfacePlot):
             The portion of the surface to display. The entire surface will
             always be drawn under the hood, however this parameter limits what
             is shown in the final plot. The following explain what each display
-            range corresponds to::
+            range corresponds to:
 
                 - ``"full"``: The entire court
                 - ``"offense"``: The attacking/offensive half court
@@ -1770,22 +1770,22 @@ class BasketballCourt(BaseSurfacePlot):
             the ``x`` coordinates to display and the upper bound will be the
             +``x`` end of the court. If a tuple, the two values will be
             used to determine the bounds. If ``None``, then the
-            `display_range` will be used instead to set the bounds. The default
-            is ``None``
+            ``display_range`` will be used instead to set the bounds. The
+            default is ``None``
 
         ylim : float or tuple of floats or None
             The display range in the ``y`` direction to be used. If a single
             float is provided, this will be used as the lower bound of the y
             coordinates to display and the upper bound will be the +``y`` side
             of the court. If a tuple, the two values will be used to determine
-            the bounds. If ``None``, then the `display_range` will be used
+            the bounds. If ``None``, then the ``display_range`` will be used
             instead to set the bounds.  The default is ``None``
 
         rotation : float or None
             Angle (in degrees) through which to rotate the court when drawing.
-            If used, this will set the class attribute of `_rotation`. A value
-            of ``0.0`` will correspond to a TV view of the court, where +``x``
-            is to the right and +``y`` is on top. The rotation occurs
+            If used, this will set the class attribute of ``_rotation``. A
+            value of ``0.0`` will correspond to a TV view of the court, where
+            +``x`` is to the right and +``y`` is on top. The rotation occurs
             counterclockwise. The default is ``None``
         """
         # If there is a rotation to be applied, apply it first and set it as
@@ -1890,7 +1890,7 @@ class BasketballCourt(BaseSurfacePlot):
 
         A user may wish to know if a specific basketball league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with `sportypy` for easier plotting (if they provide the
+        shipped with ``sportypy`` for easier plotting (if they provide the
         league code), or can also show what leagues are available to be plotted
 
         Parameters
@@ -1898,7 +1898,7 @@ class BasketballCourt(BaseSurfacePlot):
         league_code : str or None
             A league code that may or may not be shipped with the package. If
             the league code is ``None``, this will display all leagues that do
-            come shipped with `sportypy`. The default is ``None``
+            come shipped with ``sportypy``. The default is ``None``
 
         Returns
         -------
@@ -1990,15 +1990,15 @@ class BasketballCourt(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the `color_updates` parameter, but this method allows the colors to be
-        updated after the initial instantiation and will re-instantiate the
+        the ``color_updates`` parameter, but this method allows the colors to
+        be updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
         color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see `cani_color_features()` method
+            that's color is to be updated (see ``cani_color_features()`` method
             for a list of these names). The default is an empty dictionary
 
         Returns
@@ -2025,15 +2025,15 @@ class BasketballCourt(BaseSurfacePlot):
         """Update the court's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by `sportypy`
+        not currently supported by ``sportypy``
 
         Parameters
         ----------
         court_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the court that is to be updated (see `cani_change_dimensions()`
-            method for a list of these parameters). The default is an empty
-            dictionary
+            of the court that is to be updated (see
+            ``cani_change_dimensions()`` method for a list of these
+            parameters). The default is an empty dictionary
 
         Returns
         -------
@@ -2059,7 +2059,7 @@ class BasketballCourt(BaseSurfacePlot):
         """Reset the features of the court to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the `color_updates` parameter, and through the `update_colors()`
+        the ``color_updates`` parameter, and through the ``update_colors()``
         method, these can be changed. This method allows the colors to be reset
         to their default values after experiencing such a change
         """
@@ -2102,8 +2102,8 @@ class BasketballCourt(BaseSurfacePlot):
         """Reset the features of the court to their default parameterizations.
 
         The court parameters can be passed at the initial instantiation of the
-        class via the `court_updates` parameter, and through the
-        `update_court_params()` method, these can be changed. This method
+        class via the ``court_updates`` parameter, and through the
+        ``update_court_params()`` method, these can be changed. This method
         allows the feature parameterization to be reset to their default values
         after experiencing such a change
         """
@@ -2125,7 +2125,7 @@ class BasketballCourt(BaseSurfacePlot):
         display_range : str
             The range of which to display the plot. This is a key that will
             be searched for in the possible display ranges. The following are
-            valid `display_range`s::
+            valid ``display_range``s:
 
                 - ``"full"``: The entire court
                 - ``"offense"``: The attacking/offensive half court

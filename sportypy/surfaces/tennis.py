@@ -1,7 +1,7 @@
 """Extension of the ``BaseSurfacePlot`` class to create a tennis court.
 
 This is a second-level child class of the ``BaseSurface`` class, and as such
-will have access to its attributes and methods. `sportypy` will ship with
+will have access to its attributes and methods. ``sportypy`` will ship with
 pre-defined leagues that will have their own subclass, but a user can manually
 specify their own court parameters to create a totally-customized court. The
 court's features are parameterized by the basic dimensions of the court, which
@@ -27,7 +27,7 @@ class TennisCourt(BaseSurfacePlot):
     of a valid tennis court. The attributes needed to instantiate a
     particular league's surface must be specified in the ``court_params``
     dictionary. For many leagues, these will be provided in the
-    surface_dimensions.json file in the data/ subdirectory of `sportypy`.
+    surface_dimensions.json file in the data/ subdirectory of ``sportypy``.
 
     See the ``BaseSurfacePlot`` and ``BaseSurface`` class definitions for full
     details.
@@ -71,7 +71,7 @@ class TennisCourt(BaseSurfacePlot):
         ``"default"``. The default is ``"default"``
 
     court_params : dict
-        A dictionary containing the following parameters of the court::
+        A dictionary containing the following parameters of the court:
 
             - court_length : float
                 The length of the court in the court's specified units
@@ -546,7 +546,7 @@ class TennisCourt(BaseSurfacePlot):
             The portion of the surface to display. The entire surface
             will always be drawn under the hood, however this parameter
             limits what is shown in the final plot. The following explain what
-            each display range corresponds to::
+            each display range corresponds to:
 
                 - ``"full"``: The entire court
                 - ``"serve"``: The serving half of the court
@@ -568,8 +568,8 @@ class TennisCourt(BaseSurfacePlot):
             the ``x`` coordinates to display and the upper bound will be the
             +``x`` end of the court. If a tuple, the two values will be
             used to determine the bounds. If ``None``, then the
-            `display_range` will be used instead to set the bounds. The default
-            is ``None``
+            ``display_range`` will be used instead to set the bounds. The
+            default is ``None``
 
         ylim : float or tuple of floats or None
             The display range in the ``y`` direction to be used. If a single
@@ -577,14 +577,14 @@ class TennisCourt(BaseSurfacePlot):
             the ``y`` coordinates to display and the upper bound will be the
             +``y`` upper touchline. If a tuple, the two values will be used
             to determine the bounds. If ``None``, then the display_range
-            `will` be used instead to set the bounds. The default is ``None``
+            ``will`` be used instead to set the bounds. The default is ``None``
 
         rotation : float or None
             Angle (in degrees) through which to rotate the court when
-            drawing. If used, this will set the class attribute of `_rotation`.
-            A value of ``0.0`` will correspond to a TV view of the court, where
-            +``x`` is to the right and +``y`` is on top. The rotation occurs
-            counter clockwise. The default is ``None``
+            drawing. If used, this will set the class attribute of
+            ``_rotation``. A value of ``0.0`` will correspond to a TV view of
+            the court, where +``x`` is to the right and +``y`` is on top. The
+            rotation occurs counter clockwise. The default is ``None``
         """
         # If there is a rotation to be applied, apply it first and set it as
         # the class attribute self._rotation
@@ -680,15 +680,15 @@ class TennisCourt(BaseSurfacePlot):
 
         A user may wish to know if a specific curling league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with `sportypy` for easier plotting (if they provide the league
-        code), or can also show what leagues are available to be plotted
+        shipped with ``sportypy`` for easier plotting (if they provide the
+        league code), or can also show what leagues are available to be plotted
 
         Parameters
         ----------
         league_code : str or None
             A league code that may or may not be shipped with the package. If
             the league code is ``None``, this will display all leagues that do
-            come shipped with `sportypy`. The default is ``None``
+            come shipped with ``sportypy``. The default is ``None``
 
         Returns
         -------
@@ -780,15 +780,15 @@ class TennisCourt(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the `color_updates` parameter, but this method allows the colors to be
-        updated after the initial instantiation and will re-instantiate the
+        the ``color_updates`` parameter, but this method allows the colors to
+        be updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
         color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see `cani_color_features()` method
+            that's color is to be updated (see ``cani_color_features()`` method
             for a list of these names). The default is an empty dictionary
 
         Returns
@@ -815,15 +815,15 @@ class TennisCourt(BaseSurfacePlot):
         """Update the court's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by `sportypy`
+        not currently supported by ``sportypy``
 
         Parameters
         ----------
         court_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the court that is to be updated (see `cani_change_dimensions()`
-            method for a list of these parameters). The default is an empty
-            dictionary
+            of the court that is to be updated (see
+            ``cani_change_dimensions()`` method for a list of these
+            parameters). The default is an empty dictionary
 
         Returns
         -------
@@ -849,7 +849,7 @@ class TennisCourt(BaseSurfacePlot):
         """Reset the features of the court to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the `color_updates` parameter, and through the `update_colors()`
+        the ``color_updates`` parameter, and through the ``update_colors()``
         method, these can be changed. This method allows the colors to be reset
         to their default values after experiencing such a change
         """
@@ -879,8 +879,8 @@ class TennisCourt(BaseSurfacePlot):
         """Reset the features of the court to their default parameterizations.
 
         The court parameters can be passed at the initial instantiation of the
-        class via the `court_updates` parameter, and through the
-        `update_court_params()` method, these can be changed. This method
+        class via the ``court_updates`` parameter, and through the
+        ``update_court_params()`` method, these can be changed. This method
         allows the feature parameterization to be reset to their default values
         after experiencing such a change
         """
@@ -902,7 +902,7 @@ class TennisCourt(BaseSurfacePlot):
         display_range : str
             The range of which to display the plot. This is a key that will
             be searched for in the possible display ranges. The following are
-            valid `display_range`s::
+            valid ``display_range``s:
 
                 - court_length : float
                 The length of the court in the court's specified units

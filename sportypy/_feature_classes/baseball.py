@@ -603,15 +603,16 @@ class CatchersBox(BaseBaseballFeature):
         The width of the batter's box (in the ``x`` direction) measured from
         the outside of the chalk lines
 
+    catchers_box_shape : str
+        The shape of the catcher's box. Currently-supported values are:
+
+            - ``"rectangle"`` (default behavior)
+            - ``"trapezoid"`` (see ``sportypy.surfaces.LittleLeagueField`` for
+                example)
+
     batters_box_y_adj : float
         The shift off of center in the ``y`` direction that the batter's box
         needs to be moved to properly align
-
-    catchers_box_shape : str
-        The shape of the catcher's box. Currently-supported values are:
-        - ``"rectangle"`` (default behavior)
-        - ``"trapezoid"`` (see `sportypy.surfaces.LittleLeagueField` for
-          example)
     """
 
     def __init__(self, catchers_box_depth = 0.0, catchers_box_width = 0.0,

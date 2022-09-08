@@ -1,6 +1,6 @@
 """Base classes for features of any sports surface.
 
-The BaseFeature class is flexible to accomodate a wide variety of different
+The ``BaseFeature`` class is flexible to accomodate a wide variety of different
 types of features, with methods to add the feature to the plot as well as
 combine different shapes to create a feature. These classes serve as the
 building blocks of each surface's features.

@@ -1,7 +1,7 @@
 """Extension of the ``BaseSurfacePlot`` class to create a football field.
 
 This is a second-level child class of the ``BaseSurface`` class, and as such
-will have access to its attributes and methods. `sportypy` will ship with
+will have access to its attributes and methods. ``sportypy`` will ship with
 pre-defined leagues that will have their own subclass, but a user can manually
 specify their own field parameters to create a totally-customized field. The
 field's features are parameterized by the basic dimensions of the field, which
@@ -32,7 +32,7 @@ class FootballField(BaseSurfacePlot):
     of a valid football field. The attributes needed to instantiate a
     particular league's surface must be specified in the ``field_params``
     dictionary. For many leagues, these will be provided in the
-    surface_dimensions.json file in the data/ subdirectory of `sportypy`.
+    surface_dimensions.json file in the data/ subdirectory of ``sportypy``.
 
     NOTE: By convention of football data, the origin of the coordinate system
     will be located in the lower-left corner of the field when viewing the
@@ -82,7 +82,7 @@ class FootballField(BaseSurfacePlot):
         ``"default"``
 
     field_params : dict
-        A dictionary containing the following parameters of the field::
+        A dictionary containing the following parameters of the field:
 
             - field_length : float
                 The length of the field in TV view
@@ -1210,7 +1210,7 @@ class FootballField(BaseSurfacePlot):
             The portion of the surface to display. The entire surface
             will always be drawn under the hood, however this parameter
             limits what is shown in the final plot. The following explain what
-            each display range corresponds to::
+            each display range corresponds to:
 
                 - ``"full"``: The entire surface
                 - ``"offense"``: The offensive half of the field
@@ -1247,22 +1247,22 @@ class FootballField(BaseSurfacePlot):
             the ``x`` coordinates to display and the upper bound will be the
             +``x`` end of the field. If a tuple, the two values will be
             used to determine the bounds. If ``None``, then the
-            `display_range` will be used instead to set the bounds. The default
-            is ``None``
+            ``display_range`` will be used instead to set the bounds. The
+            default is ``None``
 
         ylim : float or tuple of floats or None
             The display range in the ``y`` direction to be used. If a single
             float is provided, this will be used as the lower bound of the y
             coordinates to display and the upper bound will be the +``y`` side
             of the field. If a tuple, the two values will be used to determine
-            the bounds. If ``None``, then the `display_range` will be used
+            the bounds. If ``None``, then the ``display_range`` will be used
             instead to set the bounds.  The default is ``None``
 
         rotation : float or None
             Angle (in degrees) through which to rotate the field when drawing.
-            If used, this will set the class attribute of `_rotation`. A value
-            of ``0.0`` will correspond to a TV view of the field, where +``x``
-            is to the right and +``y`` is on top. The rotation occurs
+            If used, this will set the class attribute of ``_rotation``. A
+            alue of ``0.0`` will correspond to a TV view of the field, where
+            +``x`` is to the right and +``y`` is on top. The rotation occurs
             counterclockwise. The default is ``None``
         """
         # If there is a rotation to be applied, apply it first and set it as
@@ -1459,15 +1459,15 @@ class FootballField(BaseSurfacePlot):
 
         A user may wish to know if a specific curling league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with `sportypy` for easier plotting (if they provide the league
-        code), or can also show what leagues are available to be plotted
+        shipped with ``sportypy`` for easier plotting (if they provide the
+        league code), or can also show what leagues are available to be plotted
 
         Parameters
         ----------
         league_code : str or None
             A league code that may or may not be shipped with the package. If
             the league code is ``None``, this will display all leagues that do
-            come shipped with `sportypy`. The default is ``None``
+            come shipped with ``sportypy``. The default is ``None``
 
         Returns
         -------
@@ -1559,15 +1559,15 @@ class FootballField(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the `color_updates` parameter, but this method allows the colors to be
-        updated after the initial instantiation and will re-instantiate the
+        the ``color_updates`` parameter, but this method allows the colors to
+        be updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
         color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see `cani_color_features()` method
+            that's color is to be updated (see ``cani_color_features()`` method
             for a list of these names). The default is an empty dictionary
 
         Returns
@@ -1594,15 +1594,15 @@ class FootballField(BaseSurfacePlot):
         """Update the field's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by `sportypy`
+        not currently supported by ``sportypy``
 
         Parameters
         ----------
         field_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the field that is to be updated (see `cani_change_dimensions()`
-            method for a list of these parameters). The default is an empty
-            dictionary
+            of the field that is to be updated (see
+            ``cani_change_dimensions()`` method for a list of these
+            parameters). The default is an empty dictionary
 
         Returns
         -------
@@ -1628,7 +1628,7 @@ class FootballField(BaseSurfacePlot):
         """Reset the features of the field to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the `color_updates` parameter, and through the `update_colors()`
+        the ``color_updates`` parameter, and through the ``update_colors()``
         method, these can be changed. This method allows the colors to be reset
         to their default values after experiencing such a change
         """
@@ -1666,8 +1666,8 @@ class FootballField(BaseSurfacePlot):
         """Reset the features of the field to their default parameterizations.
 
         The field parameters can be passed at the initial instantiation of the
-        class via the `field_updates` parameter, and through the
-        `update_field_params()` method, these can be changed. This method
+        class via the ``field_updates`` parameter, and through the
+        ``update_field_params()`` method, these can be changed. This method
         allows the feature parameterization to be reset to their default values
         after experiencing such a change
         """
@@ -1689,7 +1689,7 @@ class FootballField(BaseSurfacePlot):
         display_range : str
             The range of which to display the plot. This is a key that will
             be searched for in the possible display ranges. The following are
-            valid `display_range`s::
+            valid ``display_range``s:
 
                 - ``"full"``: The entire surface
                 - ``"offense"``: The offensive half of the field

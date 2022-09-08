@@ -1,8 +1,8 @@
 """Base surface plot class to extend scipy to sportypy.
 
-The BaseSurfacePlot class is an extension of the BaseSurface class that enables
-a user to seamlessly create an analytic plot on top of any surface. Any league
-or sport surface will be an inherit this class.
+The ``BaseSurfacePlot`` class is an extension of the BaseSurface class that
+enables a user to seamlessly create an analytic plot on top of any surface. Any
+league or sport surface will be an inherit this class.
 
 @author: Ross Drucker
 """
@@ -581,7 +581,8 @@ class BaseSurfacePlot(BaseSurface):
         displayed, but the ``xlim`` and ``ylim`` arguments will constrain the
         plot's display.
 
-        All parameters other than `x1`, `y1`, `x2`, and `y2` require keywords
+        All parameters other than ``x1``, ``y1``, ``x2``, and ``y2`` require
+        keywords
 
         Parameters
         ----------
@@ -710,11 +711,11 @@ class BaseSurfacePlot(BaseSurface):
             This is achieved by removing values outside of the given range in
             each surface's ``draw()`` method. See the surface ``draw()`` method
             for viable options. This will only affect the x-coordinates and can
-            be used in conjunction with `ylim`, but will be superceded so long
-            as `xlim` is provided
+            be used in conjunction with ``ylim``, but will be superceded so
+            long as ``xlim`` is provided
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         plot_xlim : float or tuple of floats, optional
             The range of ``x`` coordinates to include in the plot:
@@ -722,8 +723,8 @@ class BaseSurfacePlot(BaseSurface):
                 - a tuple of floats: the lower and upper bounds of the ``x``
                   coordinates
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         plot_ylim : float or tuple of floats, optional
             The range of ``y`` coordinates to include in the plot:
@@ -731,8 +732,8 @@ class BaseSurfacePlot(BaseSurface):
                 - a tuple of floats: the lower and upper bounds of the ``y``
                   coordinates
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         gridsize : int or tuple of ints, optional
             The grid specification. If passed as a single integer, this is the
@@ -881,8 +882,8 @@ class BaseSurfacePlot(BaseSurface):
             be used in conjunction with ``ylim``, but will be superceded so
             long as ``xlim`` is provided
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         plot_xlim : float or tuple of floats, optional
             The range of ``x`` coordinates to include in the plot:
@@ -890,8 +891,8 @@ class BaseSurfacePlot(BaseSurface):
                 - a tuple of floats: the lower and upper bounds of the ``x``
                   coordinates
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         plot_ylim : float or tuple of floats, optional
             The range of ``y`` coordinates to include in the plot:
@@ -899,8 +900,8 @@ class BaseSurfacePlot(BaseSurface):
                 - a tuple of floats: the lower and upper bounds of the ``y``
                   coordinates
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         statistic : str or callable
             The statistic to compute via scipy. Per scipy, the following are
@@ -1032,8 +1033,8 @@ class BaseSurfacePlot(BaseSurface):
             be used in conjunction with ``ylim``, but will be superceded so
             long as ``xlim`` is provided
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         plot_xlim : float or tuple of floats, optional
             The range of ``x`` coordinates to include in the plot:
@@ -1041,8 +1042,8 @@ class BaseSurfacePlot(BaseSurface):
                 - a tuple of floats: the lower and upper bounds of the ``x``
                   coordinates
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         plot_ylim : float or tuple of floats, optional
             The range of ``y`` coordinates to include in the plot:
@@ -1050,8 +1051,8 @@ class BaseSurfacePlot(BaseSurface):
                 - a tuple of floats: the lower and upper bounds of the ``y``
                   coordinates
 
-            If no values are passed for `plot_range`, `plot_xlim`, and
-            `plot_ylim`, all coordinate values will be used
+            If no values are passed for ``plot_range``, ``plot_xlim``, and
+            ``plot_ylim``, all coordinate values will be used
 
         statistic : str or callable
             The statistic to compute via scipy. Per scipy, the following are

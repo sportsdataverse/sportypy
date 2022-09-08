@@ -19,15 +19,16 @@ class BaseSurface(ABC):
     x_trans : float
         The amount by which to shift the surface from having its center be
         located at ``(0, 0)``. As an example, an NFL football field may set its
-        `x_trans` value to be ``-60.0`` so that the line ``x = 0`` corresponds
-        to the inner edge of the back of the left endzone. The default is
-        ``0.0``
+        ``x_trans`` value to be ``-60.0`` so that the line ``x = 0``
+        corresponds to the inner edge of the back of the left endzone. The
+        default is ``0.0``
 
     y_trans : float
         The amount by which to shift the surface from having its center be
         located at ``(0, 0)``. As an example, an NFL football field may set its
-        `y_trans` value to be ``-26.333`` so that the line y = 0 corresponds to
-        the inner edge of the back of the left endzone. The default is ``0.0``
+        ``y_trans`` value to be ``-26.333`` so that the line y = 0 corresponds
+        to the inner edge of the back of the left endzone. The default is
+        ``0.0``
 
     rulebook_unit : str
         The units provided in the rule book. These serve as the base unit for
@@ -339,15 +340,15 @@ class BaseSurface(ABC):
         Parameters
         ----------
         ax : matplotlib.Axes or None
-            The Axes object onto which `xlim` and `ylim` will be set. The
+            The Axes object onto which ``xlim`` and ``ylim`` will be set. The
             default is ``None``
 
         display_range : str
             The portion of the surface to display. The entire surface is
             drawn regardless, however this reduces the displayed range to be
             what is desired. This is passed to each surface's
-            ``_get_plot_range_limits()`` method to determine the `xlim` and
-            `ylim` to be shown. If an invalid value is passed to this method,
+            ``_get_plot_range_limits()`` method to determine the ``xlim`` and
+            ``ylim`` to be shown. If an invalid value is passed to this method,
             the full surface will be shown by default. The default is
             ``"full"``
 
