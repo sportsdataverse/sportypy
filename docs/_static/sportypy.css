@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+body {
+    /* General body parameters */
+    font-family: "Roboto Condensed", sans-serif;
+    color: #1b1611;
+    font-size: 16px;
+  }
+  
+a {
+    /* Link colors */
+    color: #ff552e;
+}
+  
+h1, h2, .h1, .h2 {
+    /* Headers */
+    font-family: "Roboto";
+    line-height: 2.2rem;
+    color: #1b1611;
+}
+
+div.alert a, div.alert a:hover {
+    color: #ffffff
+}
+
+#navbar {
+    /* Navbar background */
+    background: #1fb22e;
+    border-color: #1fb22e;
+    color: #ffffff;
+}
+  
+.navbar-default .navbar-brand {
+    color: #ffffff;
+    font-size: 20px;
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+.navbar-default .navbar-text {
+    color: #1b1611;
+    margin-left: 0;
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+#navbar a {
+    color: #ffffff;
+    background: transparent;
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+#navbar .internal {
+    color: #1b1611;
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+#navbar .internal:hover {
+    background: #f7f7f7;
+}
+
+a.internal, a.internal:hover {
+    color: #ff552e;
+}
+
+pre, code {
+    font-family: "Roboto Mono", Consolas, Inconsolata, monospace;
+    color: #000000;
+    background: #f7f7f7;
+}
+
+h1 .pre {
+    /* Package name on home page */
+    color: #ff552e;
+    background: transparent;
+}
+
+.navbar-default .navbar-nav>.open>a {
+    /* Navbar link background */
+    background: #1fb22e;
+    background-image: none;
+    box-shadow: none;
+}
+
+.navbar-nav>li>.dropdown-menu {
+    /* Navbar dropdown menus */
+    margin-top: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.navbar input[type='text']::placeholder {
+    /* Navbar placeholder text */
+    background-color: #ff552e;
+    color: #ffffff;
+}
+
+.navbar input[type='text'] {
+    /* Navbar search box */
+    background-color: #ff552e;
+    color: #ffffff;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>a:hover {
+    background: transparent;
+}
+
+.alert {
+    background: #0088ce;
+}
