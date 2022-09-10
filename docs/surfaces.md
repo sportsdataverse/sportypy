@@ -1,15 +1,15 @@
 # Surfaces
 
-`sportypy` produces surface plots for the following sports and their corresponding leagues:
+`sportypy` produces surface plots for the following sports and their corresponding leagues. Click on the name of the sport to see the base class, or the league to see how to instantiate the league-specific class
 
 ```{toctree}
 :maxdepth: 2
 
-sport-baseball
-sport-basketball
-sport-curling
-sport-football
-sport-hockey
-sport-soccer
-sport-tennis
+surfaces/baseball
+surfaces/basketball
+surfaces/curling
+surfaces/football
+surfaces/hockey
+surfaces/soccer
+surfaces/tennis
 ```

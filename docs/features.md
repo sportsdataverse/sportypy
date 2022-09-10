@@ -5,11 +5,11 @@ In order to create the plots in `sportypy`, each sport relies on a parameterized
 ```{toctree}
 :maxdepth: 2
 
-features-baseball
-features-basketball
-features-curling
-features-football
-features-hockey
-features-soccer
-features-tennis
+features/baseball
+features/basketball
+features/curling
+features/football
+features/hockey
+features/soccer
+features/tennis
 ```
