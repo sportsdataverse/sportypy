@@ -1946,10 +1946,6 @@ class NHLRink(HockeyRink):
 class NWHLRink(HockeyRink):
     """A subclass of ``HockeyRink`` specific to the NWHL.
 
-    This class is created for historical reference; as of 2021 the NWHL has
-    changed names to the Premier Hockey Federation. Please use PHFRink class
-    going forward
-
     See ``HockeyRink`` class documentation for full description.
     """
 
