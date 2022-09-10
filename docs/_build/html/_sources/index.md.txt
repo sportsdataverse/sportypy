@@ -475,4 +475,5 @@ The `sportypy` logo was created by Lindsey Kelso. Check her out on [Instagram](h
 
 surfaces
 features
+Changelog <changelog>
 ```
