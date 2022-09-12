@@ -27,8 +27,8 @@ div.alert a, div.alert a:hover {
 
 #navbar {
     /* Navbar background */
-    background: #1fb22e;
-    border-color: #1fb22e;
+    background: #168733;
+    border-color: #168733;
     color: #ffffff;
 }
   
@@ -77,7 +77,7 @@ h1 .pre {
 
 .navbar-default .navbar-nav>.open>a {
     /* Navbar link background */
-    background: #1fb22e;
+    background: #168733;
     background-image: none;
     box-shadow: none;
 }
