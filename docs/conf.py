@@ -51,4 +51,5 @@ auto_module_names = False
 
 # (Optional) Logo. Should be small enough to fit the navbar (ideally 24x24).
 # Path should be relative to the ``_static`` files directory.
-# html_logo = "my_logo.png" TODO: Add logo file and uncomment
+html_logo = os.path.join("..", "logos", "sportypy-logo-1500.png")
+html_favicon = os.path.join("..", "logos", "sportypy-logo-32.png")
