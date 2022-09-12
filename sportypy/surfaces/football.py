@@ -1287,7 +1287,7 @@ class FootballField(BaseSurfacePlot):
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
         ax.set_aspect("equal")
-        # ax.axis("off")
+        ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
