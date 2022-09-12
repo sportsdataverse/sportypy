@@ -98,11 +98,11 @@ Your request will be checked against the following points:
 
 - **Testing** &mdash; `sportypy` relies upon extensive testing to ensure that the package runs smoothly. It currently has 100% code coverage, and your PR should ensure that this remains the case.
 
-    To test your coverage, be sure to have the `covr` package installed and run the following commands:
+    To test your coverage, be sure to have the `pytest` package installed and run the following commands:
 
     ```bash
     pip install pytest
-    pytest --cov=sportypy tests/ --cov-config=.coveragerc --covreport=term
+    pytest --cov=sportypy tests/ --cov-config=.coveragerc --cov-report=term
     ```
 
     This will show you where your new code lacks sufficient coverage, so please be sure to add tests in the `tests/` repository to make sure you're covered! For help on creating tests, please reach out to the League Office
