@@ -5,6 +5,7 @@ setuptools.setup(
     version = "1.0.0",
     description = "Draw sports surfaces according to rulebook specifications",
     long_description = open("README.md").read(),
+    long_description_content_type = "text/markdown",
     url = "https://github.com/sportsdataverse/sportypy",
     author = "Ross Drucker",
     author_email = "ross.a.drucker@gmail.com",
