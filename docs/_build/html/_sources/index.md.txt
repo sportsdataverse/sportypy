@@ -3,7 +3,7 @@
 <hr>
 <img src="https://raw.githubusercontent.com/sportsdataverse/sportypy/main/logos/sportypy-logo-200.png" align="right" width="200"/>
 
-[![codecov](https://img.shields.io/codecov/c/github/sportsdataverse/sportypy/?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/sportsdataverse/sportypy/)
+[![codecov](https://img.shields.io/codecov/c/github/sportsdataverse/sportypy?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/sportsdataverse/sportypy)
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat&logo=github&color=ff552e)](https://github.com/sportsdataverse/sportypy/)
 [![Twitter
 Follow](https://img.shields.io/twitter/follow/sportypy?&label=%40sportypy&logo=twitter&style=flat&color=ff552e)](https://twitter.com/sportypy)
