@@ -9,7 +9,7 @@ Follow](https://img.shields.io/twitter/follow/sportsdataverse?&label=%40sportsda
 
 As the field of sports analytics evolves, there's a growing need for methods to both track and visualize players throughout the game. This package aims to make this easy regardless of sport needed to be plotted.
 
-This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for NHL, MLB, NBA, NFL, and NCAA basketball games in **Python**. For the **R** version of this package, click [here](https://github.com/sportsdataverse/sportypy).
+This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, soccer, and tennis in **Python**. For the **R** version of this package, click [here](https://github.com/sportsdataverse/sportyR).
 
 ## Installation
 
