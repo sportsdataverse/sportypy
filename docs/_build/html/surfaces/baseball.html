@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Baseball &#8212; sportypy  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sportypy.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/sportypy-logo-32.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="LittleLeagueField" href="baseball/little-league.html" />
+    <link rel="prev" title="Surfaces" href="../surfaces.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/sportypy-logo-1500.png"></span>
+          sportypy</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../surfaces.html">Surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Baseball</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="../surfaces.html" title="Previous Chapter: Surfaces"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Surfaces</span>
+    </a>
+  </li>
+  <li>
+    <a href="baseball/little-league.html" title="Next Chapter: LittleLeagueField"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">LittleLeagueField &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/surfaces/baseball.md.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="baseball">
+<h1>Baseball<a class="headerlink" href="#baseball" title="Permalink to this heading">#</a></h1>
+<p>Baseball is currently supported for the following leagues (in alphabetical order):</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="baseball/little-league.html">Little League</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baseball/milb.html">MiLB — Minor League Baseball</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baseball/mlb.html">MLB — Major League Baseball</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baseball/ncaa.html">NCAA — National Collegiate Athletic Association</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baseball/nfhs.html">NFHS — National Federation of State High Schools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baseball/pony-league.html">Pony League</a></li>
+</ul>
+</div>
+<span class="target" id="module-sportypy.surfaces.baseball"></span><p>Extension of the <code class="docutils literal notranslate"><span class="pre">BaseSurfacePlot</span></code> class to create a baseball field.</p>
+<p>This is a second-level child class of the <code class="docutils literal notranslate"><span class="pre">BaseSurface</span></code> class, and as such
+will have access to its attributes and methods. <code class="docutils literal notranslate"><span class="pre">sportypy</span></code> will ship with
+pre-defined leagues that will have their own subclass, but a user can manually
+specify their own field parameters to create a totally-customized field. The
+field’s features are parameterized by the basic dimensions of the field, which
+comprise the attributes of the class.</p>
+<p>&#64;author: Ross Drucker</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy.surfaces.baseball.</span></span><span class="sig-name descname"><span class="pre">BaseballField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_trans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_trans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">added_features</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField" title="Permalink to this definition">#</a></dt>
+<dd><p>A subclass of the <code class="docutils literal notranslate"><span class="pre">BaseSurfacePlot</span></code> class to make a baseball field.</p>
+<p>This allows for the creation of the baseball field in a way that is
+entirely parameterized by the field’s baseline characteristics. By
+convention, TV view for baseball is identical to the view from the high
+home plate camera.</p>
+<p>All attributes should default to <code class="docutils literal notranslate"><span class="pre">0.0</span></code> (if of a numeric type) or an empty
+string (if of a string type). Customized parameters may be specified via a
+child class (see below) or by directly specifying all necessary attributes
+of a valid baseball field. The attributes needed to instantiate a
+particular league’s surface must be specified in the <code class="docutils literal notranslate"><span class="pre">field_params</span></code>
+dictionary. For many leagues, these will be provided in the
+surface_dimensions.json file in the data/ subdirectory of <code class="docutils literal notranslate"><span class="pre">sportypy</span></code>.</p>
+<p>See the <code class="docutils literal notranslate"><span class="pre">BaseSurfacePlot</span></code> and <code class="docutils literal notranslate"><span class="pre">BaseSurface</span></code> class definitions for full
+details.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.league_code">
+<span class="sig-name descname"><span class="pre">league_code</span></span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.league_code" title="Permalink to this definition">#</a></dt>
+<dd><p>The league for which the plot should be drawn. This is case-insensitive
+but should be the shortened name of the league (e.g. “Major League
+Baseball” should be either “MLB” or “mlb”). The default is an empty
+string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.rotation_amt">
+<span class="sig-name descname"><span class="pre">rotation_amt</span></span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.rotation_amt" title="Permalink to this definition">#</a></dt>
+<dd><p>The angle (in degrees) through which to rotate the final plot. The
+default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.x_trans">
+<span class="sig-name descname"><span class="pre">x_trans</span></span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.x_trans" title="Permalink to this definition">#</a></dt>
+<dd><p>The amount that the <code class="docutils literal notranslate"><span class="pre">x</span></code> coordinates are to be shifted. By convention,
+the +``x`` axis extends from the pitcher’s plate towards first base
+when viewing the field in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.y_trans">
+<span class="sig-name descname"><span class="pre">y_trans</span></span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.y_trans" title="Permalink to this definition">#</a></dt>
+<dd><p>The amount that the <code class="docutils literal notranslate"><span class="pre">y</span></code> coordinates are to be shifted. By convention,
+the +``y`` axis extends from the back tip of home plate out towards
+center field when viewing the field in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.feature_colors">
+<span class="sig-name descname"><span class="pre">feature_colors</span></span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.feature_colors" title="Permalink to this definition">#</a></dt>
+<dd><p>A dictionary of coloring parameters to pass to the plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.field_params">
+<span class="sig-name descname"><span class="pre">field_params</span></span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.field_params" title="Permalink to this definition">#</a></dt>
+<dd><p>A dictionary containing the following parameters of the field:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>field_units<span class="classifier">str</span></dt><dd><p>The units of the field</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>left_field_distance<span class="classifier">float</span></dt><dd><p>The straight-line distance from the back tip of home plate to
+the left field foul pole (along theta = -45°)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>right_field_distance<span class="classifier">float</span></dt><dd><p>The straight-line distance from the back tip of home plate to
+the right field foul pole (along theta = +45°)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>center_field_distance<span class="classifier">float</span></dt><dd><p>The straight-line distance from the back tip of home plate to
+straight-away center field (along theta = 0°)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>baseline_distance<span class="classifier">float</span></dt><dd><p>The distance of each baseline</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>running_lane_start_distance<span class="classifier">float</span></dt><dd><p>The straight-line distance from the back tip of home plate to
+the start of the running lane</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>running_lane_depth<span class="classifier">float</span></dt><dd><p>The straight-line distance from the outer edge of the
+first-base line to the outer edge of the running lane</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>running_lane_length<span class="classifier">float</span></dt><dd><p>The straight-line length of the running lane measured from the
+point nearest home plate. As an example, if the base lines are
+90 feet, and the running lane starts a distance of 45 feet down
+the line from the back tip of home plate, and extends 3 feet
+beyond first base, this parameter would be given as <code class="docutils literal notranslate"><span class="pre">48.0</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>pitchers_mound_center_to_home_plate<span class="classifier">float</span></dt><dd><p>The distance from the center of the pitcher’s mound to the back
+tip of home plate. NOTE: this does not necessarily align with
+the front edge of the pitcher’s plate</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>pitchers_mound_radius<span class="classifier">float</span></dt><dd><p>The radius of the pitcher’s mound</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>pitchers_plate_front_to_home_plate<span class="classifier">float</span></dt><dd><p>The distance from the front edge of the pitcher’s plate to the
+back tip of home plate</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>pitchers_plate_width<span class="classifier">float</span></dt><dd><p>The width of the pitcher’s plate (the dimension in the <code class="docutils literal notranslate"><span class="pre">y</span></code>
+direction)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>pitchers_plate_length<span class="classifier">float</span></dt><dd><p>The length of the pitcher’s plate (the dimension in the <code class="docutils literal notranslate"><span class="pre">x</span></code>
+direction)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>base_side_length<span class="classifier">float</span></dt><dd><p>The length of one side of a square base</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>home_plate_edge_length<span class="classifier">float</span></dt><dd><p>The length of a full side of home plate</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>infield_arc_radius<span class="classifier">float</span></dt><dd><p>The distance from the front edge of the pitcher’s mound to the
+back of the infield dirt</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>base_anchor_to_infield_grass_radius<span class="classifier">float</span></dt><dd><p>The distance from the anchor point of a base to the circular
+cutout in the infield grass. The anchor point of a base is
+defined as the point used in the definition of the base paths.
+As an example, in MLB, the anchor point of first base would be
+the corner of the first base bag along the foul line on the
+side furthest from the back tip of home plate</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>line_width<span class="classifier">float</span></dt><dd><p>The thickness of all chalk lines on the field</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>foul_line_to_infield_grass<span class="classifier">float</span></dt><dd><p>The distance from the outer edge of the foul line to the outer
+edge of the infield grass</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>foul_line_to_foul_grass<span class="classifier">float</span></dt><dd><p>The distance from the outer edge of the foul line to the inner
+edge of the grass in foul territory</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>batters_box_length<span class="classifier">float</span></dt><dd><p>The length of the batter’s box (in the y direction) measured
+from the outside of the chalk lines</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>batters_box_width<span class="classifier">float</span></dt><dd><p>The width of the batter’s box (in the x direction) measured
+from the outside of the chalk lines</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>batters_box_y_adj<span class="classifier">float</span></dt><dd><p>The shift off of center in the y direction that the batter’s
+box needs to be moved to properly align</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>home_plate_side_to_batters_box<span class="classifier">float</span></dt><dd><p>The distance from the outer edge of the batter’s box to the
+outer edge of home plate</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>catchers_box_shape<span class="classifier">str</span></dt><dd><p>The shape of the catcher’s box. Currently-supported values are:
+- “rectangle” (default behavior)
+- “trapezoid” (see LittleLeagueField for example)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>catchers_box_depth<span class="classifier">float</span></dt><dd><p>The distance from the back tip of home plate to the back edge
+of the catcher’s box</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>backstop_radius<span class="classifier">float</span></dt><dd><p>The distance from the back tip of home plate to the interior
+edge of the backstop</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>home_plate_circle_radius<span class="classifier">float</span></dt><dd><p>The radius of the dirt circle surrounding home plate</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.cani_change_dimensions">
+<span class="sig-name descname"><span class="pre">cani_change_dimensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.cani_change_dimensions" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine what features of the field can be re-parameterized.</p>
+<p>This function is a helper function for the user to aid in customizing
+a field’s parameters. The printed result of this method will be the
+names of the features that are able to be reparameterized. This method
+is also useful when defining new features and using an existing
+league’s field dimensions as a starting point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Nothing, but a message will be printed out</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.cani_color_features">
+<span class="sig-name descname"><span class="pre">cani_color_features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.cani_color_features" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine what features of the field can be colored.</p>
+<p>This function is a helper function for the user to aid in plot styling
+and customization. The printed result of this method will be the names
+of the features that are able to be colored</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Nothing, but a message will be printed out</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.cani_plot_leagues">
+<span class="sig-name descname"><span class="pre">cani_plot_leagues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.cani_plot_leagues" title="Permalink to this definition">#</a></dt>
+<dd><p>Show if a league can be plotted, or what leagues are pre-defined.</p>
+<p>A user may wish to know if a specific baseball league can be plotted.
+This method allows a user to check if that specific league code comes
+shipped with <code class="docutils literal notranslate"><span class="pre">sportypy</span></code> for easier plotting (if they provide the
+league code), or can also show what leagues are available to be plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>league_code</strong> (<em>str</em><em> or </em><em>None</em>) – A league code that may or may not be shipped with the package. If
+the league code is <code class="docutils literal notranslate"><span class="pre">None</span></code>, this will display all leagues that do
+come shipped with <code class="docutils literal notranslate"><span class="pre">sportypy11.</span> <span class="pre">The</span> <span class="pre">default</span> <span class="pre">is</span> <span class="pre">``None</span></code></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nothing, but a message will be printed out</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.draw" title="Permalink to this definition">#</a></dt>
+<dd><p>Draw the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.Axes</em>) – An Axes object onto which the plot can be drawn. If <code class="docutils literal notranslate"><span class="pre">None</span></code> is
+supplied, then the currently-active Axes object will be used</p></li>
+<li><p><strong>display_range</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>The portion of the surface to display. The entire surface will
+always be drawn under the hood, however this parameter limits what
+is shown in the final plot. The following explain what each display
+range corresponds to:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code>: The entire surface</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;infield&quot;</span></code>: The infield portion of the baseball diamond</p></li>
+</ul>
+</div></blockquote>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code></p>
+</p></li>
+<li><p><strong>xlim</strong> (<em>float</em><em> or </em><em>tuple of floats</em><em> or </em><em>None</em>) – The display range in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction to be used. If a single
+float is provided, this will be used as the lower bound of the
+<code class="docutils literal notranslate"><span class="pre">x</span></code> coordinates to display and the upper bound will be the +``x``
+end of the field. If a tuple, the two values will be used to
+determine the bounds. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, then the <code class="docutils literal notranslate"><span class="pre">display_range</span></code> will
+be used instead to set the bounds. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>ylim</strong> (<em>float</em><em> or </em><em>tuple of floats</em><em> or </em><em>None</em>) – The display range in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction to be used. If a single
+float is provided, this will be used as the lower bound of the
+<code class="docutils literal notranslate"><span class="pre">y</span></code> coordinates to display and the upper bound will be the +``y`
+end of the field. If a tuple, the two values will be used to
+determine the bounds. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, then the <code class="docutils literal notranslate"><span class="pre">display_range</span></code> will
+be used instead to set the bounds. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>rotation</strong> (<em>float</em><em> or </em><em>None</em>) – Angle (in degrees) through which to rotate the field when drawing.
+If used, this will set the class attribute of <code class="docutils literal notranslate"><span class="pre">_rotation</span></code>. A
+value of <code class="docutils literal notranslate"><span class="pre">0.0</span></code> will correspond to a TV view of the field, where
++``x`` is to the right and +``y`` is on top. The rotation occurs
+counter clockwise</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.reset_colors">
+<span class="sig-name descname"><span class="pre">reset_colors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.reset_colors" title="Permalink to this definition">#</a></dt>
+<dd><p>Reset the features of the field to their default color set.</p>
+<p>The colors can be passed at the initial instantiation of the class via
+the <code class="docutils literal notranslate"><span class="pre">color_updates</span></code> parameter, and through the <code class="docutils literal notranslate"><span class="pre">update_colors()</span></code>
+method, these can be changed. This method allows the colors to be reset
+to their default values after experiencing such a change</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.reset_field_params">
+<span class="sig-name descname"><span class="pre">reset_field_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.reset_field_params" title="Permalink to this definition">#</a></dt>
+<dd><p>Reset the features of the field to their default parameterizations.</p>
+<p>The field parameters can be passed at the initial instantiation of the
+class via the <code class="docutils literal notranslate"><span class="pre">field_updates</span></code> parameter, and through the
+<code class="docutils literal notranslate"><span class="pre">update_field_params()</span></code> method, these can be changed. This method
+allows the feature parameterization to be reset to their default values
+after experiencing such a change</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.update_colors">
+<span class="sig-name descname"><span class="pre">update_colors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.update_colors" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the colors currently used in the plot.</p>
+<p>The colors can be passed at the initial instantiation of the class via
+the <code class="docutils literal notranslate"><span class="pre">color_updates</span></code> parameter, but this method allows the colors to
+be updated after the initial instantiation and will re-instantiate the
+class with the new colors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color_updates</strong> (<em>dict</em>) – A dictionary where the keys correspond to the name of the feature
+that’s color is to be updated (see <code class="docutils literal notranslate"><span class="pre">cani_color_features()</span></code> method
+for a list of these names). The default is an empty dictionary</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nothing, but the class is re-instantiated with the updated colors</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sportypy.surfaces.baseball.BaseballField.update_field_params">
+<span class="sig-name descname"><span class="pre">update_field_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_param_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy.surfaces.baseball.BaseballField.update_field_params" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the field’s defining parameters.</p>
+<p>This method should primarily be used in cases when plotting a league
+not currently supported by <code class="docutils literal notranslate"><span class="pre">sportypy</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>field_updates</strong> (<em>dict</em>) – A dictionary where the keys correspond to the name of the parameter
+of the field that is to be updated (see
+<code class="docutils literal notranslate"><span class="pre">cani_change_dimensions()</span></code> method for a list of these
+parameters). The default is an empty dictionary</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nothing, but the class is re-instantiated with the updated parameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, Ross Drucker.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

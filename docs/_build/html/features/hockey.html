@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Hockey &#8212; sportypy  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sportypy.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/sportypy-logo-32.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Soccer" href="soccer.html" />
+    <link rel="prev" title="Football" href="football.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/sportypy-logo-1500.png"></span>
+          sportypy</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../surfaces.html">Surfaces</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Hockey</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="football.html" title="Previous Chapter: Football"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Football</span>
+    </a>
+  </li>
+  <li>
+    <a href="soccer.html" title="Next Chapter: Soccer"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Soccer &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/features/hockey.md.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="hockey">
+<h1>Hockey<a class="headerlink" href="#hockey" title="Permalink to this heading">#</a></h1>
+<p>Hockey relies on the following parameterizedfeatures:</p>
+<span class="target" id="module-sportypy._feature_classes.hockey"></span><p>Extensions of the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class to be specific to ice hockey rinks.</p>
+<p>The features are all parameterized by the basic characteristics of an ice rink.
+A user can manually specify their own rink parameters in the <code class="docutils literal notranslate"><span class="pre">HockeyRink</span></code>
+class that will adjust the placement of these features, however the features
+themselves will be consistent across all hockey surfaces.</p>
+<p>&#64;author: Ross Drucker</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.BaseHockeyFeature">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">BaseHockeyFeature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.BaseHockeyFeature" title="Permalink to this definition">#</a></dt>
+<dd><p>An extension of the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class for hockey features.</p>
+<p>The following attributes are specific to hockey features only. For more
+information on inherited attributes, please see the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class
+definition. The default values are provided to ensure that the feature can
+at least be created.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.BaseHockeyFeature.rink_length">
+<span class="sig-name descname"><span class="pre">rink_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.BaseHockeyFeature.rink_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of the rink in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.BaseHockeyFeature.rink_width">
+<span class="sig-name descname"><span class="pre">rink_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.BaseHockeyFeature.rink_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The width of the rink in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.BaseHockeyFeature.feature_radius">
+<span class="sig-name descname"><span class="pre">feature_radius</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.BaseHockeyFeature.feature_radius" title="Permalink to this definition">#</a></dt>
+<dd><p>The radius needed to draw the feature. This may not be needed for all
+features. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.BaseHockeyFeature.feature_thickness">
+<span class="sig-name descname"><span class="pre">feature_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.BaseHockeyFeature.feature_thickness" title="Permalink to this definition">#</a></dt>
+<dd><p>The thickness with which to draw the feature. This is normally given
+as the horizontal width of the feature in TV view, however it may be
+used to specify other thicknesses as needed. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.BaseHockeyFeature.field_units">
+<span class="sig-name descname"><span class="pre">field_units</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.BaseHockeyFeature.field_units" title="Permalink to this definition">#</a></dt>
+<dd><p>The units with which the feature is drawn. The default is <code class="docutils literal notranslate"><span class="pre">&quot;ft&quot;</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.Boards">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">Boards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.Boards" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the boards of a hockey rink.</p>
+<p>The method below specifies one half of the rink’s boards. The rest of the
+boards are produced via a reflection over the x-axis when viewing the rink
+in TV view.</p>
+<p>The rink’s boards are rounded in the arc of a circle of a specified radius,
+so the x and y coordinates of its center must be taken and shifted to their
+correct location on the ice surface</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.BoardsConstraint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">BoardsConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.BoardsConstraint" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the constraint of the boards of a hockey rink.</p>
+<p>This corresponds to the inner edges of the boards and is used to constrain
+other features from extending beyond the inner boundary of the ice rink.</p>
+<p>Unlike the Boards class (defined above), this feature is designed to
+function over the entire surface of an ice rink</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.CenterFaceoffCircle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">CenterFaceoffCircle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.CenterFaceoffCircle" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the faceoff circle at the center of a hockey rink.</p>
+<p>The center faceoff circle is where the each period of the game begins. It
+differs from the non-centered faceoff circles in that there are no
+adjoining hash marks on this circle. It is also a different color than the
+non-centered faceoff circles. Its line thickness should be given by
+<code class="docutils literal notranslate"><span class="pre">minor_line_thickness</span></code> as this is a minor line on the ice surface</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.CenterFaceoffSpot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">CenterFaceoffSpot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.CenterFaceoffSpot" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the center faceoff spot of a hockey rink.</p>
+<p>The center faceoff spot is the spot at which the game begins. Its center
+should lie directly in the center of the ice surface. Its radius is passed
+as a key in <code class="docutils literal notranslate"><span class="pre">rink_params</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.CenterLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">CenterLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center_faceoff_spot_gap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.CenterLine" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the center line of a hockey rink.</p>
+<p>The center line is the line that divides the ice surface in half. Its
+center should lie directly in the center of the ice surface. Its line
+thickness should be given by <code class="docutils literal notranslate"><span class="pre">major_line_thickness</span></code> as this is a major
+line on the ice surface</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.CenterLine.center_faceoff_spot_gap">
+<span class="sig-name descname"><span class="pre">center_faceoff_spot_gap</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.CenterLine.center_faceoff_spot_gap" title="Permalink to this definition">#</a></dt>
+<dd><p>The gap in the center line that surrounds the center faceoff spot. This
+is measured between the inner edges of the two halves of the center
+line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.DefensiveZone">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">DefensiveZone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.DefensiveZone" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the defensive zone of a hockey rink.</p>
+<p>The offensive zone is the left “third” of the rink in TV view. This is the
+area that a team defends when attacking from left to right</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.DefensiveZone.nzone_length">
+<span class="sig-name descname"><span class="pre">nzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.DefensiveZone.nzone_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of the neutral zone, measured from the interior edges of the
+zone lines (blue lines)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseFill">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">GoalCreaseFill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crease_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crease_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crease_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notch_dist_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseFill" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the goal crease’s filling.</p>
+<p>The goal crease is the area where a goaltender plays their position. It is
+comprised of two components: the outline of the crease (see documentation
+for <code class="docutils literal notranslate"><span class="pre">GoalCreaseOutline</span></code> class), and the filling in its boundary. The goal
+crease may have two notches (one on each side of the line <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">0</span></code>).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseFill.crease_length">
+<span class="sig-name descname"><span class="pre">crease_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseFill.crease_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the center of the goal line to the start of the arc
+of the goal crease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseFill.crease_width">
+<span class="sig-name descname"><span class="pre">crease_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseFill.crease_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior width of the goal crease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseFill.notch_dist_x">
+<span class="sig-name descname"><span class="pre">notch_dist_x</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseFill.notch_dist_x" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the center of the goal line to the notch (if one
+exists) in the goal crease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseFill.notch_width">
+<span class="sig-name descname"><span class="pre">notch_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseFill.notch_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The width of the notch (if one exists) in the goal crease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseFill.crease_style">
+<span class="sig-name descname"><span class="pre">crease_style</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseFill.crease_style" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>The style of goal crease to implement. Viable options are:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>nhl98<span class="classifier">the current iteration of the NHL goal crease. This is</span></dt><dd><p>what is used for most professional leagues</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>nhl92<span class="classifier">the previous iteration of an NHL goal crease. It is drawn</span></dt><dd><p>as a semi-circle with two L-shaped notches at the edge of the
+crease intersecting the semi-circle</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>ushl1<span class="classifier">the current iteration of a USA Hockey goal crease. This</span></dt><dd><p>is what is currently used in the USHL (United States Hockey
+League)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseOutline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">GoalCreaseOutline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crease_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crease_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crease_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notch_dist_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseOutline" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the goal crease’s outline.</p>
+<p>The goal crease is the area where a goaltender plays their position. It is
+comprised of two components: the outline of the crease, and the filling in
+its boundary (see documentation for <code class="docutils literal notranslate"><span class="pre">GoalCreaseFill</span></code> class). The goal
+crease may have two notches (one on each side of the line <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">0</span></code>).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseOutline.crease_length">
+<span class="sig-name descname"><span class="pre">crease_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseOutline.crease_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the center of the goal line to the start of the arc
+of the goal crease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseOutline.crease_width">
+<span class="sig-name descname"><span class="pre">crease_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseOutline.crease_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior width of the goal crease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseOutline.notch_dist_x">
+<span class="sig-name descname"><span class="pre">notch_dist_x</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseOutline.notch_dist_x" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the center of the goal line to the notch (if one
+exists) in the goal crease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseOutline.notch_width">
+<span class="sig-name descname"><span class="pre">notch_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseOutline.notch_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The width of the notch (if one exists) in the goal crease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalCreaseOutline.crease_style">
+<span class="sig-name descname"><span class="pre">crease_style</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalCreaseOutline.crease_style" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>The style of goal crease to implement. Viable options are:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>nhl98<span class="classifier">the current iteration of the NHL goal crease. This is</span></dt><dd><p>what is used for most professional leagues</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>nhl92<span class="classifier">the previous iteration of an NHL goal crease. It is drawn</span></dt><dd><p>as a semi-circle with two L-shaped notches at the edge of the
+crease intersecting the semi-circle</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>ushl1<span class="classifier">the current iteration of a USA Hockey goal crease. This</span></dt><dd><p>is what is currently used in the USHL (United States Hockey
+League)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrame">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">GoalFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goal_mouth_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_back_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_diameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrame" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of a goal frame.</p>
+<p>The goal frame is where the puck enters after crossing the goal line to
+score a legal goal. The front face of the goal is flush with the goal line,
+while the back edge features rounded corners and expands outside of the
+front posts. The goal frame is composed of two pieces: the frame (this
+class) and the fill (see <code class="docutils literal notranslate"><span class="pre">GoalFrameFill</span></code> documentation)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrame.goal_mouth_width">
+<span class="sig-name descname"><span class="pre">goal_mouth_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrame.goal_mouth_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior distance between the goalposts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrame.goal_back_width">
+<span class="sig-name descname"><span class="pre">goal_back_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrame.goal_back_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior distance between the widest part of the goal frame’s
+footprint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrame.goal_depth">
+<span class="sig-name descname"><span class="pre">goal_depth</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrame.goal_depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The depth of the goal frame from the center of the goal line to the
+exterior of the back pipe of the goal frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrame.post_diameter">
+<span class="sig-name descname"><span class="pre">post_diameter</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrame.post_diameter" title="Permalink to this definition">#</a></dt>
+<dd><p>The diameter of the posts of the goal frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrameFill">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">GoalFrameFill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goal_mouth_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_back_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_diameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrameFill" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the filling of a goal frame.</p>
+<p>The goal frame is where the puck enters after crossing the goal line to
+score a legal goal. The front face of the goal is flush with the goal line,
+while the back edge features rounded corners and expands outside of the
+front posts. The goal frame is composed of two pieces: the frame (see
+<code class="docutils literal notranslate"><span class="pre">GoalFrame</span></code> documentation) and the fill (this class)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrameFill.goal_mouth_width">
+<span class="sig-name descname"><span class="pre">goal_mouth_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrameFill.goal_mouth_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior distance between the goalposts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrameFill.goal_back_width">
+<span class="sig-name descname"><span class="pre">goal_back_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrameFill.goal_back_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior distance between the widest part of the goal frame’s
+footprint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrameFill.goal_depth">
+<span class="sig-name descname"><span class="pre">goal_depth</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrameFill.goal_depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The depth of the goal frame from the center of the goal line to the
+exterior of the back pipe of the goal frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalFrameFill.post_diameter">
+<span class="sig-name descname"><span class="pre">post_diameter</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalFrameFill.post_diameter" title="Permalink to this definition">#</a></dt>
+<dd><p>The diameter of the posts of the goal frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoalLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">GoalLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoalLine" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the goal lines of a hockey rink.</p>
+<p>The goal lines are the lines over which a puck must cross (within the goal
+frame) in order to be considered a goal. Its line thickness should be given
+by <code class="docutils literal notranslate"><span class="pre">minor_line_thickness</span></code> as this is a minor line on the ice surface</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoaltendersRestrictedArea">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">GoaltendersRestrictedArea</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">short_base_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_base_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoaltendersRestrictedArea" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the goaltender’s restricted area of a hockey rink.</p>
+<p>The goaltender’s restricted area marks where a goaltender is legally
+allowed to handle the puck behind the net. This is often referred to as
+“the trapezoid” as it is trapezoidal in shape. Its line thickness should be
+given by <code class="docutils literal notranslate"><span class="pre">minor_line_thickness</span></code> as this is a minor line on the ice
+surface.</p>
+<p>NOTE: This is not a requirement in all leagues, and may be omitted via the
+<code class="docutils literal notranslate"><span class="pre">has_trapezoid</span></code> key in the <code class="docutils literal notranslate"><span class="pre">rink_params</span></code> passed to the <code class="docutils literal notranslate"><span class="pre">HockeyRink</span></code>
+class</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoaltendersRestrictedArea.short_base_width">
+<span class="sig-name descname"><span class="pre">short_base_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoaltendersRestrictedArea.short_base_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior base-width of the trapezoid (should it exist) that
+along the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.GoaltendersRestrictedArea.long_base_width">
+<span class="sig-name descname"><span class="pre">long_base_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.GoaltendersRestrictedArea.long_base_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior base-width of the trapezoid (should it exist) that lies
+along the boards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.NODZoneFaceoffSpotRing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">NODZoneFaceoffSpotRing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.NODZoneFaceoffSpotRing" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the off-centered faceoff spot of a hockey rink.</p>
+<p>The non-centered faceoff spots are located in the neutral, offensive and
+defensive zones of the ice, with one on each side of the <code class="docutils literal notranslate"><span class="pre">x</span></code>-axis. These
+spots differ from the center faceoff spot because they have a larger
+diameter, differ in color, and have a colored stripe that runs through its
+center.</p>
+<p>This class is responsible for creating the outer ring, not the colored
+stripe running through it. Please see the documentation for the
+<code class="docutils literal notranslate"><span class="pre">NODZoneFaceoffSpotStripe</span></code> class for more information on it</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.NODZoneFaceoffSpotStripe">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">NODZoneFaceoffSpotStripe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gap_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.NODZoneFaceoffSpotStripe" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the off-centered faceoff spot of a hockey rink.</p>
+<p>The non-centered faceoff spots are located in the neutral, offensive and
+defensive zones of the ice, with one on each side of the <code class="docutils literal notranslate"><span class="pre">x</span></code>-axis. These
+spots differ from the center faceoff spot because they have a larger
+diameter, differ in color, and have a colored stripe that runs through its
+center.</p>
+<p>This class is responsible for creating the inner stripe, not the colored
+outer ring around it. Please see the documentation for the
+<code class="docutils literal notranslate"><span class="pre">NODZoneFaceoffSpotRing</span></code> class for more information on it</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.NODZoneFaceoffSpotStripe.gap_width">
+<span class="sig-name descname"><span class="pre">gap_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.NODZoneFaceoffSpotStripe.gap_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The gap between the interior edge of a non-centered faceoff spot ring
+and the stripe running across it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.NeutralZone">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">NeutralZone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.NeutralZone" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the neutral zone of a hockey rink.</p>
+<p>The neutral zone is the middle “third” of the rink. This is the area
+between the two zone (blue) lines. The center of the neutral zone should
+lie along the line <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffCircle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">ODZoneFaceoffCircle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hashmark_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hashmark_ext_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffCircle" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the off-centered faceoff circles of a hockey rink.</p>
+<p>The non-centered faceoff circles are located in the offensive and defensive
+zones of the ice, with one on each side of the <code class="docutils literal notranslate"><span class="pre">x</span></code>-axis. These circles
+differ from the center faceoff circle because they have hash marks that
+extend towards the boards on each side of the circle</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffCircle.hashmark_width">
+<span class="sig-name descname"><span class="pre">hashmark_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffCircle.hashmark_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The width of the hashmarks on the exterior of the defensive and
+offensive faceoff circles. Note that width refers to a distance solely
+in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffCircle.hashmark_ext_spacing">
+<span class="sig-name descname"><span class="pre">hashmark_ext_spacing</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffCircle.hashmark_ext_spacing" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior horizontal spacing between the hashmarks on the exterior
+of the defensive and offensive faceoff circles. Note that this is
+solely in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffLines">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">ODZoneFaceoffLines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">faceoff_line_dist_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faceoff_line_dist_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faceoff_line_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faceoff_line_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">over_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">over_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffLines" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the faceoff lines in the offensive/defensive zone.</p>
+<p>These lines are the L-shaped lines where players on each team line up when
+taking a faceoff in either the offensive or defensive zones. There are four
+of these faceoff lines around each offensive/defensive faceoff spot</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffLines.faceoff_line_dist_x">
+<span class="sig-name descname"><span class="pre">faceoff_line_dist_x</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffLines.faceoff_line_dist_x" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the center of the defensive and offensive faceoff
+spot to the left-most edge of the upper-right faceoff line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffLines.faceoff_line_dist_y">
+<span class="sig-name descname"><span class="pre">faceoff_line_dist_y</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffLines.faceoff_line_dist_y" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the center of the defensive and offensive faceoff
+spot to the bottom edge of the upper-right faceoff line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffLines.faceoff_line_length">
+<span class="sig-name descname"><span class="pre">faceoff_line_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffLines.faceoff_line_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior length of the faceoff line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffLines.faceoff_line_width">
+<span class="sig-name descname"><span class="pre">faceoff_line_width</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffLines.faceoff_line_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior width of the faceoff line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffLines.over_x">
+<span class="sig-name descname"><span class="pre">over_x</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffLines.over_x" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether or not the line should be reflected over the <code class="docutils literal notranslate"><span class="pre">x</span></code> axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ODZoneFaceoffLines.over_y">
+<span class="sig-name descname"><span class="pre">over_y</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.ODZoneFaceoffLines.over_y" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether or not the line should be reflected over the <code class="docutils literal notranslate"><span class="pre">y</span></code> axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.OffIceOfficialsBox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">OffIceOfficialsBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">officials_box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">officials_box_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.OffIceOfficialsBox" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the interior of the off-ice officials’ box.</p>
+<p>The off-ice officials’ box is located between the two penalty boxes,
+opposite the team bench areas</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.OffIceOfficialsBox.officials_box_length">
+<span class="sig-name descname"><span class="pre">officials_box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.OffIceOfficialsBox.officials_box_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior length of the off-ice officials’ box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.OffIceOfficialsBox.officials_box_depth">
+<span class="sig-name descname"><span class="pre">officials_box_depth</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.OffIceOfficialsBox.officials_box_depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior depth off of the boards of the off-ice officials’ box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.OffensiveZone">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">OffensiveZone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nzone_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.OffensiveZone" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the offensive zone of a hockey rink.</p>
+<p>The offensive zone is the right “third” of the rink in TV view. This is the
+area that a team attacks to try to score a goal when attacking from left to
+right</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.OffensiveZone.nzone_length">
+<span class="sig-name descname"><span class="pre">nzone_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.OffensiveZone.nzone_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of the neutral zone, measured from the interior edges of the
+zone lines (blue lines)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PenaltyBoxFill">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">PenaltyBoxFill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">penalty_box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty_box_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty_box_separation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.PenaltyBoxFill" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the interior of the penalty box for a single team.</p>
+<p>The penalty boxes are the areas outside the confines of the rink where
+players serve time for a penalty incurred. They are to be on the same
+side of the ice surface and separate, as close to center ice as possible,
+for each team. This will not include the off-ice officials’ box; see the
+documentation for the <code class="docutils literal notranslate"><span class="pre">OffIceOfficialsBox</span></code> class for more information</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PenaltyBoxFill.penalty_box_length">
+<span class="sig-name descname"><span class="pre">penalty_box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PenaltyBoxFill.penalty_box_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior length of a single penalty box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PenaltyBoxFill.penalty_box_depth">
+<span class="sig-name descname"><span class="pre">penalty_box_depth</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PenaltyBoxFill.penalty_box_depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior depth off of the boards of a single team’s penalty box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PenaltyBoxFill.penalty_box_separation">
+<span class="sig-name descname"><span class="pre">penalty_box_separation</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PenaltyBoxFill.penalty_box_separation" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance that separates each team’s penalty box area. This should
+be equivalent to the length of the off-ice officials’ box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PenaltyBoxOutline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">PenaltyBoxOutline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">penalty_box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty_box_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty_box_separation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.PenaltyBoxOutline" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the penalty box for a single team.</p>
+<p>The penalty boxes are the areas outside the confines of the rink where
+players serve time for a penalty incurred. They are to be on the same
+side of the ice surface and separate, as close to center ice as possible,
+for each team. This will also include the off-ice officials’ box</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PenaltyBoxOutline.penalty_box_length">
+<span class="sig-name descname"><span class="pre">penalty_box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PenaltyBoxOutline.penalty_box_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior length of a single penalty box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PenaltyBoxOutline.penalty_box_depth">
+<span class="sig-name descname"><span class="pre">penalty_box_depth</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PenaltyBoxOutline.penalty_box_depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior depth off of the boards of a single team’s penalty box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PenaltyBoxOutline.penalty_box_separation">
+<span class="sig-name descname"><span class="pre">penalty_box_separation</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PenaltyBoxOutline.penalty_box_separation" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance that separates each team’s penalty box area. This should
+be equivalent to the length of the off-ice officials’ box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PlayerBenchFill">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">PlayerBenchFill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bench_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bench_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.PlayerBenchFill" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the interior of the player bench area.</p>
+<p>The player benches are the areas outside the confines of the rink where
+players not currently on the ice are seated. They are to be on the same
+side of the ice surface and separate, as close to center ice as possible</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PlayerBenchFill.bench_length">
+<span class="sig-name descname"><span class="pre">bench_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PlayerBenchFill.bench_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior length of a single team’s bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PlayerBenchFill.bench_depth">
+<span class="sig-name descname"><span class="pre">bench_depth</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PlayerBenchFill.bench_depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior depth off the boards of a single team’s bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PlayerBenchOutline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">PlayerBenchOutline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bench_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bench_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.PlayerBenchOutline" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the player bench area’s outline for a single team.</p>
+<p>The player benches are the areas outside the confines of the rink where
+players not currently on the ice are seated. They are to be on the same
+side of the ice surface and separate, as close to center ice as possible</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PlayerBenchOutline.bench_length">
+<span class="sig-name descname"><span class="pre">bench_length</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PlayerBenchOutline.bench_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The exterior length of a single team’s bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.PlayerBenchOutline.bench_depth">
+<span class="sig-name descname"><span class="pre">bench_depth</span></span><a class="headerlink" href="#sportypy._feature_classes.hockey.PlayerBenchOutline.bench_depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior depth off the boards of a single team’s bench area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.RefereeCrease">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">RefereeCrease</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.RefereeCrease" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the referee’s crease.</p>
+<p>The referee’s crease is a semi-circle on the “bottom” of the boards (in TV
+view), centered on the line <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">0</span></code> (the center of the center line)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.hockey.ZoneLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.hockey.</span></span><span class="sig-name descname"><span class="pre">ZoneLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rink_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rink_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.hockey.ZoneLine" title="Permalink to this definition">#</a></dt>
+<dd><p>A parameterization of the zone lines of a hockey rink.</p>
+<p>The zone lines are the lines that separate the neutral zone from the
+offensive and defensive zones. Its line thickness should be given by
+<code class="docutils literal notranslate"><span class="pre">major_line_thickness</span></code> as this is a major line on the ice surface</p>
+</dd></dl>
+
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, Ross Drucker.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

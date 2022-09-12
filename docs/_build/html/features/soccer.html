@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Soccer &#8212; sportypy  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sportypy.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/sportypy-logo-32.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tennis" href="tennis.html" />
+    <link rel="prev" title="Hockey" href="hockey.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/sportypy-logo-1500.png"></span>
+          sportypy</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../surfaces.html">Surfaces</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Soccer</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="hockey.html" title="Previous Chapter: Hockey"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Hockey</span>
+    </a>
+  </li>
+  <li>
+    <a href="tennis.html" title="Next Chapter: Tennis"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Tennis &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/features/soccer.md.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="soccer">
+<h1>Soccer<a class="headerlink" href="#soccer" title="Permalink to this heading">#</a></h1>
+<p>Soccer relies on the following parameterizedfeatures:</p>
+<span class="target" id="module-sportypy._feature_classes.soccer"></span><p>Extensions of the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class to be specific to soccer pitches.</p>
+<p>The features are all parameterized by the basic characteristics of a soccer
+pitch. A user can manually specify their own pitch parameters in the
+<code class="docutils literal notranslate"><span class="pre">SoccerPitch</span></code> class that will adjust the placement of these features, however
+the features themselves will be consistent across all soccer surfaces.</p>
+<p>&#64;author: Ross Drucker</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.BaseSoccerFeature">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">BaseSoccerFeature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.BaseSoccerFeature" title="Permalink to this definition">#</a></dt>
+<dd><p>An extension of the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class for soccer features.</p>
+<p>The following attributes are specific to soccer features only. For more
+information on inherited attributes, please see the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class
+definition. The default values are provided to ensure that the feature can
+at least be created.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.BaseSoccerFeature.pitch_length">
+<span class="sig-name descname"><span class="pre">pitch_length</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.BaseSoccerFeature.pitch_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of the pitch in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.BaseSoccerFeature.pitch_width">
+<span class="sig-name descname"><span class="pre">pitch_width</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.BaseSoccerFeature.pitch_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The width of the pitch in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.BaseSoccerFeature.feature_radius">
+<span class="sig-name descname"><span class="pre">feature_radius</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.BaseSoccerFeature.feature_radius" title="Permalink to this definition">#</a></dt>
+<dd><p>The radius needed to draw the feature. This may not be needed for all
+features. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.BaseSoccerFeature.feature_thickness">
+<span class="sig-name descname"><span class="pre">feature_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.BaseSoccerFeature.feature_thickness" title="Permalink to this definition">#</a></dt>
+<dd><p>The thickness with which to draw the feature. This is normally given
+as the horizontal width of the feature in TV view, however it may be
+used to specify other thicknesses as needed. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.BaseSoccerFeature.field_units">
+<span class="sig-name descname"><span class="pre">field_units</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.BaseSoccerFeature.field_units" title="Permalink to this definition">#</a></dt>
+<dd><p>The units with which the feature is drawn. The default is <code class="docutils literal notranslate"><span class="pre">&quot;ft&quot;</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.CenterCircle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">CenterCircle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.CenterCircle" title="Permalink to this definition">#</a></dt>
+<dd><p>The center circle on the pitch.</p>
+<p>The given radius should be to the outside of the circle.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.CenterMark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">CenterMark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.CenterMark" title="Permalink to this definition">#</a></dt>
+<dd><p>The center mark on the pitch.</p>
+<p>This is where the kickoffs for each half, as well as following any goal,
+are taken</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.CornerArc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">CornerArc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.CornerArc" title="Permalink to this definition">#</a></dt>
+<dd><p>The arc in each corner of the pitch.</p>
+<p>These are quarter-circles located where the touchline meets the goal line</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.CornerDefensiveMark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">CornerDefensiveMark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_touchline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_goal_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separation_from_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.CornerDefensiveMark" title="Permalink to this definition">#</a></dt>
+<dd><p>The corner defensive marks.</p>
+<p>These are optional marks on the pitch, located 9.15 m (10 yd) from the
+corner of the pitch. Defenders should be beyond these marks (either more
+towards the goal or more towards the halfway line) during corner kicks</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.CornerDefensiveMark.is_touchline">
+<span class="sig-name descname"><span class="pre">is_touchline</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.CornerDefensiveMark.is_touchline" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether or not the corner defensive mark is along the touchline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.CornerDefensiveMark.is_goal_line">
+<span class="sig-name descname"><span class="pre">is_goal_line</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.CornerDefensiveMark.is_goal_line" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether or not the corner defensive mark is along the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.CornerDefensiveMark.depth">
+<span class="sig-name descname"><span class="pre">depth</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.CornerDefensiveMark.depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The depth (in any direction) of the defensive marks beyond the goal
+line or touchline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.CornerDefensiveMark.separation_from_line">
+<span class="sig-name descname"><span class="pre">separation_from_line</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.CornerDefensiveMark.separation_from_line" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the exterior edge of the goal line to the interior
+edge of the defensive mark</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.Goal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">Goal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goal_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.Goal" title="Permalink to this definition">#</a></dt>
+<dd><p>The goal.</p>
+<p>The goals located beyond each goal line.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.Goal.goal_width">
+<span class="sig-name descname"><span class="pre">goal_width</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.Goal.goal_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The interior distance between the goal posts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.Goal.goal_depth">
+<span class="sig-name descname"><span class="pre">goal_depth</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.Goal.goal_depth" title="Permalink to this definition">#</a></dt>
+<dd><p>The depth of the goal from the back edge of the goal line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.GoalBox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">GoalBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_post_to_box_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.GoalBox" title="Permalink to this definition">#</a></dt>
+<dd><p>The goal box.</p>
+<p>This is usually the 5.5 m (6 yd) box, but may be parameterized</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.GoalBox.box_length">
+<span class="sig-name descname"><span class="pre">box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.GoalBox.box_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of the goal box in TV view. This is the smaller of the two
+boxes, and is usually 5.5 m (6 yards) from the back edge of the goal
+line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.GoalBox.half_box_width">
+<span class="sig-name descname"><span class="pre">half_box_width</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.GoalBox.half_box_width" title="Permalink to this definition">#</a></dt>
+<dd><p>Half the width of the goal box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.GoalLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">GoalLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.GoalLine" title="Permalink to this definition">#</a></dt>
+<dd><p>The goal line of the pitch, aka the endlines.</p>
+<p>These are the lines that run the full width of the pitch. The ball must
+completely cross the goal line to score a goal</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.HalfPitch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">HalfPitch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.HalfPitch" title="Permalink to this definition">#</a></dt>
+<dd><p>One half, either the offensive or defensive half, of the pitch.</p>
+<p>This allows each half to take on its own color and be plotted
+independently, but the halves may take the same color so they look
+symmetrical</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.HalfwayLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">HalfwayLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.HalfwayLine" title="Permalink to this definition">#</a></dt>
+<dd><p>The halfway line of the pitch, aka the midfield line or center line.</p>
+<p>This is the line that run the full width of the pitch</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.PenaltyBox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">PenaltyBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty_mark_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_post_to_box_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.PenaltyBox" title="Permalink to this definition">#</a></dt>
+<dd><p>The penalty box.</p>
+<p>This is usually the 16.5 m (18 yd) box, but may be parameterized</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.PenaltyBox.box_length">
+<span class="sig-name descname"><span class="pre">box_length</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.PenaltyBox.box_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of the penalty box in TV view. This is the larger of the two
+boxes, and is usually 16.5 m (18 yards) from the back edge of the goal
+line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.PenaltyBox.half_box_width">
+<span class="sig-name descname"><span class="pre">half_box_width</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.PenaltyBox.half_box_width" title="Permalink to this definition">#</a></dt>
+<dd><p>Half the width of the penalty box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.PenaltyBox.penalty_mark_dist">
+<span class="sig-name descname"><span class="pre">penalty_mark_dist</span></span><a class="headerlink" href="#sportypy._feature_classes.soccer.PenaltyBox.penalty_mark_dist" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the back edge of the goal line to the center of the
+penalty mark</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.PenaltyMark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">PenaltyMark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.PenaltyMark" title="Permalink to this definition">#</a></dt>
+<dd><p>The penalty mark.</p>
+<p>This is the center point for arc of the penalty box, as well as where any
+penalty kick is taken</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.PitchApron">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">PitchApron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_apron_touchline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_apron_goal_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.PitchApron" title="Permalink to this definition">#</a></dt>
+<dd><p>The apron of the pitch beyond the touchline and goal line.</p>
+<p>This is to allow a more accurate representation of the pitch, as no ads are
+allowed within a certain distance of the exterior edge of the touchline and
+goal line</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.PitchConstraint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">PitchConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.PitchConstraint" title="Permalink to this definition">#</a></dt>
+<dd><p>The constraint around the interior edge of the pitch’s boundary lines.</p>
+<p>This confines all interior features to be constrained inside the pitch, as
+well as any interior plots.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.soccer.Touchline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.soccer.</span></span><span class="sig-name descname"><span class="pre">Touchline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.soccer.Touchline" title="Permalink to this definition">#</a></dt>
+<dd><p>The touchline of the pitch, aka the sideline.</p>
+<p>These are the lines that run the full length of the pitch</p>
+</dd></dl>
+
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, Ross Drucker.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
