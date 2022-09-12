@@ -1,5 +1,4 @@
 __pycache__/
-*.png
 build/
 dist/
 develop-eggs/
