@@ -1,4 +1,4 @@
-# sportypy <img src="logos/sportypy-logo-200.png" align="right" width="120"/>
+# sportypy <img src="https://raw.githubusercontent.com/sportsdataverse/sportypy/main/logos/sportypy-logo-200.png" align="right" width="120"/>
 
 [![codecov](https://img.shields.io/codecov/c/github/sportsdataverse/sportypy?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/sportsdataverse/sportypy)
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat&logo=github&color=ff552e)](https://github.com/sportsdataverse/sportypy/)
@@ -38,7 +38,7 @@ If you want to see what this would yield, you may call the `draw()` method that 
 nhl.draw()
 ```
 
-![Full NHL rink output from sportypy](img/nhl-rink.png)
+![Full NHL rink output from sportypy](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/nhl-rink.png)
 
 Each league's class may take on the following arguments:
 
@@ -80,7 +80,7 @@ from sportypy.surfaces.football import NFLField
 NFLField().draw(display_range = "red zone")
 ```
 
-![Red zone rendered from NFL Field](img/nfl-red-zone.png)
+![Red zone rendered from NFL Field](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/nfl-red-zone.png)
 
 Another use case would be to make the data you're viewing easier to see. Say you wanted to look at curling data, but only cared about stone positions in the house (and not the path as to how the stones got there). You might do this:
 
@@ -92,7 +92,7 @@ from sportypy.surfaces.curling import WCFSheet
 WCFSheet().draw(display_range = "house")
 ```
 
-![Curling house rendered from World Curling Federation sheet](img/curling-house.png)
+![Curling house rendered from World Curling Federation sheet](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/curling-house.png)
 
 ## Surface Units
 
@@ -181,7 +181,7 @@ NCAACourt(
 ).draw()
 ```
 
-![sportypy-rendered Illini basketball court (sans logos/branding)](img/custom-ncaa-court.png)
+![sportypy-rendered Illini basketball court (sans logos/branding)](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/custom-ncaa-court.png)
 
 ## Adding Analyses and Plotting Data
 
@@ -232,7 +232,7 @@ phf.scatter(
 )
 ```
 
-![Boston Pride and Minnesota Whitecaps shots (data courtesy Big Data Cup 2021)](img/phf-shots-scatterplot.png)
+![Boston Pride and Minnesota Whitecaps shots (data courtesy Big Data Cup 2021)](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/phf-shots-scatterplot.png)
 
 The Whitecaps shots are on the left side. In a future version of this package, logos will be displayed on the plot as well
 
@@ -265,7 +265,7 @@ phf.arrow(
 )
 ```
 
-![Boston Pride passes](img/phf-passes-arrowplot.png)
+![Boston Pride passes](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/phf-passes-arrowplot.png)
 
 ```python
 # This example adapted from the hockey_rink package's documentation, but can be
@@ -354,7 +354,7 @@ nhl.hexbin(
 )
 ```
 
-![Replicating the-bucketless' demonstration of hockey_rink package with sportypy](img/nhl-matplotlib-demo.png)
+![Replicating the-bucketless' demonstration of hockey_rink package with sportypy](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/nhl-matplotlib-demo.png)
 
 ```python
 # Create an NBA shot heat map. The example below uses Ayo Dosunmu's rookie
@@ -428,7 +428,7 @@ nba.heatmap(
 )
 ```
 
-![Ayo Dosunmu's rookie season heat map](img/ayo-dosunmu-rookie-shot-chart.png)
+![Ayo Dosunmu's rookie season heat map](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/ayo-dosunmu-rookie-shot-chart.png)
 
 ## License
 
@@ -464,7 +464,7 @@ By regularly reporting issues, making very slight modifications, fixing typos, o
 
 ### Acknowledgements
 
-Much of the underling code structure in `sportypy` was directly influenced and inspired by [The Bucketless](https://github.com/the-bucketless)'s work on the [hockey_rink](https://github.com/the-bucketless/hockey_rink) package. This package is meant to extend the capability that `hockey_rink` provides hockey analysts to analysts of a wider variety of sports.
+Much of the underling code structure in `sportypy` was directly influenced and inspired by [The Bucketless](https://github.com/the-bucketless)'s work on the [hockey_rink](https://github.com/the-bucketless/hockey_rink) package. This package is meant to extend the capability that `hockey_rink` provides hockey analysts to analysts of a wider variety of sports
 
 ### `sportypy` Logo Artist
 
