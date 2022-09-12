@@ -13,7 +13,4 @@ eggs/
 htmlcov/
 coverage.xml
 .venv/
-docs/_build/html/*
-docs/_build/doctrees/*
-*.doctree
-*.buildinfo
+docs/_build/
