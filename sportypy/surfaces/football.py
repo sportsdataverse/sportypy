@@ -346,8 +346,10 @@ class FootballField(BaseSurfacePlot):
             "goal_line": "#ffffff",
             "minor_yard_line": "#ffffff",
             "arrow": "#ffffff",
+            "arrow_outline": "#002244",
             "try_mark": "#ffffff",
             "yardage_marker": "#ffffff",
+            "yardage_marker_outline": "#002244",
             "restricted_area": "#ffffff",
             "coaching_box": "#ffffff",
             "team_bench_area": "#196f0c",
@@ -1076,7 +1078,7 @@ class FootballField(BaseSurfacePlot):
                 "field_length": self.field_params.get("field_length", 0.0),
                 "field_width": self.field_params.get("field_width", 0.0),
                 "facecolor": self.feature_colors["arrow"],
-                "edgecolor": None,
+                "edgecolor": self.feature_colors["arrow_outline"],
                 "zorder": 16
             }
             self._initialize_feature(arrow_params)
@@ -1173,7 +1175,10 @@ class FootballField(BaseSurfacePlot):
                 ),
                 "marked_line": marked_lines,
                 "dist_to_line": dist_to_line_bottom,
-                "color": self.feature_colors["yardage_marker"]
+                "color": self.feature_colors["yardage_marker"],
+                "outline_color": self.feature_colors[
+                    "yardage_marker_outline"
+                ]
             }),
 
             pd.DataFrame({
@@ -1186,7 +1191,10 @@ class FootballField(BaseSurfacePlot):
                 ),
                 "marked_line": marked_lines,
                 "dist_to_line": dist_to_line_top,
-                "color": self.feature_colors["yardage_marker"]
+                "color": self.feature_colors["yardage_marker"],
+                "outline_color": self.feature_colors[
+                    "yardage_marker_outline"
+                ]
             })
         ])
 
@@ -1381,6 +1389,7 @@ class FootballField(BaseSurfacePlot):
 
             s = row["marking"]
             color = row["color"]
+            outline_color = row["outline_color"]
             rotation = row["rotation"]
 
             number_font = self.field_params.get("number_font", "DejaVu Sans")
@@ -1418,8 +1427,7 @@ class FootballField(BaseSurfacePlot):
                 fontweight = "heavy",
                 fontname = number_font,
                 color = color,
-                ha = "center",
-                va = "center",
+                outline_color = outline_color,
                 rotation_mode = "anchor",
                 zorder = 17
             )
