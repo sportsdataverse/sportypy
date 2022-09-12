@@ -13,10 +13,11 @@ import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.patheffects as pe
 import matplotlib.transforms as mtrans
 from matplotlib.transforms import Affine2D
 import sportypy._feature_classes.football as football_features
-from sportypy._base_functions._plot_helpers import text_with_autofit
+from sportypy._base_functions._plot_helpers import autoset_font_size
 from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
@@ -1287,7 +1288,7 @@ class FootballField(BaseSurfacePlot):
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
         ax.set_aspect("equal")
-        # ax.axis("off")
+        ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
@@ -1417,18 +1418,38 @@ class FootballField(BaseSurfacePlot):
                 y_anchor = y_anchor_r
                 rotation += self.rotation_amt
 
-            text_with_autofit(
-                ax,
-                s,
-                (x_anchor, y_anchor),
-                self.field_params.get("number_width", 0.0),
-                self.field_params.get("number_height", 0.0),
-                rotation = rotation,
-                fontweight = "heavy",
-                fontname = number_font,
+            if idx == 0:
+                font_size = autoset_font_size(
+                    ax,
+                    s,
+                    (x_anchor, y_anchor),
+                    self.field_params.get("number_width", 0.0),
+                    self.field_params.get("number_height", 0.0),
+                    rotation = rotation,
+                    fontweight = "heavy",
+                    fontname = number_font,
+                    rotation_mode = "anchor"
+                )
+
+            ax.text(
+                x = x_anchor,
+                y = y_anchor,
+                s = s,
                 color = color,
-                outline_color = outline_color,
-                rotation_mode = "anchor",
+                path_effects = [
+                    pe.withStroke(
+                        linewidth = 2,
+                        foreground = outline_color
+                    )
+                ],
+                ha = "center",
+                va = "center",
+                rotation = rotation,
+                fontweight = 'heavy',
+                fontname = number_font,
+                rotation_mode = 'anchor',
+                transform_rotates_text = True,
+                fontsize = font_size,
                 zorder = 17
             )
 

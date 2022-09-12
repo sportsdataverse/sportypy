@@ -1,8 +1,5 @@
-import matplotlib.patheffects as pe
-
-
-def text_with_autofit(ax, txt, xy, width, height, *, transform = None,
-                      outline_color = None, **kwargs):
+def autoset_font_size(ax, txt, xy, width, height, *, transform = None,
+                      **kwargs):
     """Automatically set the size of text based on a specified height.
 
     This is useful when plotting the yardage marking numbers on a football
@@ -61,12 +58,6 @@ def text_with_autofit(ax, txt, xy, width, height, *, transform = None,
         ha = "center",
         va = "center",
         xycoords = transform,
-        path_effects = [
-            pe.withStroke(
-                linewidth = 2,
-                foreground = outline_color
-            )
-        ],
         **kwargs
     )
 
@@ -74,6 +65,5 @@ def text_with_autofit(ax, txt, xy, width, height, *, transform = None,
     text.set_fontsize(fontsize)
     bbox = text.get_window_extent(fig.canvas.get_renderer())
     adjusted_size = (30 * fontsize) / bbox.width
-    text.set_fontsize(adjusted_size)
 
-    return text
+    return adjusted_size
