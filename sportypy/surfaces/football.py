@@ -1450,6 +1450,7 @@ class FootballField(BaseSurfacePlot):
                 rotation_mode = 'anchor',
                 transform_rotates_text = True,
                 fontsize = font_size,
+                clip_on = True,
                 zorder = 17
             )
 
