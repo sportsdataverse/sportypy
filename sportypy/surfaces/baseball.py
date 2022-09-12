@@ -1,11 +1,11 @@
-"""Extension of the BaseSurfacePlot class to create a baseball field.
+"""Extension of the ``BaseSurfacePlot`` class to create a baseball field.
 
-This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. Sportypy will ship with pre-defined
-leagues that will have their own subclass, but a user can manually specify
-their own field parameters to create a totally-customized field. The field's
-features are parameterized by the basic dimensions of the field, which comprise
-the attributes of the class.
+This is a second-level child class of the ``BaseSurface`` class, and as such
+will have access to its attributes and methods. ``sportypy`` will ship with
+pre-defined leagues that will have their own subclass, but a user can manually
+specify their own field parameters to create a totally-customized field. The
+field's features are parameterized by the basic dimensions of the field, which
+comprise the attributes of the class.
 
 @author: Ross Drucker
 """
@@ -18,168 +18,214 @@ from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
 class BaseballField(BaseSurfacePlot):
-    """A subclass of the BaseSurfacePlot class to make a baseball field.
+    """A subclass of the ``BaseSurfacePlot`` class to make a baseball field.
 
     This allows for the creation of the baseball field in a way that is
-    entirely parameterized by the field's baseline characteristics.
+    entirely parameterized by the field's baseline characteristics. By
+    convention, TV view for baseball is identical to the view from the high
+    home plate camera.
 
-    All attributes should default to 0.0 (if of a numeric type) or an empty
+    All attributes should default to ``0.0`` (if of a numeric type) or an empty
     string (if of a string type). Customized parameters may be specified via a
     child class (see below) or by directly specifying all necessary attributes
     of a valid baseball field. The attributes needed to instantiate a
-    particular league's surface must be specified in the field_params
-    dictionary. For many leagues, these will be provided in the baseball.json
-    file in the data/ subdirectory of this module.
+    particular league's surface must be specified in the ``field_params``
+    dictionary. For many leagues, these will be provided in the
+    surface_dimensions.json file in the data/ subdirectory of ``sportypy``.
 
-    See the BaseSurfacePlot and BaseSurface class definitions for full details.
-
-    NOTE: Any attribute below that is prefixed with an asterisk (*) should be
-    specified via the field_updates dictionary as these parameters are specific
-    to each league. Attributes prefixed with a hyphen (-) are specified at the
-    time that the surface class is created
+    See the ``BaseSurfacePlot`` and ``BaseSurface`` class definitions for full
+    details.
 
     Attributes
     ----------
-    - league_code : str (default: "")
+    league_code : str
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "Major League
-        Baseball" should be either "MLB" or "mlb")
+        Baseball" should be either "MLB" or "mlb"). The default is an empty
+        string
 
-    - rotation : float (default: 0.0)
-        The angle (in degrees) through which to rotate the final plot
+    rotation_amt : float
+        The angle (in degrees) through which to rotate the final plot. The
+        default is ``0.0``
 
-    - x_trans : float (default: 0.0)
-        The amount that the x coordinates are to be shifted. By convention,
-        the +x axis extends from the pitcher's plate towards first base when
-        viewing the field in TV view
+    x_trans : float
+        The amount that the ``x`` coordinates are to be shifted. By convention,
+        the +``x`` axis extends from the pitcher's plate towards first base
+        when viewing the field in TV view. The default is ``0.0``
 
-    - y_trans : float (default: 0.0)
-        The amount that the y coordinates are to be shifted. By convention,
-        the +y axis extends from the back tip of home plate out towards center
-        field when viewing the field in TV view
+    y_trans : float
+        The amount that the ``y`` coordinates are to be shifted. By convention,
+        the +``y`` axis extends from the back tip of home plate out towards
+        center field when viewing the field in TV view. The default is ``0.0``
 
-    - color_updates : dict
-        A dictionary of coloring parameters to pass to the plot. Defaults are
-        provided in the class per each rule book, but this allows the plot to
-        be more heavily customized/styled
+    feature_colors : dict
+        A dictionary of coloring parameters to pass to the plot
 
-    - units : str (default: "default")
-        The units that the final plot should utilize. The default units are the
-        units specified in the rule book of the league
+    field_params : dict
+        A dictionary containing the following parameters of the field:
 
-    * left_field_distance : float
-        The straight-line distance from the back tip of home plate to the left
-        field foul pole (along theta = -45deg)
+            - field_units : str
+                The units of the field
 
-    * right_field_distance : float
-        The straight-line distance from the back tip of home plate to the right
-        field foul pole (along theta = +45deg)
+            - left_field_distance : float
+                The straight-line distance from the back tip of home plate to
+                the left field foul pole (along theta = -45°)
 
-    * center_field_distance : float
-        The straight-line distance from the back tip of home plate to straight-
-        away center field (along theta = 0deg)
+            - right_field_distance : float
+                The straight-line distance from the back tip of home plate to
+                the right field foul pole (along theta = +45°)
 
-    * baseline_distance : float
-        The distance of each baseline
+            - center_field_distance : float
+                The straight-line distance from the back tip of home plate to
+                straight-away center field (along theta = 0°)
 
-    * running_lane_start_distance : float
-        The straight-line distance from the back tip of home plate to the start
-        of the running lane
+            - baseline_distance : float
+                The distance of each baseline
 
-    * running_lane_depth : float
-        The straight-line distance from the outer edge of the first-base line
-        to the outer edge of the running lane
+            - running_lane_start_distance : float
+                The straight-line distance from the back tip of home plate to
+                the start of the running lane
 
-    * running_lane_length : float
-        The straight-line length of the running lane measured from the point
-        nearest home plate. As an example, if the base lines are 90 feet, and
-        the running lane starts a distance of 45 feet down the line from the
-        back tip of home plate, and extends 3 feet beyond first base, this
-        parameter would be given as 48.0
+            - running_lane_depth : float
+                The straight-line distance from the outer edge of the
+                first-base line to the outer edge of the running lane
 
-    * pitchers_mound_center_to_home_plate : float
-        The distance from the center of the pitcher's mound to the back tip of
-        home plate. NOTE: this does not necessarily align with the front edge
-        of the pitcher's plate
+            - running_lane_length : float
+                The straight-line length of the running lane measured from the
+                point nearest home plate. As an example, if the base lines are
+                90 feet, and the running lane starts a distance of 45 feet down
+                the line from the back tip of home plate, and extends 3 feet
+                beyond first base, this parameter would be given as ``48.0``
 
-    * pitchers_mound_radius : float
-        The radius of the pitcher's mound
+            - pitchers_mound_center_to_home_plate : float
+                The distance from the center of the pitcher's mound to the back
+                tip of home plate. NOTE: this does not necessarily align with
+                the front edge of the pitcher's plate
 
-    * pitchers_plate_front_to_home_plate : float
-        The distance from the front edge of the pitcher's plate to the back tip
-        of home plate
+            - pitchers_mound_radius : float
+                The radius of the pitcher's mound
 
-    * pitchers_plate_width : float
-        The width of the pitcher's plate (the dimension in the y direction)
+            - pitchers_plate_front_to_home_plate : float
+                The distance from the front edge of the pitcher's plate to the
+                back tip of home plate
 
-    * pitchers_plate_length : float
-        The length of the pitcher's plate (the dimension in the x direction)
+            - pitchers_plate_width : float
+                The width of the pitcher's plate (the dimension in the ``y``
+                direction)
 
-    * base_side_length : float
-        The length of one side of a square base
+            - pitchers_plate_length : float
+                The length of the pitcher's plate (the dimension in the ``x``
+                direction)
 
-    * home_plate_edge_length : float
-        The length of a full side of home plate
+            - base_side_length : float
+                The length of one side of a square base
 
-    * infield_arc_radius : float
-        The distance from the front edge of the pitcher's mound to the back of
-        the infield dirt
+            - home_plate_edge_length : float
+                The length of a full side of home plate
 
-    * base_anchor_to_infield_grass_radius : float
-        The distance from the anchor point of a base to the circular cutout in
-        the infield grass. The anchor point of a base is defined as the
-        point used in the definition of the base paths. As an example, in MLB,
-        the anchor point of first base would be the corner of the first base
-        bag along the foul line on the side furthest from the back tip of home
-        plate
+            - infield_arc_radius : float
+                The distance from the front edge of the pitcher's mound to the
+                back of the infield dirt
 
-    * line_width : float
-        The thickness of all chalk lines on the field
+            - base_anchor_to_infield_grass_radius : float
+                The distance from the anchor point of a base to the circular
+                cutout in the infield grass. The anchor point of a base is
+                defined as the point used in the definition of the base paths.
+                As an example, in MLB, the anchor point of first base would be
+                the corner of the first base bag along the foul line on the
+                side furthest from the back tip of home plate
 
-    * foul_line_to_infield_grass : float
-        The distance from the outer edge of the foul line to the outer edge of
-        the infield grass
+            - line_width : float
+                The thickness of all chalk lines on the field
 
-    * foul_line_to_foul_grass : float
-        The distance from the outer edge of the foul line to the inner edge of
-        the grass in foul territory
+            - foul_line_to_infield_grass : float
+                The distance from the outer edge of the foul line to the outer
+                edge of the infield grass
 
-    * batters_box_length : float
-        The length of the batter's box (in the y direction) measured from the
-        outside of the chalk lines
+            - foul_line_to_foul_grass : float
+                The distance from the outer edge of the foul line to the inner
+                edge of the grass in foul territory
 
-    * batters_box_width : float
-        The width of the batter's box (in the x direction) measured from the
-        outside of the chalk lines
+            - batters_box_length : float
+                The length of the batter's box (in the y direction) measured
+                from the outside of the chalk lines
 
-    * batters_box_y_adj : float
-        The shift off of center in the y direction that the batter's box needs
-        to be moved to properly align
+            - batters_box_width : float
+                The width of the batter's box (in the x direction) measured
+                from the outside of the chalk lines
 
-    * home_plate_side_to_batters_box : float
-        The distance from the outer edge of the batter's box to the outer edge
-        of home plate
+            - batters_box_y_adj : float
+                The shift off of center in the y direction that the batter's
+                box needs to be moved to properly align
 
-    * catchers_box_shape : str
-        The shape of the catcher's box. Currently-supported values are:
-        - "rectangle" (default behavior)
-        - "trapezoid" (see LittleLeagueField for example)
+            - home_plate_side_to_batters_box : float
+                The distance from the outer edge of the batter's box to the
+                outer edge of home plate
 
-    * catchers_box_depth : float
-        The distance from the back tip of home plate to the back edge of the
-        catcher's box
+            - catchers_box_shape : str
+                The shape of the catcher's box. Currently-supported values are:
+                - "rectangle" (default behavior)
+                - "trapezoid" (see LittleLeagueField for example)
 
-    * backstop_radius : float
-        The distance from the back tip of home plate to the interior edge of
-        the backstop
+            - catchers_box_depth : float
+                The distance from the back tip of home plate to the back edge
+                of the catcher's box
 
-    * home_plate_circle_radius : float
-        The radius of the dirt circle surrounding home plate
+            - backstop_radius : float
+                The distance from the back tip of home plate to the interior
+                edge of the backstop
+
+            - home_plate_circle_radius : float
+                The radius of the dirt circle surrounding home plate
     """
 
     def __init__(self, league_code = "", field_updates = {},
                  color_updates = {}, rotation = 0.0, x_trans = 0.0,
                  y_trans = 0.0, units = "default", **added_features):
+        """Initialize an instance of a ``BaseballField`` class.
+
+        Parameters
+        ----------
+        league_code : str
+            The league for which the plot should be drawn. This is
+            case-insensitive but should be the shortened name of the league
+            (e.g. "Major League Baseball" should be either "MLB" or "mlb"). The
+            default is an empty string
+
+        rotation : float
+            The angle (in degrees) through which to rotate the final plot. The
+            default is 0.0
+
+        x_trans : float
+            The amount that the x coordinates are to be shifted. By convention,
+            the +``x`` axis extends from the pitcher's plate towards first base
+            when viewing the field in TV view. The default is ``0.0``
+
+        y_trans : float
+            The amount that the y coordinates are to be shifted. By convention,
+            the +``y`` axis extends from the back tip of home plate out towards
+            center field when viewing the field in TV view. The default is
+            ``0.0``
+
+        field_updates: dict
+            A dictionary of updated parameters to use to create the baseball
+            field. The default is an empty dictionary
+
+        color_updates : dict
+            A dictionary of coloring parameters to pass to the plot. Defaults
+            are provided in the class per each rule book, but this allows the
+            plot to be more heavily customized/styled. The default is an empty
+            dictionary
+
+        units : str
+            The units that the final plot should utilize. The default units are
+            the units specified in the rule book of the league. The default is
+            ``"default"``
+
+        Returns
+        -------
+        Nothing, but instantiates the class
+        """
         # Load all pre-defined field dimensions for provided leagues
         self._load_preset_dimensions(sport = "baseball")
 
@@ -649,41 +695,42 @@ class BaseballField(BaseSurfacePlot):
         Parameters
         ----------
         ax : matplotlib.Axes
-            An axes object onto which the plot can be drawn. If None is
+            An Axes object onto which the plot can be drawn. If ``None`` is
             supplied, then the currently-active Axes object will be used
 
-        display_range : str; default "full"
+        display_range : str, optional
             The portion of the surface to display. The entire surface will
             always be drawn under the hood, however this parameter limits what
             is shown in the final plot. The following explain what each display
             range corresponds to:
 
-            "full" : the entire surface
+                - ``"full"``: The entire surface
+                - ``"infield"``: The infield portion of the baseball diamond
 
-            "infield": the infield portion of the baseball diamond
+            The default is ``"full"``
 
-        xlim : float, tuple (float, float), or None (default: None)
-            The display range in the x direction to be used. If a single float
-            is provided, this will be used as the lower bound of the x
-            coordinates to display and the upper bound will be the +x end of
-            the field. If a tuple, the two values will be used to determine the
-            bounds. If None, then the display_range will be used instead to set
-            the bounds
+        xlim : float or tuple of floats or None
+            The display range in the ``x`` direction to be used. If a single
+            float is provided, this will be used as the lower bound of the
+            ``x`` coordinates to display and the upper bound will be the +``x``
+            end of the field. If a tuple, the two values will be used to
+            determine the bounds. If ``None``, then the ``display_range`` will
+            be used instead to set the bounds. The default is ``None``
 
-        ylim : float, tuple (float, float), or None (default: None)
-            The display range in the y direction to be used. If a single float
-            is provided, this will be used as the lower bound of the y
-            coordinates to display and the upper bound will be the +y side of
-            the field. If a tuple, the two values will be used to determine the
-            bounds. If None, then the display_range will be used instead to set
-            the bounds
+        ylim : float or tuple of floats or None
+            The display range in the ``y`` direction to be used. If a single
+            float is provided, this will be used as the lower bound of the
+            ``y`` coordinates to display and the upper bound will be the +``y`
+            end of the field. If a tuple, the two values will be used to
+            determine the bounds. If ``None``, then the ``display_range`` will
+            be used instead to set the bounds. The default is ``None``
 
-        rotation : float or None (default: None)
+        rotation : float or None
             Angle (in degrees) through which to rotate the field when drawing.
-            If used, this will set the class attribute of self._rotation. A
-            value of 0.0 will correspond to a TV View of the field, where +x is
-            to the right and +y is on top. The rotation occurs counter
-            clockwise
+            If used, this will set the class attribute of ``_rotation``. A
+            value of ``0.0`` will correspond to a TV view of the field, where
+            +``x`` is to the right and +``y`` is on top. The rotation occurs
+            counter clockwise
         """
         # If there is a rotation to be applied, apply it first and set it as
         # the class attribute self._rotation
@@ -779,15 +826,15 @@ class BaseballField(BaseSurfacePlot):
 
         A user may wish to know if a specific baseball league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with sportypy for easier plotting (if they provide the league
-        code), or can also show what leagues are available to be plotted
+        shipped with ``sportypy`` for easier plotting (if they provide the
+        league code), or can also show what leagues are available to be plotted
 
         Parameters
         ----------
-        league_code : str or None (default: None)
+        league_code : str or None
             A league code that may or may not be shipped with the package. If
-            the league code is None, this will display all leagues that do come
-            shipped with sportypy
+            the league code is ``None``, this will display all leagues that do
+            come shipped with ``sportypy11. The default is ``None``
 
         Returns
         -------
@@ -879,16 +926,16 @@ class BaseballField(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, but this method allows the colors to be
-        updated after the initial instantiation and will re-instantiate the
+        the ``color_updates`` parameter, but this method allows the colors to
+        be updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
-        color_updates : dict (default: {}; an empty dictionary)
+        color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see cani_color_features() method for
-            a list of these names)
+            that's color is to be updated (see ``cani_color_features()`` method
+            for a list of these names). The default is an empty dictionary
 
         Returns
         -------
@@ -914,14 +961,15 @@ class BaseballField(BaseSurfacePlot):
         """Update the field's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by sportypy
+        not currently supported by ``sportypy``
 
         Parameters
         ----------
-        field_updates : dict (default: {}; an empty dictionary)
+        field_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the field that is to be updated (see cani_change_dimensions()
-            method for a list of these parameters)
+            of the field that is to be updated (see
+            ``cani_change_dimensions()`` method for a list of these
+            parameters). The default is an empty dictionary
 
         Returns
         -------
@@ -947,9 +995,9 @@ class BaseballField(BaseSurfacePlot):
         """Reset the features of the field to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, and through the update_colors() method,
-        these can be changed. This method allows the colors to be reset to
-        their default values after experiencing such a change
+        the ``color_updates`` parameter, and through the ``update_colors()``
+        method, these can be changed. This method allows the colors to be reset
+        to their default values after experiencing such a change
         """
         # Re-instantiate the class with the default colors
         default_colors = {
@@ -974,10 +1022,10 @@ class BaseballField(BaseSurfacePlot):
         """Reset the features of the field to their default parameterizations.
 
         The field parameters can be passed at the initial instantiation of the
-        class via the field_updates parameter, and through the
-        update_field_params() method, these can be changed. This method allows
-        the feature parameterization to be reset to their default values after
-        experiencing such a change
+        class via the ``field_updates`` parameter, and through the
+        ``update_field_params()`` method, these can be changed. This method
+        allows the feature parameterization to be reset to their default values
+        after experiencing such a change
         """
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
@@ -990,27 +1038,46 @@ class BaseballField(BaseSurfacePlot):
     def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
-        """Get the x and y limits for the displayed plot.
+        """Get the ``x`` and ``y`` limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: "full")
+        display_range : str
             The range of which to display the plot. This is a key that will
-            be searched for in the ranges_dict parameter
+            be searched for in the possible display ranges. The following are
+            valid ``display_range``s:
 
-        xlim : float or None (default: None)
-            A specific limit on x for the plot
+                - ``"full"``: The entire surface
+                - ``"infield"``: The infield portion of the baseball diamond
 
-        ylim : float or None (default: None)
-            A specific limit on y for the plot
+            The default is ``"full"``
+
+        xlim : float or None
+            A specific limit on ``x`` for the plot. The default is ``None``
+
+        ylim : float or None
+            A specific limit on ``y`` for the plot. The default is `None``
+
+        for_plot : bool
+            Whether the plot range limits are being set for a plot (e.g. a
+            model being displayed over the surface). This utilizes the surface
+            constraint to restrict the model to be inbounds. The default is
+            ``False``
+
+        for_display : bool
+            Whether the plot range limits are being set for a display (e.g. to
+            show the entirety of the surface in the resulting graphic). This
+            will ignore the surface constraint in the resulting graphic, but
+            the constraint will be respected when drawing features. The default
+            is ``False``
 
         Returns
         -------
         xlim : tuple
-            The x-directional limits for displaying the plot
+            The ``x``-directional limits for displaying the plot
 
         ylim : tuple
-            The y-directional limits for displaying the plot
+            The ``y``-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
         if display_range == "" or display_range is None:
@@ -1199,9 +1266,9 @@ class BaseballField(BaseSurfacePlot):
 
 
 class LittleLeagueField(BaseballField):
-    """A subclass of BaseballField specific to Little League.
+    """A subclass of ``BaseballField`` specific to Little League.
 
-    See BaseballField class documentation for full description.
+    See ``BaseballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):
@@ -1215,9 +1282,9 @@ class LittleLeagueField(BaseballField):
 
 
 class MiLBField(BaseballField):
-    """A subclass of BaseballField specific to MiLB.
+    """A subclass of ``BaseballField`` specific to MiLB.
 
-    See BaseballField class documentation for full description.
+    See ``BaseballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):
@@ -1231,9 +1298,9 @@ class MiLBField(BaseballField):
 
 
 class MLBField(BaseballField):
-    """A subclass of BaseballField specific to MLB.
+    """A subclass of ``BaseballField`` specific to MLB.
 
-    See BaseballField class documentation for full description.
+    See ``BaseballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):
@@ -1247,9 +1314,9 @@ class MLBField(BaseballField):
 
 
 class NCAAField(BaseballField):
-    """A subclass of BaseballField specific to NCAA baseball.
+    """A subclass of ``BaseballField`` specific to NCAA baseball.
 
-    See BaseballField class documentation for full description.
+    See ``BaseballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):
@@ -1263,9 +1330,9 @@ class NCAAField(BaseballField):
 
 
 class NFHSField(BaseballField):
-    """A subclass of BaseballField specific to the NFHS (high school baseball).
+    """A subclass of ``BaseballField`` specific to NFHS (high school baseball).
 
-    See BaseballField class documentation for full description.
+    See ``BaseballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):
@@ -1279,9 +1346,9 @@ class NFHSField(BaseballField):
 
 
 class PonyField(BaseballField):
-    """A subclass of BaseballField specific to Pony League Baseball.
+    """A subclass of ``BaseballField`` specific to Pony League Baseball.
 
-    See BaseballField class documentation for full description.
+    See ``BaseballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):

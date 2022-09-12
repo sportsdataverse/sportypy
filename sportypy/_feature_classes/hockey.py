@@ -1,8 +1,8 @@
-"""Extensions of the BaseFeature class to be specific to ice hockey rinks.
+"""Extensions of the ``BaseFeature`` class to be specific to ice hockey rinks.
 
 The features are all parameterized by the basic characteristics of an ice rink.
-A user can manually specify their own rink parameters in the HockeyRink() class
-that will adjust the placement of these features, however the features
+A user can manually specify their own rink parameters in the ``HockeyRink``
+class that will adjust the placement of these features, however the features
 themselves will be consistent across all hockey surfaces.
 
 @author: Ross Drucker
@@ -14,29 +14,32 @@ from sportypy._base_classes._base_feature import BaseFeature
 
 
 class BaseHockeyFeature(BaseFeature):
-    """An extension of the BaseFeature class specifically for hockey features.
+    """An extension of the ``BaseFeature`` class for hockey features.
 
     The following attributes are specific to hockey features only. For more
-    information on inherited attributes, please see the BaseFeature class
+    information on inherited attributes, please see the ``BaseFeature`` class
     definition. The default values are provided to ensure that the feature can
     at least be created.
 
     Attributes
     ----------
-    rink_length : float (default: 0.0)
-        The length of the rink in TV view
+    rink_length : float
+        The length of the rink in TV view. The default is ``0.0``
 
-    rink_width : float (default: 0.0)
-        The width of the rink in TV view
+    rink_width : float
+        The width of the rink in TV view. The default is ``0.0``
 
-    feature_radius : float (default: 0.0)
+    feature_radius : float
         The radius needed to draw the feature. This may not be needed for all
-        features
+        features. The default is ``0.0``
 
-    feature_thickness : float (default: 0.0)
+    feature_thickness : float
         The thickness with which to draw the feature. This is normally given
         as the horizontal width of the feature in TV view, however it may be
-        used to specify other thicknesses as needed
+        used to specify other thicknesses as needed. The default is ``0.0``
+
+    field_units : str
+        The units with which the feature is drawn. The default is ``"ft"``
     """
 
     def __init__(self, rink_length = 0.0, rink_width = 0.0,
@@ -277,6 +280,12 @@ class DefensiveZone(BaseHockeyFeature):
 
     The offensive zone is the left "third" of the rink in TV view. This is the
     area that a team defends when attacking from left to right
+
+    Attributes
+    ----------
+    nzone_length : float
+        The length of the neutral zone, measured from the interior edges of the
+        zone lines (blue lines)
     """
 
     def __init__(self, nzone_length = 0.0, *args, **kwargs):
@@ -351,15 +360,16 @@ class NeutralZone(BaseHockeyFeature):
 
     The neutral zone is the middle "third" of the rink. This is the area
     between the two zone (blue) lines. The center of the neutral zone should
-    lie along the line x = 0
+    lie along the line ``x = 0``
     """
 
     def _get_centered_feature(self):
         """Generate the coordinates that define the neutral zone.
 
         The zone is rectangular in shape, and usually is white in color. Note:
-        because of the way the neutral zone is created below, "reflect_x" and
-        "reflect_y" in the HockeyRink() class should both be set to False
+        because of the way the neutral zone is created below, ``reflect_x`` and
+        ``reflect_y`` in the ``HockeyRink`` class should both be set to
+        ``False``
         """
         # Generate the points of the neutral zone. This is a rectangular region
         # with known dimensions (from the passed parameters), so no reflection
@@ -380,6 +390,12 @@ class OffensiveZone(BaseHockeyFeature):
     The offensive zone is the right "third" of the rink in TV view. This is the
     area that a team attacks to try to score a goal when attacking from left to
     right
+
+    Attributes
+    ----------
+    nzone_length : float
+        The length of the neutral zone, measured from the interior edges of the
+        zone lines (blue lines)
     """
 
     def __init__(self, nzone_length = 0.0, *args, **kwargs):
@@ -454,8 +470,15 @@ class CenterLine(BaseHockeyFeature):
 
     The center line is the line that divides the ice surface in half. Its
     center should lie directly in the center of the ice surface. Its line
-    thickness should be given by "major_line_thickness" as this is a major line
-    on the ice surface
+    thickness should be given by ``major_line_thickness`` as this is a major
+    line on the ice surface
+
+    Attributes
+    ----------
+    center_faceoff_spot_gap : float
+        The gap in the center line that surrounds the center faceoff spot. This
+        is measured between the inner edges of the two halves of the center
+        line
     """
     def __init__(self, center_faceoff_spot_gap = 0.0, *args, **kwargs):
         # Initialize the parameters unique to this feature
@@ -482,14 +505,14 @@ class RefereeCrease(BaseHockeyFeature):
     """A parameterization of the referee's crease.
 
     The referee's crease is a semi-circle on the "bottom" of the boards (in TV
-    view), centered on the line y = 0 (the center of the center line)
+    view), centered on the line ``y = 0`` (the center of the center line)
     """
 
     def _get_centered_feature(self):
         """Generate the points defining the referee's crease.
 
         The crease is semi-circular in shape. Its thickness should be given by
-        "minor_line_thickness", and it's usually red in color
+        ``minor_line_thickness``, and it's usually red in color
         """
         referee_crease_df = pd.concat([
             pd.DataFrame({
@@ -543,7 +566,7 @@ class CenterFaceoffSpot(BaseHockeyFeature):
 
     The center faceoff spot is the spot at which the game begins. Its center
     should lie directly in the center of the ice surface. Its radius is passed
-    as a key in rink_params
+    as a key in ``rink_params``
     """
 
     def _get_centered_feature(self):
@@ -567,7 +590,7 @@ class ZoneLine(BaseHockeyFeature):
 
     The zone lines are the lines that separate the neutral zone from the
     offensive and defensive zones. Its line thickness should be given by
-    "major_line_thickness" as this is a major line on the ice surface
+    ``major_line_thickness`` as this is a major line on the ice surface
     """
 
     def _get_centered_feature(self):
@@ -591,7 +614,7 @@ class GoalLine(BaseHockeyFeature):
 
     The goal lines are the lines over which a puck must cross (within the goal
     frame) in order to be considered a goal. Its line thickness should be given
-    by "minor_line_thickness" as this is a minor line on the ice surface
+    by ``minor_line_thickness`` as this is a minor line on the ice surface
     """
 
     def _get_centered_feature(self):
@@ -681,8 +704,37 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
     The goal crease is the area where a goaltender plays their position. It is
     comprised of two components: the outline of the crease, and the filling in
-    its boundary (see documentation for GoalCreaseFill class). The goal crease
-    may have two notches (one on each side of the line y = 0).
+    its boundary (see documentation for ``GoalCreaseFill`` class). The goal
+    crease may have two notches (one on each side of the line ``y = 0``).
+
+    Attributes
+    ----------
+    crease_length : float
+        The distance from the center of the goal line to the start of the arc
+        of the goal crease
+
+    crease_width : float
+        The exterior width of the goal crease
+
+    notch_dist_x : float
+        The distance from the center of the goal line to the notch (if one
+        exists) in the goal crease
+
+    notch_width : float
+        The width of the notch (if one exists) in the goal crease
+
+    crease_style : str
+        The style of goal crease to implement. Viable options are:
+            - nhl98 : the current iteration of the NHL goal crease. This is
+                what is used for most professional leagues
+
+            - nhl92 : the previous iteration of an NHL goal crease. It is drawn
+                as a semi-circle with two L-shaped notches at the edge of the
+                crease intersecting the semi-circle
+
+            - ushl1 : the current iteration of a USA Hockey goal crease. This
+                is what is currently used in the USHL (United States Hockey
+                League)
     """
 
     def __init__(self, crease_style = "", crease_length = 0.0,
@@ -701,8 +753,8 @@ class GoalCreaseOutline(BaseHockeyFeature):
         """Generate the points defining the goal crease's outline.
 
         The outline of the goal crease should have thickness given by
-        "minor_line_thickness", as this is a minor line on the ice surface, and
-        the outline is usually red in color.
+        ``minor_line_thickness", as this is a minor line on the ice surface,
+        and the outline is usually red in color.
         """
         # Start by getting the half-width of the crease
         half_crease_width = self.crease_width / 2.0
@@ -1024,8 +1076,37 @@ class GoalCreaseFill(BaseHockeyFeature):
 
     The goal crease is the area where a goaltender plays their position. It is
     comprised of two components: the outline of the crease (see documentation
-    for GoalCreaseOutline class), and the filling in its boundary. The goal
-    crease may have two notches (one on each side of the line y = 0).
+    for ``GoalCreaseOutline`` class), and the filling in its boundary. The goal
+    crease may have two notches (one on each side of the line ``y = 0``).
+
+    Attributes
+    ----------
+    crease_length : float
+        The distance from the center of the goal line to the start of the arc
+        of the goal crease
+
+    crease_width : float
+        The exterior width of the goal crease
+
+    notch_dist_x : float
+        The distance from the center of the goal line to the notch (if one
+        exists) in the goal crease
+
+    notch_width : float
+        The width of the notch (if one exists) in the goal crease
+
+    crease_style : str
+        The style of goal crease to implement. Viable options are:
+            - nhl98 : the current iteration of the NHL goal crease. This is
+                what is used for most professional leagues
+
+            - nhl92 : the previous iteration of an NHL goal crease. It is drawn
+                as a semi-circle with two L-shaped notches at the edge of the
+                crease intersecting the semi-circle
+
+            - ushl1 : the current iteration of a USA Hockey goal crease. This
+                is what is currently used in the USHL (United States Hockey
+                League)
     """
 
     def __init__(self, crease_style = "", crease_length = 0.0,
@@ -1044,7 +1125,7 @@ class GoalCreaseFill(BaseHockeyFeature):
         """Generate the points defining the goal crease's outline.
 
         The filling of the goal crease should have thickness given by
-        "minor_line_thickness", as this refers to the crease's outline, which
+        ``minor_line_thickness", as this refers to the crease's outline, which
         is a minor line on the ice surface. The goal crease's filling is
         usually light in color.
         """
@@ -1108,7 +1189,7 @@ class GoalCreaseFill(BaseHockeyFeature):
                 end = 1.5,
                 r = self.feature_radius - self.feature_thickness
             )
-        
+
         else:
             goal_crease_fill_df = pd.DataFrame({
                 "x": [0.0],
@@ -1124,10 +1205,22 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
     The goaltender's restricted area marks where a goaltender is legally
     allowed to handle the puck behind the net. This is often referred to as
     "the trapezoid" as it is trapezoidal in shape. Its line thickness should be
-    given by "minor_line_thickness" as this is a minor line on the ice surface.
+    given by ``minor_line_thickness`` as this is a minor line on the ice
+    surface.
 
     NOTE: This is not a requirement in all leagues, and may be omitted via the
-    "has_trapezoid" key in the rink_params passed to the HockeyRink() class
+    ``has_trapezoid`` key in the ``rink_params`` passed to the ``HockeyRink``
+    class
+
+    Attributes
+    ----------
+    short_base_width : float
+        The exterior base-width of the trapezoid (should it exist) that
+        along the goal line
+
+    long_base_width : float
+        The exterior base-width of the trapezoid (should it exist) that lies
+        along the boards
     """
 
     def __init__(self, short_base_width = 0.0, long_base_width = 0.0, *args,
@@ -1194,7 +1287,7 @@ class CenterFaceoffCircle(BaseHockeyFeature):
     differs from the non-centered faceoff circles in that there are no
     adjoining hash marks on this circle. It is also a different color than the
     non-centered faceoff circles. Its line thickness should be given by
-    "minor_line_thickness" as this is a minor line on the ice surface
+    ``minor_line_thickness`` as this is a minor line on the ice surface
     """
 
     def _get_centered_feature(self):
@@ -1240,10 +1333,21 @@ class ODZoneFaceoffCircle(BaseHockeyFeature):
     """A parameterization of the off-centered faceoff circles of a hockey rink.
 
     The non-centered faceoff circles are located in the offensive and defensive
-    zones of the ice, with one on each side of the x-axis when viewing the rink
-    in TV view. These circles differ from the center faceoff circle because
-    they have hash marks that extend towards the boards on each side of the
-    circle
+    zones of the ice, with one on each side of the ``x``-axis. These circles
+    differ from the center faceoff circle because they have hash marks that
+    extend towards the boards on each side of the circle
+
+    Attributes
+    ----------
+    hashmark_width : float
+        The width of the hashmarks on the exterior of the defensive and
+        offensive faceoff circles. Note that width refers to a distance solely
+        in the ``y`` direction
+
+    hashmark_ext_spacing : float
+        The exterior horizontal spacing between the hashmarks on the exterior
+        of the defensive and offensive faceoff circles. Note that this is
+        solely in the ``x`` direction
     """
 
     def __init__(self, hashmark_width = 0.0, hashmark_ext_spacing = 0.0, *args,
@@ -1262,7 +1366,7 @@ class ODZoneFaceoffCircle(BaseHockeyFeature):
         faceoff circle because there are adjoining hash marks on these circles.
         It is also a different color than the center ice faceoff circle, and
         the spot in the center of it varies in size and form. Its line
-        thickness should be given by "minor_line_thickness" as this is a minor
+        thickness should be given by ``minor_line_thickness" as this is a minor
         line on the ice surface
         """
         # To create a faceoff circle, start by finding the angle needed to draw
@@ -1373,14 +1477,14 @@ class NODZoneFaceoffSpotRing(BaseHockeyFeature):
     """A parameterization of the off-centered faceoff spot of a hockey rink.
 
     The non-centered faceoff spots are located in the neutral, offensive and
-    defensive zones of the ice, with one on each side of the x-axis when
-    viewing the rink in TV view. These spots differ from the center faceoff
-    spot because they have a larger diameter, differ in color, and have a
-    colored stripe that runs through its center.
+    defensive zones of the ice, with one on each side of the ``x``-axis. These
+    spots differ from the center faceoff spot because they have a larger
+    diameter, differ in color, and have a colored stripe that runs through its
+    center.
 
     This class is responsible for creating the outer ring, not the colored
     stripe running through it. Please see the documentation for the
-    NODZoneFaceoffSpotStripe class for more information on it
+    ``NODZoneFaceoffSpotStripe`` class for more information on it
     """
 
     def _get_centered_feature(self):
@@ -1389,7 +1493,7 @@ class NODZoneFaceoffSpotRing(BaseHockeyFeature):
         The non-centered faceoff spots are where faceoffs are taken after an
         icing call or to start a powerplay. They differ from the center ice
         faceoff spot in size, color, and form. The thickness should be given by
-        "minor_line_thickness" as these are minor lines on the ice surface
+        ``minor_line_thickness`` as these are minor lines on the ice surface
         """
         # The non-centered faceoff spots are comprised of an outer and inner
         # ring
@@ -1443,14 +1547,20 @@ class NODZoneFaceoffSpotStripe(BaseHockeyFeature):
     """A parameterization of the off-centered faceoff spot of a hockey rink.
 
     The non-centered faceoff spots are located in the neutral, offensive and
-    defensive zones of the ice, with one on each side of the x-axis when
-    viewing the rink in TV view. These spots differ from the center faceoff
-    spot because they have a larger diameter, differ in color, and have a
-    colored stripe that runs through its center.
+    defensive zones of the ice, with one on each side of the ``x``-axis. These
+    spots differ from the center faceoff spot because they have a larger
+    diameter, differ in color, and have a colored stripe that runs through its
+    center.
 
     This class is responsible for creating the inner stripe, not the colored
     outer ring around it. Please see the documentation for the
-    NODZoneFaceoffSpotRing class for more information on it
+    ``NODZoneFaceoffSpotRing`` class for more information on it
+
+    Attributes
+    ----------
+    gap_width : float
+        The gap between the interior edge of a non-centered faceoff spot ring
+        and the stripe running across it
     """
 
     def __init__(self, gap_width = 0.0, *args, **kwargs):
@@ -1466,7 +1576,7 @@ class NODZoneFaceoffSpotStripe(BaseHockeyFeature):
         icing call or to start a powerplay. They differ from the center ice
         faceoff spot in size, color, and form. For the faceoff spot's stripe,
         the "feature_thickness" parameter should be the thickness of the outer
-        ring, which is "minor_line_thickness"
+        ring, which is ``minor_line_thickness"
         """
         # The non-center face-off spots are wider in diameter, with a gap
         # between the top and bottom of the spot and the strip in the center.
@@ -1517,6 +1627,28 @@ class ODZoneFaceoffLines(BaseHockeyFeature):
     These lines are the L-shaped lines where players on each team line up when
     taking a faceoff in either the offensive or defensive zones. There are four
     of these faceoff lines around each offensive/defensive faceoff spot
+
+    Attributes
+    ----------
+    faceoff_line_dist_x : float
+        The distance from the center of the defensive and offensive faceoff
+        spot to the left-most edge of the upper-right faceoff line
+
+    faceoff_line_dist_y: float
+        The distance from the center of the defensive and offensive faceoff
+        spot to the bottom edge of the upper-right faceoff line
+
+    faceoff_line_length : float
+        The exterior length of the faceoff line
+
+    faceoff_line_width : float
+        The exterior width of the faceoff line
+
+    over_x : bool
+        Whether or not the line should be reflected over the ``x`` axis
+
+    over_y : bool
+        Whether or not the line should be reflected over the ``y`` axis
     """
 
     def __init__(self, faceoff_line_dist_x = 0.0, faceoff_line_dist_y = 0.0,
@@ -1537,7 +1669,8 @@ class ODZoneFaceoffLines(BaseHockeyFeature):
         """Generate the points defining the faceoff lines.
 
         These lines are L-shaped, but can be thought of as two rectangles with
-        thickness given by "minor_line_thickness", and are usually red in color
+        thickness given by ``minor_line_thickness", and are usually red in
+        color
         """
         # Create the L-shaped path
         faceoff_line_df = pd.DataFrame({
@@ -1579,7 +1712,23 @@ class GoalFrame(BaseHockeyFeature):
     score a legal goal. The front face of the goal is flush with the goal line,
     while the back edge features rounded corners and expands outside of the
     front posts. The goal frame is composed of two pieces: the frame (this
-    class) and the fill (see GoalFrameFill documentation)
+    class) and the fill (see ``GoalFrameFill`` documentation)
+
+    Attributes
+    ----------
+    goal_mouth_width : float
+        The interior distance between the goalposts
+
+    goal_back_width : float
+        The exterior distance between the widest part of the goal frame's
+        footprint
+
+    goal_depth : float
+        The depth of the goal frame from the center of the goal line to the
+        exterior of the back pipe of the goal frame
+
+    post_diameter : float
+        The diameter of the posts of the goal frame
     """
 
     def __init__(self, goal_mouth_width = 0.0, goal_back_width = 0.0,
@@ -1669,7 +1818,23 @@ class GoalFrameFill(BaseHockeyFeature):
     score a legal goal. The front face of the goal is flush with the goal line,
     while the back edge features rounded corners and expands outside of the
     front posts. The goal frame is composed of two pieces: the frame (see
-    GoalFrame documentation) and the fill (this class)
+    ``GoalFrame`` documentation) and the fill (this class)
+
+    Attributes
+    ----------
+    goal_mouth_width : float
+        The interior distance between the goalposts
+
+    goal_back_width : float
+        The exterior distance between the widest part of the goal frame's
+        footprint
+
+    goal_depth : float
+        The depth of the goal frame from the center of the goal line to the
+        exterior of the back pipe of the goal frame
+
+    post_diameter : float
+        The diameter of the posts of the goal frame
     """
 
     def __init__(self, goal_mouth_width = 0.0, goal_back_width = 0.0,
@@ -1737,6 +1902,14 @@ class PlayerBenchOutline(BaseHockeyFeature):
     The player benches are the areas outside the confines of the rink where
     players not currently on the ice are seated. They are to be on the same
     side of the ice surface and separate, as close to center ice as possible
+
+    Attributes
+    ----------
+    bench_length : float
+        The exterior length of a single team's bench area
+
+    bench_depth : float
+        The interior depth off the boards of a single team's bench area
     """
 
     def __init__(self, bench_length = 0.0, bench_depth = 0.0, *args, **kwargs):
@@ -1788,6 +1961,18 @@ class PenaltyBoxOutline(BaseHockeyFeature):
     players serve time for a penalty incurred. They are to be on the same
     side of the ice surface and separate, as close to center ice as possible,
     for each team. This will also include the off-ice officials' box
+
+    Attributes
+    ----------
+    penalty_box_length : float
+        The interior length of a single penalty box
+
+    penalty_box_depth : float
+        The interior depth off of the boards of a single team's penalty box
+
+    penalty_box_separation : float
+        The distance that separates each team's penalty box area. This should
+        be equivalent to the length of the off-ice officials' box
     """
 
     def __init__(self, penalty_box_length = 0.0, penalty_box_depth = 0.0,
@@ -1864,6 +2049,14 @@ class PlayerBenchFill(BaseHockeyFeature):
     The player benches are the areas outside the confines of the rink where
     players not currently on the ice are seated. They are to be on the same
     side of the ice surface and separate, as close to center ice as possible
+
+    Attributes
+    ----------
+    bench_length : float
+        The exterior length of a single team's bench area
+
+    bench_depth : float
+        The interior depth off the boards of a single team's bench area
     """
 
     def __init__(self, bench_length = 0.0, bench_depth = 0.0, *args, **kwargs):
@@ -1895,7 +2088,19 @@ class PenaltyBoxFill(BaseHockeyFeature):
     players serve time for a penalty incurred. They are to be on the same
     side of the ice surface and separate, as close to center ice as possible,
     for each team. This will not include the off-ice officials' box; see the
-    documentation for the OffIceOfficialsBox class for more information
+    documentation for the ``OffIceOfficialsBox`` class for more information
+
+    Attributes
+    ----------
+    penalty_box_length : float
+        The interior length of a single penalty box
+
+    penalty_box_depth : float
+        The interior depth off of the boards of a single team's penalty box
+
+    penalty_box_separation : float
+        The distance that separates each team's penalty box area. This should
+        be equivalent to the length of the off-ice officials' box
     """
 
     def __init__(self, penalty_box_length = 0.0, penalty_box_depth = 0.0,
@@ -1927,11 +2132,20 @@ class OffIceOfficialsBox(BaseHockeyFeature):
 
     The off-ice officials' box is located between the two penalty boxes,
     opposite the team bench areas
+
+    Attributes
+    ----------
+    officials_box_length : float
+        The interior length of the off-ice officials' box
+
+    officials_box_depth : float
+        The interior depth off of the boards of the off-ice officials' box
     """
 
     def __init__(self, officials_box_length = 0.0, officials_box_depth = 0.0,
                  *args, **kwargs):
-        # Initialize the relevant features specific to the penalty box
+        # Initialize the relevant features specific to the off-ice officials'
+        # box
         self.officials_box_length = officials_box_length
         self.officials_box_depth = officials_box_depth
         super().__init__(*args, **kwargs)

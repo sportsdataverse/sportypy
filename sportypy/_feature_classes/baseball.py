@@ -1,9 +1,10 @@
-"""Extensions of the BaseFeature class to be specific to baseball fields.
+"""Extensions of the ``BaseFeature`` class to be specific to baseball fields.
 
 The features are all parameterized by the basic characteristics of a baseball
 field. A user can manually specify their own field parameters in the
-BaseballField class that will adjust the placement of these features, however
-the features themselves will be consistent across all baseball surfaces.
+``BaseballField`` class that will adjust the placement of these features,
+however the features themselves will be consistent across all baseball
+surfaces.
 
 @author: Ross Drucker
 """
@@ -14,41 +15,32 @@ from sportypy._base_classes._base_feature import BaseFeature
 
 
 class BaseBaseballFeature(BaseFeature):
-    """An extension of the BaseFeature class for baseball features.
+    """An extension of the ``BaseFeature`` class for baseball features.
 
     The following attributes are specific to baseball features only. For more
-    information on inherited attributes, please see the BaseFeature class
+    information on inherited attributes, please see the ``BaseFeature`` class
     definition. The default values are provided to ensure that the feature can
     at least be created.
 
     Attributes
     ----------
-    field_length : float (default: 0.0)
-        The length of the field in TV view
-
-    field_width : float (default: 0.0)
-        The width of the field in TV view
-
-    feature_radius : float (default: 0.0)
+    feature_radius : float
         The radius needed to draw the feature. This may not be needed for all
-        features
+        features. The default is ``0.0``
 
-    feature_thickness : float (default: 0.0)
+    feature_thickness : float
         The thickness with which to draw the feature. This is normally given
         as the horizontal width of the feature in TV view, however it may be
-        used to specify other thicknesses as needed
+        used to specify other thicknesses as needed. The default is ``0.0``
+
+    field_units : str
+        The units with which the feature is drawn. The default is ``"ft"``
     """
 
-    def __init__(self, field_length = 0.0, field_width = 0.0,
-                 feature_radius = 0.0, feature_thickness = 0.0,
+    def __init__(self, feature_radius = 0.0, feature_thickness = 0.0,
                  feature_units = "ft", *args, **kwargs):
-
-        # Set the full-sized dimensions of the field
-        self.field_length = field_length
-        self.field_width = field_width
-        self.feature_units = feature_units
-
         # Set the characteristics of the feature
+        self.feature_units = feature_units
         self.feature_radius = feature_radius
         self.feature_thickness = feature_thickness
         super().__init__(*args, **kwargs)
@@ -89,6 +81,23 @@ class InfieldDirt(BaseBaseballFeature):
     The home plate circle may be drawn over in other shapes as needed (example:
     Detroit's Comerica Park has a home plate shaped dirt area as the home plate
     "circle")
+
+    Attributes
+    ----------
+    home_plate_circle_radius : float
+        The radius of the dirt circle surrounding home plate
+
+    foul_line_to_foul_grass : float
+        The distance from the outer edge of the foul line to the inner edge of
+        the grass in foul territory
+
+    pitchers_plate_dist : float
+        The distance from the front edge of the pitcher's plate to the back tip
+        of home plate
+
+    infield_arc_radius : float
+        The distance from the front edge of the pitcher's mound to the back of
+        the infield dirt
     """
 
     def __init__(self, home_plate_circle_radius = 0.0,
@@ -179,11 +188,23 @@ class InfieldGrass(BaseBaseballFeature):
 
     This is the area between the basepaths and the outfield that give the
     infield definition
+
+    Attributes
+    ----------
+    foul_line_to_infield_grass : float
+        The distance from the outer edge of the foul line to the outer edge of
+        the infield grass
+
+    home_plate_circle_radius : float
+        The radius of the dirt circle surrounding home plate
+
+    baseline_distance : float
+        The distance of each baseline
     """
 
     def __init__(self, foul_line_to_infield_grass = 0.0,
                  home_plate_circle_radius = 0.0, baseline_distance = 0.0,
-                 baseline_to_infield_grass = 0.0, *args, **kwargs):
+                 *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.foul_line_to_infield_grass = foul_line_to_infield_grass
         self.home_plate_circle_radius = home_plate_circle_radius
@@ -209,10 +230,10 @@ class InfieldGrass(BaseBaseballFeature):
             home_plate_1b_x0
         ])
 
-        try:
+        if len(home_plate_1b_roots[home_plate_1b_roots > 0]) > 0:
             home_plate_1b_x = home_plate_1b_roots[home_plate_1b_roots > 0][0]
 
-        except:
+        else:
             home_plate_1b_x = self.home_plate_circle_radius
 
         try:
@@ -236,10 +257,10 @@ class InfieldGrass(BaseBaseballFeature):
             home_plate_3b_x0
         ])
 
-        try:
+        if len(home_plate_3b_roots[home_plate_3b_roots < 0]) > 0:
             home_plate_3b_x = home_plate_3b_roots[home_plate_3b_roots < 0][0]
 
-        except:
+        else:
             home_plate_3b_x = self.home_plate_circle_radius
 
         try:
@@ -341,6 +362,11 @@ class HomePlate(BaseBaseballFeature):
     """Home plate.
 
     The back tip of home plate will be located at the origin.
+
+    Attributes
+    ----------
+    home_plate_edge_length : float
+        The length of a full side of home plate
     """
 
     def __init__(self, home_plate_edge_length = 0.0, *args, **kwargs):
@@ -381,6 +407,17 @@ class Base(BaseBaseballFeature):
     """A base on the diamond.
 
     The base is where a runner is considered safe
+
+    Attributes
+    ----------
+    base_side_length : float
+        The length of one side of a square base
+
+    adjust_x_left : bool
+        Whether or not to adjust the base's ``x`` anchor to the left
+
+    adjust_x_right : bool
+        Whether or not to adjust the base's ``x`` anchor to the right
     """
 
     def __init__(self, base_side_length = 0.0, adjust_x_left = False,
@@ -445,6 +482,12 @@ class PitchersPlate(BaseBaseballFeature):
 
     This is also known as the rubber. It is where a pitcher must throw the ball
     from to start the play
+
+    Attributes
+    ----------
+    pitchers_plate_length : float
+        The length of the pitcher's plate (the dimension in the ``x``
+        direction)
     """
 
     def __init__(self, pitchers_plate_length = 0.0, *args, **kwargs):
@@ -472,6 +515,20 @@ class BattersBox(BaseBaseballFeature):
     """The box in which batters stand when batting.
 
     The boxes are located around home plate
+
+    Attributes
+    ----------
+    batters_box_length : float
+        The length of the batter's box (in the ``y`` direction) measured from
+        the outside of the chalk lines
+
+    batters_box_width : float
+        The width of the batter's box (in the ``x`` direction) measured from
+        the outside of the chalk lines
+
+    batters_box_y_adj : float
+        The shift off of center in the ``y`` direction that the batter's box
+        needs to be moved to properly align
     """
 
     def __init__(self, batters_box_length = 0.0, batters_box_width = 0.0,
@@ -528,6 +585,34 @@ class CatchersBox(BaseBaseballFeature):
 
     The catcher's box is located behind home plate, connecting to the back
     edges of the batters' boxes
+
+    Attributes
+    ----------
+    catchers_box_depth : float
+        The distance from the back tip of home plate to the back edge of the
+        catcher's box
+
+    catchers_box_width : float
+        The distance between the outer edges of the catcher's box
+
+    batters_box_length : float
+        The length of the batter's box (in the ``y`` direction) measured from
+        the outside of the chalk lines
+
+    batters_box_width : float
+        The width of the batter's box (in the ``x`` direction) measured from
+        the outside of the chalk lines
+
+    catchers_box_shape : str
+        The shape of the catcher's box. Currently-supported values are:
+
+            - ``"rectangle"`` (default behavior)
+            - ``"trapezoid"`` (see ``sportypy.surfaces.LittleLeagueField`` for
+                example)
+
+    batters_box_y_adj : float
+        The shift off of center in the ``y`` direction that the batter's box
+        needs to be moved to properly align
     """
 
     def __init__(self, catchers_box_depth = 0.0, catchers_box_width = 0.0,
@@ -651,20 +736,44 @@ class FoulLine(BaseBaseballFeature):
     """The lines that designate fair territory from foul territory.
 
     Since a ball on the line is considered in fair territory, the outer edge of
-    the baseline must lie in fair territory (aka the line y = +/- x)
+    the baseline must lie in fair territory (aka the line ``y = +/- x``)
+
+    Attributes
+    ----------
+    is_line_1b : bool
+        Whether or not the foul line is the first base line
+
+    line_distance : float
+        The length of the foul line
+
+    batters_box_length : float
+        The length of the batter's box (in the ``y`` direction) measured from
+        the outside of the chalk lines
+
+    batters_box_width : float
+        The width of the batter's box (in the ``x`` direction) measured from
+        the outside of the chalk lines
+
+    batters_box_y_adj : float
+        The shift off of center in the ``y`` direction that the batter's box
+        needs to be moved to properly align
+
+    home_plate_side_to_batters_box : float
+        The distance from the outer edge of the batter's box to the outer edge
+        of home plate
     """
 
-    def __init__(self, is_line_1b = False, running_lane_depth = 0.0,
-                 line_distance = 0.0, batters_box_length = 0.0,
-                 batters_box_width = 0.0, batters_box_y_adj = 0.0,
-                 home_plate_side_to_batters_box = 0.0, *args, **kwargs):
+    def __init__(self, is_line_1b = False, line_distance = 0.0,
+                 batters_box_length = 0.0, batters_box_width = 0.0,
+                 batters_box_y_adj = 0.0, home_plate_side_to_batters_box = 0.0,
+                 *args, **kwargs):
         # Initialize the attributes unique to this feature
         self.is_line_1b = is_line_1b
         self.line_distance = line_distance
         self.batters_box_length = batters_box_length
         self.batters_box_width = batters_box_width
-        self.home_plate_side_to_batters_box = home_plate_side_to_batters_box
         self.batters_box_y_adj = batters_box_y_adj
+        self.home_plate_side_to_batters_box = home_plate_side_to_batters_box
         super().__init__(*args, **kwargs)
 
     def _get_centered_feature(self):
@@ -741,6 +850,23 @@ class RunningLane(BaseBaseballFeature):
 
     This is entirely in foul territory. The depth should be measured from the
     foul-side edge of the baseline to the outer edge of the running lane mark
+
+    Attributes
+    ----------
+    running_lane_length : float
+        The straight-line length of the running lane measured from the point
+        nearest home plate. As an example, if the base lines are 90 feet, and
+        the running lane starts a distance of 45 feet down the line from the
+        back tip of home plate, and extends 3 feet beyond first base, this
+        parameter would be given as ``48.0``
+
+    running_lane_depth : float
+        The straight-line distance from the outer edge of the first-base line
+        to the outer edge of the running lane
+
+    running_lane_start_distance : float
+        The straight-line distance from the back tip of home plate to the start
+        of the running lane
     """
 
     def __init__(self, running_lane_depth = 0.0, running_lane_length = 0.0,

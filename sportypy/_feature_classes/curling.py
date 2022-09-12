@@ -1,31 +1,43 @@
+"""Extensions of the ``BaseFeature`` class to be specific to curling sheets.
+
+The features are all parameterized by the basic characteristics of a curling
+sheet. A user can manually specify their own court parameters in the
+``CurlingSheet`` class that will adjust the placement of these features,
+however the features themselves will be consistent across all curling surfaces.
+
+@author: Ross Drucker
+"""
 import pandas as pd
 from sportypy._base_classes._base_feature import BaseFeature
 
 
 class BaseCurlingFeature(BaseFeature):
-    """An extension of the BaseFeature class specifically for curling features.
+    """An extension of the BaseFeature class for curling features.
 
     The following attributes are specific to curling features only. For more
-    information on inherited attributes, please see the BaseFeature class
+    information on inherited attributes, please see the ``BaseFeature`` class
     definition. The default values are provided to ensure that the feature can
     at least be created.
 
     Attributes
     ----------
-    sheet_length : float (default: 0.0)
-        The length of the sheet in TV view
+    sheet_length : float
+        The length of the sheet in TV view. The default is ``0.0``
 
-    sheet_width : float (default: 0.0)
-        The width of the sheet in TV view
+    sheet_width : float
+        The width of the sheet in TV view. The default is ``0.0``
 
-    feature_radius : float (default: 0.0)
+    feature_radius : float
         The radius needed to draw the feature. This may not be needed for all
-        features
+        features. The default is ``0.0``
 
-    feature_thickness : float (default: 0.0)
+    feature_thickness : float
         The thickness with which to draw the feature. This is normally given
         as the horizontal width of the feature in TV view, however it may be
-        used to specify other thicknesses as needed
+        used to specify other thicknesses as needed. The default is ``0.0``
+
+    field_units : str
+        The units with which the feature is drawn. The default is ``"ft"``
     """
 
     def __init__(self, sheet_length = 0.0, sheet_width = 0.0,
@@ -78,6 +90,18 @@ class End(BaseCurlingFeature):
 
     The end is the area between the center-side edge of the hog line and the
     back board behind the nearest house
+
+    Attributes
+    ----------
+    tee_line_to_center : float
+        The distance from the center of the shet to the center of the tee line
+
+    hog_line_to_tee_line : float
+        The distance from the inside edge of the hog line (the edge nearest the
+        house) to the tee line
+
+    drawn_direction : str
+        The direction in which to draw the end of the sheet
     """
 
     def __init__(self, tee_line_to_center = 0.0, hog_line_to_tee_line = 0.0,
@@ -122,6 +146,15 @@ class CentreZone(BaseCurlingFeature):
     """A parameterization of the centre zone of the curling sheet.
 
     This is the area located between the hog lines
+
+    Attributes
+    ----------
+    tee_line_to_center : float
+        The distance from the center of the shet to the center of the tee line
+
+    hog_line_to_tee_line : float
+        The distance from the inside edge of the hog line (the edge nearest the
+        house) to the tee line
     """
 
     def __init__(self, tee_line_to_center = 0.0, hog_line_to_tee_line = 0.0,
@@ -156,6 +189,16 @@ class SheetApron(BaseCurlingFeature):
 
     This feature may be negligible in thickness, but it does help provide more
     definition to the sheet itself
+
+    Attributes
+    ----------
+    apron_behind_back : float
+        The dimension of the sheet's apron behind the back board. In TV view,
+        this is in the ``y`` direction
+
+    apron_along_side : float
+        The dimension of the sheet's apron beyond the side wall. In TV view,
+        this is in the +``x`` direction
     """
 
     def __init__(self, apron_behind_back = 0.0, apron_along_side = 0.0, *args,
@@ -206,6 +249,15 @@ class CentreLine(BaseCurlingFeature):
     """A parameterization of the centre line.
 
     This is the line that runs the full length (from hack to hack) on the sheet
+
+    Attributes
+    ----------
+    tee_line_to_center : float
+        The distance from the center of the shet to the center of the tee line
+
+    centre_line_extension : float
+        The distance beyond the center of the tee line that the centre line
+        extends towards the back wall
     """
 
     def __init__(self, tee_line_to_center = 0.0, centre_line_extension = 0.0,
@@ -299,6 +351,12 @@ class HackLine(BaseCurlingFeature):
     """A parameterization of the hack line.
 
     This is the line that runs between each foothold in the hack
+
+    Attributes
+    ----------
+    hack_width : float
+        The full width of the hack, measured from the outer edge of each of the
+        footholds
     """
 
     def __init__(self, hack_width = 0.0, *args, **kwargs):
@@ -326,6 +384,12 @@ class CourtesyLine(BaseCurlingFeature):
 
     These lines are where players stand during the delivery process of each
     stone when the opposing team is throwing
+
+    Attributes
+    ----------
+    courtesy_line_length : float
+        The distance outward from the inner edge of the side wall that the
+        courtesy line extends towards the center of the sheet
     """
 
     def __init__(self, courtesy_line_length = 0.0, *args, **kwargs):
@@ -353,6 +417,15 @@ class HackFoothold(BaseCurlingFeature):
 
     There are two footholds in each hack. This feature only plots one of the
     footholds
+
+    Attributes
+    ----------
+    hack_foothold_gap : float
+        The interior separation between the two footholds in the hack
+
+    hack_foothold_depth : float
+        The distance from the house-side to the back wall side of the foothold
+        of the hack. The back of the foothold will lie along the hack line
     """
 
     def __init__(self, foothold_depth = 0.0, foothold_width = 0.0, *args,

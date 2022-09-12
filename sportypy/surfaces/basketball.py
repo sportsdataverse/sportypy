@@ -1,11 +1,11 @@
-"""Extension of the BaseSurfacePlot class to create a basketball court.
+"""Extension of the ``BaseSurfacePlot`` class to create a basketball court.
 
-This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. Sportypy will ship with pre-defined
-leagues that will have their own subclass, but a user can manually specify
-their own court parameters to create a totally-customized court. The court's
-features are parameterized by the basic dimensions of the court, which comprise
-the attributes of the class.
+This is a second-level child class of the ``BaseSurface`` class, and as such
+will have access to its attributes and methods. ``sportypy`` will ship with
+pre-defined leagues that will have their own subclass, but a user can manually
+specify their own court parameters to create a totally-customized court. The
+court's features are parameterized by the basic dimensions of the court, which
+comprise the attributes of the class.
 
 @author: Ross Drucker
 """
@@ -18,256 +18,299 @@ from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
 class BasketballCourt(BaseSurfacePlot):
-    """A subclass of BaseSurfacePlot to make a generic basketball court.
+    """A subclass of ``BaseSurfacePlot`` to make a generic basketball court.
 
     This allows for the creation of the basketball court in a way that is
     entirely parameterized by the court's baseline characteristics.
 
-    All attributes should default to 0.0 (if of a numeric type) or an empty
+    All attributes should default to ``0.0`` (if of a numeric type) or an empty
     string (if of a string type). Customized parameters may be specified via a
     child class (see below) or by directly specifying all necessary attributes
     of a valid basketball court. The attributes needed to instantiate a
-    particular league's surface must be specified in the court_params
-    dictionary. For many leagues, these will be provided in the basketball.json
-    file in the data/ subdirectory of this module.
+    particular league's surface must be specified in the ``court_params``
+    dictionary. For many leagues, these will be provided in the
+    surface_dimensions.json file in the data/ subdirectory of ``sportypy``.
 
-    See the BaseSurfacePlot and BaseSurface class definitions for full details.
-
-    NOTE: Any attribute below that is prefixed with an asterisk (*) should be
-    specified via the court_updates dictionary as these parameters are specific
-    to each league. Attributes prefixed with a hyphen (-) are specified at the
-    time that the surface class is created
+    See the ``BaseSurfacePlot`` and ``BaseSurface`` class definitions for full
+    details.
 
     Attributes
     ----------
-    - league_code : str (default: "")
+    league_code : str
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "National
-        Basketball Association" should be either "NBA" or "nba")
+        Basketball Association" should be either "NBA" or "nba"). The default
+        is an empty string
 
-    - rotation : float (default: 0.0)
-        The angle (in degrees) through which to rotate the final plot
+    rotation_amt : float
+        The angle (in degrees) through which to rotate the final plot. The
+        default is ``0.0``
 
-    - x_trans : float (default: 0.0)
-        The amount that the x coordinates are to be shifted. By convention,
-        the +x axis extends from the center of the surface towards the
-        right-hand basket when viewing the court in TV view
+    x_trans : float
+        The amount that the ``x`` coordinates are to be shifted. By convention,
+        the +``x`` axis extends from the center of the surface towards the
+        right-hand basket when viewing the court in TV view. The default is
+        ``0.0``
 
-    - y_trans : float (default: 0.0)
-        The amount that the y coordinates are to be shifted. By convention,
-        the +y axis extends from the center of the surface towards the
-        top of the court when viewing the court in TV view
+    y_trans : float
+        The amount that the ``y`` coordinates are to be shifted. By convention,
+        the +``y`` axis extends from the center of the surface towards the
+        top of the court when viewing the court in TV view. The default is
+        ``0.0``
 
-    - color_updates : dict
-        A dictionary of coloring parameters to pass to the plot. Defaults are
-        provided in the class per each rule book, but this allows the plot to
-        be more heavily customized/styled
+    feature_colors : dict
+        A dictionary of coloring parameters to pass to the plot
 
-    - units : str (default: "default")
-        The units that the final plot should utilize. The default units are the
-        units specified in the rule book of the league
+    court_params : dict
+        A dictionary containing the following parameters of the court:
 
-    * court_length : float
-        The length of the court in the court's specified units
+        - court_length : float
+            The length of the court
 
-    * court_width : float
-        The width of the court in the court's specified units
+        - court_width : float
+            The width of the court
 
-    * line_thickness : float
-        The thickness of the lines of the court in the court's specified units
+        - line_thickness : float
+            The thickness of the lines of the court in the court's specified
+            units
 
-    * bench_side : str
-        The side, in "TV View" where the team benches are located
+        - bench_side : str
+            The side, in TV view where the team benches are located
 
-    * court_apron_endline : float
-        The thickness of the court's apron beyond the endline in the court's
-        specified units
+        - court_apron_endline : float
+            The thickness of the court's apron beyond the endline
 
-    * court_apron_sideline : float
-        The thickness of the court's apron beyond the sideline in the court's
-        specified units
+        - court_apron_sideline : float
+            The thickness of the court's apron beyond the sideline
 
-    * court_apron_to_boundary : float
-        The distance from the inner edge of the court apron to the outer edge
-        of the court's boundary line (sideline and endline will be spaced the
-        same) in the court's specified units
+        - court_apron_to_boundary : float
+            The distance from the inner edge of the court apron to the outer
+            edge of the court's boundary line (sideline and endline will be
+            spaced the same)
 
-    * center_circle_radius : list or float
-        The radius (radii) of the court's center circle(s) in the court's
-        specified units. These should be measured from the center of the court
-        to the outer edge of the circle. When providing a list (e.g. for the
-        NBA), these values should go in decreasing order
+        - center_circle_radius : list or float
+            The radius (radii) of the court's center circle(s) in the court's
+            specified units. These should be measured from the center of the
+            court to the outer edge of the circle. When providing a list (e.g.
+            for the NBA), these values should go in decreasing order
 
-    * division_line_extension : float
-        The distance that the division line extends beyond the sidelines. This
-        may be omitted if the value is 0
+        - division_line_extension : float
+            The distance that the division line extends beyond the sidelines.
+            This may be omitted if the value is 0
 
-    * basket_center_to_baseline : float
-        The distance from the center of the basket ring to the inner edge of
-        the baseline in the court's specified units
+        - basket_center_to_baseline : float
+            The distance from the center of the basket ring to the inner edge
+            of the baseline
 
-    * basket_center_to_three_point_arc : float
-        The distance from the cetner of the basket ring to the outer edge of
-        the arc of the three point line in the court's specified units
+        - basket_center_to_three_point_arc : float
+            The distance from the cetner of the basket ring to the outer edge
+            of the arc of the three point line
 
-    * basket_center_to_corner_three : float
-        The distance from the center of the basket ring to the outer edge of
-        the three-point line in the corner in the court's specified units
+        - basket_center_to_corner_three : float
+            The distance from the center of the basket ring to the outer edge
+            of the three-point line in the corner
 
-    * backboard_face_to_baseline : float
-        The distance from the face of the backboard to the inner edge of the
-        baseline in the court's specified units
+        - backboard_face_to_baseline : float
+            The distance from the face of the backboard to the inner edge of
+            the baseline
 
-    * lane_length : float
-        The distance from the inner edge of the baseline to the center-court
-        side of the free-throw lane in the court's specified units in TV View
+        - lane_length : float
+            The distance from the inner edge of the baseline to the
+            center-court side of the free-throw lane in the court's specified
+            units in TV view
 
-    * lane_width : float
-        The distance from the outer edges of the free-throw lane in the court's
-        specified units when viewing the court in TV View
+        - lane_width : float
+            The distance from the outer edges of the free-throw lane when
+            viewing the court in TV view
 
-    * paint_margin : float
-        The distance from the painted area of the lane to the lane boundary
-        lines in the court's specified units
+        - paint_margin : float
+            The distance from the painted area of the lane to the lane boundary
+            lines
 
-    * free_throw_circle_radius : float
-        The radius of the free-throw circle, measured from the center of the
-        free-throw line, given in the court's specified units
+        - free_throw_circle_radius : float
+            The radius of the free-throw circle, measured from the center of
+            the free-throw line, given
 
-    * free_throw_line_to_backboard : float
-        The distance from the free-throw line to the face of the backboard
-        in the court's specified units
+        - free_throw_line_to_backboard : float
+            The distance from the free-throw line to the face of the backboard
 
-    * free_throw_circle_overhang : float
-        The arc length of any part of the free-throw circle that extends beyond
-        the free-throw line in the court's specified units
+        - free_throw_circle_overhang : float
+            The arc length of any part of the free-throw circle that extends
+            beyond the free-throw line
 
-    * n_free_throw_circle_dashes : float
-        The number of dashes that comprise the free-throw circle
+        - n_free_throw_circle_dashes : float
+            The number of dashes that comprise the free-throw circle
 
-    * free_throw_dash_length : float
-        The arc length of each dash of the free-throw circle
+        - free_throw_dash_length : float
+            The arc length of each dash of the free-throw circle
 
-    * free_throw_dash_spacing : float
-        The arc length of the gap between each dash of the free-throw circle
+        - free_throw_dash_spacing : float
+            The arc length of the gap between each dash of the free-throw
+            circle
 
-    * lane_space_mark_lengths : float or list of either lists or floats
-        The length (measurement in the baseline-to-free-throw-line direction)
-        of lane space marks (blocks) of the free-throw lane in the court's
-        specified units
+        - lane_space_mark_lengths : float or list of either lists or floats
+            The length (measurement in the baseline-to-free-throw-line
+            direction) of lane space marks (blocks) of the free-throw lane
 
-    * lane_space_mark_widths : float or list of either lists or floats
-        The widths (measurement in the sideline-to-sideline direction) of the
-        lane space marks (blocks) of the free-throw lane in the court's
-        specified units
+        - lane_space_mark_widths : float or list of either lists or floats
+            The widths (measurement in the sideline-to-sideline direction) of
+            the lane space marks (blocks) of the free-throw lane in the court's
+            specified units
 
-    * lane_space_mark_separations : float or list of either lists or floats
-        The separations between each lane space mark in the court's specified
-        dimensions. The first "spacing" measurement corresponds to the distance
-        between the face of the backboard and the baseline-side edge of the
-        first/"low" block
+        - lane_space_mark_separations : float or list of either lists or floats
+            The separations between each lane space mark in the court's
+            specified dimensions. The first "spacing" measurement corresponds
+            to the distance between the face of the backboard and the
+            baseline-side edge of the first/"low" block
 
-    * painted_area_visibility : boolean or list of booleans
-        Whether or not to show the painted area. This is particularly useful if
-        more than one free-throw lane is specified (e.g. an NBA court with an
-        NCAA lane drawn in addition to the NBA-sized lane)
+        - painted_area_visibility : bool or list of bools
+            Whether or not to show the painted area. This is particularly
+            useful if more than one free-throw lane is specified (e.g. an NBA
+            court with an NCAA lane drawn in addition to the NBA-sized lane)
 
-    * lane_boundary_visibility : boolean or list of booleans
-        Whether or not to show the lane boundary. This is particularly useful
-        if more than one free-throw lane is specified (e.g. an NBA court with
-        an NCAA lane drawn in addition to the NBA-sized lane)
+        - lane_boundary_visibility : bool or list of bools
+            Whether or not to show the lane boundary. This is particularly
+            useful if more than one free-throw lane is specified (e.g. an NBA
+            court with an NCAA lane drawn in addition to the NBA-sized lane)
 
 
-    * lane_space_mark_visibility : boolean or list of booleans
-        Whether or not to draw the lane space marks. This is particularly
-        useful if more than one free-throw lane is specified (e.g. an NBA court
-        with an NCAA lane drawn in addition to the NBA-sized lane)
+        - lane_space_mark_visibility : bool or list of bools
+            Whether or not to draw the lane space marks. This is particularly
+            useful if more than one free-throw lane is specified (e.g. an NBA
+            court with an NCAA lane drawn in addition to the NBA-sized lane)
 
-    * lane_lower_defensive_box_marks_visibility : boolean or list of booleans
-        Whether or not to draw the lower defensive box markings that appear in
-        the free-throw lane/painted area in the court's specified units
+        - lane_lower_defensive_box_marks_visibility : bool or list of bools
+            Whether or not to draw the lower defensive box markings that appear
+            in the free-throw lane/painted area
 
-    * baseline_lower_defensive_box_marks_int_sep : float
-        The interior separation between the lower defensive box markings on the
-        baseline in the court's specified units
+        - baseline_lower_defensive_box_marks_int_sep : float
+            The interior separation between the lower defensive box markings on
+            the baseline
 
-    * baseline_to_lane_lower_defensive_box_marks : float
-        The interior distance from the inner edge of the baseline to the
-        baseline-side edge of the lower defensive box markings located in the
-        free-throw lane/painted area in the court's specified units
+        - baseline_to_lane_lower_defensive_box_marks : float
+            The interior distance from the inner edge of the baseline to the
+            baseline-side edge of the lower defensive box markings located in
+            the free-throw lane/painted area
 
-    * lane_lower_defensive_box_marks_int_sep : float
-        The interior separation between the lower defensive box markings in the
-        free-throw lane/painted area in the court's specified units
+        - lane_lower_defensive_box_marks_int_sep : float
+            The interior separation between the lower defensive box markings in
+            the free-throw lane/painted area
 
-    * lower_defensive_box_mark_extension : float
-        The distance that the lower defensive box markings extend from their
-        anchor points in the court's specified units
+        - lower_defensive_box_mark_extension : float
+            The distance that the lower defensive box markings extend from
+            their anchor points
 
-    * inbounding_line_to_baseline : float
-        The interior distance from the inner edge of the baseline to the
-        baseline-side edge of the inbounding line in the court's specified
-        units
+        - inbounding_line_to_baseline : float
+            The interior distance from the inner edge of the baseline to the
+            baseline-side edge of the inbounding line in the court's specified
+            units
 
-    * inbounding_line_anchor_side : float
-        The side where the primary inbounding lines are located. This should
-        be either 1.0 or -1.0, corresponding to the top or bottom of the court
-        in TV View, respectively
+        - inbounding_line_anchor_side : float
+            The side where the primary inbounding lines are located. This
+            should be either ``1.0`` or ``-1.0``, corresponding to the top or
+            bottom of the court in TV view, respectively
 
-    * inbounding_line_in_play_ext : float
-        The distance into the court (measured from the inner edge of the
-        sideline) that the inbounding lines protrude into the court in the
-        court's specified units
+        - inbounding_line_in_play_ext : float
+            The distance into the court (measured from the inner edge of the
+            sideline) that the inbounding lines protrude into the court
 
-    * inbounding_line_out_of_bounds_ext : float
-        The distance away from the court (measured from the outer edge of the
-        sideline) that the inbounding lines protrude away the court in the
-        court's specified units
+        - inbounding_line_out_of_bounds_ext : float
+            The distance away from the court (measured from the outer edge of
+            the sideline) that the inbounding lines protrude away the court
 
-    * symmetric_inbounding_line : boolean
-        Whether or not the inbounding lines are symmetric about the court
+        - symmetric_inbounding_line : bool
+            Whether or not the inbounding lines are symmetric about the court
 
-    * substitution_line_ext_sep : float
-        The external separation of the lines marking the substitution area in
-        the court's specified units
+        - substitution_line_ext_sep : float
+            The external separation of the lines marking the substitution area
 
-    * substitution_line_width : float
-        The distance away from the court (measured from the outer edge of the
-        sideline) that the substitution lines protrude away from the court in
-        the court's specified units
+        - substitution_line_width : float
+            The distance away from the court (measured from the outer edge of
+            the sideline) that the substitution lines protrude away from the
+            court
 
-    * restricted_arc_radius : float
-        The inner radius of the restricted arc in the court's specified units
+        - team_bench_line_ext : float
+            The distance that the team bench line extends from its anchor point
 
-    * backboard_width : float
-        The distance the backboard spans across the lane in the court's
-        specified units. This is the left-to-right dimension of the backboard a
-        free-throw shooter would see when shooting their free-throws
+        - restricted_arc_radius : float
+            The inner radius of the restricted arc in the court's specified
+            units
 
-    * backboard_thickness : float
-        The thickness of the backboard in the court's specified units. This is
-        the observed thickness when viewing the court from a bird's eye view
+        - backboard_width : float
+            The distance the backboard spans across the lane in the court's
+            specified units. This is the left-to-right dimension of the
+            backboard a free-throw shooter would see when shooting their
+            free-throws
 
-    * basket_ring_inner_radius : float
-        The inner radius of the basket ring in the court's specified units
+        - backboard_thickness : float
+            The thickness of the backboard. This
+            is the observed thickness when viewing the court from a bird's eye
+            view
 
-    * basket_ring_connector_width : float
-        The dimension of the piece of the basket ring that connects the
-        backboard to the basket ring in the court's specified units. When
-        viewing the court in TV view from above, this is the dimension in the
-        y direction
+        - basket_ring_inner_radius : float
+            The inner radius of the basket ring
 
-    * basket_ring_connector_extension : float
-        The distance the basket ring's connector extends from the backboard
-        into the free-throw lane in the court's specified units
+        - basket_ring_connector_width : float
+            The dimension of the piece of the basket ring that connects the
+            backboard to the basket ring. When viewing the court in TV view
+            from above, this is the dimension in the ``y`` direction
 
-    * basket_ring_thickness : float
-        The thickness of the basket ring in the court's specified units
+        - basket_ring_connector_extension : float
+            The distance the basket ring's connector extends from the backboard
+            into the free-throw lane
+
+        - basket_ring_thickness : float
+            The thickness of the basket ring
     """
 
     def __init__(self, league_code = "", court_updates = {},
                  color_updates = {}, rotation = 0.0, x_trans = 0.0,
                  y_trans = 0.0, units = "default", **added_features):
+        """Initialize an instance of a ``BasketballCourt`` class.
+
+        Parameters
+        ----------
+        league_code : str
+            The league for which the plot should be drawn. This is
+            case-insensitive but should be the shortened name of the league
+            (e.g. "National Basketball Association" should be either "NBA" or
+            "nba"). The default is an empty string
+
+        rotation : float
+            The angle (in degrees) through which to rotate the final plot. The
+            default is ``0.0``
+
+        x_trans : float
+            The amount that the ``x`` coordinates are to be shifted. By
+            convention, the +``x`` axis extends from the center of the surface
+            towards the right-hand basket when viewing the court in TV view.
+            The default is ``0.0``
+
+        y_trans : float
+            The amount that the ``y`` coordinates are to be shifted. By
+            convention, the +``y`` axis extends from the center of the surface
+            towards the top of the court when viewing the court in TV view. The
+            default is ``0.0``
+
+        court_updates : dict
+            A dictionary of updated parameters to use to create the basketball
+            court. The default is an empty dictionary
+
+        color_updates : dict
+            A dictionary of coloring parameters to pass to the plot. Defaults
+            are provided in the class per each rule book, but this allows the
+            plot to be more heavily customized/styled. The default is an empty
+            dictionary
+
+        units : str
+            The units that the final plot should utilize. The default units are
+            the units specified in the rule book of the league. The default is
+            ``"default"``
+
+        Returns
+        -------
+        Nothing, but instantiates the class
+        """
         # Load all pre-defined court dimensions for provided leagues
         self._load_preset_dimensions(sport = "basketball")
 
@@ -495,15 +538,15 @@ class BasketballCourt(BaseSurfacePlot):
             len(center_circle_fill_color)
         )
 
-        while(len(center_circle_radii) != n_center_circles):
+        while (len(center_circle_radii) != n_center_circles):
             if len(center_circle_radii) < n_center_circles:
                 center_circle_radii.append(0.0)
 
-        while(len(center_circle_outline_color) != n_center_circles):
+        while (len(center_circle_outline_color) != n_center_circles):
             if len(center_circle_outline_color) < n_center_circles:
                 center_circle_outline_color.append("#000000")
 
-        while(len(center_circle_fill_color) != n_center_circles):
+        while (len(center_circle_fill_color) != n_center_circles):
             if len(center_circle_fill_color) < n_center_circles:
                 center_circle_fill_color.append("#d2ab6f")
 
@@ -622,11 +665,11 @@ class BasketballCourt(BaseSurfacePlot):
             len(basket_center_to_corner_three)
         )
 
-        while(len(basket_center_to_three_point_arc) != n_three_point_lines):
+        while (len(basket_center_to_three_point_arc) != n_three_point_lines):
             if len(basket_center_to_three_point_arc) < n_three_point_lines:
                 basket_center_to_three_point_arc.append(0.0)
 
-        while(len(basket_center_to_corner_three) != n_three_point_lines):
+        while (len(basket_center_to_corner_three) != n_three_point_lines):
             if len(basket_center_to_corner_three) < n_three_point_lines:
                 basket_center_to_corner_three.append(0.0)
 
@@ -646,13 +689,13 @@ class BasketballCourt(BaseSurfacePlot):
         else:
             three_point_line_colors = self.feature_colors["three_point_line"]
 
-        while(len(two_point_range_colors) != n_three_point_lines):
+        while (len(two_point_range_colors) != n_three_point_lines):
             if len(two_point_range_colors) > n_three_point_lines:
                 two_point_range_colors.pop(-1)
             if len(two_point_range_colors) < n_three_point_lines:
                 two_point_range_colors.append("#d2ab6f")
 
-        while(len(three_point_line_colors) != n_three_point_lines):
+        while (len(three_point_line_colors) != n_three_point_lines):
             if len(three_point_line_colors) > n_three_point_lines:
                 three_point_line_colors.pop(-1)
             if len(three_point_line_colors) < n_three_point_lines:
@@ -821,31 +864,31 @@ class BasketballCourt(BaseSurfacePlot):
         if type(lane_boundary_colors) != list:
             lane_boundary_colors = [lane_boundary_colors]
 
-        while(len(painted_area_colors) != n_lanes):
+        while (len(painted_area_colors) != n_lanes):
             if len(painted_area_colors) < n_lanes:
                 painted_area_colors.append("#d2ab6f00")
 
-        while(len(lane_boundary_colors) != n_lanes):
+        while (len(lane_boundary_colors) != n_lanes):
             if len(lane_boundary_colors) < n_lanes:
                 lane_boundary_colors.append("#00000000")
 
-        while(len(lane_lengths) != n_lanes):
+        while (len(lane_lengths) != n_lanes):
             if len(lane_lengths) < n_lanes:
                 lane_lengths.append(0.0)
 
-        while(len(lane_widths) != n_lanes):
+        while (len(lane_widths) != n_lanes):
             if len(lane_widths) < n_lanes:
                 lane_widths.append(0.0)
 
-        while(len(paint_margins) != n_lanes):
+        while (len(paint_margins) != n_lanes):
             if len(paint_margins) < n_lanes:
                 paint_margins.append(0.0)
 
-        while(len(painted_area_visibility) != n_lanes):
+        while (len(painted_area_visibility) != n_lanes):
             if len(painted_area_visibility) < n_lanes:
                 painted_area_visibility.append(False)
 
-        while(len(lane_boundary_visibility) != n_lanes):
+        while (len(lane_boundary_visibility) != n_lanes):
             if len(lane_boundary_visibility) < n_lanes:
                 lane_boundary_visibility.append(False)
 
@@ -986,19 +1029,19 @@ class BasketballCourt(BaseSurfacePlot):
                 [False]
             )
 
-        while(len(lane_space_mark_lengths) != n_lanes):
+        while (len(lane_space_mark_lengths) != n_lanes):
             if len(lane_space_mark_lengths) < n_lanes:
                 lane_space_mark_lengths.append([])
 
-        while(len(lane_space_mark_widths) != n_lanes):
+        while (len(lane_space_mark_widths) != n_lanes):
             if len(lane_space_mark_widths) < n_lanes:
                 lane_space_mark_widths.append([])
 
-        while(len(lane_space_mark_separations) != n_lanes):
+        while (len(lane_space_mark_separations) != n_lanes):
             if len(lane_space_mark_separations) < n_lanes:
                 lane_space_mark_separations.append([])
 
-        while(len(lane_space_mark_visibility) != n_lanes):
+        while (len(lane_space_mark_visibility) != n_lanes):
             if len(lane_space_mark_visibility) < n_lanes:
                 lane_space_mark_visibility.append([])
 
@@ -1009,11 +1052,11 @@ class BasketballCourt(BaseSurfacePlot):
 
         y_anchors = []
         for lane_no in range(0, n_lanes):
-            while(len(lane_space_mark_lengths[lane_no]) != n_marks):
+            while (len(lane_space_mark_lengths[lane_no]) != n_marks):
                 if len(lane_space_mark_lengths[lane_no]) < n_marks:
                     lane_space_mark_lengths[lane_no].append(0.0)
 
-            while(len(lane_space_mark_separations[lane_no]) != n_marks):
+            while (len(lane_space_mark_separations[lane_no]) != n_marks):
                 if len(lane_space_mark_separations[lane_no]) < n_marks:
                     lane_space_mark_separations[lane_no].append(0.0)
 
@@ -1409,29 +1452,29 @@ class BasketballCourt(BaseSurfacePlot):
             len(inbounding_line_anchor_side)
         )
 
-        while(len(inbounding_line_to_baseline) != max_n_inbounding_lines):
+        while (len(inbounding_line_to_baseline) != max_n_inbounding_lines):
             if len(inbounding_line_to_baseline) < max_n_inbounding_lines:
                 inbounding_line_to_baseline.append(
                     inbounding_line_to_baseline[0]
                 )
 
-        while(len(inbounding_line_in_play_ext) != max_n_inbounding_lines):
+        while (len(inbounding_line_in_play_ext) != max_n_inbounding_lines):
             if len(inbounding_line_in_play_ext) < max_n_inbounding_lines:
                 inbounding_line_in_play_ext.append(
                     inbounding_line_in_play_ext[0]
                 )
 
-        while(len(inbounding_line_oob_ext) != max_n_inbounding_lines):
+        while (len(inbounding_line_oob_ext) != max_n_inbounding_lines):
             if len(inbounding_line_oob_ext) < max_n_inbounding_lines:
                 inbounding_line_oob_ext.append(
                     inbounding_line_oob_ext[0]
                 )
 
-        while(len(symmetric_inbounding_line) != max_n_inbounding_lines):
+        while (len(symmetric_inbounding_line) != max_n_inbounding_lines):
             if len(symmetric_inbounding_line) < max_n_inbounding_lines:
                 symmetric_inbounding_line.append(False)
 
-        while(len(inbounding_line_anchor_side) != max_n_inbounding_lines):
+        while (len(inbounding_line_anchor_side) != max_n_inbounding_lines):
             if len(inbounding_line_anchor_side) < max_n_inbounding_lines:
                 inbounding_line_anchor_side.append(
                     inbounding_line_anchor_side[0]
@@ -1667,38 +1710,83 @@ class BasketballCourt(BaseSurfacePlot):
         Parameters
         ----------
         ax : matplotlib.Axes
-            An axes object onto which the plot can be drawn. If None is
+            An Axes object onto which the plot can be drawn. If ``None`` is
             supplied, then the currently-active Axes object will be used
 
-        display_range : str; default "full"
+        display_range : str, optional
             The portion of the surface to display. The entire surface will
             always be drawn under the hood, however this parameter limits what
             is shown in the final plot. The following explain what each display
             range corresponds to:
 
-                "full" : the entire court
+                - ``"full"``: The entire court
+                - ``"offense"``: The attacking/offensive half court
+                - ``"offence"``: The attacking/offensive half court
+                - ``"offensivehalfcourt"``: The attacking/offensive half court
+                - ``"offensive_half_court"``: The attacking/offensive half
+                    court
+                - ``"offensive half court"``: The attacking/offensive half
+                    court
+                - ``"defense"``: The defensive half court
+                - ``"defence"``: The defensive half court
+                - ``"defensivehalfcourt"``: The defensive half court
+                - ``"defensive_half_court"``: The defensive half court
+                - ``"defensive half court"``: The defensive half court
+                - ``"offensivekey"``: The attacking/offensive key
+                - ``"offensive_key"``: The attacking/offensive key
+                - ``"offensive key"``: The attacking/offensive key
+                - ``"attackingkey"``: The attacking/offensive key
+                - ``"attacking_key"``: The attacking/offensive key
+                - ``"attacking key"``: The attacking/offensive key
+                - ``"defensivekey"``: The defensive key
+                - ``"defensive_key"``: The defensive key
+                - ``"defensive key"``: The defensive key
+                - ``"defendingkey"``: The defensive key
+                - ``"defending_key"``: The defensive key
+                - ``"offensivepaint"``: The attacking/offensive painted area
+                - ``"offensive_paint"``: The attacking/offensive painted area
+                - ``"attackingpaint"``: The attacking/offensive painted area
+                - ``"attacking_paint"``: The attacking/offensive painted area
+                - ``"offensivelane"``: The attacking/offensive painted area
+                - ``"offensive_lane"``: The attacking/offensive painted area
+                - ``"offensive lane"``: The attacking/offensive painted area
+                - ``"attackinglane"``: The attacking/offensive painted area
+                - ``"attacking_lane"``: The attacking/offensive painted area
+                - ``"attacking lane"``: The attacking/offensive painted area
+                - ``"defensivepaint"``: The defensive painted area
+                - ``"defensive_paint"``: The defensive painted area
+                - ``"defendingpaint"``: The defensive painted area
+                - ``"defending_paint"``: The defensive painted area
+                - ``"defensivelane"``: The defensive painted area
+                - ``"defendinglane"``: The defensive painted area
+                - ``"defending_lane"``: The defensive painted area
+                - ``"defending lane"``: The defensive painted area
 
-        xlim : float, tuple (float, float), or None (default: None)
-            The display range in the x direction to be used. If a single
+            The default is ``"full"``
+
+        xlim : float or tuple of floats or None
+            The display range in the ``x`` direction to be used. If a single
             float is provided, this will be used as the lower bound of
-            the x coordinates to display and the upper bound will be the
-            +x end of the court. If a tuple, the two values will be
-            used to determine the bounds. If None, then the
-            display_range will be used instead to set the bounds
+            the ``x`` coordinates to display and the upper bound will be the
+            +``x`` end of the court. If a tuple, the two values will be
+            used to determine the bounds. If ``None``, then the
+            ``display_range`` will be used instead to set the bounds. The
+            default is ``None``
 
-        ylim : float, tuple (float, float), or None (default: None)
-            The display range in the y direction to be used. If a single
+        ylim : float or tuple of floats or None
+            The display range in the ``y`` direction to be used. If a single
             float is provided, this will be used as the lower bound of the y
-            coordinates to display and the upper bound will be the +y side of
-            the court. If a tuple, the two values will be used to determine the
-            bounds. If None, then the display_range will be used instead to set
-            the bounds
+            coordinates to display and the upper bound will be the +``y`` side
+            of the court. If a tuple, the two values will be used to determine
+            the bounds. If ``None``, then the ``display_range`` will be used
+            instead to set the bounds.  The default is ``None``
 
-        rotation : float or None (default: None)
+        rotation : float or None
             Angle (in degrees) through which to rotate the court when drawing.
-            If used, this will set the class attribute of self._rotation. A
-            value of 0.0 will correspond to a TV View of the court, where +x is
-            to the right and +y is on top. The rotation occurs counterclockwise
+            If used, this will set the class attribute of ``_rotation``. A
+            value of ``0.0`` will correspond to a TV view of the court, where
+            +``x`` is to the right and +``y`` is on top. The rotation occurs
+            counterclockwise. The default is ``None``
         """
         # If there is a rotation to be applied, apply it first and set it as
         # the class attribute self._rotation
@@ -1802,15 +1890,15 @@ class BasketballCourt(BaseSurfacePlot):
 
         A user may wish to know if a specific basketball league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with sportypy for easier plotting (if they provide the league
-        code), or can also show what leagues are available to be plotted
+        shipped with ``sportypy`` for easier plotting (if they provide the
+        league code), or can also show what leagues are available to be plotted
 
         Parameters
         ----------
-        league_code : str or None (default: None)
+        league_code : str or None
             A league code that may or may not be shipped with the package. If
-            the league code is None, this will display all leagues that do come
-            shipped with sportypy
+            the league code is ``None``, this will display all leagues that do
+            come shipped with ``sportypy``. The default is ``None``
 
         Returns
         -------
@@ -1902,16 +1990,16 @@ class BasketballCourt(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, but this method allows the colors to be
-        updated after the initial instantiation and will re-instantiate the
+        the ``color_updates`` parameter, but this method allows the colors to
+        be updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
-        color_updates : dict (default: {}; an empty dictionary)
+        color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see cani_color_features() method for
-            a list of these names)
+            that's color is to be updated (see ``cani_color_features()`` method
+            for a list of these names). The default is an empty dictionary
 
         Returns
         -------
@@ -1937,14 +2025,15 @@ class BasketballCourt(BaseSurfacePlot):
         """Update the court's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by sportypy
+        not currently supported by ``sportypy``
 
         Parameters
         ----------
-        court_updates : dict (default: {}; an empty dictionary)
+        court_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the court that is to be updated (see cani_change_dimensions()
-            method for a list of these parameters)
+            of the court that is to be updated (see
+            ``cani_change_dimensions()`` method for a list of these
+            parameters). The default is an empty dictionary
 
         Returns
         -------
@@ -1970,9 +2059,9 @@ class BasketballCourt(BaseSurfacePlot):
         """Reset the features of the court to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, and through the update_colors() method,
-        these can be changed. This method allows the colors to be reset to
-        their default values after experiencing such a change
+        the ``color_updates`` parameter, and through the ``update_colors()``
+        method, these can be changed. This method allows the colors to be reset
+        to their default values after experiencing such a change
         """
         # Re-instantiate the class with the default colors
         default_colors = {
@@ -2013,10 +2102,10 @@ class BasketballCourt(BaseSurfacePlot):
         """Reset the features of the court to their default parameterizations.
 
         The court parameters can be passed at the initial instantiation of the
-        class via the court_updates parameter, and through the
-        update_court_params() method, these can be changed. This method allows
-        the feature parameterization to be reset to their default values after
-        experiencing such a change
+        class via the ``court_updates`` parameter, and through the
+        ``update_court_params()`` method, these can be changed. This method
+        allows the feature parameterization to be reset to their default values
+        after experiencing such a change
         """
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
@@ -2029,27 +2118,86 @@ class BasketballCourt(BaseSurfacePlot):
     def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
-        """Get the x and y limits for the displayed plot.
+        """Get the ``x`` and ``y`` limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: "full")
+        display_range : str
             The range of which to display the plot. This is a key that will
-            be searched for in the ranges_dict parameter
+            be searched for in the possible display ranges. The following are
+            valid ``display_range``s:
 
-        xlim : float or None (default: None)
-            A specific limit on x for the plot
+                - ``"full"``: The entire court
+                - ``"offense"``: The attacking/offensive half court
+                - ``"offence"``: The attacking/offensive half court
+                - ``"offensivehalfcourt"``: The attacking/offensive half court
+                - ``"offensive_half_court"``: The attacking/offensive half
+                    court
+                - ``"offensive half court"``: The attacking/offensive half
+                    court
+                - ``"defense"``: The defensive half court
+                - ``"defence"``: The defensive half court
+                - ``"defensivehalfcourt"``: The defensive half court
+                - ``"defensive_half_court"``: The defensive half court
+                - ``"defensive half court"``: The defensive half court
+                - ``"offensivekey"``: The attacking/offensive key
+                - ``"offensive_key"``: The attacking/offensive key
+                - ``"offensive key"``: The attacking/offensive key
+                - ``"attackingkey"``: The attacking/offensive key
+                - ``"attacking_key"``: The attacking/offensive key
+                - ``"attacking key"``: The attacking/offensive key
+                - ``"defensivekey"``: The defensive key
+                - ``"defensive_key"``: The defensive key
+                - ``"defensive key"``: The defensive key
+                - ``"defendingkey"``: The defensive key
+                - ``"defending_key"``: The defensive key
+                - ``"offensivepaint"``: The attacking/offensive painted area
+                - ``"offensive_paint"``: The attacking/offensive painted area
+                - ``"attackingpaint"``: The attacking/offensive painted area
+                - ``"attacking_paint"``: The attacking/offensive painted area
+                - ``"offensivelane"``: The attacking/offensive painted area
+                - ``"offensive_lane"``: The attacking/offensive painted area
+                - ``"offensive lane"``: The attacking/offensive painted area
+                - ``"attackinglane"``: The attacking/offensive painted area
+                - ``"attacking_lane"``: The attacking/offensive painted area
+                - ``"attacking lane"``: The attacking/offensive painted area
+                - ``"defensivepaint"``: The defensive painted area
+                - ``"defensive_paint"``: The defensive painted area
+                - ``"defendingpaint"``: The defensive painted area
+                - ``"defending_paint"``: The defensive painted area
+                - ``"defensivelane"``: The defensive painted area
+                - ``"defendinglane"``: The defensive painted area
+                - ``"defending_lane"``: The defensive painted area
+                - ``"defending lane"``: The defensive painted area
 
-        ylim : float or None (default: None)
-            A specific limit on y for the plot
+            The default is ``"full"``
+
+        xlim : float or None
+            A specific limit on ``x`` for the plot. The default is ``None``
+
+        ylim : float or None
+            A specific limit on ``y`` for the plot. The default is ``None``
+
+        for_plot : bool
+            Whether the plot range limits are being set for a plot (e.g. a
+            model being displayed over the surface). This utilizes the surface
+            constraint to restrict the model to be inbounds. The default is
+            ``False``
+
+        for_display : bool
+            Whether the plot range limits are being set for a display (e.g. to
+            show the entirety of the surface in the resulting graphic). This
+            will ignore the surface constraint in the resulting graphic, but
+            the constraint will be respected when drawing features. The default
+            is ``False``
 
         Returns
         -------
         xlim : tuple
-            The x-directional limits for displaying the plot
+            The ``x``-directional limits for displaying the plot
 
         ylim : tuple
-            The y-directional limits for displaying the plot
+            The ``y``-directional limits for displaying the plot
         """
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
@@ -2575,9 +2723,9 @@ class BasketballCourt(BaseSurfacePlot):
 
 
 class FIBACourt(BasketballCourt):
-    """A subclass of BasketballCourt specific to FIBA.
+    """A subclass of ``BasketballCourt`` specific to FIBA.
 
-    See BasketballCourt class documentation for full description.
+    See ``BasketballCourt`` class documentation for full description.
     """
 
     def __init__(self, court_updates = {}, *args, **kwargs):
@@ -2591,9 +2739,9 @@ class FIBACourt(BasketballCourt):
 
 
 class NBACourt(BasketballCourt):
-    """A subclass of BasketballCourt specific to the NBA.
+    """A subclass of ``BasketballCourt`` specific to the NBA.
 
-    See BasketballCourt class documentation for full description.
+    See ``BasketballCourt`` class documentation for full description.
     """
 
     def __init__(self, court_updates = {}, *args, **kwargs):
@@ -2607,9 +2755,9 @@ class NBACourt(BasketballCourt):
 
 
 class NBAGLeagueCourt(BasketballCourt):
-    """A subclass of BasketballCourt specific to the NBA G League.
+    """A subclass of ``BasketballCourt`` specific to the NBA G League.
 
-    See BasketballCourt class documentation for full description.
+    See ``BasketballCourt`` class documentation for full description.
     """
 
     def __init__(self, court_updates = {}, *args, **kwargs):
@@ -2623,9 +2771,9 @@ class NBAGLeagueCourt(BasketballCourt):
 
 
 class NCAACourt(BasketballCourt):
-    """A subclass of BasketballCourt specific to the NBA.
+    """A subclass of ``BasketballCourt`` specific to the NBA.
 
-    See BasketballCourt class documentation for full description.
+    See ``BasketballCourt`` class documentation for full description.
     """
 
     def __init__(self, court_updates = {}, *args, **kwargs):
@@ -2639,9 +2787,9 @@ class NCAACourt(BasketballCourt):
 
 
 class NFHSCourt(BasketballCourt):
-    """A subclass of BasketballCourt specific to the NFHS.
+    """A subclass of ``BasketballCourt`` specific to the NFHS.
 
-    See BasketballCourt class documentation for full description.
+    See ``BasketballCourt`` class documentation for full description.
     """
 
     def __init__(self, court_updates = {}, *args, **kwargs):
@@ -2655,9 +2803,9 @@ class NFHSCourt(BasketballCourt):
 
 
 class WNBACourt(BasketballCourt):
-    """A subclass of BasketballCourt specific to the NBA.
+    """A subclass of ``BasketballCourt`` specific to the NBA.
 
-    See BasketballCourt class documentation for full description.
+    See ``BasketballCourt`` class documentation for full description.
     """
 
     def __init__(self, court_updates = {}, *args, **kwargs):

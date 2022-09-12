@@ -13,3 +13,4 @@ eggs/
 htmlcov/
 coverage.xml
 .venv/
+docs/_build/

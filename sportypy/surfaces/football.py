@@ -1,11 +1,11 @@
-"""Extension of the BaseSurfacePlot class to create a football field.
+"""Extension of the ``BaseSurfacePlot`` class to create a football field.
 
-This is a second-level child class of the BaseSurface class, and as such will
-have access to its attributes and methods. Sportypy will ship with pre-defined
-leagues that will have their own subclass, but a user can manually specify
-their own field parameters to create a totally-customized field. The field's
-features are parameterized by the basic dimensions of the field, which comprise
-the attributes of the class.
+This is a second-level child class of the ``BaseSurface`` class, and as such
+will have access to its attributes and methods. ``sportypy`` will ship with
+pre-defined leagues that will have their own subclass, but a user can manually
+specify their own field parameters to create a totally-customized field. The
+field's features are parameterized by the basic dimensions of the field, which
+comprise the attributes of the class.
 
 @author: Ross Drucker
 """
@@ -21,207 +21,269 @@ from sportypy._base_classes._base_surface_plot import BaseSurfacePlot
 
 
 class FootballField(BaseSurfacePlot):
-    """A subclass of BaseSurfacePlot to make a generic football field.
+    """A subclass of ``BaseSurfacePlot`` to make a generic football field.
 
     This allows for the creation of the football field in a way that is
     entirely parameterized by the field's baseline characteristics.
 
-    NOTE: By convention of football data, the origin of the coordinate system
-    will be located in the lower-left corner of the field when viewing the
-    field in TV view. All features will be anchored according to this
-    convention, although this may be adjusted via the x_trans and y_trans
-    attributes.
-
-    All attributes should default to 0.0 (if of a numeric type) or an empty
+    All attributes should default to ``0.0`` (if of a numeric type) or an empty
     string (if of a string type). Customized parameters may be specified via a
     child class (see below) or by directly specifying all necessary attributes
     of a valid football field. The attributes needed to instantiate a
-    particular league's surface must be specified in the field_params
+    particular league's surface must be specified in the ``field_params``
     dictionary. For many leagues, these will be provided in the
-    surface_dimensions.json file in the data/ subdirectory of this module.
+    surface_dimensions.json file in the data/ subdirectory of ``sportypy``.
 
-    See the BaseSurfacePlot and BaseSurface class definitions for full details.
+    NOTE: By convention of football data, the origin of the coordinate system
+    will be located in the lower-left corner of the field when viewing the
+    field in TV view. All features will be anchored according to this
+    convention, although this may be adjusted via the ``x_trans`` and
+    ``y_trans`` attributes.
 
-    NOTE: Any attribute below that is prefixed with an asterisk (*) should be
-    specified via the field_updates dictionary as these parameters are specific
-    to each league. Attributes prefixed with a hyphen (-) are specified at the
-    time that the surface class is created
+    See the ``BaseSurfacePlot`` and ``BaseSurface`` class definitions for full
+    details.
 
     Attributes
     ----------
-    - league_code : str (default: "")
+    league_code : str
         The league for which the plot should be drawn. This is case-insensitive
         but should be the shortened name of the league (e.g. "National Football
-        League" should be either "NFL" or "nfl")
+        League" should be either "NFL" or "nfl"). The default is an empty
+        string
 
-    - rotation : float (default: 0.0)
-        The angle (in degrees) through which to rotate the final plot
+    rotation : float
+        The angle (in degrees) through which to rotate the final plot. The
+        default is ``0.0``
 
-    - x_trans : float (default: 0.0)
-        The amount that the x coordinates are to be shifted. By convention,
-        the +x axis extends from the center of the surface towards the
-        right-hand basket when viewing the field in TV view
+    x_trans : float
+        The amount that the ``x`` coordinates are to be shifted. By convention,
+        the +``x`` axis extends from the center of the surface towards the
+        right-hand endzone when viewing the field in TV view. The default is
+        ``0.0``
 
-    - y_trans : float (default: 0.0)
-        The amount that the y coordinates are to be shifted. By convention,
-        the +y axis extends from the center of the surface towards the
-        top of the field when viewing the field in TV view
+    y_trans : float
+        The amount that the ``y`` coordinates are to be shifted. By convention,
+        the +``y`` axis extends from the center of the surface towards the
+        top of the field when viewing the field in TV view. The default is
+        ``0.0``
 
-    - color_updates : dict
+    field_updates : dict
+        A dictionary of updated parameters to use for the football field. The
+        default is an empty dictionary
+
+    color_updates : dict
         A dictionary of coloring parameters to pass to the plot. Defaults are
         provided in the class per each rule book, but this allows the plot to
-        be more heavily customized/styled
+        be more heavily customized/styled. The default is an empty dictionary
 
-    - units : str (default: "default")
+    units : str
         The units that the final plot should utilize. The default units are the
-        units specified in the rule book of the league
+        units specified in the rule book of the league. The default is
+        ``"default"``
 
-    * field_length : float
-        The length of the field in TV view
+    field_params : dict
+        A dictionary containing the following parameters of the field:
 
-    * field_width : float
-        The width of the field in TV view
+            - field_length : float
+                The length of the field in TV view
 
-    * endzone_length : float
-        The length of the endzone in TV view. This is measured from the field
-        side of the goal line
+            - field_width : float
+                The width of the field in TV view
 
-    * minor_line_thickness : float
-        The thickness of the minor lines on the field. These are usually the
-        hash yard lines and try markings
+            - endzone_length : float
+                The length of the endzone in TV view. This is measured from the
+                field side of the goal line
 
-    * goal_line_thickness : float
-        The thickness of the goal line
+            - minor_line_thickness : float
+                The thickness of the minor lines on the field. These are
+                usually the hash yard lines and try markings
 
-    * boundary_line_thickness : float
-        The thickness of the boundary lines. This should not include any border
-        around the sidelines, the restricted areas, or team bench areas
+            - goal_line_thickness : float
+                The thickness of the goal line
 
-    * minor_yard_line_height : float
-        The height of the minor yard lines on the field in the y direction when
-        viewing the field in TV view
+            - boundary_line_thickness : float
+                The thickness of the boundary lines. This should not include
+                any border around the sidelines, the restricted areas, or team
+                bench areas
 
-    * field_border_thickness : float
-        The thickness of the border around the field. This will be uniform
-        around the entirety of the field. This should not include the thickness
-        of the boundary lines
+            - minor_yard_line_height : float
+                The height of the minor yard lines on the field in the ``y``
+                direction when viewing the field in TV view
 
-    * field_border_behind_bench : boolean
-        Whether or not to draw the border of the field behind the team bench
-        areas
+            - field_border_thickness : float
+                The thickness of the border around the field. This will be
+                uniform around the entirety of the field. This should not
+                include the thickness of the boundary lines
 
-    * major_yard_line_distance : float
-        The separation between the midpoints of major yard lines. For example,
-        an NFL field's major yard lines are separated by 5 yards. Major yard
-        lines are considered to be the yard lines that span the entire width of
-        the field
+            - field_border_behind_bench : bool
+                Whether or not to draw the border of the field behind the team
+                bench areas
 
-    * sideline_to_major_yard_line : float
-        The distance separating the major yard line from the interior edge of
-        the boundary lines
+            - major_yard_line_distance : float
+                The separation between the midpoints of major yard lines. For
+                example, an NFL field's major yard lines are separated by 5
+                yards. Major yard lines are considered to be the yard lines
+                that span the entire width of the field
 
-    * inbound_cross_hashmark_length : float
-        The length, in TV view, of the hash mark that crosses major yard lines
+            - sideline_to_major_yard_line : float
+                The distance separating the major yard line from the interior
+                edge of the boundary lines
 
-    * inbound_hashmark_separation : float
-        The separation between the hash marks (i.e. the minor yard lines) when
-        measured from their interior edges
+            - inbound_cross_hashmark_length : float
+                The length, in TV view, of the hash mark that crosses major
+                yard lines
 
-    * inbound_cross_hashmark_separation : float
-        The separation between the hash marks lying on the major yard lines
-        when measured from their interior edges
+            - inbound_hashmark_separation : float
+                The separation between the hash marks (i.e. the minor yard
+                lines) when measured from their interior edges
 
-    * sideline_to_outer_yard_line : float
-        The distance between the interior edge of the sideline to the exterior
-        edge of a minor yard line
+            - inbound_cross_hashmark_separation : float
+                The separation between the hash marks lying on the major yard
+                lines when measured from their interior edges
 
-    * sideline_to_bottom_of_numbers : float
-        The distance between the sideline and the bottom edge of the bounding
-        box of the yardage-marking numbers
+            - sideline_to_outer_yard_line : float
+                The distance between the interior edge of the sideline to the
+                exterior edge of a minor yard line
 
-    * number_height : float
-        The height, in TV view, of the yardage-marking numbers
+            - sideline_to_bottom_of_numbers : float
+                The distance between the sideline and the bottom edge of the
+                bounding box of the yardage-marking numbers
 
-    * try_mark_distance : float
-        The distance between the goal line and the try mark
+            - number_height : float
+                The height, in TV view, of the yardage-marking numbers
 
-    * try_mark_width : float
-        The width of the try mark
+            - try_mark_distance : float
+                The distance between the goal line and the try mark
 
-    * arrow_line_dist : float
-        The major yard line distances which should be marked with a directional
-        arrow. These are measured from the goal line (e.g. a value of 10.0 will
-        place a directional arrow every 10 major yard lines from the goal line
-        towards the middle of the field)
+            - try_mark_width : float
+                The width of the try mark
 
-    * yard_line_to_arrow : float
-        The distance between the inside edge of a directional arrow and the
-        major yard line to which it refers
+            - arrow_line_dist : float
+                The major yard line distances which should be marked with a
+                directional arrow. These are measured from the goal line (e.g.
+                a value of ``10.0`` will place a directional arrow every 10
+                major yard lines from the goal line towards the middle of the
+                field)
 
-    * top_number_to_arrow : float
-        The distance from the top of the bounding box of a yardage-marking
-        number to the top of the directional arrow
+            - yard_line_to_arrow : float
+                The distance between the inside edge of a directional arrow and
+                the major yard line to which it refers
 
-    * arrow_base : float
-        The length of the base of the directional arrow. This is the component
-        of the arrow that is parallel to the major yard line to which the arrow
-        corresponds
+            - top_number_to_arrow : float
+                The distance from the top of the bounding box of a
+                yardage-marking number to the top of the directional arrow
 
-    * arrow_length : float
-        The distance between the tip of the directional arrow and the base
+            - arrow_base : float
+                The length of the base of the directional arrow. This is the
+                component of the arrow that is parallel to the major yard line
+                to which the arrow corresponds
 
-    * number_to_yard_line : float
-        The separation between the bounding box of the yardage-marking numeral
-        and the nearest yard line
+            - arrow_length : float
+                The distance between the tip of the directional arrow and the
+                base
 
-    * number_width : float
-        The width of the bounding box of the yardage-marking numeral
+            - number_to_yard_line : float
+                The separation between the bounding box of the yardage-marking
+                numeral and the nearest yard line
 
-    * numbers_bottom : list of strings
-        The text of the markings that run along the bottom of the field in TV
-        view
+            - number_width : float
+                The width of the bounding box of the yardage-marking numeral
 
-    * numbers_top : list of strings
-        The text of the markings that run along the top of the field in TV view
+            - numbers_bottom : list of strings
+                The text of the markings that run along the bottom of the field
+                in TV view
 
-    * number_font : string
-        The font with which the numerals on the field should be written in. All
-        fonts should be stored in the fonts/ subdirectory
+            - numbers_top : list of strings
+                The text of the markings that run along the top of the field in
+                TV view
 
-    * restricted_area_width : float
-        The width of the restricted area
+            - number_font : string
+                The font with which the numerals on the field should be written
+                in. All fonts should be stored in the fonts/ subdirectory
 
-    * coaching_box_width : float
-        The width of the coaching box
+            - restricted_area_width : float
+                The width of the restricted area
 
-    * team_bench_width : float
-        The width of the team bench area
+            - coaching_box_width : float
+                The width of the coaching box
 
-    * team_bench_length_field_side : float
-        The length of the team bench's edge closest to the field
+            - team_bench_width : float
+                The width of the team bench area
 
-    * team_bench_length_back_side : float
-        The length of the team bench's edge furthest from the field
+            - team_bench_length_field_side : float
+                The length of the team bench's edge closest to the field
 
-    * team_bench_area_border_thickness : float
-        The thickness of the border around the team bench area. This should not
-        include any borders around the field
+            - team_bench_length_back_side : float
+                The length of the team bench's edge furthest from the field
 
-    * bench_shape : string
-        The shape of the bench area. This should either be "trapezoid" or
-        "rectangular"
+            - team_bench_area_border_thickness : float
+                The thickness of the border around the team bench area. This
+                should not include any borders around the field
 
-    * additional_minor_yard_lines : list of floats
-        Any additional yard lines that should be marked on the field, with 0.0
-        corresponding to the left-hand goal line in TV view
+            - bench_shape : string
+                The shape of the bench area. This should either be "trapezoid"
+                or "rectangular"
 
-    * field_bordered : boolean
-        Whether or not the field should have a border
+            - additional_minor_yard_lines : list of floats
+                Any additional yard lines that should be marked on the field,
+                with ``0.0`` corresponding to the left-hand goal line in TV
+                view
+
+            - field_bordered : bool
+                Whether or not the field should have a border
+
+            - extra_apron_padding : float
+                Any additional padding around the field apron
     """
 
     def __init__(self, league_code = "", field_updates = {},
                  color_updates = {}, rotation = 0.0, x_trans = 0.0,
                  y_trans = 0.0, units = "default", **added_features):
+        """Initialize an instance of a ``FootballField`` class.
+
+        Parameters
+        ----------
+        league_code : str
+            The league for which the plot should be drawn. This is
+            case-insensitive but should be the shortened name of the league
+            (e.g. "National Football League" should be either "NFL" or "nfl").
+            The default is an empty string
+
+        rotation : float
+            The angle (in degrees) through which to rotate the final plot. The
+            default is ``0.0``
+
+        x_trans : float
+            The amount that the ``x`` coordinates are to be shifted. By
+            convention, the +``x`` axis extends from the center of the surface
+            towards the right-hand endzone when viewing the field in TV view.
+            The default is ``0.0``
+
+        y_trans : float
+            The amount that the ``y`` coordinates are to be shifted. By
+            convention, the +``y`` axis extends from the center of the surface
+            towards the top of the field when viewing the field in TV view. The
+            default is ``0.0``
+
+        field_updates : dict
+            A dictionary of updated parameters to use to create the football
+            field. The default is an empty dictionary
+
+        color_updates : dict
+            A dictionary of coloring parameters to pass to the plot. Defaults
+            are provided in the class per each rule book, but this allows the
+            plot to be more heavily customized/styled. The default is an empty
+            dictionary
+
+        units : str
+            The units that the final plot should utilize. The default units are
+            the units specified in the rule book of the league. The default is
+            ``"default"``
+
+        Returns
+        -------
+        Nothing, but instantiates the class
+        """
         # Load all pre-defined field dimensions for provided leagues
         self._load_preset_dimensions(sport = "football")
 
@@ -1141,38 +1203,67 @@ class FootballField(BaseSurfacePlot):
         Parameters
         ----------
         ax : matplotlib.Axes
-            An axes object onto which the plot can be drawn. If None is
+            An axes object onto which the plot can be drawn. If ``None`` is
             supplied, then the currently-active Axes object will be used
 
-        display_range : str; default "full"
-            The portion of the surface to display. The entire surface will
-            always be drawn under the hood, however this parameter limits what
-            is shown in the final plot. The following explain what each display
-            range corresponds to:
+        display_range : str
+            The portion of the surface to display. The entire surface
+            will always be drawn under the hood, however this parameter
+            limits what is shown in the final plot. The following explain what
+            each display range corresponds to:
 
-                "full" : the entire field
+                - ``"full"``: The entire surface
+                - ``"offense"``: The offensive half of the field
+                - ``"offence"``: The offensive half of the field
+                - ``"offensivehalf"``: The offensive half of the field
+                - ``"offensive_half"``: The offensive half of the field
+                - ``"offensive half"``: The offensive half of the field
+                - ``"offensivehalffield"``: The offensive half of the field
+                - ``"offensive_half_field"``: The offensive half of the field
+                - ``"offensive half field"``: The offensive half of the field
+                - ``"defense"``: The defensive half of the field
+                - ``"defence"``: The defensive half of the field
+                - ``"defensivehalf"``: The defensive half of the field
+                - ``"defensive_half"``: The defensive half of the field
+                - ``"defensive half"``: The defensive half of the field
+                - ``"defensivehalffield"``: The defensive half of the field
+                - ``"defensive_half_field"``: The defensive half of the field
+                - ``"defensive half field"``: The defensive half of the field
+                - ``"redzone"``: The offensive red zone
+                - ``"red_zone"``: The offensive red zone
+                - ``"red zone"``: The offensive red zone
+                - ``"oredzone"``: The offensive red zone
+                - ``"offensive_red_zone"``: The offensive red zone
+                - ``"offensive red zone"``: The offensive red zone
+                - ``"dredzone"``: The defensive red zone
+                - ``"defensive_red_zone"``: The defensive red zone
+                - ``"defensive red zone"``: The defensive red zone
 
-        xlim : float, tuple (float, float), or None (default: None)
-            The display range in the x direction to be used. If a single
+            The default is ``"full"``
+
+        xlim : float or tuple of floats or None
+            The display range in the ``x`` direction to be used. If a single
             float is provided, this will be used as the lower bound of
-            the x coordinates to display and the upper bound will be the
-            +x end of the field. If a tuple, the two values will be
-            used to determine the bounds. If None, then the
-            display_range will be used instead to set the bounds
+            the ``x`` coordinates to display and the upper bound will be the
+            +``x`` end of the field. If a tuple, the two values will be
+            used to determine the bounds. If ``None``, then the
+            ``display_range`` will be used instead to set the bounds. The
+            default is ``None``
 
-        ylim : float, tuple (float, float), or None (default: None)
-            The display range in the y direction to be used. If a single
+        ylim : float or tuple of floats or None
+            The display range in the ``y`` direction to be used. If a single
             float is provided, this will be used as the lower bound of the y
-            coordinates to display and the upper bound will be the +y side of
-            the field. If a tuple, the two values will be used to determine the
-            bounds. If None, then the display_range will be used instead to set
-            the bounds
+            coordinates to display and the upper bound will be the +``y`` side
+            of the field. If a tuple, the two values will be used to determine
+            the bounds. If ``None``, then the ``display_range`` will be used
+            instead to set the bounds.  The default is ``None``
 
-        rotation : float or None (default: None)
+        rotation : float or None
             Angle (in degrees) through which to rotate the field when drawing.
-            If used, this will set the class attribute of self._rotation. A
-            value of 0.0 will correspond to a TV View of the field, where +x is
-            to the right and +y is on top. The rotation occurs counterclockwise
+            If used, this will set the class attribute of ``_rotation``. A
+            alue of ``0.0`` will correspond to a TV view of the field, where
+            +``x`` is to the right and +``y`` is on top. The rotation occurs
+            counterclockwise. The default is ``None``
         """
         # If there is a rotation to be applied, apply it first and set it as
         # the class attribute self._rotation
@@ -1188,7 +1279,7 @@ class FootballField(BaseSurfacePlot):
         # Set the aspect ratio to be equal and remove the axis to leave only
         # the plot
         ax.set_aspect("equal")
-        ax.axis("off")
+        # ax.axis("off")
 
         # Get the transformation to apply
         transform = self._get_transform(ax)
@@ -1366,17 +1457,17 @@ class FootballField(BaseSurfacePlot):
     def cani_plot_leagues(self, league_code = None):
         """Show if a league can be plotted, or what leagues are pre-defined.
 
-        A user may wish to know if a specific football league can be plotted.
+        A user may wish to know if a specific curling league can be plotted.
         This method allows a user to check if that specific league code comes
-        shipped with sportypy for easier plotting (if they provide the league
-        code), or can also show what leagues are available to be plotted
+        shipped with ``sportypy`` for easier plotting (if they provide the
+        league code), or can also show what leagues are available to be plotted
 
         Parameters
         ----------
-        league_code : str or None (default: None)
+        league_code : str or None
             A league code that may or may not be shipped with the package. If
-            the league code is None, this will display all leagues that do come
-            shipped with sportypy
+            the league code is ``None``, this will display all leagues that do
+            come shipped with ``sportypy``. The default is ``None``
 
         Returns
         -------
@@ -1468,16 +1559,16 @@ class FootballField(BaseSurfacePlot):
         """Update the colors currently used in the plot.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, but this method allows the colors to be
-        updated after the initial instantiation and will re-instantiate the
+        the ``color_updates`` parameter, but this method allows the colors to
+        be updated after the initial instantiation and will re-instantiate the
         class with the new colors
 
         Parameters
         ----------
-        color_updates : dict (default: {}; an empty dictionary)
+        color_updates : dict
             A dictionary where the keys correspond to the name of the feature
-            that's color is to be updated (see cani_color_features() method for
-            a list of these names)
+            that's color is to be updated (see ``cani_color_features()`` method
+            for a list of these names). The default is an empty dictionary
 
         Returns
         -------
@@ -1503,14 +1594,15 @@ class FootballField(BaseSurfacePlot):
         """Update the field's defining parameters.
 
         This method should primarily be used in cases when plotting a league
-        not currently supported by sportypy
+        not currently supported by ``sportypy``
 
         Parameters
         ----------
-        field_updates : dict (default: {}; an empty dictionary)
+        field_updates : dict
             A dictionary where the keys correspond to the name of the parameter
-            of the field that is to be updated (see cani_change_dimensions()
-            method for a list of these parameters)
+            of the field that is to be updated (see
+            ``cani_change_dimensions()`` method for a list of these
+            parameters). The default is an empty dictionary
 
         Returns
         -------
@@ -1536,9 +1628,9 @@ class FootballField(BaseSurfacePlot):
         """Reset the features of the field to their default color set.
 
         The colors can be passed at the initial instantiation of the class via
-        the color_updates parameter, and through the update_colors() method,
-        these can be changed. This method allows the colors to be reset to
-        their default values after experiencing such a change
+        the ``color_updates`` parameter, and through the ``update_colors()``
+        method, these can be changed. This method allows the colors to be reset
+        to their default values after experiencing such a change
         """
         # Re-instantiate the class with the default colors
         default_colors = {
@@ -1574,10 +1666,10 @@ class FootballField(BaseSurfacePlot):
         """Reset the features of the field to their default parameterizations.
 
         The field parameters can be passed at the initial instantiation of the
-        class via the field_updates parameter, and through the
-        update_field_params() method, these can be changed. This method allows
-        the feature parameterization to be reset to their default values after
-        experiencing such a change
+        class via the ``field_updates`` parameter, and through the
+        ``update_field_params()`` method, these can be changed. This method
+        allows the feature parameterization to be reset to their default values
+        after experiencing such a change
         """
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
@@ -1590,27 +1682,70 @@ class FootballField(BaseSurfacePlot):
     def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
                                for_display = True):
-        """Get the x and y limits for the displayed plot.
+        """Get the ``x`` and ``y`` limits for the displayed plot.
 
         Parameters
         ----------
-        display_range : str (default: "full")
+        display_range : str
             The range of which to display the plot. This is a key that will
-            be searched for in the ranges_dict parameter
+            be searched for in the possible display ranges. The following are
+            valid ``display_range``s:
 
-        xlim : float or None (default: None)
-            A specific limit on x for the plot
+                - ``"full"``: The entire surface
+                - ``"offense"``: The offensive half of the field
+                - ``"offence"``: The offensive half of the field
+                - ``"offensivehalf"``: The offensive half of the field
+                - ``"offensive_half"``: The offensive half of the field
+                - ``"offensive half"``: The offensive half of the field
+                - ``"offensivehalffield"``: The offensive half of the field
+                - ``"offensive_half_field"``: The offensive half of the field
+                - ``"offensive half field"``: The offensive half of the field
+                - ``"defense"``: The defensive half of the field
+                - ``"defence"``: The defensive half of the field
+                - ``"defensivehalf"``: The defensive half of the field
+                - ``"defensive_half"``: The defensive half of the field
+                - ``"defensive half"``: The defensive half of the field
+                - ``"defensivehalffield"``: The defensive half of the field
+                - ``"defensive_half_field"``: The defensive half of the field
+                - ``"defensive half field"``: The defensive half of the field
+                - ``"redzone"``: The offensive red zone
+                - ``"red_zone"``: The offensive red zone
+                - ``"red zone"``: The offensive red zone
+                - ``"oredzone"``: The offensive red zone
+                - ``"offensive_red_zone"``: The offensive red zone
+                - ``"offensive red zone"``: The offensive red zone
+                - ``"dredzone"``: The defensive red zone
+                - ``"defensive_red_zone"``: The defensive red zone
+                - ``"defensive red zone"``: The defensive red zone
 
-        ylim : float or None (default: None)
-            A specific limit on y for the plot
+            The default is ``"full"``
+
+        xlim : float or None
+            A specific limit on ``x`` for the plot. The default is ``None``
+
+        ylim : float or None
+            A specific limit on ``y`` for the plot. The default is ``None``
+
+        for_plot : bool
+            Whether the plot range limits are being set for a plot (e.g. a
+            model being displayed over the surface). This utilizes the surface
+            constraint to restrict the model to be inbounds. The default is
+            ``False``
+
+        for_display : bool
+            Whether the plot range limits are being set for a display (e.g. to
+            show the entirety of the surface in the resulting graphic). This
+            will ignore the surface constraint in the resulting graphic, but
+            the constraint will be respected when drawing features. The default
+            is ``False``
 
         Returns
         -------
         xlim : tuple
-            The x-directional limits for displaying the plot
+            The ``x``-directional limits for displaying the plot
 
         ylim : tuple
-            The y-directional limits for displaying the plot
+            The ``y``-directional limits for displaying the plot
         """
         # Make the display_range full if an empty string is passed
         if display_range == "" or display_range is None:
@@ -1832,9 +1967,9 @@ class FootballField(BaseSurfacePlot):
 
 
 class CFLField(FootballField):
-    """A subclass of FootballField specific to the CFL.
+    """A subclass of ``FootballField`` specific to the CFL.
 
-    See FootballField class documentation for full description.
+    See ``FootballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):
@@ -1848,9 +1983,9 @@ class CFLField(FootballField):
 
 
 class NCAAField(FootballField):
-    """A subclass of FootballField specific to the CFL.
+    """A subclass of ``FootballField`` specific to the CFL.
 
-    See FootballField class documentation for full description.
+    See ``FootballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):
@@ -1864,9 +1999,9 @@ class NCAAField(FootballField):
 
 
 class NFHSField(FootballField):
-    """A subclass of FootballField specific to the NFHS.
+    """A subclass of ``FootballField`` specific to the NFHS.
 
-    See FootballField class documentation for full description.
+    See ``FootballField`` class documentation for full description.
     """
 
     def __init__(self, n_players = 11, field_updates = {}, *args, **kwargs):
@@ -1884,9 +2019,9 @@ class NFHSField(FootballField):
 
 
 class NFLField(FootballField):
-    """A subclass of FootballField specific to the NFL.
+    """A subclass of ``FootballField`` specific to the NFL.
 
-    See FootballField class documentation for full description.
+    See ``FootballField`` class documentation for full description.
     """
 
     def __init__(self, field_updates = {}, *args, **kwargs):

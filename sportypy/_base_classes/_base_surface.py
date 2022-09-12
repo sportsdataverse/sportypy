@@ -16,52 +16,57 @@ class BaseSurface(ABC):
 
     Attributes
     ----------
-    x_trans : float (default: 0.0)
+    x_trans : float
         The amount by which to shift the surface from having its center be
-        located at (0, 0). As an example, an NFL football field may set its
-        x_trans value to be -60.0 so that the line x = 0 corresponds to the
-        inner edge of the back of the left endzone
+        located at ``(0, 0)``. As an example, an NFL football field may set its
+        ``x_trans`` value to be ``-60.0`` so that the line ``x = 0``
+        corresponds to the inner edge of the back of the left endzone. The
+        default is ``0.0``
 
-    y_trans : float (default: 0.0)
+    y_trans : float
         The amount by which to shift the surface from having its center be
-        located at (0, 0). As an example, an NFL football field may set its
-        x_trans value to be -26.333 so that the line y = 0 corresponds to the
-        inner edge of the back of the left endzone
+        located at ``(0, 0)``. As an example, an NFL football field may set its
+        ``y_trans`` value to be ``-26.333`` so that the line y = 0 corresponds
+        to the inner edge of the back of the left endzone. The default is
+        ``0.0``
 
-    rulebook_unit : str (default: "ft")
+    rulebook_unit : str
         The units provided in the rule book. These serve as the base unit for
         the plot, however this behavior may be overridden by a user supplying
-        their own units
+        their own units. The default is ``"ft"``
 
-    _rotation : float or None (default: None)
+    _rotation : float or None
         The angle through which the plot will be rotated. This should be passed
-        in degrees, not radians
+        in degrees, not radians. THe default is ``None``
 
-    _feature_xlim : float or None (default: None)
-        The minimum or maximum x coordinate that should be allowed by the
+    _feature_xlim : float or None
+        The minimum or maximum ``x`` coordinate that should be allowed by the
         surface. This constrains all interior features to be contained by the
-        surface. This is written to by each surface's self.draw() method
+        surface. This is written to by each surface's ``draw()`` method. The
+        default is ``None``
 
-    _feature_ylim : float or None (default: None)
-        The minimum or maximum y coordinate that should be allowed by the
+    _feature_ylim : float or None
+        The minimum or maximum ``y`` coordinate that should be allowed by the
         surface. This constrains all interior features to be contained by the
-        surface. This is written to by each surface's self.draw() method
+        surface. This is written to by each surface's ``draw()`` method. The
+        default is ``None``
 
     _features : list
         The instantiated feature objects that comprise the surface. These are
         the features that get plotted
 
-    _surface_constraint : object or None (default: None)
+    _surface_constraint : object or None
         A class object that constrains the plotting region to be inside of the
-        playing surface
+        playing surface. The default is ``None``
 
-    _display_ranges : dict or None (default: None)
+    _display_ranges : dict or None
         A dictionary that stores the display ranges that are available for a
         given surface's plot. The dictionary will have keys corresponding to
         the range to display (i.e. "full" being the full surface), and values
         that are themselves a dictionary of x limits, y limits, and a brief
         description of what each display range corresponds to. This will be
-        created by the surface class' _get_display_ranges_dict() method
+        created by the surface class' ``_get_display_ranges_dict()`` method.
+        The default is ``None``
     """
 
     def __init__(self):
@@ -128,9 +133,9 @@ class BaseSurface(ABC):
         """Initialize a feature on the surface at its required coordinates.
 
         Each feature is parameterized in its own class method, but is
-        instantiated by this method in the surface's __init__() method. This
-        method appends the instance of the feature to the surface class'
-        self._features attribute.
+        instantiated by this method in the surface's ``__init__()`` method.
+        This method appends the instance of the feature to the surface class'
+        ``_features`` attribute
 
         Parameters
         ----------
@@ -141,7 +146,7 @@ class BaseSurface(ABC):
         Returns
         -------
         Nothing, but it does instantiate a feature and append it to the
-        surface class' self._features attribute
+        surface class' ``_features`` attribute
         """
         # Get the feature's class. This will be instantiated later, but removed
         # from the feature's parameter dictionary now
@@ -207,7 +212,7 @@ class BaseSurface(ABC):
             Axes in which to add the constraint. This will contain the surface
             plot
 
-        transform: matplotlib.Transform (optional)
+        transform: matplotlib.Transform, optional
             Transform to apply to the constraint
 
         Returns
@@ -218,7 +223,7 @@ class BaseSurface(ABC):
         if transform:
             transform = transform
         else:
-            transform = ax.transData # pragma: no cover
+            transform = ax.transData  # pragma: no cover
 
         # Set the constraining polygon
         constraint = self._surface_constraint.create_feature_mpl_polygon()
@@ -242,8 +247,8 @@ class BaseSurface(ABC):
         ax : matplotlib.Axes
             The axes onto which the transform should be applied
 
-        transform : matplotlib.Transform or None (default: None)
-            The transformation to apply
+        transform : matplotlib.Transform or None
+            The ``matplotlib.Transform to apply``. The default is ``None``
 
         Returns
         -------
@@ -256,19 +261,19 @@ class BaseSurface(ABC):
         return transform
 
     def _rotate_xy(self, x, y):
-        """Rotate the x and y coordinates with surface rotation.
+        """Rotate the ``x`` and ``y`` coordinates with surface rotation.
 
         Parameters
         ----------
         x : float
-            The x coordinate(s)
+            The ``x`` coordinate(s)
 
         y : float
-            The y coordinate(s)
+            The ``y`` coordinate(s)
 
         Returns
         -------
-        The rotated x and y coordinates
+        The rotated ``x`` and ``y`` coordinates
         """
         if self._rotation:
             xy = self._rotation.transform(tuple(zip(x, y)))
@@ -276,26 +281,26 @@ class BaseSurface(ABC):
         return x, y
 
     def convert_xy(self, x, y):
-        """Reposition and scale the x and y coordinates.
+        """Reposition and scale the ``x`` and ``y`` coordinates.
 
-        The x and y coordinates must be moved to the proper position and
-        rescaled to the size used for the final surface plot.
+        The ``x`` and ``y`` coordinates must be moved to the proper position
+        and rescaled to the size used for the final surface plot.
 
         Parameters
         ----------
         x : float
-            The x coordinate(s)
+            The ``x`` coordinate(s)
 
         y : float
-            The y coordinate(s)
+            The ``y`` coordinate(s)
 
         Returns
         -------
         x : float
-            The x coordinate(s) adjusted to the proper position and scale
+            The ``x`` coordinate(s) adjusted to the proper position and scale
 
         y : float
-            The y coordinate(s) adjusted to the proper position and scale
+            The ``y`` coordinate(s) adjusted to the proper position and scale
         """
         # Copy the features' x and y coordinates so as not to overwrite them
         x = self.copy_(x)
@@ -319,43 +324,47 @@ class BaseSurface(ABC):
 
         Returns
         -------
-        xlim : tuple (float, float)
-            The lower and upper limits on the x display range
+        xlim : tuple of ints or tuple of floats
+            The lower and upper limits on the ``x`` display range
 
-        ylim : tuple (float, float)
-            The lower and upper limits on the y display range
+        ylim : tuple of ints or tuple of floats
+            The lower and upper limits on the ``y`` display range
         """
         pass
 
     def set_plot_display_range(self, ax = None, display_range = "full",
                                xlim = None, ylim = None, for_plot = False,
                                for_display = True):
-        """Set the x and y limits for the matplotlib Axes object for the plot.
+        """Set the ``x`` and ``y`` limits for the plot.
 
         Parameters
         ----------
-        ax : matplotlib.Axes or None (default: None)
-            The Axes object onto which xlim and ylim will be set
+        ax : matplotlib.Axes or None
+            The Axes object onto which ``xlim`` and ``ylim`` will be set. The
+            default is ``None``
 
-        display_range : str (default: "full")
+        display_range : str
             The portion of the surface to display. The entire surface is
             drawn regardless, however this reduces the displayed range to be
             what is desired. This is passed to each surface's
-            _get_plot_range_limits() method to determine the xlim and ylim
-            to be shown. If an invalid value is passed to this method, the
-            full surface will be shown by default
+            ``_get_plot_range_limits()`` method to determine the ``xlim`` and
+            ``ylim`` to be shown. If an invalid value is passed to this method,
+            the full surface will be shown by default. The default is
+            ``"full"``
 
-        xlim : float, tuple (float, float), or None (default: None)
-            If a single float is passed, this will be the lower bound of x
+        xlim : float or tuple of floats or None
+            If a single float is passed, this will be the lower bound of ``x``
             to display. If a tuple is passed, it will be the lower and upper
-            bounds of x to display. If None, then the value will be set by
-            the surface's _get_plot_range_limits() method
+            bounds of ``x`` to display. If ``None``, then the value will be set
+            by the surface's ``_get_plot_range_limits()`` method. The default
+            is ``None``
 
-        ylim : float, tuple (float, float), or None (default: None)
-            If a single float is passed, this will be the lower bound of y
+        ylim : float or tuple of floats or None
+            If a single float is passed, this will be the lower bound of ``y``
             to display. If a tuple is passed, it will be the lower and upper
-            bounds of y to display. If None, then the value will be set by
-            the surface's _get_plot_range_limits() method
+            bounds of ``y`` to display. If ``None``, then the value will be set
+            by the surface's ``_get_plot_range_limits()`` method. The default
+            is ``None``
 
         Returns
         -------

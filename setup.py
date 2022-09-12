@@ -1,17 +1,17 @@
 import setuptools
 
 setuptools.setup(
-    name="sportypy",
-    version="1.0.0",
-    description="Draw sports surfaces according to their rulebook specifications",
-    long_description=open("README.md").read(),
-    url="https://github.com/rossdrucker/sportypy",
-    author="Ross Drucker",
-    author_email="ross.a.drucker@gmail.com",
-    license="GPL 3.0",
-    packages=setuptools.find_packages(),
-    install_requires=[],
-    classifiers=[
+    name = "sportypy",
+    version = "1.0.0",
+    description = "Draw sports surfaces according to rulebook specifications",
+    long_description = open("README.md").read(),
+    url = "https://github.com/sportsdataverse/sportypy",
+    author = "Ross Drucker",
+    author_email = "ross.a.drucker@gmail.com",
+    license = "GPL 3.0",
+    packages = setuptools.find_packages(),
+    install_requires = [],
+    classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
