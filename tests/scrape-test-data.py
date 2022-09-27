@@ -228,3 +228,16 @@ hit_data = pd.DataFrame({
 })
 
 hit_data.to_csv("tests/data/baseball_data.csv", index = False)
+
+# Volleyball Data -------------------------------------------------------------
+np.random.seed(2379)
+shot_x = np.random.normal(0.0, 9.0, size = 100)
+shot_y = np.random.normal(0.0, 4.5, size = 100)
+scored = np.random.choice([1, 0], size = 100, replace = True)
+volleyball_data = pd.DataFrame({
+    "x": shot_x + 9.0,
+    "y": shot_y + 4.5,
+    "scored": scored
+})
+
+volleyball_data.to_csv('tests/data/volleyball_data.csv', index = False)

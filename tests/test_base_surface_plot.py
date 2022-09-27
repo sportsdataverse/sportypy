@@ -14,6 +14,7 @@ from sportypy.surfaces.football import NFLField
 from sportypy.surfaces.basketball import NBACourt
 from sportypy.surfaces.hockey import NHLRink, PHFRink
 from sportypy.surfaces.baseball import LittleLeagueField
+from sportypy.surfaces.volleyball import USAVolleyballCourt
 
 
 def test_plot():
@@ -578,5 +579,42 @@ def test_baseball_heatmap():
 
     # Correct the figure background color
     fig.patch.set_facecolor(little_league.feature_colors["plot_background"])
+
+    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+
+
+def test_volleyball_heatmap():
+    """Test that a heat map plot works as expected through usav.heatmap().
+
+    Data is randomly generated.
+
+    This test should pass so long as the plot is correctly drawn
+    """
+    # Read in the volleyball data
+    shots = pd.read_csv(
+        os.path.join("tests", "data", "volleyball_data.csv")
+    )
+
+    # Create a matplotlib Axes object for the contour plot
+    fig, ax = plt.subplots()
+    fig.set_size_inches(50, 50)
+
+    # Instantiate a USA Volleyball court
+    usav = USAVolleyballCourt()
+
+    # Draw the sheet
+    usav.draw(ax = ax, display_range = "house")
+
+    # Add the heatmap
+    usav.heatmap(
+        shots["x"],
+        shots["y"],
+        values = shots["scored"],
+        plot_range = "offense",
+        ax = ax,
+        alpha = 0.75,
+        cmap = "hot",
+        zorder = 20
+    )
 
     assert isinstance(ax, matplotlib.axes._subplots.Subplot)
