@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Volleyball &#8212; sportypy  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sportypy.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/sportypy-logo-32.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Changelog" href="../changelog.html" />
+    <link rel="prev" title="Tennis" href="tennis.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/sportypy-logo-1500.png"></span>
+          sportypy</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../surfaces.html">Surfaces</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Volleyball</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="tennis.html" title="Previous Chapter: Tennis"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Tennis</span>
+    </a>
+  </li>
+  <li>
+    <a href="../changelog.html" title="Next Chapter: Changelog"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Changelog &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/features/volleyball.md.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="volleyball">
+<h1>Volleyball<a class="headerlink" href="#volleyball" title="Permalink to this heading">#</a></h1>
+<p>Volleyball relies on the following parameterizedfeatures:</p>
+<span class="target" id="module-sportypy._feature_classes.volleyball"></span><p>Extensions of the BaseFeature class to be specific to volleyball courts.</p>
+<p>The features are all parameterized by the basic characteristics of a volleyball
+court. A user can manually specify their own court parameters in the
+<code class="docutils literal notranslate"><span class="pre">VolleyballCourt</span></code> class that will adjust the placement of these features,
+however the features themselves will be consistent across all volleyball
+surfaces.</p>
+<p>&#64;author: Ross Drucker</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.AttackLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">AttackLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">court_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">court_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.AttackLine" title="Permalink to this definition">#</a></dt>
+<dd><p>The attack line.</p>
+<p>This is the line that runs from sideline to sideline, separating the
+backcourt from the front zone. Players in the front row may attack from
+either side of this line, while players in the back row must begin their
+attack from the backcourt side of this line. The anchor point of this
+feature should be its outer edge</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.Backcourt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">Backcourt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attack_line_edge_to_center_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.Backcourt" title="Permalink to this definition">#</a></dt>
+<dd><p>The backcourt area of the volleyball court.</p>
+<p>This is the area between the attack line and the end line. Players playing
+in the back row of the rotation must take off from this area before
+attacking the ball</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.Backcourt.attack_line_edge_to_center_line">
+<span class="sig-name descname"><span class="pre">attack_line_edge_to_center_line</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.Backcourt.attack_line_edge_to_center_line" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the edge furthest from the attack line to the center
+of the line running along <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.BaseVolleyballFeature">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">BaseVolleyballFeature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">court_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">court_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.BaseVolleyballFeature" title="Permalink to this definition">#</a></dt>
+<dd><p>An extension of the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class for volleyball features.</p>
+<p>The following attributes are specific to volleyball features only. For more
+information on inherited attributes, please see the <code class="docutils literal notranslate"><span class="pre">BaseFeature</span></code> class
+definition. The default values are provided to ensure that the feature can
+at least be created.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.BaseVolleyballFeature.court_length">
+<span class="sig-name descname"><span class="pre">court_length</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.BaseVolleyballFeature.court_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of the court in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.BaseVolleyballFeature.court_width">
+<span class="sig-name descname"><span class="pre">court_width</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.BaseVolleyballFeature.court_width" title="Permalink to this definition">#</a></dt>
+<dd><p>The width of the court in TV view. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.BaseVolleyballFeature.feature_radius">
+<span class="sig-name descname"><span class="pre">feature_radius</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.BaseVolleyballFeature.feature_radius" title="Permalink to this definition">#</a></dt>
+<dd><p>The radius needed to draw the feature. This may not be needed for all
+features. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.BaseVolleyballFeature.feature_thickness">
+<span class="sig-name descname"><span class="pre">feature_thickness</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.BaseVolleyballFeature.feature_thickness" title="Permalink to this definition">#</a></dt>
+<dd><p>The thickness with which to draw the feature. This is normally given
+as the horizontal width of the feature in TV view, however it may be
+used to specify other thicknesses as needed. The default is <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.BaseVolleyballFeature.field_units">
+<span class="sig-name descname"><span class="pre">field_units</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.BaseVolleyballFeature.field_units" title="Permalink to this definition">#</a></dt>
+<dd><p>The units with which the feature is drawn. The default is <code class="docutils literal notranslate"><span class="pre">&quot;ft&quot;</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.CenterLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">CenterLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">court_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">court_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.CenterLine" title="Permalink to this definition">#</a></dt>
+<dd><p>The center line.</p>
+<p>This line runs along the line <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">0</span></code> when viewing the court in TV view,
+dividing the court into two equal halves</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.CourtApron">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">CourtApron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">court_apron_end_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">court_apron_sideline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.CourtApron" title="Permalink to this definition">#</a></dt>
+<dd><p>The apron of the volleyball court.</p>
+<p>The court apron is similar to the court apron of a basketball court in that
+it is the area outside of the court, but this is different than the
+<code class="docutils literal notranslate"><span class="pre">FreeZone</span></code> as it is fully contained within the free zone.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.CourtApron.court_apron_end_line">
+<span class="sig-name descname"><span class="pre">court_apron_end_line</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.CourtApron.court_apron_end_line" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance the free zone extends beyond the outer edge of the end
+line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.CourtApron.court_apron_sideline">
+<span class="sig-name descname"><span class="pre">court_apron_sideline</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.CourtApron.court_apron_sideline" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance the free zone extends beyond the outer edge of the
+sideline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.CourtConstraint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">CourtConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">court_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">court_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.CourtConstraint" title="Permalink to this definition">#</a></dt>
+<dd><p>The constraint around the interior edge of the court’s boundary lines.</p>
+<p>This confines all interior features to be constrained inside the court, as
+well as any interior plots.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.EndLine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">EndLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">court_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">court_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.EndLine" title="Permalink to this definition">#</a></dt>
+<dd><p>The end lines.</p>
+<p>These are the lines that run the full width of the court, and their entire
+thickness is considered in bounds during play</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.FreeZone">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">FreeZone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">free_zone_end_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">free_zone_sideline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.FreeZone" title="Permalink to this definition">#</a></dt>
+<dd><p>The free zone of a volleyball court.</p>
+<p>This is similar to the court apron of a basketball court in that it is the
+area outside of the court. It may be the same color as the interior of the
+court, but isn’t necessarily. Unlike a basketball court’s apron, however,
+the boundary line thickness doesn’t matter since the lines are considered
+in-play and therefore are included in the court’s length and width.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.FreeZone.free_zone_end_line">
+<span class="sig-name descname"><span class="pre">free_zone_end_line</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.FreeZone.free_zone_end_line" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance the free zone extends beyond the outer edge of the end
+line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.FreeZone.free_zone_sideline">
+<span class="sig-name descname"><span class="pre">free_zone_sideline</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.FreeZone.free_zone_sideline" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance the free zone extends beyond the outer edge of the
+sideline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.FrontZone">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">FrontZone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attack_line_edge_to_center_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.FrontZone" title="Permalink to this definition">#</a></dt>
+<dd><p>The front zone of a volleyball court.</p>
+<p>The front zone is the area between the attack line and the line running
+along <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">0</span></code>. If considering the entirety of the volleyball court as
+being divided into thirds, this is _half_ of the middle third of the court</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.FrontZone.attack_line_edge_to_center_line">
+<span class="sig-name descname"><span class="pre">attack_line_edge_to_center_line</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.FrontZone.attack_line_edge_to_center_line" title="Permalink to this definition">#</a></dt>
+<dd><p>The distance from the edge furthest from the attack line to the center
+of the line running along <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.ServiceZoneMark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">ServiceZoneMark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_zone_mark_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.ServiceZoneMark" title="Permalink to this definition">#</a></dt>
+<dd><p>A single service zone mark.</p>
+<p>These marks lie beyond the end lines and denote where a legal serve must
+take place. It appears as a hash mark that is out of bounds of the court,
+but contained within the free zone</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.ServiceZoneMark.service_zone_mark_length">
+<span class="sig-name descname"><span class="pre">service_zone_mark_length</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.ServiceZoneMark.service_zone_mark_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of the service zone mark</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.Sideline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">Sideline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">court_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">court_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ft'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.Sideline" title="Permalink to this definition">#</a></dt>
+<dd><p>The sidelines.</p>
+<p>These are the lines that run the full length of the court, and their entire
+thickness is considered in bounds during play</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.SubstitutionZoneDash">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sportypy._feature_classes.volleyball.</span></span><span class="sig-name descname"><span class="pre">SubstitutionZoneDash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dash_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sportypy._feature_classes.volleyball.SubstitutionZoneDash" title="Permalink to this definition">#</a></dt>
+<dd><p>A single dash of the substitution zone.</p>
+<p>The substitution zone is typically marked by a dashed line extending from
+the attack lines. This creates a single dash, and the dashes should be
+added to the plot accordingly</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sportypy._feature_classes.volleyball.SubstitutionZoneDash.dash_length">
+<span class="sig-name descname"><span class="pre">dash_length</span></span><a class="headerlink" href="#sportypy._feature_classes.volleyball.SubstitutionZoneDash.dash_length" title="Permalink to this definition">#</a></dt>
+<dd><p>The length of a single dash of the service line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, Ross Drucker.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
