@@ -98,7 +98,7 @@ class VolleyballCourt(BaseSurfacePlot):
         - substitution_zone_dash_breaks : float
             The separation between dashes in the substitution zone
 
-        - substitution_zone_rep_pattern : int
+        - substitution_zone_rep_pattern : str
             The number of times that the break-dash pattern should be repeated
             to generate the substitution zone
 
@@ -420,6 +420,7 @@ class VolleyballCourt(BaseSurfacePlot):
             "substitution_zone_rep_pattern",
             1
         )
+        n_substitution_zone_reps = int(n_substitution_zone_reps)
         substitution_zone_y_anchor = (
             (self.court_params.get("court_width", 0.0) / 2.0) +
             self.court_params.get("substitution_zone_dash_breaks", 0.0)
@@ -952,6 +953,10 @@ class VolleyballCourt(BaseSurfacePlot):
         ylim : tuple
             The ``y``-directional limits for displaying the plot
         """
+        # Make the display_range full if an empty string is passed
+        if display_range == "" or display_range is None:
+            display_range = "full"
+
         # Copy the supplied xlim and ylim parameters so as not to overwrite
         # the initial memory
         xlim = self.copy_(xlim)
