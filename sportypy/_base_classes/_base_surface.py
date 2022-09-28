@@ -372,7 +372,7 @@ class BaseSurface(ABC):
             A matplotlib Axes object with the surface drawn on it
         """
         # Set the display limits
-        xlim, ylim = self._get_plot_range_limits(
+        xlim_set, ylim_set = self._get_plot_range_limits(
             display_range,
             xlim,
             ylim,
@@ -382,17 +382,26 @@ class BaseSurface(ABC):
 
         # Get the constraining feature's polygon's x and y coordinates
         constraint_df = self._surface_constraint._get_centered_feature()
-        mask = (constraint_df["x"] >= xlim[0]) & \
-               (constraint_df["x"] <= xlim[1]) & \
-               (constraint_df["y"] >= ylim[0]) & \
-               (constraint_df["y"] <= ylim[1])
+        mask = (constraint_df["x"] >= xlim_set[0]) & \
+               (constraint_df["x"] <= xlim_set[1]) & \
+               (constraint_df["y"] >= ylim_set[0]) & \
+               (constraint_df["y"] <= ylim_set[1])
 
-        x = np.concatenate((constraint_df["x"][mask], xlim, xlim))
-        y = np.concatenate((constraint_df["y"][mask], ylim, ylim[::-1]))
+        x = np.concatenate((constraint_df["x"][mask], xlim_set, xlim_set))
+        y = np.concatenate(
+            (
+                constraint_df["y"][mask],
+                ylim_set,
+                ylim_set[::-1]
+            )
+        )
 
         # If the full display range is desired, set the x and y limit
-        # attributes
-        if display_range == "full":
+        # attributes. This will only execute if no xlim or ylim parameter is
+        # passed while the display range is left as "full" since
+        # self._feature_xlim and/or self._feature_ylim will be the largest x or
+        # y value of the feature of the surface
+        if display_range == "full" and xlim is None and ylim is None:
             if self._feature_xlim:
                 x = np.concatenate((x, self._feature_xlim))
             if self._feature_ylim:
@@ -403,7 +412,7 @@ class BaseSurface(ABC):
         xs, ys = self.convert_xy(x + self.x_trans, y + self.y_trans)
 
         # Set the x and y limits of the plot. User-supplied x and y limits will
-        # take precedence over the display_range parameter
+        # always take precedence over the display_range parameter
         ax.set_xlim(np.min(xs), np.max(xs))
         ax.set_ylim(np.min(ys), np.max(ys))
 
