@@ -479,6 +479,10 @@ class FootballField(BaseSurfacePlot):
                 "team_bench_area_border_thickness",
                 0.0
             ),
+            "bench_shape": self.field_params.get(
+                "bench_shape",
+                "rectangle"
+            ),
             "extra_apron_padding": self.field_params.get(
                 "extra_apron_padding",
                 0.0
