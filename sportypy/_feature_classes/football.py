@@ -217,10 +217,13 @@ class FieldApron(BaseFootballFeature):
         ext_y = starting_depth + self.extra_apron_padding
 
         if self.bench_shape.lower() in ["rectangle", "rectangular"]:
-            m = self.team_bench_width / (
-                (self.team_bench_length_back_side / 2.0) -
-                (self.team_bench_length_field_side / 2.0)
-            )
+            try:
+                m = self.team_bench_width / (
+                    (self.team_bench_length_back_side / 2.0) -
+                    (self.team_bench_length_field_side / 2.0)
+                )
+            except ZeroDivisionError:
+                m = 1.0
 
             y2 = starting_depth + self.field_border_thickness
             y1 = (
