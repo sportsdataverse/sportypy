@@ -96,68 +96,25 @@ class FieldConstraint(BaseFootballFeature):
         return field_constraint_df
 
 
-class OffensiveHalf(BaseFootballFeature):
-    """The offensive half of the field.
+class HalfField(BaseFootballFeature):
+    """The half of the field.
 
-    This is the right half of the field in TV view
-
-    Attributes
-    ----------
-    endzone_length : float
-        The length of the endzone in TV view. This is measured from the field
-        side of the goal line
+    This may be either the offensive or defensive half of the field
     """
-
-    def __init__(self, endzone_length = 0.0, *args, **kwargs):
-        # Initialize the attributes unique to this feature
-        self.endzone_length = endzone_length
-        super().__init__(*args, **kwargs)
 
     def _get_centered_feature(self):
         """Generate the points comprising the offensive half of the field.
 
         These points will provide the base of the plot
         """
-        offensive_half_df = self.create_rectangle(
-            x_min = 0.0,
-            x_max = (self.field_length / 2.0) + self.endzone_length,
-            y_min = -((self.field_width / 2.0) + self.feature_thickness),
-            y_max = (self.field_width / 2.0) + self.feature_thickness
+        half_field_df = self.create_rectangle(
+            x_min = -self.field_length / 4.0,
+            x_max = self.field_length / 4.0,
+            y_min = -self.field_width / 2.0,
+            y_max = self.field_width / 2.0
         )
 
-        return offensive_half_df
-
-
-class DefensiveHalf(BaseFootballFeature):
-    """The defensive half of the field.
-
-    This is the left half of the field in TV view
-
-    Attributes
-    ----------
-    endzone_length : float
-        The length of the endzone in TV view. This is measured from the field
-        side of the goal line
-    """
-
-    def __init__(self, endzone_length = 0.0, *args, **kwargs):
-        # Initialize the attributes unique to this feature
-        self.endzone_length = endzone_length
-        super().__init__(*args, **kwargs)
-
-    def _get_centered_feature(self):
-        """Generate the points comprising the defensive half of the field.
-
-        These points will provide the base of the plot
-        """
-        defensive_half_df = self.create_rectangle(
-            x_min = -((self.field_length / 2.0) + self.endzone_length),
-            x_max = 0.0,
-            y_min = -((self.field_width / 2.0) + self.feature_thickness),
-            y_max = (self.field_width / 2.0) + self.feature_thickness
-        )
-
-        return defensive_half_df
+        return half_field_df
 
 
 class FieldApron(BaseFootballFeature):

@@ -389,19 +389,14 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the offensive half of the field
         offensive_half_params = {
-            "class": football_features.OffensiveHalf,
-            "x_anchor": 0.0,
+            "class": football_features.HalfField,
+            "x_anchor": 0.25 * self.field_params.get("field_length", 0),
             "y_anchor": 0.0,
             "reflect_x": False,
             "reflect_y": False,
             "is_constrained": False,
             "field_length": self.field_params.get("field_length", 0.0),
             "field_width": self.field_params.get("field_width", 0.0),
-            "endzone_length": self.field_params.get("endzone_length", 0.0),
-            "feature_thickness": self.field_params.get(
-                "boundary_line_thickness",
-                0.0
-            ),
             "facecolor": self.feature_colors["offensive_half"],
             "edgecolor": None,
             "zorder": 5
@@ -410,19 +405,14 @@ class FootballField(BaseSurfacePlot):
 
         # Initialize the defensive half of the field
         defensive_half_params = {
-            "class": football_features.DefensiveHalf,
-            "x_anchor": 0.0,
+            "class": football_features.HalfField,
+            "x_anchor": -0.25 * self.field_params.get("field_length", 0),
             "y_anchor": 0.0,
             "reflect_x": False,
             "reflect_y": False,
             "is_constrained": False,
             "field_length": self.field_params.get("field_length", 0.0),
             "field_width": self.field_params.get("field_width", 0.0),
-            "endzone_length": self.field_params.get("endzone_length", 0.0),
-            "feature_thickness": self.field_params.get(
-                "boundary_line_thickness",
-                0.0
-            ),
             "facecolor": self.feature_colors["defensive_half"],
             "edgecolor": None,
             "zorder": 5
