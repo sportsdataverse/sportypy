@@ -342,7 +342,9 @@ class FootballField(BaseSurfacePlot):
             "end_line": "#ffffff",
             "sideline": "#ffffff",
             "field_border": "#196f0c",
+            "red_zone_border": "#196f0c00",
             "field_border_outline": "#ffffff",
+            "red_zone_border_outline": "#ffffff",
             "major_yard_line": "#ffffff",
             "goal_line": "#ffffff",
             "minor_yard_line": "#ffffff",
@@ -880,6 +882,61 @@ class FootballField(BaseSurfacePlot):
             "zorder": 16
         }
         self._initialize_feature(field_border_outline_params)
+
+        # Initialize the red zone border
+        red_zone_border_params = {
+            "class": football_features.RedZoneBorder,
+            "x_anchor": (
+                (self.field_params.get("field_length", 0.0) / 2.0) -
+                20.0
+            ),
+            "y_anchor": (
+                (self.field_params.get("field_width", 0.0) / 2.0) +
+                self.field_params.get("boundary_line_thickness", 0.0)
+            ),
+            "reflect_x": True,
+            "reflect_y": True,
+            "is_constrained": False,
+            "visible": self.field_params.get("field_bordered", False),
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "feature_thickness": self.field_params.get(
+                "field_border_thickness",
+                0.0
+            ),
+            "facecolor": self.feature_colors["red_zone_border"],
+            "edgecolor": None,
+            "zorder": 17
+        }
+        self._initialize_feature(red_zone_border_params)
+
+        # Initialize the red zone border's outline
+        red_zone_border_outline_params = {
+            "class": football_features.RedZoneBorderOutline,
+            "x_anchor": (
+                (self.field_params.get("field_length", 0.0) / 2.0) -
+                20.0
+            ),
+            "y_anchor": (
+                (self.field_params.get("field_width", 0.0) / 2.0) +
+                self.field_params.get("boundary_line_thickness", 0.0) +
+                self.field_params.get("field_border_thickness", 0.0)
+            ),
+            "reflect_x": True,
+            "reflect_y": True,
+            "is_constrained": False,
+            "visible": self.field_params.get("field_bordered", False),
+            "field_length": self.field_params.get("field_length", 0.0),
+            "field_width": self.field_params.get("field_width", 0.0),
+            "feature_thickness": self.field_params.get(
+                "minor_line_thickness",
+                0.0
+            ),
+            "facecolor": self.feature_colors["red_zone_border_outline"],
+            "edgecolor": None,
+            "zorder": 17
+        }
+        self._initialize_feature(red_zone_border_outline_params)
 
         # Generate a sequence of numbers that represent each of the yard lines.
         # NOTE: These are the yard lines that are inside of the field of play
@@ -1667,7 +1724,9 @@ class FootballField(BaseSurfacePlot):
             "end_line": "#ffffff",
             "sideline": "#ffffff",
             "field_border": "#196f0c",
+            "red_zone_border": "#196f0c00",
             "field_border_outline": "#ffffff",
+            "red_zone_border_outline": "#ffffff",
             "major_yard_line": "#ffffff",
             "goal_line": "#ffffff",
             "minor_yard_line": "#ffffff",

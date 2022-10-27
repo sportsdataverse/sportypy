@@ -896,6 +896,55 @@ class FieldBorder(BaseFootballFeature):
         return field_border_df
 
 
+class RedZoneBorder(BaseFootballFeature):
+    """The border of the red zone.
+
+    The field border may have a different color along the red zone than it does
+    along the rest of the field. This is not always the case, but the feature
+    is provided for convenience
+    """
+
+    def _get_centered_feature(self):
+        """Generate the points comprising the red zone border.
+
+        This does not include any of the outline of the feature
+        """
+
+        red_zone_border_df = self.create_rectangle(
+            x_min = 0.0,
+            x_max = 20.0,
+            y_min = 0.0,
+            y_max = self.feature_thickness
+        )
+
+        return red_zone_border_df
+
+
+class RedZoneBorderOutline(BaseFootballFeature):
+    """The outline of the border of the red zone.
+
+    The outline of the border of the red zone may be a different color than the
+    rest of the field border outline. THis is not always the case, but the
+    feature is provided for convenience
+    """
+
+    def _get_centered_feature(self):
+        """Generate the points comprising the red zone border's outline.
+
+        This is only the outline of the red zone border, not the actual border
+        itself
+        """
+
+        red_zone_border_outline_df = self.create_rectangle(
+            x_min = 0.0,
+            x_max = 20.0,
+            y_min = 0.0,
+            y_max = self.feature_thickness
+        )
+
+        return red_zone_border_outline_df
+
+
 class FieldBorderOutline(BaseFootballFeature):
     """The outline of the border around the field.
 
