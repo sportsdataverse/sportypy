@@ -1188,6 +1188,8 @@ class HockeyRink(BaseSurfacePlot):
             each display range corresponds to:
 
                 - ``"full"``: The entire ice surface
+                - ``"in bounds only"``: The full in-bounds area of the rink
+                - ``"in_bounds_only"``: The full in-bounds area of the rink
                 - ``"offense"``: the offensive (TV-right) half of the ice
                     surface
                 - ``"offence"``: the offensive (TV-right) half of the ice
@@ -1579,6 +1581,8 @@ class HockeyRink(BaseSurfacePlot):
             valid ``display_range``s:
 
                 - ``"full"``: The entire ice surface
+                - ``"in bounds only"``: The full in-bounds area of the rink
+                - ``"in_bounds_only"``: The full in-bounds area of the rink
                 - ``"offense"``: the offensive (TV-right) half of the ice
                     surface
                 - ``"offence"``: the offensive (TV-right) half of the ice
@@ -1704,6 +1708,26 @@ class HockeyRink(BaseSurfacePlot):
             xlims = {
                 # Full surface (default)
                 "full": (-half_rink_length, half_rink_length),
+                "inboundsonly": (
+                    -(
+                        (self.rink_params.get("rink_length", 0.0) / 2.0) +
+                        self.rink_params.get("board_thickness", 0.0)
+                    ),
+                    (
+                        (self.rink_params.get("rink_length", 0.0) / 2.0) +
+                        self.rink_params.get("board_thickness", 0.0)
+                    )
+                ),
+                "in_bounds_only": (
+                    -(
+                        (self.rink_params.get("rink_length", 0.0) / 2.0) +
+                        self.rink_params.get("board_thickness", 0.0)
+                    ),
+                    (
+                        (self.rink_params.get("rink_length", 0.0) / 2.0) +
+                        self.rink_params.get("board_thickness", 0.0)
+                    )
+                ),
 
                 # Half-rink plots
                 "offense": (0.0, half_rink_length),
@@ -1771,6 +1795,16 @@ class HockeyRink(BaseSurfacePlot):
             ylims = {
                 # Full surface (default)
                 "full": (-(half_rink_width), half_rink_width),
+                "inboundsonly": (
+                    -(
+                        (self.rink_params.get("rink_width", 0.0) / 2.0) +
+                        self.rink_params.get("board_thickness", 0.0)
+                    ),
+                    (
+                        (self.rink_params.get("rink_width", 0.0) / 2.0) +
+                        self.rink_params.get("board_thickness", 0.0)
+                    )
+                ),
 
                 # Half-rink plots
                 "offense": (-half_rink_width, half_rink_width),

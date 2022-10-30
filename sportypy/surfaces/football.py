@@ -1273,6 +1273,8 @@ class FootballField(BaseSurfacePlot):
             each display range corresponds to:
 
                 - ``"full"``: The entire surface
+                - ``"in bounds only"``: The full in-bound area of the field
+                - ``"in_bounds_only"``: The full in-bound area of the field
                 - ``"offense"``: The offensive half of the field
                 - ``"offence"``: The offensive half of the field
                 - ``"offensivehalf"``: The offensive half of the field
@@ -1777,6 +1779,8 @@ class FootballField(BaseSurfacePlot):
             valid ``display_range``s:
 
                 - ``"full"``: The entire surface
+                - ``"in bounds only"``: The full in-bound area of the field
+                - ``"in_bounds_only"``: The full in-bound area of the field
                 - ``"offense"``: The offensive half of the field
                 - ``"offence"``: The offensive half of the field
                 - ``"offensivehalf"``: The offensive half of the field
@@ -1894,6 +1898,30 @@ class FootballField(BaseSurfacePlot):
             xlims = {
                 # Full surface (default)
                 "full": (-half_field_length, half_field_length),
+                "inboundsonly": (
+                    -(
+                        (self.field_params.get("field_length", 0.0) / 2.0) +
+                        self.field_params.get("endzone_length", 0.0) +
+                        self.field_params.get("boundary_line_thickness", 0.0)
+                    ),
+                    (
+                        (self.field_params.get("field_length", 0.0) / 2.0) +
+                        self.field_params.get("endzone_length", 0.0) +
+                        self.field_params.get("boundary_line_thickness", 0.0)
+                    )
+                ),
+                "in_bounds_only": (
+                    -(
+                        (self.field_params.get("field_length", 0.0) / 2.0) +
+                        self.field_params.get("endzone_length", 0.0) +
+                        self.field_params.get("boundary_line_thickness", 0.0)
+                    ),
+                    (
+                        (self.field_params.get("field_length", 0.0) / 2.0) +
+                        self.field_params.get("endzone_length", 0.0) +
+                        self.field_params.get("boundary_line_thickness", 0.0)
+                    )
+                ),
 
                 # Offensive half-field
                 "offense": (0.0, half_field_length),
@@ -1968,6 +1996,26 @@ class FootballField(BaseSurfacePlot):
             ylims = {
                 # Full surface (default)
                 "full": (-half_field_width, half_field_width),
+                "inboundsonly": (
+                    -(
+                        (self.field_params.get("field_width", 0.0) / 2.0) +
+                        self.field_params.get("boundary_line_thickness", 0.0)
+                    ),
+                    (
+                        (self.field_params.get("field_width", 0.0) / 2.0) +
+                        self.field_params.get("boundary_line_thickness", 0.0)
+                    )
+                ),
+                "in_bounds_only": (
+                    -(
+                        (self.field_params.get("field_width", 0.0) / 2.0) +
+                        self.field_params.get("boundary_line_thickness", 0.0)
+                    ),
+                    (
+                        (self.field_params.get("field_width", 0.0) / 2.0) +
+                        self.field_params.get("boundary_line_thickness", 0.0)
+                    )
+                ),
 
                 # Offensive half-field
                 "offense": (-half_field_width, half_field_width),

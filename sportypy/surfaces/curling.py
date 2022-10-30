@@ -654,6 +654,8 @@ class CurlingSheet(BaseSurfacePlot):
             each display range corresponds to:
 
                 - ``"full"``: The entire surface
+                - ``"in bounds only"``: The full in-bounds area of the sheet
+                - ``"in_bounds_only"``: The full in-bounds area of the sheet
                 - ``"house"``: The top house on the surface when viewing the
                     sheet in TV view
 
@@ -1003,6 +1005,8 @@ class CurlingSheet(BaseSurfacePlot):
             valid ``display_range``s:
 
                 - ``"full"``: The entire surface
+                - ``"in bounds only"``: The full in-bounds area of the sheet
+                - ``"in_bounds_only"``: The full in-bounds area of the sheet
                 - ``"house"``: The top house on the surface when viewing the
                     sheet in TV view
 
@@ -1087,6 +1091,26 @@ class CurlingSheet(BaseSurfacePlot):
             xlims = {
                 # Full surface (default)
                 "full": (-half_sheet_width, half_sheet_width),
+                "inboundsonly": (
+                    -(
+                        (self.sheet_params.get("sheet_width", 0.0) / 2.0) +
+                        0.5
+                    ),
+                    (
+                        (self.sheet_params.get("sheet_width", 0.0) / 2.0) +
+                        0.5
+                    )
+                ),
+                "in_bounds_only": (
+                    -(
+                        (self.sheet_params.get("sheet_width", 0.0) / 2.0) +
+                        0.5
+                    ),
+                    (
+                        (self.sheet_params.get("sheet_width", 0.0) / 2.0) +
+                        0.5
+                    )
+                ),
 
                 # House
                 "house": (-half_sheet_width, half_sheet_width)
@@ -1131,6 +1155,26 @@ class CurlingSheet(BaseSurfacePlot):
             ylims = {
                 # Full surface (default)
                 "full": (-(half_sheet_length), half_sheet_length),
+                "inboundsonly": (
+                    -(
+                        (self.sheet_params.get("sheet_length", 0.0) / 2.0) +
+                        0.5
+                    ),
+                    (
+                        (self.sheet_params.get("sheet_length", 0.0) / 2.0) +
+                        0.5
+                    )
+                ),
+                "in_bounds_only": (
+                    -(
+                        (self.sheet_params.get("sheet_length", 0.0) / 2.0) +
+                        0.5
+                    ),
+                    (
+                        (self.sheet_params.get("sheet_length", 0.0) / 2.0) +
+                        0.5
+                    )
+                ),
 
                 # House
                 "house": (end_length, half_sheet_length)

@@ -645,6 +645,8 @@ class SoccerPitch(BaseSurfacePlot):
             each display range corresponds to:
 
                 - ``"full"``: The entire pitch
+                - ``"in bounds only"``: The full in-bounds area of the pitch
+                - ``"in_bounds_only"``: The full in-bounds area of the pitch
                 - ``"offense"``: The offensive half of the pitch. This is the
                         TV-right half
                 - ``"offence"``: The offensive half of the pitch. This is the
@@ -1014,6 +1016,8 @@ class SoccerPitch(BaseSurfacePlot):
             valid ``display_range``s:
 
                 - ``"full"``: The entire pitch
+                - ``"in bounds only"``: The full in-bounds area of the pitch
+                - ``"in_bounds_only"``: The full in-bounds area of the pitch
                 - ``"offense"``: The offensive half of the pitch. This is the
                         TV-right half
                 - ``"offence"``: The offensive half of the pitch. This is the
@@ -1104,6 +1108,14 @@ class SoccerPitch(BaseSurfacePlot):
             xlims = {
                 # Full surface (default)
                 "full": (-half_pitch_length, half_pitch_length),
+                "inboundsonly": (
+                    -(self.pitch_params.get("pitch_length", 0.0) / 2.0),
+                    self.pitch_params.get("pitch_length", 0.0) / 2.0
+                ),
+                "in_bounds_only": (
+                    -(self.pitch_params.get("pitch_length", 0.0) / 2.0),
+                    self.pitch_params.get("pitch_length", 0.0) / 2.0
+                ),
 
                 # Offensive half-pitch
                 "offense": (0.0, half_pitch_length),
@@ -1159,6 +1171,14 @@ class SoccerPitch(BaseSurfacePlot):
             ylims = {
                 # Full surface (default)
                 "full": (-(half_pitch_width), half_pitch_width),
+                "inboundsonly": (
+                    -(self.pitch_params.get("pitch_width", 0.0) / 2.0),
+                    self.pitch_params.get("pitch_width", 0.0) / 2.0
+                ),
+                "in_bounds_only": (
+                    -(self.pitch_params.get("pitch_width", 0.0) / 2.0),
+                    self.pitch_params.get("pitch_width", 0.0) / 2.0
+                ),
                 "offense": (-half_pitch_width, half_pitch_width),
                 "offence": (-half_pitch_width, half_pitch_width),
                 "offensivehalfpitch": (-half_pitch_width, half_pitch_width),

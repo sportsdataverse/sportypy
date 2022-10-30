@@ -546,6 +546,8 @@ class VolleyballCourt(BaseSurfacePlot):
             range corresponds to:
 
                 - ``"full"``: The entire court
+                - ``"in bounds only"``: The full in-bound area of the court
+                - ``"in_bounds_only"``: The full in-bound area of the court
                 - ``"offense"``: The attacking/offensive half court
                 - ``"offence"``: The attacking/offensive half court
                 - ``"offensivehalfcourt"``: The attacking/offensive half court
@@ -911,6 +913,8 @@ class VolleyballCourt(BaseSurfacePlot):
             valid ``display_range``s:
 
                 - ``"full"``: The entire court
+                - ``"in bounds only"``: The full in-bound area of the court
+                - ``"in_bounds_only"``: The full in-bound area of the court
                 - ``"offense"``: The attacking/offensive half court
                 - ``"offence"``: The attacking/offensive half court
                 - ``"offensivehalfcourt"``: The attacking/offensive half court
@@ -994,6 +998,14 @@ class VolleyballCourt(BaseSurfacePlot):
             xlims = {
                 # Full surface (default)
                 "full": (-half_court_length, half_court_length),
+                "inboundsonly": (
+                    -(self.court_params.get("court_length", 0.0) / 2.0),
+                    self.court_params.get("court_length", 0.0) / 2.0,
+                ),
+                "in_bounds_only": (
+                    -(self.court_params.get("court_length", 0.0) / 2.0),
+                    self.court_params.get("court_length", 0.0) / 2.0,
+                ),
 
                 # Offensive half-court
                 "offense": (0.0, half_court_length),
@@ -1049,6 +1061,14 @@ class VolleyballCourt(BaseSurfacePlot):
             ylims = {
                 # Full surface (default)
                 "full": (-(half_court_width), half_court_width),
+                "inboundsonly": (
+                    -(self.court_params.get("court_width", 0.0) / 2.0),
+                    self.court_params.get("court_width", 0.0) / 2.0,
+                ),
+                "in_bounds_only": (
+                    -(self.court_params.get("court_width", 0.0) / 2.0),
+                    self.court_params.get("court_width", 0.0) / 2.0,
+                ),
                 "offense": (-half_court_width, half_court_width),
                 "offence": (-half_court_width, half_court_width),
                 "offensivehalfcourt": (-half_court_width, half_court_width),

@@ -549,6 +549,8 @@ class TennisCourt(BaseSurfacePlot):
             each display range corresponds to:
 
                 - ``"full"``: The entire court
+                - ``"in bounds only"``: The full in-bound area of the court
+                - ``"in_bounds_only"``: The full in-bound area of the court
                 - ``"serve"``: The serving half of the court
                 - ``"serving"``: The serving half of the court
                 - ``"servinghalf"``: The serving half of the court
@@ -904,7 +906,23 @@ class TennisCourt(BaseSurfacePlot):
             be searched for in the possible display ranges. The following are
             valid ``display_range``s:
 
-                - court_length : float
+                - ``"full"``: The entire court
+                - ``"in bounds only"``: The full in-bound area of the court
+                - ``"in_bounds_only"``: The full in-bound area of the court
+                - ``"serve"``: The serving half of the court
+                - ``"serving"``: The serving half of the court
+                - ``"servinghalf"``: The serving half of the court
+                - ``"servicehalf"``: The serving half of the court
+                - ``"serving_half"``: The serving half of the court
+                - ``"service_half"``: The serving half of the court
+                - ``"service half"``: The serving half of the court
+                - ``"receive"``: The receiving half of the court
+                - ``"receiving"``: The receiving half of the court
+                - ``"receivinghalf"``: The receiving half of the court
+                - ``"receiving_half"``: The receiving half of the court
+                - ``"receiving half"``: The receiving half of the court
+
+            - court_length : float
                 The length of the court in the court's specified units
 
             - singles_width : float
@@ -1014,6 +1032,14 @@ class TennisCourt(BaseSurfacePlot):
             xlims = {
                 # Full surface (default)
                 "full": (-half_court_length, half_court_length),
+                "inboundsonly": (
+                    -(self.court_params.get("court_length", 0.0) / 2.0),
+                    self.court_params.get("court_length", 0.0) / 2.0
+                ),
+                "in_bounds_only": (
+                    -(self.court_params.get("court_length", 0.0) / 2.0),
+                    self.court_params.get("court_length", 0.0) / 2.0
+                ),
 
                 # Serving
                 "serve": (-half_court_length, 1.5),
@@ -1072,6 +1098,14 @@ class TennisCourt(BaseSurfacePlot):
             ylims = {
                 # Full surface (default)
                 "full": (-half_court_width, half_court_width),
+                "inboundsonly": (
+                    -(self.court_params.get("doubles_width", 0.0) / 2.0),
+                    self.court_params.get("doubles_width", 0.0) / 2.0
+                ),
+                "in_bounds_only": (
+                    -(self.court_params.get("doubles_width", 0.0) / 2.0),
+                    self.court_params.get("doubles_width", 0.0) / 2.0
+                ),
 
                 # Serving
                 "serve": (-half_court_width, half_court_width),
