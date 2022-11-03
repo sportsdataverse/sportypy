@@ -10,8 +10,6 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
-      with:
-        ref: "sphinx-docs"
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v2
@@ -32,9 +30,3 @@ jobs:
         cd ..
         git add docs/
         git commit -m "Updated documentation"
-
-    - name: Run tests and collect coverage
-      run: pytest --cov=sportypy tests/ --cov-config=.coveragerc --cov-report=xml --cov-report=term
-
-    - name: Upload coverage reports to codecov.io
-      uses: codecov/codecov-action@v3
