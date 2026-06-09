@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Test sportypy
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-python@v2
+    - uses: actions/checkout@v5
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
@@ -25,4 +25,4 @@ jobs:
       run: pytest --cov=sportypy tests/ --cov-config=.coveragerc --cov-report=xml --cov-report=term
 
     - name: Upload coverage reports to codecov.io
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
