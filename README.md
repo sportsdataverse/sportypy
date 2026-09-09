@@ -466,6 +466,29 @@ Notice something for a sport that already exists, but isn't quite right? Join th
 
 By regularly reporting issues, making very slight modifications, fixing typos, or just helping others navigate their own issues, you're able to join the Scout Team!
 
+## Cheat sheet
+
+A printable one-page reference for `sportypy` — every surface class and the
+arguments that shape it — is available as a free PDF:
+
+📄 **[Download the sportypy cheat sheet (PDF)](https://sportsdataverse.org/cheatsheets/sportypy.pdf)**
+
+Light and dark, US Letter landscape. Every SportsDataverse package has one —
+browse them all at **[sportsdataverse.org/cheatsheets](https://sportsdataverse.org/cheatsheets)**.
+
+## Citation
+
+To cite `sportypy` in publications, use:
+
+```bibtex
+@misc{drucker_sportypy,
+  author = {Ross Drucker},
+  title = {sportypy: Draw sports surfaces according to rulebook specifications.},
+  url = {https://github.com/sportsdataverse/sportypy},
+  year = {2022}
+}
+```
+
 ### Acknowledgements
 
 Much of the underlying code structure in `sportypy` was directly influenced and inspired by [The Bucketless](https://github.com/the-bucketless)'s work on the [hockey_rink](https://github.com/the-bucketless/hockey_rink) package. This package is meant to extend the capability that `hockey_rink` provides hockey analysts to analysts of a wider variety of sports
