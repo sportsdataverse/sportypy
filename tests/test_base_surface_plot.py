@@ -17,6 +17,75 @@ from sportypy.surfaces.baseball import LittleLeagueField
 from sportypy.surfaces.volleyball import USAVolleyballCourt
 
 
+@pytest.mark.parametrize("surface_class, half_length, half_width", [
+    (ATPCourt, 39.0, 18.0),
+    (NHLRink, 100.0, 42.5),
+    (WCFSheet, 7.79165, 75.0)
+])
+@pytest.mark.parametrize("x_direction, y_direction", [
+    (1, 0), (-1, 0), (0, 1), (0, -1)
+])
+@pytest.mark.parametrize("is_constrained, expected_count", [
+    (True, 2), (False, 3)
+])
+def test_hexbin_straight_boundaries(surface_class, half_length, half_width,
+                                    x_direction, y_direction, is_constrained,
+                                    expected_count):
+    """Exclude points beyond straight sides only for constrained plots."""
+    surface = surface_class()
+    x = [-1.0, 1.0, x_direction * (half_length + 1.0)]
+    y = [-1.0, 1.0, y_direction * (half_width + 1.0)]
+    fig, ax = plt.subplots()
+
+    try:
+        surface.draw(ax = ax)
+        plot = surface.hexbin(
+            x, y, gridsize = 10, is_constrained = is_constrained, ax = ax
+        )
+        assert plot.get_array().sum() == expected_count
+    finally:
+        plt.close(fig)
+
+
+@pytest.mark.parametrize("surface_class, x, y, expected_count", [
+    (ATPCourt, [-39.0, 39.0, 0.0, 0.0, 39.0, -39.0],
+     [0.0, 0.0, -18.0, 18.0, 18.0, -18.0], 6),
+    (NHLRink, [-100.0, 100.0, 0.0, 0.0, 90.0, 100.0],
+     [0.0, 0.0, -42.5, 42.5, 30.0, 42.5], 5),
+    (WCFSheet, [-7.79165, 7.79165, 0.0, 0.0],
+     [0.0, 0.0, -75.0, 75.0], 4),
+    (LittleLeagueField, [0.0, 0.0, -200.0, 200.0, 0.0, 0.0, 0.0, 201.0],
+     [-75.0, 450.0, 0.0, 0.0, 300.0, -100.0, 451.0, 0.0], 5)
+])
+def test_hexbin_surface_edges(surface_class, x, y, expected_count):
+    """Keep valid boundary points across different surface layouts."""
+    surface = surface_class()
+    fig, ax = plt.subplots()
+
+    try:
+        surface.draw(ax = ax)
+        plot = surface.hexbin(x, y, gridsize = 10, ax = ax)
+        assert plot.get_array().sum() == expected_count
+    finally:
+        plt.close(fig)
+
+
+def test_hexbin_outside_value_color_scale():
+    """Exclude off-court values from the color scale of constrained bins."""
+    court = ATPCourt()
+    fig, ax = plt.subplots()
+
+    try:
+        court.draw(ax = ax)
+        plot = court.hexbin(
+            [-1.0, 1.0, 40.0], [-1.0, 1.0, 0.0],
+            values = [1.0, 2.0, 100.0], gridsize = 10, ax = ax
+        )
+        assert plot.get_clim() == (1.0, 2.0)
+    finally:
+        plt.close(fig)
+
+
 def test_plot():
     """Test the plot() method of the BaseSurfacePlot.
 
