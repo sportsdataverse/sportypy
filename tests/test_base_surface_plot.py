@@ -70,6 +70,24 @@ def test_hexbin_surface_edges(surface_class, x, y, expected_count):
         plt.close(fig)
 
 
+@pytest.mark.parametrize("corner_radius", [0.0, 20.0])
+def test_hexbin_baseball_rectangular_corners(corner_radius):
+    """Keep rectangular field corners even when a radius is configured."""
+    field = LittleLeagueField(field_updates = {"corner_radius": corner_radius})
+    fig, ax = plt.subplots()
+
+    try:
+        field.draw(ax = ax)
+        plot = field.hexbin(
+            [-200.0, 200.0, -200.0, 200.0, -190.0, 190.0, -190.0, 190.0],
+            [-75.0, -75.0, 450.0, 450.0, -65.0, -65.0, 440.0, 440.0],
+            gridsize = 10, ax = ax
+        )
+        assert plot.get_array().sum() == 8
+    finally:
+        plt.close(fig)
+
+
 def test_hexbin_outside_value_color_scale():
     """Exclude off-court values from the color scale of constrained bins."""
     court = ATPCourt()

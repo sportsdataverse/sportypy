@@ -309,7 +309,8 @@ class BaseballField(BaseSurfacePlot):
 
         # Initialize the constraint on the field to confine all features to be
         # contained within the field's boundary. The feature itself is not
-        # visible
+        # visible. FieldConstraint is rectangular, so keep its radius at zero
+        # even if field_params contains a corner_radius.
         field_constraint_params = {
             "class": baseball_features.FieldConstraint,
             "x_anchor": 0.0,
@@ -317,7 +318,6 @@ class BaseballField(BaseSurfacePlot):
             "reflect_x": False,
             "reflect_y": False,
             "feature_units": self.field_params.get("field_units", "ft"),
-            "feature_radius": self.field_params.get("corner_radius", 0.0),
             "feature_thickness": self.field_params.get("board_thickness", 0.0),
             "visible": False
         }
