@@ -42,6 +42,11 @@ html_theme = "bootstrap"
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 html_static_path = ["_static"]
 html_css_files = ["sportypy.css"]
+# Plausible analytics: site-specific script plus its init stub
+html_js_files = [
+    ("https://plausible.io/js/pa-lI8N5cCc-JaTGLO7Mhsgb.js", {"async": "async"}),
+    (None, {"body": "window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()"}),
+]
 html_permalinks_icon = "#"
 html_theme_options = {
     "bootswatch_theme": "cosmo"
