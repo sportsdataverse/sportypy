@@ -254,6 +254,16 @@ class BaseSurfacePlot(BaseSurface):
         values : numpy.ndarray
             The masked set of values
         """
+        # Use the constraint's coordinates so vertical and off-center surfaces
+        # are bounded along the correct axes.
+        constraint_df = self._surface_constraint._get_centered_feature()
+        mask = (
+            (x < constraint_df["x"].min()) |
+            (x > constraint_df["x"].max()) |
+            (y < constraint_df["y"].min()) |
+            (y > constraint_df["y"].max())
+        )
+
         # Convert the x and y values of the coordinates to be floats
         x = np.abs(x).astype("float32")
         y = np.abs(y).astype("float32")
@@ -268,12 +278,9 @@ class BaseSurfacePlot(BaseSurface):
         center_y = (self._surface_constraint.width / 2.0) - \
             self._surface_constraint.feature_radius
 
-        # Create a mask to change the proper values of x and y to be nan. This
-        # will be for coordinates where x is more than half way across the
-        # length of the surface (e.g. beyond the endline of a basketball court)
-        # or more than half way across the width of a surface (e.g. outside
-        # the benches of an NHL rink)
-        mask = (
+        # Also exclude points beyond rounded corners, such as an NHL rink's
+        # boards, even when they are inside the rectangular bounds.
+        mask = mask | (
             ((x > center_x) & (y > center_y) &
              ((center_x - x) ** 2 + (center_y - y) ** 2 >
              self._surface_constraint.feature_radius ** 2))
