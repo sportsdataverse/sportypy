@@ -6,10 +6,13 @@
 Follow](https://img.shields.io/twitter/follow/sportypy?&label=%40sportypy&logo=twitter&style=flat&color=ff552e)](https://twitter.com/sportypy)
 [![Twitter
 Follow](https://img.shields.io/twitter/follow/sportsdataverse?&label=%40sportsdataverse&logo=twitter&style=flat&color=ff552e)](https://twitter.com/sportsdataverse)
+[![npm](https://img.shields.io/npm/v/@sportsdataverse/sporty?label=sporty&logo=npm&style=flat&color=ff552e)](https://www.npmjs.com/package/@sportsdataverse/sporty)
 
 As the field of sports analytics evolves, there's a growing need for methods to both track and visualize players throughout the game. This package aims to make this easy regardless of sport needed to be plotted.
 
 This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, soccer, and tennis in **Python**. For the **R** version of this package, click [here](https://github.com/sportsdataverse/sportyR).
+
+For **JavaScript / TypeScript**, [`@sportsdataverse/sporty`](https://www.npmjs.com/package/@sportsdataverse/sporty) is the TypeScript port of `sportyR` and `sportypy` (`npm install @sportsdataverse/sporty`). It lives in the [sdvplot-js repo](https://github.com/sportsdataverse/sdvplot-js), and its docs are at [plot.sportsdataverse.org](https://plot.sportsdataverse.org/).
 
 ## Installation
 
