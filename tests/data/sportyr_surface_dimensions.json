@@ -1,5 +1,5 @@
 {
-  "_provenance": "Verbatim copy of sportyR data-raw/surface-dimensions.json (sportyR commit 562e8c410d6f8ce255b7ead68eb6c6580889ad44); used to assert sportypy dimensions match sportyR. Regenerate with python tools/sync_dimensions.py <sportyR>/data-raw/surface-dimensions.json --check --vendor tests/data/sportyr_surface_dimensions.json",
+  "_provenance": "Data-identical copy (re-serialised) of sportyR data-raw/surface-dimensions.json (sportyR commit 562e8c410d6f8ce255b7ead68eb6c6580889ad44); used to assert sportypy dimensions match sportyR. Regenerate with python tools/sync_dimensions.py <sportyR>/data-raw/surface-dimensions.json --vendor tests/data/sportyr_surface_dimensions.json",
   "baseball": {
     "custom": {
       "field_units": "",

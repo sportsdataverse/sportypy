@@ -233,6 +233,7 @@ class SoftballField(BaseballField):
         padded by 5. With ``for_plot`` the padding is dropped. An explicit
         ``xlim``/``ylim`` tuple replaces the range (less the translation).
         """
+        # 5 rule-book units, converted to the surface's units (sportyR leaves its display limits unconverted)
         pad = self._display_pad(5.0) if for_display and not for_plot else 0.0
         g = lambda key: self.field_params.get(key, 0.0)  # noqa: E731
         arc, plate = g("infield_arc_radius"), g(

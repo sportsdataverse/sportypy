@@ -478,9 +478,9 @@ class BaseSurface(ABC):
     def _display_pad(self, value = 5.0):
         """Convert a display padding from rule-book units to the surface's.
 
-        sportyR pads its display ranges by a number of the league's rule-book
-        units (e.g. 5 ft around a baseball field). When the surface is drawn in
-        other units, the padding is converted along with everything else
+        5 rule-book units, converted to the surface's units (sportyR leaves its
+        display limits unconverted). sportyR pads its display ranges by a number
+        of the league's rule-book units (e.g. 5 ft around a baseball field)
 
         Parameters
         ----------

@@ -1668,7 +1668,7 @@ class HockeyRink(BaseSurfacePlot):
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. penalty boxes and boards)
         if for_display:
-            # sportyR pads by 5 rule-book units (converted to the surface's)
+            # 5 rule-book units, converted to the surface's units (sportyR leaves its display limits unconverted)
             pad = self._display_pad(5.0)
             half_rink_length = (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) +

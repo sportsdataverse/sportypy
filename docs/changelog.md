@@ -20,9 +20,10 @@ League dimensions now equal `sportyR` 2.3.0's (`tools/sync_dimensions.py --align
 - Basketball (NFHS): the restricted arc is drawn as `sportyR` draws it. NFHS has no restricted-arc radius, so this is a small mark under the basket; it was hidden before.
 - Basketball (NBA, NBA G League, WNBA): the second, 12 ft lane is hidden (`[True, False]` visibility, as in `sportyR`). It was drawn fully transparent before, so plots look the same.
 - Football (NCAA): the restricted area is 1.3333 yd wide (was 2 yd) and the team benches are 60 yd long (were 50 yd).
-- Football (NCAA, NFHS, NFL): `field_bordered` is `False`, so the field border, its white outline and the red-zone border are no longer drawn.
+- Football (NCAA, NFHS, NFL): `field_bordered` is `False`, so the field border, its white outline and the red-zone border are no longer drawn. Colour updates to the border and its outline have no effect unless you pass `field_updates = {"field_bordered": True}`, which also restores the old look.
 - Volleyball: `substitution_zone_rep_pattern` is a number (was the string `"5"`). No visual change.
 - Baseball, catcher's box: `catchers_box_shape` is now listed as `"rectangle"`, which was already the default. No visual change.
+- Lacrosse (new, so no existing output changes): a `center_face_off_marker` colour you pass is kept. `sportyR` overwrites it with `#ffcb05` for NCAA men's fields; this is the one place `sportypy`'s lacrosse differs from `sportyR`.
 
 Display ranges:
 

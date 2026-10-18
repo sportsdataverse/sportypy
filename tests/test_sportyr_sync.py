@@ -171,3 +171,15 @@ def test_surface_dimensions_have_no_drift_from_vendored_sportyr(capsys):
                       .joinpath("surface_dimensions.json").read_text())
     src = {k: v for k, v in SPORTYR.items() if k != "_provenance"}
     assert list(_sync_module().drift(src, mine)) == []
+
+
+@pytest.mark.parametrize("flag", [["--align"], ["--vendor", "out.json"]])
+def test_write_only_flags_refuse_check(tmp_path, flag, capsys):
+    src = tmp_path / "src.json"
+    src.write_text(json.dumps({"hockey": {}}))
+    flag = [str(tmp_path / f) if f.endswith(".json") else f for f in flag]
+    with pytest.raises(SystemExit) as e:
+        _sync_module().main([str(src), *flag, "--check"])
+    assert e.value.code == 2
+    assert "cannot be combined with --check" in capsys.readouterr().err
+    assert not (tmp_path / "out.json").exists()

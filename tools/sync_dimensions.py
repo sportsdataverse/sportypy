@@ -16,7 +16,8 @@ sportyR-only template and is skipped. ``--add-sport SPORT`` creates a sport
 sportypy lacks (first league written there, the rest by the normal path).
 ``--align`` replaces every drifted league with sportyR's entry (verbatim, so
 sportypy-only keys are dropped; sportypy's league key name is kept).
-``--vendor OUT`` also writes sportyR's file, plus a ``_provenance`` key, to OUT
+``--vendor OUT`` also writes a data-identical (re-serialised) copy of sportyR's
+file, plus a ``_provenance`` key, to OUT; write mode only
 (the tests' copy: tests/data/sportyr_surface_dimensions.json).
 """
 import argparse
@@ -114,10 +115,10 @@ def vendor(src_path, source, out):
     sha = subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"],
                          capture_output=True, text=True).stdout.strip() or "unknown"
     data = {"_provenance": (
-        f"Verbatim copy of sportyR data-raw/surface-dimensions.json (sportyR commit {sha}); "
+        f"Data-identical copy (re-serialised) of sportyR data-raw/surface-dimensions.json (sportyR commit {sha}); "
         "used to assert sportypy dimensions match sportyR. Regenerate with "
         "python tools/sync_dimensions.py <sportyR>/data-raw/surface-dimensions.json "
-        "--check --vendor tests/data/sportyr_surface_dimensions.json"), **source}
+        "--vendor tests/data/sportyr_surface_dimensions.json"), **source}
     Path(out).write_text(json.dumps(data, indent=2) + NL, encoding="utf-8", newline=NL)
 
 
@@ -142,6 +143,8 @@ def main(argv=None):
         ap.error("--add-sport cannot be combined with --check")
     if args.align and args.check:
         ap.error("--align cannot be combined with --check")
+    if args.vendor and args.check:
+        ap.error("--vendor cannot be combined with --check")
 
     src_text = Path(args.sportyr_json).read_text(encoding="utf-8")
     tgt_text = TARGET.read_text(encoding="utf-8")

@@ -1065,7 +1065,7 @@ class CurlingSheet(BaseSurfacePlot):
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. sheet apron)
         if for_display:
-            # sportyR pads by 5 rule-book units (converted to the surface's)
+            # 5 rule-book units, converted to the surface's units (sportyR leaves its display limits unconverted)
             pad = self._display_pad(5.0)
             half_sheet_length = (
                 (self.sheet_params.get("sheet_length", 0.0) / 2.0) +
