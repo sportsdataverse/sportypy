@@ -148,3 +148,10 @@ def test_feet_to_millimetres(unit):
     rink = HockeyRink(league_code="nhl")
     assert rink._convert_units(1.0, "ft", unit) == pytest.approx(304.8)
     assert HockeyRink(league_code="nhl", units=unit).rink_params["rink_length"] == pytest.approx(200.0 * 304.8)
+
+
+def test_a_yard_is_three_feet():
+    """1 yd = 3 ft exactly (sportyR uses 1 / 3); it was 0.3333 (0.01% off)."""
+    rink = HockeyRink(league_code="nhl")
+    assert rink._convert_units(1.0, "yd", "ft") == pytest.approx(3.0, rel=1e-15)
+    assert rink._convert_units(100.0, "yards", "in") == pytest.approx(3600.0, rel=1e-15)
