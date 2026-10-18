@@ -183,9 +183,9 @@ def test_contour_heatmap_hexbin():
         alpha = 0.85
     )
 
-    assert isinstance(axs[0], matplotlib.axes._subplots.Subplot)
-    assert isinstance(axs[1], matplotlib.axes._subplots.Subplot)
-    assert isinstance(axs[2], matplotlib.axes._subplots.Subplot)
+    assert isinstance(axs[0], matplotlib.axes.Axes)
+    assert isinstance(axs[1], matplotlib.axes.Axes)
+    assert isinstance(axs[2], matplotlib.axes.Axes)
 
 
 def test_hexbin_without_values():
@@ -220,7 +220,7 @@ def test_hexbin_without_values():
         is_constrained = False
     )
 
-    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+    assert isinstance(ax, matplotlib.axes.Axes)
 
 
 def test_hexbin_impute_iterable():
@@ -255,7 +255,7 @@ def test_hexbin_impute_iterable():
         alpha = 0.85
     )
 
-    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+    assert isinstance(ax, matplotlib.axes.Axes)
 
 
 def test_is_constrained_update_display_range():
@@ -424,7 +424,7 @@ def test_atp_hexbin():
         plot_range = "serving"
     )
 
-    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+    assert isinstance(ax, matplotlib.axes.Axes)
 
 
 def test_nfl_contour():
@@ -467,7 +467,9 @@ def test_nfl_contour():
     # Add the colorbar to explain the plot
     plt.colorbar(contour_img, ax = ax, orientation = "horizontal")
 
-    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+    assert isinstance(ax, matplotlib.axes.Axes)
+    # the contour is clipped to the field (is_constrained defaults to True)
+    assert contour_img.get_clip_path() is not None
 
 
 def test_epl_contour():
@@ -503,7 +505,7 @@ def test_epl_contour():
         cmap = "hot"
     )
 
-    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+    assert isinstance(ax, matplotlib.axes.Axes)
 
 
 def test_curling_heatmap():
@@ -540,7 +542,7 @@ def test_curling_heatmap():
         zorder = 20
     )
 
-    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+    assert isinstance(ax, matplotlib.axes.Axes)
 
 
 def test_baseball_heatmap():
@@ -580,7 +582,7 @@ def test_baseball_heatmap():
     # Correct the figure background color
     fig.patch.set_facecolor(little_league.feature_colors["plot_background"])
 
-    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+    assert isinstance(ax, matplotlib.axes.Axes)
 
 
 def test_volleyball_heatmap():
@@ -617,4 +619,4 @@ def test_volleyball_heatmap():
         zorder = 20
     )
 
-    assert isinstance(ax, matplotlib.axes._subplots.Subplot)
+    assert isinstance(ax, matplotlib.axes.Axes)
