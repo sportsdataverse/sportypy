@@ -803,7 +803,7 @@ class FootballField(BaseSurfacePlot):
             ),
             "surrounds_team_bench_area": self.field_params.get(
                 "field_border_behind_bench",
-                False,
+                True,
             ),
             "bench_shape": self.field_params.get(
                 "bench_shape",
@@ -877,7 +877,7 @@ class FootballField(BaseSurfacePlot):
             ),
             "surrounds_team_bench_area": self.field_params.get(
                 "field_border_behind_bench",
-                False,
+                True,
             ),
             "bench_shape": self.field_params.get(
                 "bench_shape",

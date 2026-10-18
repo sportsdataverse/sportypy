@@ -8,8 +8,22 @@ surfaces.
 
 @author: Ross Drucker
 """
+import numpy as np
 import pandas as pd
 from sportypy._base_classes._base_feature import BaseFeature
+
+
+def _bench_slope(team_bench_width, back_side, field_side):
+    """The bench's side slope, divided as R divides (as sportyR does).
+
+    A rectangular bench (equal sides) has an infinite slope, so the outer
+    corner sits straight above the field-side corner; 0 / 0 is ``nan``.
+    """
+    with np.errstate(divide = "ignore", invalid = "ignore"):
+        return float(
+            np.float64(team_bench_width) /
+            np.float64((back_side / 2.0) - (field_side / 2.0))
+        )
 
 
 class BaseFootballFeature(BaseFeature):
@@ -216,14 +230,14 @@ class FieldApron(BaseFootballFeature):
 
         ext_y = starting_depth + self.extra_apron_padding
 
-        if self.bench_shape.lower() not in ["rectangle", "rectangular"]:
-            try:
-                m = self.team_bench_width / (
-                    (self.team_bench_length_back_side / 2.0) -
-                    (self.team_bench_length_field_side / 2.0)
-                )
-            except ZeroDivisionError:
-                m = 1.0
+        # sportyR (R/features-football.R, football_field_apron()) uses the
+        # slope for rectangular benches and the back side otherwise
+        if self.bench_shape.lower() in ["rectangle", "rectangular"]:
+            m = _bench_slope(
+                self.team_bench_width,
+                self.team_bench_length_back_side,
+                self.team_bench_length_field_side
+            )
 
             y2 = starting_depth + self.field_border_thickness
             y1 = (
@@ -462,8 +476,8 @@ class Endzone(BaseFootballFeature):
         endzone = self.create_rectangle(
             x_min = -self.endzone_length / 2.0,
             x_max = self.endzone_length / 2.0,
-            y_min = -((self.field_width / 2.0) + self.feature_thickness),
-            y_max = (self.field_width / 2.0) + self.feature_thickness
+            y_min = -self.field_width / 2.0,
+            y_max = self.field_width / 2.0
         )
 
         return endzone
@@ -695,10 +709,13 @@ class FieldBorder(BaseFootballFeature):
                 self.team_bench_area_border_thickness
             )
 
-            if self.bench_shape.lower() not in ["rectangle", "rectangular"]:
-                m = self.team_bench_width / (
-                    (self.team_bench_length_back_side / 2.0) -
-                    (self.team_bench_length_field_side / 2.0)
+            # As sportyR: the slope for rectangular benches, the back side
+            # otherwise
+            if self.bench_shape.lower() in ["rectangle", "rectangular"]:
+                m = _bench_slope(
+                    self.team_bench_width,
+                    self.team_bench_length_back_side,
+                    self.team_bench_length_field_side
                 )
 
                 y2 = starting_depth + self.feature_thickness
@@ -1145,10 +1162,13 @@ class FieldBorderOutline(BaseFootballFeature):
                 self.field_border_thickness
             )
 
-            if self.bench_shape.lower() not in ["rectangle", "rectangular"]:
-                m = self.team_bench_width / (
-                    (self.team_bench_length_back_side / 2.0) -
-                    (self.team_bench_length_field_side / 2.0)
+            # As sportyR: the slope for rectangular benches, the back side
+            # otherwise
+            if self.bench_shape.lower() in ["rectangle", "rectangular"]:
+                m = _bench_slope(
+                    self.team_bench_width,
+                    self.team_bench_length_back_side,
+                    self.team_bench_length_field_side
                 )
 
                 y2 = starting_depth + self.field_border_thickness
@@ -1167,7 +1187,7 @@ class FieldBorderOutline(BaseFootballFeature):
             else:
                 outer_corner_x_dist = (self.team_bench_length_back_side / 2.0)
                 outer_corner_x_dist += self.team_bench_area_border_thickness
-                outer_corner_x_dist += self.field_border_thickness
+                outer_corner_x_dist += (self.field_border_thickness / 2.0)
 
             field_border_outline_df = pd.DataFrame({
                 "x": [
