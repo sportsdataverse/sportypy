@@ -90,3 +90,42 @@ def test_sync_write_mode_adds_entry(tmp_path, monkeypatch, capsys):
     assert "sport 'lacrosse' absent" in out
     assert json.loads(target.read_text())["hockey"]["pwhl"] == entry
     assert mod.main([str(src), "--check"]) == 0
+
+
+FOUR_SPACE_SRC = """{
+    "softball": {
+        "custom": {
+            "a": 0.0
+        },
+        "ncaa": {
+            "field_units": "ft",
+
+            "a": 1.5,
+            "nested": {
+                "b": 2
+            }
+        }
+    }
+}
+"""
+
+
+def test_entry_text_and_add_sport_keep_four_space_style():
+    mod = _sync_module()
+    block = mod.entry_text(FOUR_SPACE_SRC, "softball", "ncaa")
+    assert block.startswith('        "ncaa": {\n            "field_units": "ft",')
+    assert '\n                "b": 2\n' in block
+    target = '{\n    "hockey": {\n        "nhl": {\n            "a": 1\n        }\n    }\n}'
+    out = mod.add_sport(target, "softball", block)
+    assert json.loads(out)["softball"]["ncaa"] == json.loads(FOUR_SPACE_SRC)["softball"]["ncaa"]
+    assert json.loads(out)["hockey"] == {"nhl": {"a": 1}}
+    assert '\n    "softball": {\n        "ncaa": {\n            "field_units"' in out
+
+
+def test_add_sport_unknown_to_sportyr_is_a_usage_error(tmp_path, capsys):
+    src = tmp_path / "src.json"
+    src.write_text(json.dumps({"hockey": {}}))
+    with pytest.raises(SystemExit) as e:
+        _sync_module().main([str(src), "--add-sport", "curling2"])
+    assert e.value.code == 2
+    assert "curling2" in capsys.readouterr().err

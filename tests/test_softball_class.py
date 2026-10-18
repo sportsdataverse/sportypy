@@ -10,11 +10,13 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+from matplotlib.colors import to_rgba
 import pytest
 
 import sportypy.surfaces as surfaces
 import sportypy._feature_classes.softball as sf
-from sportypy.surfaces.softball import NCAASoftballField, SoftballField
+from sportypy.surfaces.softball import DEFAULT_COLORS, NCAASoftballField, SoftballField
 
 FIX = json.loads((Path(__file__).parent / "data/sportyr_softball_fixture.json").read_text())
 FEAT, ANCH = FIX["features"], FIX["anchors"]
@@ -83,53 +85,85 @@ def test_bases_boxes_and_lines_match_sportyr():
     assert np.allclose(lines[False], _fx("third_base_line"), atol=TOL)
 
 
+def _rings(df):
+    xy = _xy(df)
+    n = len(xy) // 2
+    return xy[:n], xy[n:]
+
+
+def _sweep(ring, c=(0.0, 0.0)):
+    ang = np.unwrap(np.arctan2(ring[:, 1] - c[1], ring[:, 0] - c[0]))
+    return ang[-1] - ang[0], np.sign(np.diff(ang))
+
+
 def test_pitchers_circle_matches_sportyr():
-    # sportyR draws 1000 points per ring, sportypy 10000: compare ring endpoints and radii
+    # sportyR draws 1000 points per ring, sportypy 10000: compare endpoints, radius, direction, sweep
     circle = _of(NCAASoftballField(), sf.PitchersCircle)[0]
     assert circle.y_anchor == pytest.approx(ANCH["pitchers_circle"][1], abs=TOL)
-    got, ref = _xy(circle._get_centered_feature()), _fx("pitchers_circle")
-    n_got, n_ref = len(got) // 2, len(ref) // 2
-    for k in range(2):
-        g, r = got[k * n_got:(k + 1) * n_got], ref[k * n_ref:(k + 1) * n_ref]
+    got, ref = _rings(circle._get_centered_feature()), _rings(pd.DataFrame(FEAT["pitchers_circle"]))
+    for g, r in zip(got, ref):
         assert np.allclose(g[[0, -1]], r[[0, -1]], atol=TOL)
         assert np.allclose(np.hypot(*g.T), np.hypot(*r[0]), atol=TOL)
-    assert np.hypot(*ref[0]) == pytest.approx(8.0) and np.hypot(*ref[n_ref]) == pytest.approx(7.75)
+        (gs, gd), (rs, rd) = _sweep(g), _sweep(r)
+        assert gs == pytest.approx(rs, abs=1e-6)
+        assert set(gd) == set(rd)
+    assert abs(_sweep(got[0])[0]) == pytest.approx(2 * np.pi, abs=1e-6)
+    assert _sweep(got[0])[0] * _sweep(got[1])[0] < 0  # outer and inner run opposite ways
 
 
 def test_infield_dirt_matches_sportyr_arcs():
     dirt = _of(NCAASoftballField(), sf.InfieldDirt)[0]
-    got, ref = _xy(dirt._get_centered_feature()), _fx("infield_dirt")
-    n_got, n_ref = len(got) // 2, len(ref) // 2
-    for k in range(2):
-        g, r = got[k * n_got:(k + 1) * n_got], ref[k * n_ref:(k + 1) * n_ref]
+    got, ref = _rings(dirt._get_centered_feature()), _rings(pd.DataFrame(FEAT["infield_dirt"]))
+    for g, r, c in zip(got, ref, [(0.0, FIX["params"]["pitchers_plate_front_to_home_plate"]), (0.0, 0.0)]):
         assert np.allclose(g[[0, -1]], r[[0, -1]], atol=TOL)
+        r_ref = np.hypot(r[:, 0] - c[0], r[:, 1] - c[1])
+        assert np.allclose(r_ref, r_ref[0], atol=TOL)
+        assert np.allclose(np.hypot(g[:, 0] - c[0], g[:, 1] - c[1]), r_ref[0], atol=TOL)
+        (gs, gd), (rs, rd) = _sweep(g, c), _sweep(r, c)
+        assert gs == pytest.approx(rs, abs=1e-6) and set(gd) == set(rd)
 
 
 @pytest.mark.parametrize("key", COLOR_KEYS)
-def test_every_color_key_is_accepted_and_used(key):
+def test_every_color_key_reaches_the_drawing(key):
     field = NCAASoftballField(color_updates={key: "#123456"})
     assert field.feature_colors[key] == "#123456"
     ax = field.draw()
-    assert ax is not None
+    want = to_rgba("#123456")
+    if key == "plot_background":
+        assert to_rgba(ax.figure.get_facecolor()) == want
+    else:
+        assert any(np.allclose(p.get_facecolor(), want) for p in ax.patches), key
     plt.close("all")
 
 
 def test_default_colors_match_sportyr():
-    assert set(COLOR_KEYS) <= set(NCAASoftballField().feature_colors)
+    assert set(NCAASoftballField().feature_colors) == set(COLOR_KEYS)
     assert NCAASoftballField().feature_colors["infield_dirt"] == "#9b7653"
 
 
-def test_draw_full_and_infield_limits():
-    f = NCAASoftballField()
-    ax = f.draw()
+def test_reset_colors_restores_softball_defaults():
+    field = NCAASoftballField(color_updates={"base": "#123456"})
+    field.reset_colors()
+    assert field.feature_colors == DEFAULT_COLORS
+    assert "infield_grass" not in field.feature_colors and "pitchers_mound" not in field.feature_colors
+    assert field.field_params == FIX["params"]
+
+
+def test_draw_full_and_infield_limits_match_sportyr():
+    p = FIX["params"]
+    ax = NCAASoftballField().draw()
     full = ax.get_xlim(), ax.get_ylim()
     plt.close("all")
     ax = NCAASoftballField().draw(display_range="infield")
     inf = ax.get_xlim(), ax.get_ylim()
     plt.close("all")
-    assert len(ax.patches) >= 0 and inf[0][1] - inf[0][0] < full[0][1] - full[0][0]
-    # sportyR: infield x = +/-(arc radius + 5), y = (-(13+5), 43+60+5)
-    assert inf[0] == pytest.approx((-65.0, 65.0)) and inf[1] == pytest.approx((-18.0, 108.0))
+    half = p["right_field_distance"] * np.cos(np.pi / 4)
+    assert full[0] == pytest.approx((-134.3503, 134.3503), abs=1e-4)
+    assert full[0] == pytest.approx((-half, half), abs=1e-9)
+    assert full[1] == pytest.approx((-(p["backstop_radius"] + 5), p["center_field_distance"] + 5), abs=1e-9)
+    arc, plate = p["infield_arc_radius"], p["pitchers_plate_front_to_home_plate"]
+    assert inf[0] == pytest.approx((-(arc + 5), arc + 5), abs=1e-9)
+    assert inf[1] == pytest.approx((-(p["home_plate_circle_radius"] + 5), plate + arc + 5), abs=1e-9)
 
 
 def test_export_does_not_rebind_package_names():

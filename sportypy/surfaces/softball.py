@@ -16,6 +16,21 @@ import sportypy._feature_classes.softball as softball_features
 from sportypy.surfaces.baseball import BaseballField
 
 
+DEFAULT_COLORS = {
+    "plot_background": "#395d33",
+    "infield_dirt": "#9b7653",
+    "base": "#ffffff",
+    "pitchers_plate": "#ffffff",
+    "batters_box": "#ffffff",
+    "catchers_box": "#ffffff",
+    "foul_line": "#ffffff",
+    "running_lane": "#ffffff",
+    "pitchers_circle": "#ffffff",
+    "pitchers_lane": "#ffffff",
+    "coaches_box": "#ffffff"
+}
+
+
 class SoftballField(BaseballField):
     """A subclass of ``BaseballField`` that draws a softball field.
 
@@ -58,20 +73,7 @@ class SoftballField(BaseballField):
         self._feature_xlim = None
         self._feature_ylim = None
 
-        self.feature_colors = {
-            "plot_background": "#395d33",
-            "infield_dirt": "#9b7653",
-            "base": "#ffffff",
-            "pitchers_plate": "#ffffff",
-            "batters_box": "#ffffff",
-            "catchers_box": "#ffffff",
-            "foul_line": "#ffffff",
-            "running_lane": "#ffffff",
-            "pitchers_circle": "#ffffff",
-            "pitchers_lane": "#ffffff",
-            "coaches_box": "#ffffff",
-            **(color_updates or {}),
-        }
+        self.feature_colors = {**DEFAULT_COLORS, **(color_updates or {})}
 
         p = self.field_params
         g = lambda key: p.get(key, 0.0)  # noqa: E731
@@ -211,6 +213,42 @@ class SoftballField(BaseballField):
 
         for added_feature in added_features.values():
             self._initialize_feature(added_feature)
+
+
+    def reset_colors(self):
+        """Reset the features of the field to the softball default colors."""
+        self.__init__(
+            field_updates = self.field_params,
+            color_updates = dict(DEFAULT_COLORS)
+        )
+
+    def _get_plot_range_limits(self, display_range = "full", xlim = None,
+                               ylim = None, for_plot = False,
+                               for_display = True):
+        """Get the ``x`` and ``y`` limits, as sportyR's ``geom_softball()``.
+
+        ``"full"`` spans the foul poles in ``x`` (no padding) and runs from
+        the backstop to center field in ``y`` (5 units of padding on both).
+        ``"infield"`` is the infield arc radius and the home plate circle,
+        padded by 5. With ``for_plot`` the padding is dropped. An explicit
+        ``xlim``/``ylim`` tuple replaces the range (less the translation).
+        """
+        pad = 5.0 if for_display and not for_plot else 0.0
+        g = lambda key: self.field_params.get(key, 0.0)  # noqa: E731
+        arc, plate = g("infield_arc_radius"), g(
+            "pitchers_plate_front_to_home_plate")
+        full_x = (g("left_field_distance") * math.cos(3.0 * np.pi / 4.0),
+                  g("right_field_distance") * math.cos(np.pi / 4.0))
+        full_y = (-(g("backstop_radius") + pad), g("center_field_distance") + pad)
+        infield_x = (-(arc + pad), arc + pad)
+        infield_y = (-(g("home_plate_circle_radius") + pad), plate + arc + pad)
+
+        infield = str(display_range or "").lower().replace(" ", "") == "infield"
+        x = (xlim[0] - self.x_trans, xlim[1] - self.x_trans) if xlim else (
+            infield_x if infield else full_x)
+        y = (ylim[0] - self.y_trans, ylim[1] - self.y_trans) if ylim else (
+            infield_y if infield else full_y)
+        return (min(x), max(x)), (min(y), max(y))
 
 
 class NCAASoftballField(SoftballField):

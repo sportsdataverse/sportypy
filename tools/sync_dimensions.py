@@ -112,6 +112,8 @@ def main(argv=None):
     source, target = json.loads(src_text), json.loads(tgt_text)
 
     for sport in args.add_sport:
+        if sport not in source:
+            ap.error(f"sport '{sport}' is not in {args.sportyr_json}")
         leagues = [lg for lg in source[sport] if lg != "custom"]
         if sport in target or not leagues:
             continue
