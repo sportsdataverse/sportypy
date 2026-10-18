@@ -8,22 +8,22 @@ surfaces.
 
 @author: Ross Drucker
 """
-import numpy as np
 import pandas as pd
 from sportypy._base_classes._base_feature import BaseFeature
 
 
-def _bench_slope(team_bench_width, back_side, field_side):
-    """The bench's side slope, divided as R divides (as sportyR does).
+def _slanted_bench(bench_shape, team_bench_width, back_side, field_side):
+    """Whether the bench has slanted sides (e.g. a trapezoid), as sportyR.
 
-    A rectangular bench (equal sides) has an infinite slope, so the outer
-    corner sits straight above the field-side corner; 0 / 0 is ``nan``.
+    On a slanted bench the outer corner of the apron, the field border and its
+    outline follows the bench's side (sportyR #71); otherwise it sits straight
+    above the field-side corner.
     """
-    with np.errstate(divide = "ignore", invalid = "ignore"):
-        return float(
-            np.float64(team_bench_width) /
-            np.float64((back_side / 2.0) - (field_side / 2.0))
-        )
+    return (
+        bench_shape.lower() not in ["rectangle", "rectangular"] and
+        team_bench_width > 0 and
+        back_side != field_side
+    )
 
 
 class BaseFootballFeature(BaseFeature):
@@ -230,13 +230,15 @@ class FieldApron(BaseFootballFeature):
 
         ext_y = starting_depth + self.extra_apron_padding
 
-        # sportyR (R/features-football.R, football_field_apron()) uses the
-        # slope for rectangular benches and the back side otherwise
-        if self.bench_shape.lower() in ["rectangle", "rectangular"]:
-            m = _bench_slope(
-                self.team_bench_width,
-                self.team_bench_length_back_side,
-                self.team_bench_length_field_side
+        if _slanted_bench(
+            self.bench_shape,
+            self.team_bench_width,
+            self.team_bench_length_back_side,
+            self.team_bench_length_field_side
+        ):
+            m = self.team_bench_width / (
+                (self.team_bench_length_back_side / 2.0) -
+                (self.team_bench_length_field_side / 2.0)
             )
 
             y2 = starting_depth + self.field_border_thickness
@@ -255,9 +257,9 @@ class FieldApron(BaseFootballFeature):
             outer_corner_x_dist = ((y2 - y1) / m) + x1
         else:
             outer_corner_x_dist = (
-                (self.team_bench_length_back_side / 2.0) +
-                (self.team_bench_area_border_thickness) +
-                (self.field_border_thickness / 2.0)
+                (self.team_bench_length_field_side / 2.0) +
+                self.team_bench_area_border_thickness +
+                self.field_border_thickness
             )
 
         field_apron_df = pd.DataFrame({
@@ -709,13 +711,15 @@ class FieldBorder(BaseFootballFeature):
                 self.team_bench_area_border_thickness
             )
 
-            # As sportyR: the slope for rectangular benches, the back side
-            # otherwise
-            if self.bench_shape.lower() in ["rectangle", "rectangular"]:
-                m = _bench_slope(
-                    self.team_bench_width,
-                    self.team_bench_length_back_side,
-                    self.team_bench_length_field_side
+            if _slanted_bench(
+                self.bench_shape,
+                self.team_bench_width,
+                self.team_bench_length_back_side,
+                self.team_bench_length_field_side
+            ):
+                m = self.team_bench_width / (
+                    (self.team_bench_length_back_side / 2.0) -
+                    (self.team_bench_length_field_side / 2.0)
                 )
 
                 y2 = starting_depth + self.feature_thickness
@@ -732,9 +736,9 @@ class FieldBorder(BaseFootballFeature):
 
                 outer_corner_x_dist = (((y2 - y1) / m) + x1)
             else:
-                outer_corner_x_dist = (self.team_bench_length_back_side / 2.0)
+                outer_corner_x_dist = (self.team_bench_length_field_side / 2.0)
                 outer_corner_x_dist += self.team_bench_area_border_thickness
-                outer_corner_x_dist += (self.feature_thickness / 2.0)
+                outer_corner_x_dist += self.feature_thickness
 
             field_border_df = pd.DataFrame({
                 "x": [
@@ -1162,13 +1166,15 @@ class FieldBorderOutline(BaseFootballFeature):
                 self.field_border_thickness
             )
 
-            # As sportyR: the slope for rectangular benches, the back side
-            # otherwise
-            if self.bench_shape.lower() in ["rectangle", "rectangular"]:
-                m = _bench_slope(
-                    self.team_bench_width,
-                    self.team_bench_length_back_side,
-                    self.team_bench_length_field_side
+            if _slanted_bench(
+                self.bench_shape,
+                self.team_bench_width,
+                self.team_bench_length_back_side,
+                self.team_bench_length_field_side
+            ):
+                m = self.team_bench_width / (
+                    (self.team_bench_length_back_side / 2.0) -
+                    (self.team_bench_length_field_side / 2.0)
                 )
 
                 y2 = starting_depth + self.field_border_thickness
@@ -1185,9 +1191,9 @@ class FieldBorderOutline(BaseFootballFeature):
 
                 outer_corner_x_dist = (((y2 - y1) / m) + x1)
             else:
-                outer_corner_x_dist = (self.team_bench_length_back_side / 2.0)
+                outer_corner_x_dist = (self.team_bench_length_field_side / 2.0)
                 outer_corner_x_dist += self.team_bench_area_border_thickness
-                outer_corner_x_dist += (self.field_border_thickness / 2.0)
+                outer_corner_x_dist += self.field_border_thickness
 
             field_border_outline_df = pd.DataFrame({
                 "x": [
