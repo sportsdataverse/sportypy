@@ -1242,3 +1242,19 @@ class WCFSheet(CurlingSheet):
             *args,
             **kwargs
         )
+
+
+class CurlingCanadaSheet(CurlingSheet):
+    """A subclass of ``CurlingSheet`` specific to Curling Canada.
+
+    See ``CurlingSheet`` class documentation for full description.
+    """
+
+    def __init__(self, sheet_updates = {}, *args, **kwargs):
+        # Initialize the CurlingSheet class with the relevant parameters
+        super().__init__(
+            league_code = "curling canada",
+            sheet_updates = sheet_updates,
+            *args,
+            **kwargs
+        )

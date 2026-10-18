@@ -2044,3 +2044,19 @@ class USHLRink(HockeyRink):
             *args,
             **kwargs
         )
+
+
+class PWHLRink(HockeyRink):
+    """A subclass of ``HockeyRink`` specific to the PWHL.
+
+    See ``HockeyRink`` class documentation for full description.
+    """
+
+    def __init__(self, rink_updates = {}, *args, **kwargs):
+        # Initialize the HockeyRink class with the relevant parameters
+        super().__init__(
+            league_code = "pwhl",
+            rink_updates = rink_updates,
+            *args,
+            **kwargs
+        )
