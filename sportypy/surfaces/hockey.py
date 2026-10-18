@@ -1982,15 +1982,14 @@ class NHLRink(HockeyRink):
 class NWHLRink(HockeyRink):
     """A subclass of ``HockeyRink`` specific to the NWHL.
 
+    The NWHL became the Premier Hockey Federation (PHF) for the 2021-2022
+    season; ``PHFRink`` draws its rink. Like sportyR's ``"nwhl"`` rink, this
+    class gives no message when it is created.
+
     See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
-        # Deprecation notice that NWHL has changed to PHF
-        print("As of the 2021-2022 season, the NWHL has changed names to be "
-              "the Premier Hockey Federation (PHF). Please use PHFRink() "
-              "going forward.")
-
         # Initialize the HockeyRink class with the relevant parameters
         super().__init__(
             league_code = "nwhl",
