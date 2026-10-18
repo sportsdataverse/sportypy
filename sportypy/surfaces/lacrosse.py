@@ -82,11 +82,6 @@ class LacrosseField(BaseSurfacePlot):
     ``cani_color_features()``, and ``draw()`` accepts a ``display_range`` of
     ``"full"``, ``"in_bounds_only"``, ``"offense"`` or ``"defense"`` (and
     sportyR's other spellings of these).
-
-    One difference from sportyR: a ``center_face_off_marker`` colour passed in
-    ``color_updates`` is kept. sportyR replaces it with ``#ffcb05`` whenever
-    the league asks for a contrasting center face-off marker (NCAA men's);
-    here that is only the default.
     """
 
     def __init__(
@@ -129,18 +124,17 @@ class LacrosseField(BaseSurfacePlot):
         p = self.field_params
         g = lambda key, default=0.0: p.get(key, default)  # noqa: E731
 
-        colors = dict(DEFAULT_COLORS)
+        colors = {**DEFAULT_COLORS, **(color_updates or {})}
+        # The contrasting colour applies only when the user chose no marker
+        # colour and the marker would match the (possibly user-set) center line
+        # (sportyR #65)
         if (
             g("center_face_off_marker_color_contrasting", False)
+            and "center_face_off_marker" not in (color_updates or {})
             and colors["center_face_off_marker"] == colors["center_line"]
         ):
             colors["center_face_off_marker"] = CONTRASTING_CENTER_FACE_OFF_MARKER
-        # sportyR quirk (R/geom-lacrosse.R:300-308): sportyR writes #ffcb05 into
-        # color_updates, overwriting a user's center_face_off_marker colour; this
-        # port keeps the user's colour (the one deliberate divergence) — fix in
-        # step with sportyR
-        self.feature_colors = {**colors, **(color_updates or {})}
-        colors = self.feature_colors
+        self.feature_colors = colors
 
         units_ = p.get("field_units", "ft")
         zorder = iter(range(1, 1000))
@@ -180,8 +174,7 @@ class LacrosseField(BaseSurfacePlot):
             "field_length": length,
             "field_width": width,
             "corner_radius": g("corner_radius"),
-            # sportyR quirk (R/geom-lacrosse.R:323,330,338): reads nzone_length but the JSON key is neutral_zone_length, so the neutral zone is 0 long; kept so R/Python/JS draw the same — fix in step with sportyR
-            "nzone_length": g("nzone_length"),
+            "nzone_length": g("neutral_zone_length"),
             "field_shape": shape,
         }
         goal_x = length / 2.0 - g("goal_line_center_to_end_line")
@@ -208,9 +201,7 @@ class LacrosseField(BaseSurfacePlot):
         bench_x = g("bench_separation") / 2.0 + g("bench_length") / 2.0
         penalty_x = (
             g("penalty_box_separation") / 2.0
-            # sportyR quirk (R/geom-lacrosse.R:819,836): places the penalty boxes with
-            # board_thickness, a key no league has (they have boards_thickness); kept so R/Python/JS draw the same — fix in step with sportyR
-            + g("board_thickness")
+            + g("boards_thickness")
             + g("penalty_box_length") / 2.0
         )
         penalty_fill = {
@@ -257,8 +248,7 @@ class LacrosseField(BaseSurfacePlot):
             f.NeutralZone,
             colors["neutral_zone"],
             field_width=width,
-            # sportyR quirk (R/geom-lacrosse.R:323,330,338): reads nzone_length but the JSON key is neutral_zone_length, so the neutral zone is 0 long; kept so R/Python/JS draw the same — fix in step with sportyR
-            nzone_length=g("nzone_length"),
+            nzone_length=g("neutral_zone_length"),
         )
         add(
             f.OffensiveZone,
@@ -442,9 +432,7 @@ class LacrosseField(BaseSurfacePlot):
             reflect_x=True,
             goal_arc_extension=g("goal_arc_extension"),
             goal_arc_radius=g("goal_arc_radius"),
-            # sportyR quirk (R/geom-lacrosse.R:478): goal_arc_line_thickness has no
-            # %or% 0, so a league without it passes NULL (see goal_arc()); kept so R/Python/JS draw the same — fix in step with sportyR
-            line_thickness=p.get("goal_arc_line_thickness"),
+            line_thickness=g("goal_arc_line_thickness"),
         )
         add(
             f.GoalFan,
@@ -456,13 +444,17 @@ class LacrosseField(BaseSurfacePlot):
             line_thickness=g("goal_fan_line_thickness"),
         )
 
-        # sportyR quirk (R/geom-lacrosse.R:576-587,1042): a goal fan hash mark is
-        # rotated by separation / (fan + circle radius) radians but placed at
-        # (separation / fan radius) / pi of a half turn; kept so R/Python/JS draw the same — fix in step with sportyR
+        # The goal fan is an arc of radius R = goal_fan_radius + goal_circle_radius
+        # (see goal_fan()), so a hash mark at arc distance ``separation`` from the
+        # fan's center sits theta = separation / R radians from it; it is placed
+        # there and rotated by -theta, perpendicular to the arc (sportyR #62).
+        # sportyR quirk (sportyR #62, "Update"): each mark is centred at radius R,
+        # the outer edge of the fan line (drawn from R - t to R), not on the line's
+        # middle; kept so R/Python/JS draw the same — fix in step with sportyR
         fan_r, circle_r = g("goal_fan_radius"), g("goal_circle_radius")
         for separation in g("goal_fan_hash_mark_separation_from_center", []) or []:
             theta = separation / (g("goal_fan_radius", 1.0) + circle_r)
-            place = (separation / g("goal_fan_radius", 1.0)) / math.pi
+            place = theta / math.pi
             add(
                 f.GoalFanHashMark,
                 colors["goal_fan_hash_mark"],
@@ -665,21 +657,30 @@ class LacrosseField(BaseSurfacePlot):
     ):
         """Get the ``x`` and ``y`` limits, as sportyR's ``geom_lacrosse()``.
 
-        ``"full"`` (and any unknown range) is the field plus its apron;
+        ``"full"`` (and any unknown range) is the field plus its apron and, on
+        surfaces that have them, the player benches, penalty boxes and
+        off-field officials' box outside the boards (sportyR #63);
         ``"in_bounds_only"`` the field plus the boards' thickness; the half
-        fields run from the center line out to the apron. With ``for_plot``
-        (limits for plotted data) the apron is left out. An explicit
-        ``xlim``/``ylim`` tuple replaces the range (less the translation).
+        fields run from the center line out to the same extent. With
+        ``for_plot`` (limits for plotted data) only the field is used. An
+        explicit ``xlim``/``ylim`` tuple replaces the range (less the
+        translation).
         """
         p = self.field_params
-        # sportyR quirk (R/geom-lacrosse.R:1203-1207,1214): "full" is the field plus
-        # its apron only, so benches and penalty boxes outside it are cut off;
-        # kept so R/Python/JS draw the same — fix in step with sportyR
-        apron = (
-            p.get("field_apron_thickness", 0.0) if for_display and not for_plot else 0.0
-        )
-        half_length = p.get("field_length", 0.0) / 2.0 + apron
-        half_width = p.get("field_width", 0.0) / 2.0 + apron
+        g = lambda key: p.get(key, 0.0)  # noqa: E731
+        half_length = g("field_length") / 2.0
+        half_width = g("field_width") / 2.0
+        if for_display and not for_plot:
+            boards = g("boards_thickness")
+            half_length = max(
+                half_length + g("field_apron_thickness"),
+                g("bench_separation") / 2.0 + g("bench_length") + boards,
+                g("penalty_box_separation") / 2.0 + g("penalty_box_length") + boards,
+            )
+            half_width += max(
+                g("field_apron_thickness"),
+                2.0 * boards + max(g("bench_depth"), g("penalty_box_depth")),
+            )
         key = str(display_range or "full").lower()
 
         if key in ("in_bounds_only", "in bounds only"):

@@ -250,17 +250,6 @@ def goal_circle_fill(
 
 def goal_arc(goal_arc_extension=0.0, goal_arc_radius=0.0, line_thickness=0.0):
     ext, r, t = goal_arc_extension, goal_arc_radius, line_thickness
-    if t is None:
-        # sportyR quirk (R/geom-lacrosse.R:478, R/features-lacrosse.R:789-821):
-        # NULL thickness when the league has no goal_arc_line_thickness; in R
-        # ``r - NULL`` is empty, so the inner arc has no points and ``-r + NULL``
-        # leaves ``-r`` (recycled); kept so R/Python/JS draw the same — fix in step with sportyR
-        return _bind(
-            _df([ext], [r]),
-            _circle((0.0, 0.0), 0.5, 1.5, r),
-            _df([ext, ext], [-r, -r]),
-            _df([ext, ext], [r, r]),
-        )
     return _bind(
         _df([ext], [r]),
         _circle((0.0, 0.0), 0.5, 1.5, r),

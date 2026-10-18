@@ -1,12 +1,18 @@
 # Regenerates tests/data/sportyr_lacrosse_fixture.json from a local sportyR checkout.
 # Usage: Rscript tools/lacrosse_fixture.R PATH/TO/sportyR OUT.json
+#    or: SPORTYR_PATH=PATH/TO/sportyR Rscript tools/lacrosse_fixture.R OUT.json
+# The checkout is loaded with pkgload::load_all() (never installed); its path
+# and commit are recorded in the JSON's provenance.
 #
 # For every league, geom_lacrosse() is built and each ggplot polygon layer is
 # summarised in drawing order: point count, coordinate moments over every
 # point, every 25th point (plus the last), fill and outline colour. Display
 # limits are recorded for each display range.
 args <- commandArgs(trailingOnly = TRUE)
-suppressMessages(pkgload::load_all(args[1], quiet = TRUE))
+sportyr <- if (length(args) >= 2) args[1] else Sys.getenv("SPORTYR_PATH")
+out_path <- args[length(args)]
+stopifnot(nzchar(sportyr), dir.exists(sportyr))
+suppressMessages(pkgload::load_all(sportyr, quiet = TRUE))
 leagues <- setdiff(names(surface_dimensions[["lacrosse"]]), "custom")
 ranges <- c("full", "in_bounds_only", "offense", "defense")
 summarise_layer <- function(layer) {
@@ -26,7 +32,8 @@ summarise_layer <- function(layer) {
 }
 out <- list(
   provenance = list(
-    sportyR_commit = system(paste("git -C", shQuote(args[1]), "rev-parse HEAD"), intern = TRUE),
+    sportyR_path = normalizePath(sportyr, winslash = "/"),
+    sportyR_commit = system(paste("git -C", shQuote(sportyr), "rev-parse HEAD"), intern = TRUE),
     command = "Rscript tools/lacrosse_fixture.R <sportyR checkout> tests/data/sportyr_lacrosse_fixture.json",
     r_version = R.version.string
   ),
@@ -42,4 +49,4 @@ out <- list(
     )
   })
 )
-writeLines(jsonlite::toJSON(out, auto_unbox = TRUE, digits = NA, pretty = FALSE, na = "null"), args[2])
+writeLines(jsonlite::toJSON(out, auto_unbox = TRUE, digits = NA, pretty = FALSE, na = "null"), out_path)
