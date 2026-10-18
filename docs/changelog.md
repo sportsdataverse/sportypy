@@ -2,7 +2,7 @@
 
 ## `sportypy` 1.2.0
 
-Brings `sportypy` in line with `sportyR` 2.3.0 and the geometry fixes in `sportyR` PR #68 (issues #60-#67 and #69-#72; sportyR commit 00e364a).
+Brings `sportypy` in line with `sportyR` 2.3.0 and the geometry fixes in `sportyR` PR #68 (issues #60-#67 and #69-#77; sportyR commit 972da8c).
 
 ### New surfaces (ported from `sportyR`)
 
@@ -16,6 +16,7 @@ Brings `sportypy` in line with `sportyR` 2.3.0 and the geometry fixes in `sporty
   - PLL: the two-point arc runs parallel to the sidelines 13 yd from the centre of the goal line (new parameter `goal_arc_parallel_line_to_center`), then becomes a 15 yd arc (2024 PLL Rulebook; sportyR #70). Without that parameter the arc is a semicircle.
   - NLL and World Lacrosse: each penalty box is `penalty_box_length` (8 ft) inside its walls; the outer wall moved out 0.25 ft (sportyR #72).
   - Leagues without a goal fan draw no fan polygon (it was a hidden zero-size shape).
+  - NCAA and USA Lacrosse women's: the 8 m arc's hash marks are centred on the middle of the arc's line (10.5495 m from the centre of the goal line), since they bisect it (sportyR #75).
 - Softball: `SoftballField` and `NCAASoftballField`.
 - Hockey: `PWHLRink`, the PWHL's own rink dimensions.
 - Curling: `CurlingCanadaSheet`.
@@ -55,6 +56,9 @@ Display ranges:
 - Unit conversions: `"mm"` is 304.8 per foot (was 340.8) and a yard is exactly a third of a foot (was 0.3333).
 - Lacrosse: `update_colors()` and the other update/reset methods re-derive the NCAA men's contrasting centre face-off colour from the colours you chose, as `sportyR` does (it was fixed at creation).
 - Supported Python versions are 3.9 to 3.14 (classifiers, `python_requires`, tox); CI tests 3.9 and 3.14.
+- Volleyball and basketball in other units: the substitution-zone repetitions and free-throw-circle dashes are counts and are no longer scaled like lengths (a FIVB court in inches drew 196 dashes instead of 5).
+- Football in other units: the nudge of a top "1" in the Clarendon font is converted from yards; sizing the yard numbers no longer leaves an extra tiny text on the axes.
+- Surfaces in other units and shifted match `sportyR`'s (sportyR #74, #76) for lacrosse, football and volleyball (tests/test_unit_parity.py).
 
 ## `sportypy` 1.1.0
 
