@@ -231,7 +231,9 @@ class FootballField(BaseSurfacePlot):
                 view
 
             - field_bordered : bool
-                Whether or not the field should have a border
+                Whether the field border gets a white outline by default
+                (``True``) or a transparent one (``False``). The border and
+                its outlines are always drawn, as in sportyR
 
             - extra_apron_padding : float
                 Any additional padding around the field apron
@@ -343,8 +345,17 @@ class FootballField(BaseSurfacePlot):
             "sideline": "#ffffff",
             "field_border": "#196f0c",
             "red_zone_border": "#196f0c00",
-            "field_border_outline": "#ffffff",
-            "red_zone_border_outline": "#ffffff",
+            # Bordered fields (field_bordered) get a white outline around the
+            # field border by default; other fields a transparent one (sportyR
+            # #67). A colour passed in color_updates always wins
+            "field_border_outline": (
+                "#ffffff" if self.field_params.get("field_bordered", False)
+                else "#ffffff00"
+            ),
+            "red_zone_border_outline": (
+                "#ffffff" if self.field_params.get("field_bordered", False)
+                else "#ffffff00"
+            ),
             "major_yard_line": "#ffffff",
             "goal_line": "#ffffff",
             "minor_yard_line": "#ffffff",
@@ -755,7 +766,7 @@ class FootballField(BaseSurfacePlot):
             "reflect_x": True,
             "reflect_y": False,
             "is_constrained": False,
-            "visible": self.field_params.get("field_bordered", False),
+            "visible": True,
             "field_length": self.field_params.get("field_length", 0.0),
             "field_width": self.field_params.get("field_width", 0.0),
             "restricted_area_length": self.field_params.get(
@@ -821,7 +832,7 @@ class FootballField(BaseSurfacePlot):
             "reflect_x": True,
             "reflect_y": False,
             "is_constrained": False,
-            "visible": self.field_params.get("field_bordered", False),
+            "visible": True,
             "field_length": self.field_params.get("field_length", 0.0),
             "field_width": self.field_params.get("field_width", 0.0),
             "restricted_area_length": self.field_params.get(
@@ -897,7 +908,7 @@ class FootballField(BaseSurfacePlot):
             "reflect_x": True,
             "reflect_y": True,
             "is_constrained": False,
-            "visible": self.field_params.get("field_bordered", False),
+            "visible": True,
             "field_length": self.field_params.get("field_length", 0.0),
             "field_width": self.field_params.get("field_width", 0.0),
             "feature_thickness": self.field_params.get(
@@ -925,7 +936,7 @@ class FootballField(BaseSurfacePlot):
             "reflect_x": True,
             "reflect_y": True,
             "is_constrained": False,
-            "visible": self.field_params.get("field_bordered", False),
+            "visible": True,
             "field_length": self.field_params.get("field_length", 0.0),
             "field_width": self.field_params.get("field_width", 0.0),
             "feature_thickness": self.field_params.get(
@@ -1727,8 +1738,6 @@ class FootballField(BaseSurfacePlot):
             "sideline": "#ffffff",
             "field_border": "#196f0c",
             "red_zone_border": "#196f0c00",
-            "field_border_outline": "#ffffff",
-            "red_zone_border_outline": "#ffffff",
             "major_yard_line": "#ffffff",
             "goal_line": "#ffffff",
             "minor_yard_line": "#ffffff",

@@ -810,10 +810,12 @@ def _border_outlines(field):
 
 
 def test_bordered_fields_draw_a_white_border_outline():
-    """sportyR #67: NCAA, NFHS and NFL draw the white border outline by
-    default; CFL does not; a user colour wins on a bordered field."""
+    """sportyR #67: the border and its outlines are always drawn;
+    field_bordered only picks the default outline colour (white on NCAA, NFHS
+    and NFL, transparent on CFL), and a user colour always wins."""
     from matplotlib.colors import to_rgba
     white = to_rgba("#ffffff")
+    clear = to_rgba("#ffffff00")
     fields = {
         "ncaa": football_fields.NCAAField(),
         "nfhs11": football_fields.NFHSField(),
@@ -827,7 +829,12 @@ def test_bordered_fields_draw_a_white_border_outline():
     for league, field in fields.items():
         outlines = _border_outlines(field)
         assert len(outlines) == 6, league
-        # Find the drawn outline patches by tagging them with a unique colour
+        assert all(f.visible for f in outlines), league
+        want = clear if league == "cfl" else white
+        assert all(
+            to_rgba(f.plot_kwargs["facecolor"]) == want for f in outlines
+        ), league
+        # A user colour is drawn on every league, CFL included
         tagged = type(field)(color_updates = tag)
         ax = tagged.draw()
         drawn = [
@@ -835,26 +842,31 @@ def test_bordered_fields_draw_a_white_border_outline():
             if p.get_visible()
             and to_rgba(p.get_facecolor()) == to_rgba("#010203")
         ]
-        if league == "cfl":
-            assert not any(f.visible for f in outlines)
-            assert drawn == []
-        else:
-            assert all(f.visible for f in outlines), league
-            assert all(
-                to_rgba(f.plot_kwargs["facecolor"]) == white for f in outlines
-            ), league
-            assert len(drawn) == 6, league
+        assert len(drawn) == 6, league
         plt.close("all")
 
-    user = football_fields.NCAAField(
+    for cls in (football_fields.NCAAField, football_fields.CFLField):
+        user = cls(color_updates = {"field_border_outline": "#ff0000"})
+        border = [
+            f for f in _border_outlines(user)
+            if isinstance(f, football_features.FieldBorderOutline)
+        ]
+        assert border and all(
+            f.visible and f.plot_kwargs["facecolor"] == "#ff0000"
+            for f in border
+        ), cls.__name__
+
+
+def test_cfl_reset_colors_keeps_the_outline_transparent():
+    """reset_colors() goes back to the league's default outline colour."""
+    from matplotlib.colors import to_rgba
+    field = football_fields.CFLField(
         color_updates = {"field_border_outline": "#ff0000"}
     )
-    border = [
-        f for f in _border_outlines(user)
-        if isinstance(f, football_features.FieldBorderOutline)
-    ]
-    assert border and all(
-        f.visible and f.plot_kwargs["facecolor"] == "#ff0000" for f in border
+    field.reset_colors()
+    assert all(
+        to_rgba(f.plot_kwargs["facecolor"]) == to_rgba("#ffffff00")
+        for f in _border_outlines(field)
     )
 
 
