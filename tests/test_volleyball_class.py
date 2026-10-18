@@ -590,3 +590,16 @@ def test_display_range_none_empty_string():
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
+
+
+def test_usa_volleyball_court_uses_its_own_dimensions():
+    """USAVolleyballCourt draws the "usa volleyball" court (3 m / 4.5 m free
+    zone), not the FIVB one (5 m / 6.5 m)."""
+    usav = volleyball_courts.USAVolleyballCourt()
+    fivb = volleyball_courts.FIVBCourt()
+    entry = usav.league_dimensions["usa volleyball"]
+    assert usav.league_code == "usa volleyball"
+    assert usav.court_params == entry
+    assert usav.court_params["free_zone_sideline"] == 3.0
+    assert usav.court_params["free_zone_end_line"] == 4.5
+    assert usav.court_params != fivb.court_params

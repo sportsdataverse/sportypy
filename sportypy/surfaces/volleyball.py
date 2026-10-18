@@ -1162,7 +1162,7 @@ class NCAACourt(VolleyballCourt):
 
 
 class USAVolleyballCourt(VolleyballCourt):
-    """A subclass of ``VolleyballCourt`` specific to FIVB.
+    """A subclass of ``VolleyballCourt`` specific to USA Volleyball.
 
     See ``VolleyballCourt`` class documentation for full description.
     """
@@ -1170,7 +1170,7 @@ class USAVolleyballCourt(VolleyballCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the VolleyballCourt class with the relevant parameters
         super().__init__(
-            league_code = "fivb",
+            league_code = "usa volleyball",
             court_updates = court_updates,
             *args,
             **kwargs
