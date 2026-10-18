@@ -448,6 +448,19 @@ nba.heatmap(
 
 ![Ayo Dosunmu's rookie season heat map](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/ayo-dosunmu-rookie-shot-chart.png)
 
+## Follow the SportsDataverse (@SportsDataverse) on X and star this repo
+
+[![X Follow](https://img.shields.io/twitter/follow/SportsDataverse?color=blue&label=%40SportsDataverse&logo=x&style=for-the-badge)](https://x.com/SportsDataverse)
+
+[![GitHub stars](https://img.shields.io/github/stars/sportsdataverse/sportypy.svg?color=eee&logo=github&style=for-the-badge&label=Star%20sportypy&maxAge=2592000)](https://github.com/sportsdataverse/sportypy)
+
+<a href="https://github.com/sportsdataverse/sportypy/stargazers">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sportsdataverse/sportypy/star-history/star-history-dark.svg">
+    <img alt="Star history of sportsdataverse/sportypy" src="https://raw.githubusercontent.com/sportsdataverse/sportypy/star-history/star-history.png" width="600">
+  </picture>
+</a>
+
 ## License
 
 This package is released under the [GPL 3.0 License](https://github.com/sportsdataverse/sportypy/blob/master/LICENSE).
