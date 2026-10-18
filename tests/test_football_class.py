@@ -879,3 +879,38 @@ def test_football_dimensions_follow_sportyr_66_67():
         assert params["field_bordered"] is True, league
     cfl = football_fields.CFLField().field_params
     assert cfl["field_bordered"] is False
+
+
+def test_nfl_bench_corner_follows_the_slanted_side():
+    """sportyR #71: on a trapezoid bench the outer corner of the apron, the
+    field border and its outline follows the bench's slanted side (19.15 yd,
+    was 19.41); rectangular benches keep the field-side corner."""
+    import numpy as np
+    import pytest
+    nfl = football_fields.NFLField()
+    p = nfl.field_params
+    depth = (
+        p["field_width"] / 2 + p["boundary_line_thickness"] +
+        p["restricted_area_width"] + p["coaching_box_width"] +
+        p["team_bench_width"] + p["team_bench_area_border_thickness"]
+    )
+    t = p["field_border_thickness"]
+    feats = {type(f).__name__: f for f in nfl._features if f.x_reflection == 1}
+    for name in ("FieldApron", "FieldBorder"):
+        df = feats[name]._translate_feature()
+        top = df[np.isclose(df["y"], depth + t)]
+        assert top["x"].max() == pytest.approx(19.14685, abs = 1e-5), name
+    # the border's outer edge is parallel to the bench's slanted side
+    m = p["team_bench_width"] / (
+        (p["team_bench_length_back_side"] - p["team_bench_length_field_side"]) / 2
+    )
+    corner = 19.14685
+    x1 = p["team_bench_length_field_side"] / 2 + \
+        p["team_bench_area_border_thickness"] + t
+    y1 = depth - p["team_bench_width"] - p["team_bench_area_border_thickness"]
+    assert (depth + t - y1) / (corner - x1) == pytest.approx(m, rel = 1e-4)
+    ncaa = football_fields.NCAAField()
+    apron = next(
+        f for f in ncaa._features if type(f).__name__ == "FieldApron"
+    )._translate_feature()
+    assert apron["x"].iloc[1] == pytest.approx(31.4444, abs = 1e-4)

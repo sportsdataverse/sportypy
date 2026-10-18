@@ -1,7 +1,7 @@
 {
   "provenance": {
     "sportyR_path": "C:/Users/saiem/Documents/GitHub-Data/sdv-dev/wt-syr-quirks",
-    "sportyR_commit": "811c483887479dc421401196c2f909c5d67ccaea",
+    "sportyR_commit": "00e364ad7916668a951ee1d008b64f77203d2e36",
     "command": "Rscript tools/softball_fixture.R <sportyR checkout> tests/data/sportyr_softball_fixture.json",
     "r_version": "R version 4.6.1 (2026-06-24 ucrt)",
     "league": "ncaa"

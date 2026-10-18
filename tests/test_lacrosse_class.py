@@ -285,11 +285,11 @@ def test_penalty_box_fills_start_inside_the_boards():
 @pytest.mark.parametrize("cls", [lacrosse.NCAAWLacrosseField, lacrosse.USAWLacrosseField])
 def test_goal_fan_hash_marks_sit_on_the_arc_at_their_rotation(cls):
     """sportyR #62: each mark is placed at the angle it is rotated by,
-    phi = s / R with R = goal_fan_radius + goal_circle_radius."""
+    phi = s / R; since #69, R = goal_fan_radius about the goal-line centre."""
     field = cls()
     p = field.field_params
-    r = p["goal_fan_radius"] + p["goal_circle_radius"]
-    cx = p["field_length"] / 2 - p["goal_line_center_to_end_line"] + p["goal_circle_radius"]
+    r = p["goal_fan_radius"]
+    cx = p["field_length"] / 2 - p["goal_line_center_to_end_line"]
     marks = [
         f
         for f in field._features
@@ -333,3 +333,97 @@ def test_center_line_recolour_stops_the_contrasting_default():
         color_updates={"center_line": "#123456", "center_face_off_marker": "#123456"}
     )
     assert both.feature_colors["center_face_off_marker"] == "#123456"
+
+
+# sportyR PR #68 at 00e364a (issues #69, #70, #72, goal-fan early return) ----
+
+
+def _goal_x(p):
+    return p["field_length"] / 2 - p["goal_line_center_to_end_line"]
+
+
+def _right_copies(field, cls_name):
+    return [
+        f
+        for f in field._features
+        if type(f).__name__ == cls_name and (f.x_reflection, f.y_reflection) == (1, 1)
+    ]
+
+
+@pytest.mark.parametrize("cls", [lacrosse.NCAAWLacrosseField, lacrosse.USAWLacrosseField])
+def test_womens_8m_arc_follows_the_rule(cls):
+    """sportyR #69: two 45-degree lines from where the goal line extended
+    crosses the goal circle, joined by a 10.6 m arc about the goal-line
+    centre; hash marks on that circle; goal-line-extended marks 0.305 m."""
+    field = cls()
+    p = field.field_params
+    gx, r, gc = _goal_x(p), p["goal_fan_radius"], p["goal_circle_radius"]
+    assert p["goal_mouth_hash_mark_length"] == 0.305
+    x, y = _xy(_right_copies(field, "GoalFan")[0])
+    dist = np.hypot(x - gx, y)
+    assert dist.max() == pytest.approx(r, abs=1e-9)
+    # B, where the goal line extended crosses the goal circle, is a vertex
+    assert np.min(np.hypot(x - gx, y - gc)) < 1e-9
+    assert np.min(np.hypot(x - gx, y + gc)) < 1e-9
+    # C (on the 10.6 m circle) lies on the 45-degree line from B
+    c = np.argmax(np.where((dist > r - 1e-9) & (y > 0), x, -np.inf))
+    assert (y[c] - gc) == pytest.approx(-(x[c] - gx), abs=1e-9)
+    marks = _right_copies(field, "GoalFanHashMark")
+    for mark, s in zip(marks, p["goal_fan_hash_mark_separation_from_center"]):
+        phi = s / r
+        assert np.hypot(mark.x_anchor - gx, mark.y_anchor) == pytest.approx(r)
+        assert math.atan2(mark.y_anchor, mark.x_anchor - gx) == pytest.approx(math.pi - phi)
+        assert mark.dims["rotational_angle"] == pytest.approx(-phi * 180 / math.pi)
+
+
+def test_pll_two_point_arc_has_parallel_sides():
+    """sportyR #70: lines 13 yd from the goal-line centre, parallel to the
+    sidelines, from the end line until 15 yd out, joined by a 15 yd arc."""
+    field = lacrosse.PLLField()
+    p = field.field_params
+    assert p["goal_arc_parallel_line_to_center"] == 13.0
+    gx, r, t = _goal_x(p), p["goal_arc_radius"], p["goal_arc_line_thickness"]
+    x, y = _xy(_right_copies(field, "GoalArc")[0])
+    assert np.abs(y).max() == pytest.approx(13.0)
+    side = x[np.isclose(np.abs(y), 13.0)]
+    assert side.max() == pytest.approx(gx + p["goal_arc_extension"])
+    assert side.min() == pytest.approx(gx - math.sqrt(r**2 - 13.0**2))
+    front = x < gx - math.sqrt(r**2 - 13.0**2) - 1e-6
+    d = np.hypot(x[front] - gx, y[front])
+    assert np.all(np.isclose(d, r) | np.isclose(d, r - t))
+
+
+def test_goal_arc_falls_back_to_a_semicircle():
+    """Without goal_arc_parallel_line_to_center the arc is the old semicircle."""
+    field = lacrosse.NCAAMLacrosseField(
+        field_updates={"goal_arc_radius": 15.0, "goal_arc_extension": 0.0, "goal_arc_line_thickness": 0.1}
+    )
+    gx = _goal_x(field.field_params)
+    x, y = _xy(_right_copies(field, "GoalArc")[0])
+    assert np.abs(y).max() == pytest.approx(15.0)
+    d = np.hypot(x[x < gx] - gx, y[x < gx])
+    assert np.all(np.isclose(d, 15.0) | np.isclose(d, 14.9))
+
+
+@pytest.mark.parametrize("cls", [lacrosse.NLLField, lacrosse.WorldLacrosseField])
+def test_penalty_boxes_are_their_length_inside(cls):
+    """sportyR #72: each penalty box is penalty_box_length inside its walls,
+    so the three interiors add up to 24 ft."""
+    field = cls()
+    p = field.field_params
+    t, sep, L = p["boards_thickness"], p["penalty_box_separation"], p["penalty_box_length"]
+    x, _ = _xy(_right_copies(field, "PenaltyBoxOutline")[0])
+    walls = sorted(set(np.round(x[x > 0], 9)))
+    assert walls == pytest.approx([sep / 2, sep / 2 + t, sep / 2 + L + t, sep / 2 + L + 2 * t])
+    assert (sep / 2 + L + t) - (sep / 2 + t) == L
+    assert 2 * L + sep == 24.0
+
+
+@pytest.mark.parametrize("cls", [lacrosse.NCAAMLacrosseField, lacrosse.NLLField, lacrosse.PLLField])
+def test_leagues_without_a_goal_fan_draw_no_fan(cls):
+    """sportyR 00e364a: no goal fan outside the goal circle, no fan polygon."""
+    field = cls()
+    fans = [f for f in field._features if type(f).__name__ == "GoalFan"]
+    assert fans and all(len(_xy(f)[0]) == 0 for f in fans)
+    field.draw()
+    plt.close("all")
