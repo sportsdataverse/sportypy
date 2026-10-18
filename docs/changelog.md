@@ -50,6 +50,11 @@ Display ranges:
 - `USAVolleyballCourt` draws the USA Volleyball court (3 m side and 4.5 m end free zones). It drew the FIVB court before (5 m and 6.5 m).
 - `NWHLRink()` no longer prints a message when it is created (as `sportyR`'s `"nwhl"` rink); the NWHL-to-PHF rename note is in its docstring.
 - Thin lines no longer vanish: every feature is drawn with matplotlib's pixel snapping off, which snapped lines thinner than a pixel (volleyball and tennis lines at screen size) to zero width.
+- Football display ranges match `sportyR`'s `geom_football()`: the padding is the league's `extra_apron_padding` (2 yd for NCAA, NFL and CFL; was always 5 yd), the width includes the team-bench border, and the red-zone views start at the 20 (were the 22).
+- `FootballField` honours `units` (it ignored them): the field is built in yards and converted, so it looks the same in any units.
+- Unit conversions: `"mm"` is 304.8 per foot (was 340.8) and a yard is exactly a third of a foot (was 0.3333).
+- Lacrosse: `update_colors()` and the other update/reset methods re-derive the NCAA men's contrasting centre face-off colour from the colours you chose, as `sportyR` does (it was fixed at creation).
+- Supported Python versions are 3.9 to 3.14 (classifiers, `python_requires`, tox); CI tests 3.9 and 3.14.
 
 ## `sportypy` 1.1.0
 
