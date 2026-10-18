@@ -1,7 +1,13 @@
 # Regenerates tests/data/sportyr_softball_fixture.json from a local sportyR checkout.
 # Usage: Rscript tools/softball_fixture.R PATH/TO/sportyR OUT.json
+#    or: SPORTYR_PATH=PATH/TO/sportyR Rscript tools/softball_fixture.R OUT.json
+# The checkout is loaded with pkgload::load_all() (never installed); its path
+# and commit are recorded in the JSON's provenance.
 args <- commandArgs(trailingOnly = TRUE)
-suppressMessages(pkgload::load_all(args[1], quiet = TRUE))
+sportyr <- if (length(args) >= 2) args[1] else Sys.getenv("SPORTYR_PATH")
+out_path <- args[length(args)]
+stopifnot(nzchar(sportyr), dir.exists(sportyr))
+suppressMessages(pkgload::load_all(sportyr, quiet = TRUE))
 p <- surface_dimensions[["softball"]][["ncaa"]]
 df <- function(d) list(x = d$x, y = d$y)
 b <- p$baseline_distance
@@ -30,8 +36,9 @@ anchors <- list(
   batters_box = c(p$home_plate_edge_length / 2 + p$home_plate_side_to_batters_box + p$batters_box_width / 2, 0)
 )
 out <- list(provenance = list(
-  sportyR_commit = system(paste("git -C", shQuote(args[1]), "rev-parse HEAD"), intern = TRUE),
+  sportyR_path = normalizePath(sportyr, winslash = "/"),
+    sportyR_commit = system(paste("git -C", shQuote(sportyr), "rev-parse HEAD"), intern = TRUE),
   command = "Rscript tools/softball_fixture.R <sportyR checkout> tests/data/sportyr_softball_fixture.json",
   r_version = R.version.string, league = "ncaa"),
   params = p, anchors = anchors, features = f)
-writeLines(jsonlite::toJSON(out, auto_unbox = TRUE, digits = NA, pretty = TRUE), args[2])
+writeLines(jsonlite::toJSON(out, auto_unbox = TRUE, digits = NA, pretty = TRUE), out_path)

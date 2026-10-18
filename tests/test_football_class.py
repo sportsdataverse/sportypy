@@ -793,3 +793,77 @@ def test_display_range_none_empty_string():
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
+
+
+def _border_outlines(field):
+    """The field-border and red-zone-border outline features."""
+    return [
+        f for f in field._features
+        if isinstance(
+            f,
+            (
+                football_features.FieldBorderOutline,
+                football_features.RedZoneBorderOutline
+            )
+        )
+    ]
+
+
+def test_bordered_fields_draw_a_white_border_outline():
+    """sportyR #67: NCAA, NFHS and NFL draw the white border outline by
+    default; CFL does not; a user colour wins on a bordered field."""
+    from matplotlib.colors import to_rgba
+    white = to_rgba("#ffffff")
+    fields = {
+        "ncaa": football_fields.NCAAField(),
+        "nfhs11": football_fields.NFHSField(),
+        "nfl": football_fields.NFLField(),
+        "cfl": football_fields.CFLField()
+    }
+    tag = {
+        "field_border_outline": "#010203",
+        "red_zone_border_outline": "#010203"
+    }
+    for league, field in fields.items():
+        outlines = _border_outlines(field)
+        assert len(outlines) == 6, league
+        # Find the drawn outline patches by tagging them with a unique colour
+        tagged = type(field)(color_updates = tag)
+        ax = tagged.draw()
+        drawn = [
+            p for p in ax.patches
+            if p.get_visible()
+            and to_rgba(p.get_facecolor()) == to_rgba("#010203")
+        ]
+        if league == "cfl":
+            assert not any(f.visible for f in outlines)
+            assert drawn == []
+        else:
+            assert all(f.visible for f in outlines), league
+            assert all(
+                to_rgba(f.plot_kwargs["facecolor"]) == white for f in outlines
+            ), league
+            assert len(drawn) == 6, league
+        plt.close("all")
+
+    user = football_fields.NCAAField(
+        color_updates = {"field_border_outline": "#ff0000"}
+    )
+    border = [
+        f for f in _border_outlines(user)
+        if isinstance(f, football_features.FieldBorderOutline)
+    ]
+    assert border and all(
+        f.visible and f.plot_kwargs["facecolor"] == "#ff0000" for f in border
+    )
+
+
+def test_football_dimensions_follow_sportyr_66_67():
+    """sportyR #66 (NCAA coaching line 6 ft out) and #67 (field_bordered)."""
+    ncaa = football_fields.NCAAField().field_params
+    assert ncaa["restricted_area_width"] == 1.8889
+    for league in ("ncaa", "nfhs11", "nfhs9", "nfhs8", "nfhs6", "nfl"):
+        params = football_fields.FootballField(league_code = league).field_params
+        assert params["field_bordered"] is True, league
+    cfl = football_fields.CFLField().field_params
+    assert cfl["field_bordered"] is False

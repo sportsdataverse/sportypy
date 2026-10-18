@@ -11,6 +11,7 @@ and sweep; ``test_circles_radius_direction_sweep`` checks those explicitly too.
 """
 
 import json
+import math
 from pathlib import Path
 
 import matplotlib
@@ -245,3 +246,90 @@ def test_exports_do_not_rebind_package_names():
     assert surfaces.NCAAField.__module__ == "sportypy.surfaces.football"
     assert surfaces.NCAACourt.__module__ == "sportypy.surfaces.tennis"
     assert sportypy.GoalLine.__module__ == "sportypy._feature_classes.soccer"  # pre-existing winner
+
+
+# sportyR PR #68 fixes (issues #60-#65), each pinned on its own -------------
+
+
+def _first(field, cls_name):
+    return next(f for f in field._features if type(f).__name__ == cls_name)
+
+
+def _xy(feat):
+    df = feat._translate_feature()
+    return df["x"].to_numpy(float), df["y"].to_numpy(float)
+
+
+def _area(x, y):
+    return abs(np.dot(x, np.roll(y, -1)) - np.dot(np.roll(x, -1), y)) / 2.0
+
+
+@pytest.mark.parametrize("cls", [lacrosse.NLLField, lacrosse.WorldLacrosseField])
+def test_neutral_zone_spans_restraining_lines(cls):
+    """sportyR #60: the zones read neutral_zone_length (85 ft)."""
+    field = cls()
+    x, _ = _xy(_first(field, "NeutralZone"))
+    assert (x.min(), x.max()) == pytest.approx((-42.5, 42.5))
+    assert _first(field, "OffensiveZone").dims["nzone_length"] == 85.0
+    assert _first(field, "DefensiveZone").dims["nzone_length"] == 85.0
+
+
+def test_penalty_box_fills_start_inside_the_boards():
+    """sportyR #61: the fills are anchored with boards_thickness."""
+    p = lacrosse.NLLField().field_params
+    want = p["penalty_box_separation"] / 2 + p["boards_thickness"] + p["penalty_box_length"] / 2
+    fills = [f for f in lacrosse.NLLField()._features if type(f).__name__ == "PenaltyBoxFill"]
+    assert sorted(abs(f.x_anchor) for f in fills) == pytest.approx([want, want])
+
+
+@pytest.mark.parametrize("cls", [lacrosse.NCAAWLacrosseField, lacrosse.USAWLacrosseField])
+def test_goal_fan_hash_marks_sit_on_the_arc_at_their_rotation(cls):
+    """sportyR #62: each mark is placed at the angle it is rotated by,
+    phi = s / R with R = goal_fan_radius + goal_circle_radius."""
+    field = cls()
+    p = field.field_params
+    r = p["goal_fan_radius"] + p["goal_circle_radius"]
+    cx = p["field_length"] / 2 - p["goal_line_center_to_end_line"] + p["goal_circle_radius"]
+    marks = [
+        f
+        for f in field._features
+        if type(f).__name__ == "GoalFanHashMark" and (f.x_reflection, f.y_reflection) == (1, 1)
+    ]
+    seps = p["goal_fan_hash_mark_separation_from_center"]
+    assert len(marks) == len(seps)
+    for mark, s in zip(marks, seps):
+        phi = s / r
+        assert mark.dims["rotational_angle"] == pytest.approx(-phi * 180 / math.pi)
+        assert np.hypot(mark.x_anchor - cx, mark.y_anchor) == pytest.approx(r)
+        assert math.atan2(mark.y_anchor, mark.x_anchor - cx) == pytest.approx(math.pi - phi)
+
+
+@pytest.mark.parametrize("cls", [lacrosse.NLLField, lacrosse.WorldLacrosseField])
+def test_full_range_takes_in_benches_and_boxes(cls):
+    """sportyR #63: the box-lacrosse display reaches the benches' and
+    penalty boxes' outer walls (y +/- 48 ft), half fields too."""
+    field = cls()
+    for rng, xlim in [("full", (-105, 105)), ("offense", (0, 105)), ("defense", (-105, 0))]:
+        x, y = field._get_plot_range_limits(rng)
+        assert x == pytest.approx(xlim) and y == pytest.approx((-48.0, 48.0))
+    # the plotted-data limits stay the field itself
+    assert field._get_plot_range_limits("full", for_plot=True) == ((-100.0, 100.0), (-42.5, 42.5))
+
+
+def test_goal_arc_without_thickness_is_a_line_not_a_block():
+    """sportyR #64: goal_arc_line_thickness defaults to 0."""
+    field = lacrosse.NCAAMLacrosseField(
+        field_updates={"goal_arc_radius": 15.0, "goal_arc_extension": 0.0}
+    )
+    assert _area(*_xy(_first(field, "GoalArc"))) == pytest.approx(0.0, abs=1e-9)
+
+
+def test_center_line_recolour_stops_the_contrasting_default():
+    """sportyR #65: the contrasting #ffcb05 applies only when the user chose
+    no marker colour and the marker would match the (user's) center line."""
+    field = lacrosse.NCAAMLacrosseField(color_updates={"center_line": "#ff0000"})
+    assert field.feature_colors["center_face_off_marker"] == "#ffffff"
+    both = lacrosse.NCAAMLacrosseField(
+        color_updates={"center_line": "#123456", "center_face_off_marker": "#123456"}
+    )
+    assert both.feature_colors["center_face_off_marker"] == "#123456"
