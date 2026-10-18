@@ -25,7 +25,12 @@ League dimensions now equal `sportyR` 2.3.0's, with PR #68's corrections (`tools
 - Basketball (NFHS): the restricted arc is drawn as `sportyR` draws it. NFHS has no restricted-arc radius, so this is a small mark under the basket; it was hidden before.
 - Basketball (NBA, NBA G League, WNBA): the second, 12 ft lane is hidden (`[True, False]` visibility, as in `sportyR`). It was drawn fully transparent before, so plots look the same.
 - Football (NCAA): the restricted area is 1.8889 yd wide (was 2 yd), so the coaching line sits 6 ft outside the sideline, measured from its inside edge (NCAA Football Rules 1-2-4-a; `sportyR` 2.3.0 has 1.3333 yd, corrected in sportyR #66), and the team benches are 60 yd long (were 50 yd).
-- Football (NCAA, NFHS, NFL): `field_bordered` stays `True`, so these fields still draw the field border and its white outline, as `sportyR` does after sportyR #67. A colour you pass for the border or its outline is used on these fields. CFL draws no border outline. No visual change.
+- Football: the field border, its outline and the red-zone border and outline are always drawn, as in `sportyR`. `field_bordered` only picks the default outline colour: white on NCAA, NFHS and NFL (`field_bordered` is `True`, sportyR #67), transparent on CFL. A colour you pass always wins, so a CFL outline colour is now drawn (it was ignored). Default output is unchanged.
+- Football (NFHS): the field border and its outline wrap the team areas from the centre line, as `sportyR` draws them (11-player: x 0 to 62.1 yd, y ±36.9 yd); they used to cover only the ends of the field beyond the team areas (x 25.1 to 62.1 yd, y ±28.8 yd).
+- Football (NCAA, NFL): the outer bench corners of the apron, field border and outline sit where `sportyR` puts them (NCAA 31.44 yd from the centre line, was 30.78 yd; NFL 19.41 yd, was 19.15 yd).
+- Football (NCAA, NFHS, CFL): the coaching-box line is `#ffcb05`, as in `sportyR` (and as `NFLField` already drew it); it was white.
+- Football: the endzones span the field's width; they used to extend under the sidelines, so plots look the same.
+- Football polygons now match `sportyR`'s `geom_football()` point for point for NCAA, NFL, NFHS (11, 9, 8, 6) and CFL (tests/test_football_parity.py).
 - Volleyball: `substitution_zone_rep_pattern` is a number (was the string `"5"`). No visual change.
 - Baseball, catcher's box: `catchers_box_shape` is now listed as `"rectangle"`, which was already the default. No visual change.
 
