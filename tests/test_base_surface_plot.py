@@ -5,6 +5,7 @@
 import os
 import pytest
 import matplotlib
+import matplotlib.collections
 import pandas as pd
 import matplotlib.pyplot as plt
 from sportypy.surfaces.soccer import EPLPitch
@@ -468,8 +469,14 @@ def test_nfl_contour():
     plt.colorbar(contour_img, ax = ax, orientation = "horizontal")
 
     assert isinstance(ax, matplotlib.axes.Axes)
-    # the contour is clipped to the field (is_constrained defaults to True)
-    assert contour_img.get_clip_path() is not None
+    # the contour is clipped to the field (is_constrained defaults to True).
+    # From matplotlib 3.8 the ContourSet is itself a Collection; before, its
+    # artists are in ``.collections``
+    if isinstance(contour_img, matplotlib.collections.Collection):
+        clipped = [contour_img]
+    else:
+        clipped = contour_img.collections
+    assert clipped and all(c.get_clip_path() is not None for c in clipped)
 
 
 def test_epl_contour():
