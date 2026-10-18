@@ -1470,7 +1470,7 @@ class HockeyRink(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             rink_updates = self.rink_params,
             color_updates = updated_colors
         )
@@ -1504,7 +1504,7 @@ class HockeyRink(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             rink_updates = updated_rink_params,
             color_updates = self.feature_colors
         )
@@ -1546,7 +1546,7 @@ class HockeyRink(BaseSurfacePlot):
             "off_ice_officials_box": "#a5acaf"
         }
 
-        self.__init__(
+        self._reinit(
             rink_updates = self.rink_params,
             color_updates = default_colors
         )
@@ -1563,7 +1563,7 @@ class HockeyRink(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             rink_updates = default_params,
             color_updates = self.feature_colors
         )
@@ -1668,10 +1668,12 @@ class HockeyRink(BaseSurfacePlot):
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. penalty boxes and boards)
         if for_display:
+            # sportyR pads by 5 rule-book units (converted to the surface's)
+            pad = self._display_pad(5.0)
             half_rink_length = (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) +
                 (3.0 * self.rink_params.get("board_thickness", 0.0)) +
-                5.0
+                pad
             )
             half_rink_width = (
                 (self.rink_params.get("rink_width", 0.0) / 2.0) +
@@ -1680,23 +1682,23 @@ class HockeyRink(BaseSurfacePlot):
                     self.rink_params.get("penalty_box_depth", 0.0)
                 ) +
                 (3.0 * self.rink_params.get("board_thickness", 0.0)) +
-                5.0
+                pad
             )
 
             half_nzone_length = (
                 (self.rink_params.get("nzone_length", 0.0) / 2.0) +
                 self.rink_params.get("major_line_thickness", 0.0) +
-                5.0
+                pad
             )
 
             ozone_start = (
                 (self.rink_params.get("nzone_length", 0.0) / 2.0) -
-                5.0
+                pad
             )
 
             dzone_start = (
                 -(self.rink_params.get("nzone_length", 0.0) / 2.0) +
-                5.0
+                pad
             )
 
         # Set the x limits of the plot if they are not provided

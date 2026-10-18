@@ -2018,7 +2018,7 @@ class BasketballCourt(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             court_updates = self.court_params,
             color_updates = updated_colors
         )
@@ -2052,7 +2052,7 @@ class BasketballCourt(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             court_updates = updated_court_params,
             color_updates = self.feature_colors
         )
@@ -2095,7 +2095,7 @@ class BasketballCourt(BaseSurfacePlot):
             "net": "#ffffff"
         }
 
-        self.__init__(
+        self._reinit(
             court_updates = self.court_params,
             color_updates = default_colors
         )
@@ -2112,7 +2112,7 @@ class BasketballCourt(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             court_updates = default_params,
             color_updates = self.feature_colors
         )

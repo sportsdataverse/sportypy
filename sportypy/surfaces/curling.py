@@ -905,7 +905,7 @@ class CurlingSheet(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             sheet_updates = self.sheet_params,
             color_updates = updated_colors
         )
@@ -939,7 +939,7 @@ class CurlingSheet(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             sheet_updates = updated_sheet_params,
             color_updates = self.feature_colors
         )
@@ -970,7 +970,7 @@ class CurlingSheet(BaseSurfacePlot):
             "house_rings": ["#c8102e", "#ffffff", "#0033a0"]
         }
 
-        self.__init__(
+        self._reinit(
             sheet_updates = self.sheet_params,
             color_updates = default_colors
         )
@@ -987,7 +987,7 @@ class CurlingSheet(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             sheet_updates = default_params,
             color_updates = self.feature_colors
         )
@@ -1065,21 +1065,23 @@ class CurlingSheet(BaseSurfacePlot):
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. sheet apron)
         if for_display:
+            # sportyR pads by 5 rule-book units (converted to the surface's)
+            pad = self._display_pad(5.0)
             half_sheet_length = (
                 (self.sheet_params.get("sheet_length", 0.0) / 2.0) +
                 self.sheet_params.get("apron_behind_back", 0.0) +
-                5.0
+                pad
             )
             half_sheet_width = (
                 (self.sheet_params.get("sheet_width", 0.0) / 2.0) +
                 self.sheet_params.get("apron_along_side", 0.0) +
-                5.0
+                pad
             )
             end_length = (
                 self.sheet_params.get("tee_line_to_center", 0.0) -
                 self.sheet_params.get("hog_line_to_tee_line", 0.0) -
                 self.sheet_params.get("courtesy_line_to_hog_line", 0.0) -
-                5.0
+                pad
             )
 
         # Set the x limits of the plot if they are not provided

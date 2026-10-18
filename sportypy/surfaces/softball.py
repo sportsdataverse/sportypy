@@ -217,7 +217,7 @@ class SoftballField(BaseballField):
 
     def reset_colors(self):
         """Reset the features of the field to the softball default colors."""
-        self.__init__(
+        self._reinit(
             field_updates = self.field_params,
             color_updates = dict(DEFAULT_COLORS)
         )
@@ -233,7 +233,7 @@ class SoftballField(BaseballField):
         padded by 5. With ``for_plot`` the padding is dropped. An explicit
         ``xlim``/``ylim`` tuple replaces the range (less the translation).
         """
-        pad = 5.0 if for_display and not for_plot else 0.0
+        pad = self._display_pad(5.0) if for_display and not for_plot else 0.0
         g = lambda key: self.field_params.get(key, 0.0)  # noqa: E731
         arc, plate = g("infield_arc_radius"), g(
             "pitchers_plate_front_to_home_plate")

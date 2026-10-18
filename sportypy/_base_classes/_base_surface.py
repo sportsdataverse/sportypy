@@ -3,6 +3,7 @@
 @author: Ross Drucker
 """
 import json
+import inspect
 import numpy as np
 import importlib.resources
 from abc import ABC, abstractmethod
@@ -417,6 +418,89 @@ class BaseSurface(ABC):
         ax.set_ylim(np.min(ys), np.max(ys))
 
         return ax
+
+    def _surface_params(self):
+        """Return the surface's parameter dict and the name of its units key.
+
+        Each sport names these after its surface: ``field_params`` with
+        ``field_units``, ``court_params`` with ``court_units``, and so on
+
+        Returns
+        -------
+        params : dict
+            The surface's current parameters (empty if none are set yet)
+
+        units_key : str
+            The key of ``params`` holding the surface's units
+        """
+        for name in ("field", "court", "rink", "sheet", "pitch"):
+            params = getattr(self, f"{name}_params", None)
+            if params is not None:
+                return params, f"{name}_units"
+        return {}, "units"
+
+    def _reinit(self, **kwargs):
+        """Re-run ``__init__`` as the ``update_*`` and ``reset_*`` methods do.
+
+        The rotation, translation, league (or NFHS player count) and units the
+        surface was created with are kept unless ``kwargs`` overrides them
+
+        Parameters
+        ----------
+        **kwargs
+            The ``*_updates`` and ``color_updates`` to re-initialize with
+        """
+        signature = inspect.signature(type(self).__init__).parameters
+        for name in ("league_code", "n_players"):
+            if name in signature and hasattr(self, name):
+                kwargs.setdefault(name, getattr(self, name))
+
+        # ``reset_*_params`` passes rule-book parameters; convert them back to
+        # the surface's current units. ``update_*`` passes parameters that are
+        # already in those units, so no conversion is applied to them
+        params, units_key = self._surface_params()
+        updates = kwargs.get(units_key.replace("_units", "_updates"), {})
+        current = params.get(units_key)
+        if current and updates.get(units_key, current) != current:
+            kwargs.setdefault("units", current)
+
+        # Keep the rotation in effect (``draw(rotation = ...)`` may have
+        # changed it since the surface was created)
+        rotation = self._rotation
+        self.__init__(
+            rotation = getattr(self, "rotation_amt", 0.0),
+            x_trans = self.x_trans,
+            y_trans = self.y_trans,
+            **kwargs
+        )
+        self._rotation = rotation
+
+    def _display_pad(self, value = 5.0):
+        """Convert a display padding from rule-book units to the surface's.
+
+        sportyR pads its display ranges by a number of the league's rule-book
+        units (e.g. 5 ft around a baseball field). When the surface is drawn in
+        other units, the padding is converted along with everything else
+
+        Parameters
+        ----------
+        value : float
+            The padding in the league's rule-book units. The default is ``5.0``
+
+        Returns
+        -------
+        value : float
+            The padding in the surface's current units
+        """
+        params, units_key = self._surface_params()
+        rulebook = getattr(self, "league_dimensions", {}).get(
+            getattr(self, "league_code", ""),
+            {}
+        ).get(units_key)
+        current = params.get(units_key, rulebook)
+        if rulebook and current and rulebook != current:
+            return self._convert_units(value, rulebook, current)
+        return value
 
     def _load_unit_conversions(self):
         """Load in the unit-conversions file.

@@ -808,7 +808,7 @@ class TennisCourt(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             court_updates = self.court_params,
             color_updates = updated_colors
         )
@@ -842,7 +842,7 @@ class TennisCourt(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             court_updates = updated_court_params,
             color_updates = self.feature_colors
         )
@@ -872,7 +872,7 @@ class TennisCourt(BaseSurfacePlot):
             "net": "#d3d3d3"
         }
 
-        self.__init__(
+        self._reinit(
             court_updates = self.court_params,
             color_updates = default_colors
         )
@@ -889,7 +889,7 @@ class TennisCourt(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             court_updates = default_params,
             color_updates = self.feature_colors
         )
@@ -1011,16 +1011,18 @@ class TennisCourt(BaseSurfacePlot):
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. constraining features)
         if for_display:
+            # sportyR pads by 5 rule-book units (converted to the surface's)
+            pad = self._display_pad(5.0)
             half_court_length = (
                 (self.court_params.get("court_length", 0.0) / 2.0) +
                 self.court_params.get("backstop_distance", 20.0) +
-                5.0
+                pad
             )
 
             half_court_width = (
                 (self.court_params.get("doubles_width", 0.0) / 2.0) +
                 self.court_params.get("sidestop_distance", 10.0) +
-                5.0
+                pad
             )
 
         # Set the x limits of the plot if they are not provided
