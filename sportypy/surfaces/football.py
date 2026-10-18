@@ -1878,7 +1878,9 @@ class FootballField(BaseSurfacePlot):
                 self.field_params.get("boundary_line_thickness", 0.0) +
                 self.field_params.get("field_border_thickness", 0.0) +
                 self.field_params.get("minor_line_thickness", 0.0) +
-                5.0
+                # As sportyR's geom_football(): the league's apron padding
+                # (default 5)
+                self.field_params.get("extra_apron_padding", 5.0)
             )
 
             half_field_width = (
@@ -1888,14 +1890,18 @@ class FootballField(BaseSurfacePlot):
                 self.field_params.get("coaching_box_width", 0.0) +
                 self.field_params.get("team_bench_width", 0.0) +
                 self.field_params.get("field_border_thickness", 0.0) +
+                self.field_params.get(
+                    "team_bench_area_border_thickness",
+                    0.0
+                ) +
                 self.field_params.get("minor_line_thickness", 0.0) +
-                5.0
+                self.field_params.get("extra_apron_padding", 5.0)
             )
 
             red_zone_start = (
                 (self.field_params.get("field_length", 0.0) / 2.0) -
-                # Setting to 22 so that entire 20 yard line is visible
-                22.0
+                # As sportyR's geom_football(): the red zone starts at the 20
+                20.0
             )
 
         # Set the x limits of the plot if they are not provided

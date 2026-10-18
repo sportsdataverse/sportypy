@@ -6,13 +6,15 @@
 #
 # For every league, geom_football() is built and each ggplot polygon layer is
 # summarised in drawing order: point count, coordinate moments over every
-# point, every 25th point (plus the last), fill and outline colour.
+# point, every 25th point (plus the last), fill and outline colour. Display
+# limits are recorded for each display range.
 args <- commandArgs(trailingOnly = TRUE)
 sportyr <- if (length(args) >= 2) args[1] else Sys.getenv("SPORTYR_PATH")
 out_path <- args[length(args)]
 stopifnot(nzchar(sportyr), dir.exists(sportyr))
 suppressMessages(pkgload::load_all(sportyr, quiet = TRUE))
 leagues <- c("ncaa", "nfl", "nfhs11", "nfhs9", "nfhs8", "nfhs6", "cfl")
+ranges <- c("full", "in_bounds_only", "offense", "defense", "redzone", "dredzone")
 summarise_layer <- function(layer) {
   x <- layer$data$x
   y <- layer$data$y
@@ -41,7 +43,11 @@ out <- list(
     list(
       params = surface_dimensions[["football"]][[lg]],
       layers = unname(lapply(p$layers, summarise_layer)),
-      limits = list(x = p$coordinates$limits$x, y = p$coordinates$limits$y)
+      limits = list(x = p$coordinates$limits$x, y = p$coordinates$limits$y),
+      range_limits = lapply(stats::setNames(ranges, ranges), function(r) {
+        q <- geom_football(lg, display_range = r)
+        list(x = q$coordinates$limits$x, y = q$coordinates$limits$y)
+      })
     )
   })
 )

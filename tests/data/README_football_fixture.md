@@ -4,7 +4,8 @@ What sportyR's own `geom_football()` draws for `ncaa`, `nfl`, `nfhs11`,
 `nfhs9`, `nfhs8`, `nfhs6` and `cfl`. For each league: the league's parameters,
 every ggplot layer in drawing order (geom; point count; sums of x, y, x², y²,
 xy over every point; every 25th point plus the last; fill and outline colour),
-and the plot's x/y limits.
+the plot's x/y limits, and the limits of the `full`, `in_bounds_only`, `offense`,
+`defense`, `redzone` and `dredzone` display ranges (`range_limits`).
 
 - sportyR checkout: `C:/Users/saiem/Documents/GitHub-Data/sdv-dev/wt-syr-quirks`, branch
   `fix/geometry-quirks` (sportyR PR #68, final head), commit 00e364ad7916668a951ee1d008b64f77203d2e36
@@ -15,5 +16,4 @@ and the plot's x/y limits.
 - tests/test_football_parity.py pairs every sportyR polygon with one sportypy
   feature point for point (1e-9) and checks its fill. The yard numbers' boxes
   (fully transparent, no outline) are the only polygons sportypy does not draw:
-  it draws the numbers as text. The limits are recorded but not compared
-  (sportypy pads its football display differently).
+  it draws the numbers as text. Each display range's limits are compared too.

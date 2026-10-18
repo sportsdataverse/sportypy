@@ -101,3 +101,16 @@ def test_yard_number_boxes_are_transparent(league):
     for box in boxes:
         assert to_rgba(box["fill"])[3] == 0
         assert not box["colour"]
+
+
+RANGES = ["full", "in_bounds_only", "offense", "defense", "redzone", "dredzone"]
+
+
+@pytest.mark.parametrize("league", list(LEAGUES))
+@pytest.mark.parametrize("display_range", RANGES)
+def test_display_limits_match_sportyr(league, display_range):
+    """The display limits of each range equal geom_football()'s."""
+    ref = LEAGUES[league]["range_limits"][display_range]
+    xlim, ylim = FIELDS[league]()._get_plot_range_limits(display_range)
+    assert np.allclose(xlim, ref["x"], atol=TOL), (xlim, ref["x"])
+    assert np.allclose(ylim, ref["y"], atol=TOL), (ylim, ref["y"])
