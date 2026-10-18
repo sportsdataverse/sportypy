@@ -1504,7 +1504,7 @@ class FootballField(BaseSurfacePlot):
             # on the top numbers to be in the correct spot
             if row["side"] == "top" and line_side == "right" and s == "1":
                 if number_font == "Clarendon-Regular":
-                    x_anchor -= 0.75
+                    x_anchor -= self._yd(0.75)
                 else:
                     x_anchor = x_anchor
 

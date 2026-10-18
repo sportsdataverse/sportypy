@@ -914,3 +914,12 @@ def test_nfl_bench_corner_follows_the_slanted_side():
         f for f in ncaa._features if type(f).__name__ == "FieldApron"
     )._translate_feature()
     assert apron["x"].iloc[1] == pytest.approx(31.4444, abs = 1e-4)
+
+
+def test_one_text_artist_per_yard_number():
+    """Sizing the yard numbers leaves no extra (tiny) text behind: the axes
+    hold exactly one text per yard number."""
+    nfl = football_fields.NFLField()
+    ax = nfl.draw()
+    assert len(ax.texts) == len(nfl.yardage_markers)
+    plt.close("all")
