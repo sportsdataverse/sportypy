@@ -47,6 +47,9 @@ Display ranges:
 
 - `update_colors()`, `update_*_params()`, `reset_colors()` and `reset_*_params()` keep the surface's rotation, `x`/`y` translation, league and units. Before, they reset the rotation and translation to 0, went back to the rule book's units, and a base class created with `league_code` (e.g. `SoftballField(league_code = "ncaa")`) raised a `KeyError` on `reset_*_params()`.
 - `contour()` and `contourf()` work on matplotlib 3.8 and newer (`QuadContourSet.collections` was removed in matplotlib 3.10).
+- `USAVolleyballCourt` draws the USA Volleyball court (3 m side and 4.5 m end free zones). It drew the FIVB court before (5 m and 6.5 m).
+- `NWHLRink()` no longer prints a message when it is created (as `sportyR`'s `"nwhl"` rink); the NWHL-to-PHF rename note is in its docstring.
+- Thin lines no longer vanish: every feature is drawn with matplotlib's pixel snapping off, which snapped lines thinner than a pixel (volleyball and tennis lines at screen size) to zero width.
 
 ## `sportypy` 1.1.0
 
