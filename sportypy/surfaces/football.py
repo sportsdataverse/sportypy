@@ -368,7 +368,7 @@ class FootballField(BaseSurfacePlot):
             "coaching_box": "#ffffff",
             "team_bench_area": "#196f0c",
             "team_bench_area_outline": "#ffffff",
-            "coaching_box_line": "#ffffff"
+            "coaching_box_line": "#ffcb05"
         }
 
         # Combine the colors with a passed colors dictionary
@@ -1750,7 +1750,7 @@ class FootballField(BaseSurfacePlot):
             "coaching_box": "#ffffff",
             "team_bench_area": "#196f0c",
             "team_bench_area_outline": "#ffffff",
-            "coaching_box_line": "#ffffff"
+            "coaching_box_line": "#ffcb05"
         }
 
         self._reinit(
