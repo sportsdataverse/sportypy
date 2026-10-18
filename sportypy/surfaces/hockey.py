@@ -1470,7 +1470,7 @@ class HockeyRink(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             rink_updates = self.rink_params,
             color_updates = updated_colors
         )
@@ -1504,7 +1504,7 @@ class HockeyRink(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             rink_updates = updated_rink_params,
             color_updates = self.feature_colors
         )
@@ -1546,7 +1546,7 @@ class HockeyRink(BaseSurfacePlot):
             "off_ice_officials_box": "#a5acaf"
         }
 
-        self.__init__(
+        self._reinit(
             rink_updates = self.rink_params,
             color_updates = default_colors
         )
@@ -1563,7 +1563,7 @@ class HockeyRink(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             rink_updates = default_params,
             color_updates = self.feature_colors
         )
@@ -1668,10 +1668,12 @@ class HockeyRink(BaseSurfacePlot):
         # If it's for display (e.g. the draw() method), add in the necessary
         # thicknesses of external features (e.g. penalty boxes and boards)
         if for_display:
+            # 5 rule-book units, converted to the surface's units (sportyR leaves its display limits unconverted)
+            pad = self._display_pad(5.0)
             half_rink_length = (
                 (self.rink_params.get("rink_length", 0.0) / 2.0) +
                 (3.0 * self.rink_params.get("board_thickness", 0.0)) +
-                5.0
+                pad
             )
             half_rink_width = (
                 (self.rink_params.get("rink_width", 0.0) / 2.0) +
@@ -1680,23 +1682,23 @@ class HockeyRink(BaseSurfacePlot):
                     self.rink_params.get("penalty_box_depth", 0.0)
                 ) +
                 (3.0 * self.rink_params.get("board_thickness", 0.0)) +
-                5.0
+                pad
             )
 
             half_nzone_length = (
                 (self.rink_params.get("nzone_length", 0.0) / 2.0) +
                 self.rink_params.get("major_line_thickness", 0.0) +
-                5.0
+                pad
             )
 
             ozone_start = (
                 (self.rink_params.get("nzone_length", 0.0) / 2.0) -
-                5.0
+                pad
             )
 
             dzone_start = (
                 -(self.rink_params.get("nzone_length", 0.0) / 2.0) +
-                5.0
+                pad
             )
 
         # Set the x limits of the plot if they are not provided
@@ -1980,15 +1982,14 @@ class NHLRink(HockeyRink):
 class NWHLRink(HockeyRink):
     """A subclass of ``HockeyRink`` specific to the NWHL.
 
+    The NWHL became the Premier Hockey Federation (PHF) for the 2021-2022
+    season; ``PHFRink`` draws its rink. Like sportyR's ``"nwhl"`` rink, this
+    class gives no message when it is created.
+
     See ``HockeyRink`` class documentation for full description.
     """
 
     def __init__(self, rink_updates = {}, *args, **kwargs):
-        # Deprecation notice that NWHL has changed to PHF
-        print("As of the 2021-2022 season, the NWHL has changed names to be "
-              "the Premier Hockey Federation (PHF). Please use PHFRink() "
-              "going forward.")
-
         # Initialize the HockeyRink class with the relevant parameters
         super().__init__(
             league_code = "nwhl",
@@ -2040,6 +2041,22 @@ class USHLRink(HockeyRink):
         # Initialize the HockeyRink class with the relevant parameters
         super().__init__(
             league_code = "ushl",
+            rink_updates = rink_updates,
+            *args,
+            **kwargs
+        )
+
+
+class PWHLRink(HockeyRink):
+    """A subclass of ``HockeyRink`` specific to the PWHL.
+
+    See ``HockeyRink`` class documentation for full description.
+    """
+
+    def __init__(self, rink_updates = {}, *args, **kwargs):
+        # Initialize the HockeyRink class with the relevant parameters
+        super().__init__(
+            league_code = "pwhl",
             rink_updates = rink_updates,
             *args,
             **kwargs

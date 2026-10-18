@@ -5,14 +5,21 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Test sportypy
+    name: Test sportypy (Python ${{ matrix.python-version }})
+    strategy:
+      fail-fast: false
+      matrix:
+        # The oldest supported Python with the pinned requirements, and the
+        # newest with the latest releases of the dependencies
+        python-version: ['3.9', '3.14']
     steps:
     - uses: actions/checkout@v5
     - uses: actions/setup-python@v6
       with:
-        python-version: '3.9'
+        python-version: ${{ matrix.python-version }}
 
     - name: Install requirements
+      if: matrix.python-version == '3.9'
       run: pip install -r requirements.txt
 
     - name: Install pytest, pytest-cov, and coverage
@@ -25,4 +32,5 @@ jobs:
       run: pytest --cov=sportypy tests/ --cov-config=.coveragerc --cov-report=xml --cov-report=term
 
     - name: Upload coverage reports to codecov.io
+      if: matrix.python-version == '3.9'
       uses: codecov/codecov-action@v5

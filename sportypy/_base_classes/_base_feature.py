@@ -130,6 +130,13 @@ class BaseFeature(ABC):
         feature_df["x"] = feature_df["x"] * self.x_reflection + self.x_anchor
         feature_df["y"] = feature_df["y"] * self.y_reflection + self.y_anchor
 
+        # A surface built in its rule-book units but displayed in others (e.g.
+        # a football field, whose features assume yards) scales its features
+        scale = getattr(self, "feature_scale", 1.0)
+        if scale != 1.0:
+            feature_df["x"] = feature_df["x"] * scale
+            feature_df["y"] = feature_df["y"] * scale
+
         return feature_df
 
     def create_feature_mpl_polygon(self):
@@ -149,11 +156,14 @@ class BaseFeature(ABC):
         # Get the polygon's data frame
         feature_df = self._translate_feature()
 
-        # Create a matplotlib.Polygon object that composes the feature
+        # Create a matplotlib.Polygon object that composes the feature. Pixel
+        # snapping is turned off: matplotlib snaps a rectilinear polygon's
+        # edges to the pixel grid, so a line thinner than a pixel (e.g. a
+        # volleyball or tennis line at screen size) would snap to zero width
         feature_polygon = plt.Polygon(
             feature_df,
             visible = self.visible,
-            **self.plot_kwargs
+            **{"snap": False, **self.plot_kwargs}
         )
 
         return feature_polygon

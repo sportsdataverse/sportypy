@@ -10,7 +10,7 @@ Follow](https://img.shields.io/twitter/follow/sportsdataverse?&label=%40sportsda
 
 As the field of sports analytics evolves, there's a growing need for methods to both track and visualize players throughout the game. This package aims to make this easy regardless of sport needed to be plotted.
 
-This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, soccer, and tennis in **Python**. For the **R** version of this package, click [here](https://github.com/sportsdataverse/sportyR).
+This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, lacrosse, soccer, softball, tennis, and volleyball in **Python**. For the **R** version of this package, click [here](https://github.com/sportsdataverse/sportyR).
 
 For **JavaScript / TypeScript**, [`@sportsdataverse/sporty`](https://www.npmjs.com/package/@sportsdataverse/sporty) is the TypeScript port of `sportyR` and `sportypy` (`npm install @sportsdataverse/sporty`). It lives in the [sdvplot-js repo](https://github.com/sportsdataverse/sdvplot-js), and its docs are at [plot.sportsdataverse.org](https://plot.sportsdataverse.org/).
 
@@ -58,6 +58,8 @@ Each league's class may take on the following arguments:
 - `xlims` and `ylims`: Any limits you'd like to put on the plot in the x and y direction. These will overwrite anything set by the `display_range` parameter
 
 - `{surface}_units`: If your data is in units that are different than how the rule book of the league specifies the units (e.g. you've got NHL data in inches, but the rule book describes the rink in feet), change this parameter to match the units you've got your data in. You're welcome to change the units of the data as well, but this is provided for convenience
+
+Some class names exist in several sports (e.g. `NCAACourt` in basketball, tennis and volleyball; `NCAAField` in baseball and football). The package-level `sportypy.surfaces.<name>` resolves to only one of them, so always import colliding names from their sport module, e.g. `from sportypy.surfaces.volleyball import NCAACourt`.
 
 ## TV View and Display Ranges
 
@@ -115,6 +117,7 @@ Each league's surface has a standardized unit of measure in which the plot is cr
 | Basketball |               NCAA               |          `ft`         |
 | Basketball |               NFHS               |          `ft`         |
 | Basketball |               WNBA               |          `ft`         |
+|   Curling  |          Curling Canada          |          `ft`         |
 |   Curling  |  WCF (World Curling Federation)  |          `ft`         |
 |  Football  |                CFL               |          `yd`         |
 |  Football  |               NCAA               |          `yd`         |
@@ -131,13 +134,22 @@ Each league's surface has a standardized unit of measure in which the plot is cr
 |   Hockey   |               NWHL               |          `ft`         |
 |   Hockey   |                OHL               |          `ft`         |
 |   Hockey   |                PHF               |          `ft`         |
+|   Hockey   |               PWHL               |          `ft`         |
 |   Hockey   |               QMJHL              |          `ft`         |
 |   Hockey   |               USHL               |          `ft`         |
+|  Lacrosse  |           NCAA (Men's)           |          `yd`         |
+|  Lacrosse  |          NCAA (Women's)          |          `m`          |
+|  Lacrosse  |        NLL (box lacrosse)        |          `ft`         |
+|  Lacrosse  |                PLL               |          `yd`         |
+|  Lacrosse  |       USA Lacrosse (Men's)       |          `yd`         |
+|  Lacrosse  |      USA Lacrosse (Women's)      |          `m`          |
+|  Lacrosse  |       World Lacrosse (box)       |          `ft`         |
 |   Soccer   |                EPL               |          `m`          |
 |   Soccer   |               FIFA               |          `m`          |
 |   Soccer   |                MLS               |          `yd`         |
 |   Soccer   |               NCAA               |          `yd`         |
 |   Soccer   |               NWSL               |          `yd`         |
+|  Softball  |               NCAA               |          `ft`         |
 |   Tennis   |                ATP               |          `ft`         |
 |   Tennis   |                ITA               |          `ft`         |
 |   Tennis   |                ITF               |          `ft`         |

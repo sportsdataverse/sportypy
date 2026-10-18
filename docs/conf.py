@@ -11,7 +11,7 @@ import sphinx_bootstrap_theme
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "sportypy")))
 
 project = "sportypy"
-version = "1.0.0"
+version = "1.2.0"
 copyright = "2022, Ross Drucker"
 author = "Ross Drucker"
 

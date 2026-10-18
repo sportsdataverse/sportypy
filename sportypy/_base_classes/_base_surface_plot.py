@@ -9,6 +9,7 @@ league or sport surface will be an inherit this class.
 import numpy as np
 from functools import wraps
 import matplotlib.pyplot as plt
+from matplotlib.collections import Collection
 from sportypy._base_classes._base_surface import BaseSurface
 from scipy.stats import binned_statistic_2d
 
@@ -1133,11 +1134,18 @@ class BaseSurfacePlot(BaseSurface):
             **kwargs
         )
 
-        # Bound the resulting plot to be inside the surface
+        # Bound the resulting plot to be inside the surface. From matplotlib
+        # 3.8 the ContourSet is itself a Collection (``.collections`` was
+        # removed in 3.10)
+        if isinstance(contour_plot, Collection):
+            contour_features = contour_plot
+        else:
+            contour_features = contour_plot.collections  # pragma: no cover
+
         self._bound_surface(
             x,
             y,
-            contour_plot.collections,
+            contour_features,
             ax,
             kwargs["transform"],
             is_constrained,

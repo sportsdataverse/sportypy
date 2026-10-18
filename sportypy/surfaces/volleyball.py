@@ -191,6 +191,8 @@ class VolleyballCourt(BaseSurfacePlot):
         # Convert the court's units if needed
         if units.lower() != "default":
             for k, v in court_params.items():
+                if k in self._COUNT_PARAMS:
+                    continue
                 self.court_params[k] = self._convert_units(
                     v,
                     self.court_params["court_units"],
@@ -815,7 +817,7 @@ class VolleyballCourt(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             court_updates = self.court_params,
             color_updates = updated_colors
         )
@@ -849,7 +851,7 @@ class VolleyballCourt(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             court_updates = updated_court_params,
             color_updates = self.feature_colors
         )
@@ -878,7 +880,7 @@ class VolleyballCourt(BaseSurfacePlot):
             "substitution_zone": "#000000"
         }
 
-        self.__init__(
+        self._reinit(
             court_updates = self.court_params,
             color_updates = default_colors
         )
@@ -895,7 +897,7 @@ class VolleyballCourt(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             court_updates = default_params,
             color_updates = self.feature_colors
         )
@@ -1162,7 +1164,7 @@ class NCAACourt(VolleyballCourt):
 
 
 class USAVolleyballCourt(VolleyballCourt):
-    """A subclass of ``VolleyballCourt`` specific to FIVB.
+    """A subclass of ``VolleyballCourt`` specific to USA Volleyball.
 
     See ``VolleyballCourt`` class documentation for full description.
     """
@@ -1170,7 +1172,7 @@ class USAVolleyballCourt(VolleyballCourt):
     def __init__(self, court_updates = {}, *args, **kwargs):
         # Initialize the VolleyballCourt class with the relevant parameters
         super().__init__(
-            league_code = "fivb",
+            league_code = "usa volleyball",
             court_updates = court_updates,
             *args,
             **kwargs

@@ -69,8 +69,8 @@ def test_nba_params():
             [3.0, 3.0, 3.0, 3.0]
         ],
 
-        "painted_area_visibility": [True, True],
-        "lane_boundary_visibility": [True, True],
+        "painted_area_visibility": [True, False],
+        "lane_boundary_visibility": [True, False],
         "lane_space_mark_visibility": [True, False],
         "lane_lower_defensive_box_marks_visibility": True,
 
@@ -251,8 +251,8 @@ def test_cani_change_dimensions():
         "- lane_space_mark_widths ([0.5, 0.75])\n"
         "- lane_space_mark_separations ([[3.0, 0.8333, 3.0, 3.0], "
         "[3.0, 3.0, 3.0, 3.0]])\n"
-        "- painted_area_visibility ([True, True])\n"
-        "- lane_boundary_visibility ([True, True])\n"
+        "- painted_area_visibility ([True, False])\n"
+        "- lane_boundary_visibility ([True, False])\n"
         "- lane_space_mark_visibility ([True, False])\n"
         "- lane_lower_defensive_box_marks_visibility (True)\n"
         "- baseline_lower_defensive_box_marks_int_sep (19.0)\n"
@@ -463,6 +463,9 @@ def test_unit_conversions():
     court_params_to_convert = test_court_to_convert.court_params
 
     for k, v in court_params_to_convert.items():
+        # Counts (e.g. dashes, repetitions) are not lengths and keep their value
+        if k in test_court_to_convert._COUNT_PARAMS:
+            continue
         court_params_to_convert[k] = test_court_to_convert._convert_units(
             v,
             "ft",

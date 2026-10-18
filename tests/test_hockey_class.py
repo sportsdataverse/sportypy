@@ -752,3 +752,14 @@ def test_display_range_none_empty_string():
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
+
+
+def test_nwhl_rink_is_silent(capsys):
+    """A library never prints; sportyR's "nwhl" rink has no message either,
+    so NWHLRink() neither prints nor warns."""
+    import warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        rink = hockey_rinks.NWHLRink()
+    assert rink.league_code == "nwhl"
+    assert capsys.readouterr().out == ""

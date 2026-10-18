@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name = "sportypy",
-    version = "1.1.0",
+    version = "1.2.0",
     description = "Draw sports surfaces according to rulebook specifications",
     long_description = open("README.md").read(),
     long_description_content_type = "text/markdown",
@@ -41,12 +41,14 @@ setuptools.setup(
     classifiers = [
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
     ],
+    python_requires = ">=3.9",
     include_package_data = True,
     package_data = {
         "sportypy.data": ["*.json"]
