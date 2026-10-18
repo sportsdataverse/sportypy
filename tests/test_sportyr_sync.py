@@ -67,3 +67,26 @@ def test_sync_check_detects_missing_league(tmp_path):
     src = tmp_path / "dims.json"
     src.write_text(json.dumps({"hockey": {"newleague": {"rink_units": "ft"}}}))
     assert _sync_module().main([str(src), "--check"]) == 1
+
+
+def test_package_level_names_not_rebound_by_volleyball():
+    assert surfaces.NCAACourt.__module__ == "sportypy.surfaces.tennis"
+    assert surfaces.volleyball.NCAACourt.__module__ == "sportypy.surfaces.volleyball"
+    assert surfaces.FIVBCourt.__module__ == "sportypy.surfaces.volleyball"
+
+
+def test_sync_write_mode_adds_entry(tmp_path, monkeypatch, capsys):
+    mod = _sync_module()
+    target = tmp_path / "target.json"
+    target.write_text(json.dumps({"hockey": {"nhl": {"a": 1, "b": 2}}}, indent=4))
+    src = tmp_path / "src.json"
+    entry = SPORTYR["hockey"]["pwhl"]
+    src.write_text(json.dumps({
+        "hockey": {"nhl": {"a": 1, "b": 3}, "pwhl": entry}, "lacrosse": {"x": {}}}, indent=2))
+    monkeypatch.setattr(mod, "TARGET", target)
+    assert mod.main([str(src)]) == 0
+    out = capsys.readouterr().out
+    assert "drift: hockey/nhl/b: 2 vs 3" in out
+    assert "sport 'lacrosse' absent" in out
+    assert json.loads(target.read_text())["hockey"]["pwhl"] == entry
+    assert mod.main([str(src), "--check"]) == 0

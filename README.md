@@ -59,6 +59,8 @@ Each league's class may take on the following arguments:
 
 - `{surface}_units`: If your data is in units that are different than how the rule book of the league specifies the units (e.g. you've got NHL data in inches, but the rule book describes the rink in feet), change this parameter to match the units you've got your data in. You're welcome to change the units of the data as well, but this is provided for convenience
 
+Some class names exist in several sports (e.g. `NCAACourt` in basketball, tennis and volleyball; `NCAAField` in baseball and football). The package-level `sportypy.surfaces.<name>` resolves to only one of them, so always import colliding names from their sport module, e.g. `from sportypy.surfaces.volleyball import NCAACourt`.
+
 ## TV View and Display Ranges
 
 ### TV View

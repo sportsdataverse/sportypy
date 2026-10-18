@@ -6,7 +6,10 @@ Usage:
 
 The sportyR entry text is copied verbatim (same hand-formatted layout), so
 values are never retyped. Existing leagues are left alone (sportypy's classes
-may depend on their current values); differences are only reported.
+may depend on their current values); for leagues present in both, every key
+whose value differs is printed as "drift: sport/league/key: sportypy vs
+sportyR" (information only; the exit code is unchanged). A sport absent from
+sportypy is warned about and skipped.
 Keys keep sportypy's convention: sportyR's "little league" is "little_league"
 here, so keys are compared with "_" and " " treated as equal. "custom" is a
 sportyR-only template and is skipped.
@@ -48,6 +51,31 @@ def missing(source, target):
     }
 
 
+def flat(d, prefix=""):
+    out = {}
+    for k, v in d.items():
+        if isinstance(v, dict):
+            out.update(flat(v, f"{prefix}{k}/"))
+        else:
+            out[f"{prefix}{k}"] = v
+    return out
+
+
+def drift(source, target):
+    """Yield (sport, league, key, sportypy_value, sportyr_value) differences."""
+    for sport, leagues in source.items():
+        if sport not in target:
+            continue
+        mine = {norm(k): v for k, v in target[sport].items()}
+        for lg, entry in leagues.items():
+            if norm(lg) not in mine:
+                continue
+            a, b = flat(mine[norm(lg)]), flat(entry)
+            for key in sorted(set(a) | set(b)):
+                if a.get(key, "<absent>") != b.get(key, "<absent>"):
+                    yield sport, lg, key, a.get(key, "<absent>"), b.get(key, "<absent>")
+
+
 def add_entry(text, sport, block):
     lines = text.split("\n")
     s = lines.index(f'    "{sport}": {{')
@@ -69,6 +97,12 @@ def main(argv=None):
     src_text = Path(args.sportyr_json).read_text(encoding="utf-8")
     tgt_text = TARGET.read_text(encoding="utf-8")
     source, target = json.loads(src_text), json.loads(tgt_text)
+
+    for sport in source:
+        if sport not in target:
+            print(f"warning: sport '{sport}' absent from sportypy; skipped")
+    for sport, lg, key, mine, theirs in drift(source, target):
+        print(f"drift: {sport}/{lg}/{key}: {mine!r} vs {theirs!r}")
 
     todo = {sp: lgs for sp, lgs in missing(source, target).items() if lgs}
     for sport, leagues in todo.items():
