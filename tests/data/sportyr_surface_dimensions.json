@@ -1,5 +1,5 @@
 {
-  "_provenance": "Data-identical copy (re-serialised) of sportyR data-raw/surface-dimensions.json (sportyR commit 562e8c410d6f8ce255b7ead68eb6c6580889ad44); used to assert sportypy dimensions match sportyR. Regenerate with python tools/sync_dimensions.py <sportyR>/data-raw/surface-dimensions.json --vendor tests/data/sportyr_surface_dimensions.json",
+  "_provenance": "Data-identical copy (re-serialised) of sportyR data-raw/surface-dimensions.json (sportyR commit 811c483887479dc421401196c2f909c5d67ccaea); used to assert sportypy dimensions match sportyR. Regenerate with python tools/sync_dimensions.py <sportyR>/data-raw/surface-dimensions.json --vendor tests/data/sportyr_surface_dimensions.json",
   "baseball": {
     "custom": {
       "field_units": "",
@@ -1102,14 +1102,14 @@
         "1"
       ],
       "number_font": "Clarendon-Regular",
-      "restricted_area_width": 1.3333,
+      "restricted_area_width": 1.8889,
       "coaching_box_width": 2.0,
       "team_bench_width": 4.0,
       "team_bench_length_field_side": 60.0,
       "team_bench_length_back_side": 60.0,
       "team_bench_area_border_thickness": 0.1111,
       "bench_shape": "rectangular",
-      "field_bordered": false
+      "field_bordered": true
     },
     "nfhs11": {
       "field_units": "yd",
@@ -1186,7 +1186,7 @@
       "team_bench_length_back_side": 50.0,
       "team_bench_area_border_thickness": 0.1111,
       "bench_shape": "rectangular",
-      "field_bordered": false
+      "field_bordered": true
     },
     "nfhs9": {
       "field_units": "yd",
@@ -1255,7 +1255,7 @@
       "team_bench_length_back_side": 30.0,
       "team_bench_area_border_thickness": 0.1111,
       "bench_shape": "rectangular",
-      "field_bordered": false
+      "field_bordered": true
     },
     "nfhs8": {
       "field_units": "yd",
@@ -1324,7 +1324,7 @@
       "team_bench_length_back_side": 30.0,
       "team_bench_area_border_thickness": 0.1111,
       "bench_shape": "rectangular",
-      "field_bordered": false
+      "field_bordered": true
     },
     "nfhs6": {
       "field_units": "yd",
@@ -1393,7 +1393,7 @@
       "team_bench_length_back_side": 30.0,
       "team_bench_area_border_thickness": 0.1111,
       "bench_shape": "rectangular",
-      "field_bordered": false
+      "field_bordered": true
     },
     "nfl": {
       "field_units": "yd",
@@ -1472,7 +1472,7 @@
       "team_bench_length_back_side": 37.2639,
       "team_bench_area_border_thickness": 0.1111,
       "bench_shape": "trapezoid",
-      "field_bordered": false
+      "field_bordered": true
     }
   },
   "hockey": {
