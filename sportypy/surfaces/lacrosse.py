@@ -433,6 +433,9 @@ class LacrosseField(BaseSurfacePlot):
             goal_arc_extension=g("goal_arc_extension"),
             goal_arc_radius=g("goal_arc_radius"),
             line_thickness=g("goal_arc_line_thickness"),
+            goal_arc_parallel_line_to_center=g(
+                "goal_arc_parallel_line_to_center", g("goal_arc_radius")
+            ),
         )
         add(
             f.GoalFan,
@@ -444,24 +447,23 @@ class LacrosseField(BaseSurfacePlot):
             line_thickness=g("goal_fan_line_thickness"),
         )
 
-        # The goal fan is an arc of radius R = goal_fan_radius + goal_circle_radius
-        # (see goal_fan()), so a hash mark at arc distance ``separation`` from the
-        # fan's center sits theta = separation / R radians from it; it is placed
-        # there and rotated by -theta, perpendicular to the arc (sportyR #62).
+        # The goal fan's arc has radius R = goal_fan_radius about the goal-line
+        # centre (see goal_fan(), sportyR #69), so a hash mark at arc distance
+        # ``separation`` from the fan's center sits theta = separation / R
+        # radians from it; it is placed there and rotated by -theta,
+        # perpendicular to the arc (sportyR #62).
         # sportyR quirk (sportyR #62, "Update"): each mark is centred at radius R,
         # the outer edge of the fan line (drawn from R - t to R), not on the line's
         # middle; kept so R/Python/JS draw the same — fix in step with sportyR
         fan_r, circle_r = g("goal_fan_radius"), g("goal_circle_radius")
         for separation in g("goal_fan_hash_mark_separation_from_center", []) or []:
-            theta = separation / (g("goal_fan_radius", 1.0) + circle_r)
+            theta = separation / g("goal_fan_radius", 1.0)
             place = theta / math.pi
             add(
                 f.GoalFanHashMark,
                 colors["goal_fan_hash_mark"],
-                x=goal_x
-                + circle_r
-                + (fan_r + circle_r) * math.cos((1.0 - place) * math.pi),
-                y=(fan_r + circle_r) * math.sin((1.0 - place) * math.pi),
+                x=goal_x + fan_r * math.cos((1.0 - place) * math.pi),
+                y=fan_r * math.sin((1.0 - place) * math.pi),
                 reflect_x=True,
                 reflect_y=True,
                 goal_fan_hash_mark_length=g("goal_fan_hash_mark_length"),
@@ -675,7 +677,7 @@ class LacrosseField(BaseSurfacePlot):
             half_length = max(
                 half_length + g("field_apron_thickness"),
                 g("bench_separation") / 2.0 + g("bench_length") + boards,
-                g("penalty_box_separation") / 2.0 + g("penalty_box_length") + boards,
+                g("penalty_box_separation") / 2.0 + g("penalty_box_length") + 2.0 * boards,
             )
             half_width += max(
                 g("field_apron_thickness"),

@@ -8,7 +8,7 @@ drawing order (point count; sums of x, y, x², y², xy over every point; every
 the `full`, `in_bounds_only`, `offense` and `defense` ranges.
 
 - sportyR checkout: `C:/Users/saiem/Documents/GitHub-Data/sdv-dev/wt-syr-quirks`, branch
-  `fix/geometry-quirks` (sportyR PR #68), commit 811c483887479dc421401196c2f909c5d67ccaea
+  `fix/geometry-quirks` (sportyR PR #68, final head), commit 00e364ad7916668a951ee1d008b64f77203d2e36
   (see `provenance` in the JSON)
 - Captured 2026-10-18 (Rscript 4.6.1); loaded with `pkgload::load_all()`, not installed
 - Regenerate: `Rscript tools/lacrosse_fixture.R <path to sportyR> tests/data/sportyr_lacrosse_fixture.json`

@@ -248,52 +248,76 @@ def goal_circle_fill(
     return _circle((0.0, 0.0), 2.0 - start, 2.0 - end, r)
 
 
-def goal_arc(goal_arc_extension=0.0, goal_arc_radius=0.0, line_thickness=0.0):
+def goal_arc(
+    goal_arc_extension=0.0,
+    goal_arc_radius=0.0,
+    line_thickness=0.0,
+    goal_arc_parallel_line_to_center=None,
+):
+    """The PLL two-point arc (sportyR #70, 2024 PLL Rulebook II.G).
+
+    Two lines parallel to the sidelines, ``goal_arc_parallel_line_to_center``
+    from the goal-line centre, run from the end line until they are
+    ``goal_arc_radius`` from it, joined by an arc of ``goal_arc_radius``. When
+    the lines are ``goal_arc_radius`` out (the default), it is a semicircle.
+    """
     ext, r, t = goal_arc_extension, goal_arc_radius, line_thickness
+    if goal_arc_parallel_line_to_center is None:
+        goal_arc_parallel_line_to_center = r
+    w_outer = min(goal_arc_parallel_line_to_center, r)
+    w_inner = w_outer - t
+    r_inner = r - t
+    x_outer = -math.sqrt(max(r**2 - w_outer**2, 0.0))
+    x_inner = -math.sqrt(max(r_inner**2 - w_inner**2, 0.0))
+    theta_outer = math.atan2(w_outer, x_outer) / math.pi
+    theta_inner = math.atan2(w_inner, x_inner) / math.pi
     return _bind(
-        _df([ext], [r]),
-        _circle((0.0, 0.0), 0.5, 1.5, r),
-        _df([ext, ext], [-r, -r + t]),
-        _circle((0.0, 0.0), 1.5, 0.5, r - t),
-        _df([ext, ext], [r - t, r]),
+        _df([ext, x_outer], [w_outer, w_outer]),
+        _circle((0.0, 0.0), theta_outer, 2.0 - theta_outer, r),
+        _df(
+            [x_outer, ext, ext, x_inner],
+            [-w_outer, -w_outer, -w_inner, -w_inner],
+        ),
+        _circle((0.0, 0.0), 2.0 - theta_inner, theta_inner, r_inner),
+        _df([x_inner, ext, ext], [w_inner, w_inner, w_outer]),
     )
 
 
 def goal_fan(goal_fan_radius=0.0, goal_circle_radius=0.0, line_thickness=0.0):
-    r, t, big = goal_circle_radius, line_thickness, goal_fan_radius + goal_circle_radius
-    dev = (t / (goal_fan_radius + goal_circle_radius - t)) / math.pi
+    """The women's 8 m arc (sportyR #69, NCAA Women's Lacrosse Rule 1 Sec. 6).
+
+    Two lines from where the goal line extended crosses the goal circle (B),
+    at 45 degrees to the goal line extended, to an arc of ``goal_fan_radius``
+    about the goal-line centre (C), joined by that arc. Leagues without an arc
+    outside the goal circle have no fan (an empty frame).
+    """
+    if goal_fan_radius <= goal_circle_radius:
+        return _df([], [])
+    t = line_thickness
+    direction = np.array([-1.0, 1.0]) / math.sqrt(2.0)
+
+    def distance_to_circle(pt, radius):
+        b = float(np.sum(pt * direction))
+        return -b + math.sqrt(b**2 - float(np.sum(pt**2)) + radius**2)
+
+    b_outer = np.array([0.0, goal_circle_radius])
+    c_outer = b_outer + distance_to_circle(b_outer, goal_fan_radius) * direction
+    inner_base = b_outer + t * np.array([-1.0, -1.0]) / math.sqrt(2.0)
+    b_inner = inner_base + distance_to_circle(inner_base, goal_circle_radius) * direction
+    c_inner = inner_base + distance_to_circle(inner_base, goal_fan_radius - t) * direction
+    theta_outer = math.atan2(c_outer[1], c_outer[0]) / math.pi
+    theta_inner = math.atan2(c_inner[1], c_inner[0]) / math.pi
     return _bind(
+        _df([b_outer[0], c_outer[0]], [b_outer[1], c_outer[1]]),
+        _circle((0.0, 0.0), theta_outer, 2.0 - theta_outer, goal_fan_radius),
         _df(
-            [
-                r * math.cos(0.5 * math.pi),
-                r * math.cos(0.5 * math.pi) + t * math.cos(0.75 * math.pi),
-            ],
-            [
-                r * math.sin(0.5 * math.pi),
-                r * math.sin(0.5 * math.pi) + t * math.sin(0.75 * math.pi),
-            ],
+            [c_outer[0], b_outer[0], b_inner[0], c_inner[0]],
+            [-c_outer[1], -b_outer[1], -b_inner[1], -c_inner[1]],
         ),
-        _circle((r, 0.0), 0.75, 1.25, big),
+        _circle((0.0, 0.0), 2.0 - theta_inner, theta_inner, goal_fan_radius - t),
         _df(
-            [
-                r * math.cos(1.5 * math.pi),
-                r * math.cos(1.5 * math.pi) + t * math.cos(1.25 * math.pi),
-            ],
-            [
-                r * math.sin(1.5 * math.pi),
-                r * math.sin(1.5 * math.pi) - t * math.sin(1.25 * math.pi),
-            ],
-        ),
-        _circle((r, 0.0), 1.25 - dev, 0.75 + dev, big - t),
-        _df(
-            [
-                r * math.cos(0.5 * math.pi) + t * math.cos(0.75 * math.pi),
-                r * math.cos(0.5 * math.pi),
-            ],
-            [
-                r * math.sin(0.5 * math.pi) - t * math.sin(0.75 * math.pi),
-                r * math.sin(0.5 * math.pi),
-            ],
+            [c_inner[0], b_inner[0], b_outer[0]],
+            [c_inner[1], b_inner[1], b_outer[1]],
         ),
     )
 
@@ -392,10 +416,10 @@ def penalty_box_outline(
     return _df(
         [
             0.0,
+            s / 2.0 + L + 2.0 * t,
+            s / 2.0 + L + 2.0 * t,
             s / 2.0 + L + t,
             s / 2.0 + L + t,
-            s / 2.0 + L,
-            s / 2.0 + L,
             s / 2.0 + t,
             s / 2.0 + t,
             s / 2.0,
