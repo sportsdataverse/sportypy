@@ -129,3 +129,45 @@ def test_add_sport_unknown_to_sportyr_is_a_usage_error(tmp_path, capsys):
         _sync_module().main([str(src), "--add-sport", "curling2"])
     assert e.value.code == 2
     assert "curling2" in capsys.readouterr().err
+
+
+def test_sync_align_replaces_drifted_leagues(tmp_path, monkeypatch, capsys):
+    mod = _sync_module()
+    target = tmp_path / "target.json"
+    target.write_text(json.dumps({"baseball": {
+        "little_league": {"a": 1, "only_here": True},
+        "mlb": {"a": 1},
+        "pony": {"a": 5}}}, indent=4))
+    src = tmp_path / "src.json"
+    src.write_text(json.dumps({"baseball": {
+        "little league": {"a": 2, "new": [True, False]},
+        "mlb": {"a": 1},
+        "pony": {"a": "5"}}}, indent=2))
+    monkeypatch.setattr(mod, "TARGET", target)
+    assert mod.main([str(src), "--align"]) == 0
+    out = capsys.readouterr().out
+    assert "aligning: baseball/little_league" in out and "aligning: baseball/pony" in out
+    assert "aligning: baseball/mlb" not in out
+    got = json.loads(target.read_text())["baseball"]
+    # sportypy's key name is kept; the entry becomes sportyR's exactly
+    assert got == {"little_league": {"a": 2, "new": [True, False]},
+                   "mlb": {"a": 1}, "pony": {"a": "5"}}
+    assert mod.main([str(src), "--check"]) == 0
+    assert "drift:" not in capsys.readouterr().out
+
+
+def test_align_cannot_combine_with_check(tmp_path):
+    src = tmp_path / "src.json"
+    src.write_text(json.dumps({"hockey": {}}))
+    with pytest.raises(SystemExit) as e:
+        _sync_module().main([str(src), "--align", "--check"])
+    assert e.value.code == 2
+
+
+def test_surface_dimensions_have_no_drift_from_vendored_sportyr(capsys):
+    """Every league in the vendored sportyR entries equals sportypy's."""
+    import importlib.resources
+    mine = json.loads(importlib.resources.files("sportypy.data")
+                      .joinpath("surface_dimensions.json").read_text())
+    src = {k: v for k, v in SPORTYR.items() if k != "_provenance"}
+    assert list(_sync_module().drift(src, mine)) == []

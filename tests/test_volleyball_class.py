@@ -46,7 +46,7 @@ def test_ncaa_params():
 
         "substitution_zone_dash_length": 0.15,
         "substitution_zone_dash_breaks": 0.20,
-        "substitution_zone_rep_pattern": "5",
+        "substitution_zone_rep_pattern": 5,
 
         "service_zone_mark_length": 0.15,
         "service_zone_mark_to_end_line": 0.20
@@ -401,6 +401,7 @@ def test_unsupported_unit_conversions():
     """
     # There are 13 parameters in an NCAA court
     exp_unit_error_string = (
+        "foots is not currently a supported unit\n"
         "foots is not currently a supported unit\n"
         "foots is not currently a supported unit\n"
         "foots is not currently a supported unit\n"

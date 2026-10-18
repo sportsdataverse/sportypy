@@ -59,7 +59,7 @@
             "pitchers_plate_width": 0.5,
             "pitchers_plate_length": 2.0,
 
-            "base_side_length": 1.25,
+            "base_side_length": 1.5,
             "home_plate_edge_length": 1.4167,
 
             "infield_arc_radius": 95.0,
@@ -73,9 +73,10 @@
             "batters_box_width": 4.0,
             "batters_box_y_adj": 0.7083,
             "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_shape": "rectangle",
             "catchers_box_depth": 8.0,
             "catchers_box_width": 3.5833,
-            
+
             "backstop_radius": 60.0,
             "home_plate_circle_radius": 13.0
         },
@@ -99,7 +100,7 @@
             "pitchers_plate_width": 0.5,
             "pitchers_plate_length": 2.0,
 
-            "base_side_length": 1.25,
+            "base_side_length": 1.5,
             "home_plate_edge_length": 1.4167,
 
             "infield_arc_radius": 95.0,
@@ -113,9 +114,10 @@
             "batters_box_width": 4.0,
             "batters_box_y_adj": 0.7083,
             "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_shape": "rectangle",
             "catchers_box_depth": 8.0,
             "catchers_box_width": 3.5833,
-            
+
             "backstop_radius": 60.0,
             "home_plate_circle_radius": 13.0
         },
@@ -153,9 +155,10 @@
             "batters_box_width": 4.0,
             "batters_box_y_adj": 0.7083,
             "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_shape": "rectangle",
             "catchers_box_depth": 8.0,
             "catchers_box_width": 3.5833,
-            
+
             "backstop_radius": 60.0,
             "home_plate_circle_radius": 13.0
         },
@@ -193,9 +196,10 @@
             "batters_box_width": 4.0,
             "batters_box_y_adj": 0.7083,
             "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_shape": "rectangle",
             "catchers_box_depth": 8.0,
             "catchers_box_width": 3.5833,
-            
+
             "backstop_radius": 60.0,
             "home_plate_circle_radius": 13.0
         },
@@ -229,9 +233,10 @@
             "batters_box_width": 4.0,
             "batters_box_y_adj": 0.7083,
             "home_plate_side_to_batters_box": 0.5,
+            "catchers_box_shape": "rectangle",
             "catchers_box_depth": 8.0,
             "catchers_box_width": 3.5833,
-            
+
             "backstop_radius": 60.0,
             "home_plate_circle_radius": 13.0
         }
@@ -248,7 +253,7 @@
             "court_apron_endline": 2.5,
             "court_apron_sideline": 2.5,
             "court_apron_to_boundary": 0.0,
-            
+
             "center_circle_radius": 1.8,
             "division_line_extension": 0.15,
 
@@ -272,6 +277,9 @@
                 [0.55, 0.85, 0.85, 0.85]
             ],
 
+
+            "painted_area_visibility": [true],
+            "lane_boundary_visibility": [true],
             "lane_space_mark_visibility": true,
 
             "lane_lower_defensive_box_marks_visibility": false,
@@ -291,7 +299,7 @@
 
             "backboard_width": 1.8,
             "backboard_thickness": 0.0524,
-            
+
             "basket_ring_inner_radius": 0.225,
             "basket_ring_connector_width": 0.1778,
             "basket_ring_connector_extension": 0.0151,
@@ -308,7 +316,7 @@
             "court_apron_endline": 8.0,
             "court_apron_sideline": 5.0,
             "court_apron_to_boundary": 0.0,
-            
+
             "center_circle_radius": [6.0, 2.1667],
 
             "basket_center_to_baseline": 5.25,
@@ -337,8 +345,8 @@
                 [3.0, 3.0, 3.0, 3.0]
             ],
 
-            "painted_area_visibility": [true, true],
-            "lane_boundary_visibility": [true, true],
+            "painted_area_visibility": [true, false],
+            "lane_boundary_visibility": [true, false],
             "lane_space_mark_visibility": [true, false],
             "lane_lower_defensive_box_marks_visibility": true,
 
@@ -360,7 +368,7 @@
 
             "backboard_width": 6.0,
             "backboard_thickness": 0.171875,
-            
+
             "basket_ring_inner_radius": 0.75,
             "basket_ring_connector_width": 0.5833,
             "basket_ring_connector_extension": 0.5,
@@ -377,7 +385,7 @@
             "court_apron_endline": 8.0,
             "court_apron_sideline": 5.0,
             "court_apron_to_boundary": 0.0,
-            
+
             "center_circle_radius": [6.0, 2.1667],
 
             "basket_center_to_baseline": 5.25,
@@ -406,8 +414,8 @@
                 [3.0, 3.0, 3.0, 3.0]
             ],
 
-            "painted_area_visibility": [true, true],
-            "lane_boundary_visibility": [true, true],
+            "painted_area_visibility": [true, false],
+            "lane_boundary_visibility": [true, false],
             "lane_space_mark_visibility": [true, false],
             "lane_lower_defensive_box_marks_visibility": true,
 
@@ -429,7 +437,7 @@
 
             "backboard_width": 6.0,
             "backboard_thickness": 0.171875,
-            
+
             "basket_ring_inner_radius": 0.75,
             "basket_ring_connector_width": 0.5833,
             "basket_ring_connector_extension": 0.5,
@@ -510,7 +518,7 @@
             "court_apron_endline": 5.0,
             "court_apron_sideline": 5.0,
             "court_apron_to_boundary": 0.0,
-            
+
             "center_circle_radius": 6.0,
 
             "basket_center_to_baseline": 5.25,
@@ -536,8 +544,6 @@
                 [0.0, 0.0, 0.0, 0.0]
             ],
 
-            "restricted_arc_visible": false,
-
             "painted_area_visibility": [true, true],
             "lane_boundary_visibility": [true, true],
             "lane_space_mark_visibility": [true, true],
@@ -545,7 +551,7 @@
 
             "backboard_width": 6.0,
             "backboard_thickness": 0.171875,
-            
+
             "basket_ring_inner_radius": 0.75,
             "basket_ring_connector_width": 0.5833,
             "basket_ring_connector_extension": 0.5,
@@ -562,7 +568,7 @@
             "court_apron_endline": 8.0,
             "court_apron_sideline": 5.0,
             "court_apron_to_boundary": 0.0,
-            
+
             "center_circle_radius": [6.0, 2.1667],
 
             "basket_center_to_baseline": 5.25,
@@ -591,8 +597,8 @@
                 [3.0, 3.0, 3.0, 3.0]
             ],
 
-            "painted_area_visibility": [true, true],
-            "lane_boundary_visibility": [true, true],
+            "painted_area_visibility": [true, false],
+            "lane_boundary_visibility": [true, false],
             "lane_space_mark_visibility": [true, false],
             "lane_lower_defensive_box_marks_visibility": true,
 
@@ -614,7 +620,7 @@
 
             "backboard_width": 6.0,
             "backboard_thickness": 0.171875,
-            
+
             "basket_ring_inner_radius": 0.75,
             "basket_ring_connector_width": 0.5833,
             "basket_ring_connector_extension": 0.5,
@@ -830,14 +836,14 @@
 
             "number_font": "Clarendon-Regular",
 
-            "restricted_area_width": 2.0,
+            "restricted_area_width": 1.3333,
             "coaching_box_width": 2.0,
             "team_bench_width": 4.0,
-            "team_bench_length_field_side": 50.0,
-            "team_bench_length_back_side": 50.0,
+            "team_bench_length_field_side": 60.0,
+            "team_bench_length_back_side": 60.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": true
+            "field_bordered": false
         },
 
         "nfhs11": {
@@ -908,7 +914,7 @@
             "team_bench_length_back_side": 50.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": true
+            "field_bordered": false
         },
 
         "nfhs9": {
@@ -975,7 +981,7 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": true
+            "field_bordered": false
         },
 
         "nfhs8": {
@@ -1042,7 +1048,7 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": true
+            "field_bordered": false
         },
 
         "nfhs6": {
@@ -1109,7 +1115,7 @@
             "team_bench_length_back_side": 30.0,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "rectangular",
-            "field_bordered": true
+            "field_bordered": false
         },
 
         "nfl": {
@@ -1182,7 +1188,7 @@
             "team_bench_length_back_side": 37.2639,
             "team_bench_area_border_thickness": 0.1111,
             "bench_shape": "trapezoid",
-            "field_bordered": true
+            "field_bordered": false
         }
     },
 
@@ -2023,20 +2029,20 @@
             "court_length": 18.0,
             "court_width": 9.0,
             "court_units": "m",
-    
+
             "free_zone_end_line": 6.5,
             "free_zone_sideline": 5.0,
-    
+
             "court_apron_end_line": 2.0,
             "court_apron_sideline": 1.5,
-    
+
             "line_thickness": 0.05,
             "attack_line_edge_to_center_line": 3.0,
-    
+
             "substitution_zone_dash_length": 0.15,
             "substitution_zone_dash_breaks": 0.20,
-            "substitution_zone_rep_pattern": "5",
-    
+            "substitution_zone_rep_pattern": 5,
+
             "service_zone_mark_length": 0.15,
             "service_zone_mark_to_end_line": 0.20
         },
@@ -2045,20 +2051,20 @@
             "court_length": 18.0,
             "court_width": 9.0,
             "court_units": "m",
-    
+
             "free_zone_end_line": 4.5,
             "free_zone_sideline": 3.0,
-    
+
             "court_apron_end_line": 2.0,
             "court_apron_sideline": 1.5,
-    
+
             "line_thickness": 0.05,
             "attack_line_edge_to_center_line": 3.0,
-    
+
             "substitution_zone_dash_length": 0.15,
             "substitution_zone_dash_breaks": 0.20,
-            "substitution_zone_rep_pattern": "5",
-    
+            "substitution_zone_rep_pattern": 5,
+
             "service_zone_mark_length": 0.15,
             "service_zone_mark_to_end_line": 0.20
         },
@@ -2067,20 +2073,20 @@
             "court_length": 18.0,
             "court_width": 9.0,
             "court_units": "m",
-    
+
             "free_zone_end_line": 4.5,
             "free_zone_sideline": 3.0,
-    
+
             "court_apron_end_line": 2.0,
             "court_apron_sideline": 1.5,
-    
+
             "line_thickness": 0.05,
             "attack_line_edge_to_center_line": 3.0,
-    
+
             "substitution_zone_dash_length": 0.15,
             "substitution_zone_dash_breaks": 0.20,
-            "substitution_zone_rep_pattern": "5",
-    
+            "substitution_zone_rep_pattern": 5,
+
             "service_zone_mark_length": 0.15,
             "service_zone_mark_to_end_line": 0.20
         }

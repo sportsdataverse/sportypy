@@ -14,9 +14,14 @@ Keys keep sportypy's convention: sportyR's "little league" is "little_league"
 here, so keys are compared with "_" and " " treated as equal. "custom" is a
 sportyR-only template and is skipped. ``--add-sport SPORT`` creates a sport
 sportypy lacks (first league written there, the rest by the normal path).
+``--align`` replaces every drifted league with sportyR's entry (verbatim, so
+sportypy-only keys are dropped; sportypy's league key name is kept).
+``--vendor OUT`` also writes sportyR's file, plus a ``_provenance`` key, to OUT
+(the tests' copy: tests/data/sportyr_surface_dimensions.json).
 """
 import argparse
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -80,7 +85,7 @@ def drift(source, target):
 
 def add_entry(text, sport, block):
     lines = text.split("\n")
-    s = lines.index(f'    "{sport}": {{')
+    s = next(k for k, ln in enumerate(lines) if ln.rstrip() == f'    "{sport}": {{')
     end = next(k for k in range(s, len(lines)) if lines[k] in ("    }", "    },"))
     prev = end - 1
     while not lines[prev].strip():
@@ -88,6 +93,32 @@ def add_entry(text, sport, block):
     lines[prev] = lines[prev].rstrip(",") + ","
     lines[end:end] = ["", *block.split("\n")]
     return "\n".join(lines)
+
+
+def replace_entry(text, sport, league, block):
+    """Replace sportypy's ``league`` block of ``sport`` with ``block`` (keeping the key name)."""
+    lines = text.split(NL)
+    s = next(k for k, ln in enumerate(lines) if ln.rstrip() == f'    "{sport}": {{')
+    i = next(k for k in range(s, len(lines)) if lines[k] == f'        "{league}": {{')
+    j = next(k for k in range(i, len(lines)) if lines[k] in ("        }", "        },"))
+    new = block.split(NL)
+    new[0] = f'        "{league}": {{'
+    new[-1] += "," if lines[j].endswith(",") else ""
+    lines[i:j + 1] = new
+    return NL.join(lines)
+
+
+def vendor(src_path, source, out):
+    """Write sportyR's dimensions, with a provenance note, for the tests."""
+    repo = Path(src_path).resolve().parents[1]
+    sha = subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"],
+                         capture_output=True, text=True).stdout.strip() or "unknown"
+    data = {"_provenance": (
+        f"Verbatim copy of sportyR data-raw/surface-dimensions.json (sportyR commit {sha}); "
+        "used to assert sportypy dimensions match sportyR. Regenerate with "
+        "python tools/sync_dimensions.py <sportyR>/data-raw/surface-dimensions.json "
+        "--check --vendor tests/data/sportyr_surface_dimensions.json"), **source}
+    Path(out).write_text(json.dumps(data, indent=2) + NL, encoding="utf-8", newline=NL)
 
 
 def add_sport(text, sport, block):
@@ -103,13 +134,20 @@ def main(argv=None):
     ap.add_argument("--check", action="store_true", help="exit 1 if leagues are missing; write nothing")
     ap.add_argument("--add-sport", action="append", default=[], metavar="SPORT",
                     help="also create this sport (absent from sportypy) from sportyR; write mode only")
+    ap.add_argument("--align", action="store_true",
+                    help="replace every drifted league with sportyR's entry; write mode only")
+    ap.add_argument("--vendor", metavar="OUT", help="also write sportyR's file (+ provenance) to OUT")
     args = ap.parse_args(argv)
     if args.add_sport and args.check:
         ap.error("--add-sport cannot be combined with --check")
+    if args.align and args.check:
+        ap.error("--align cannot be combined with --check")
 
     src_text = Path(args.sportyr_json).read_text(encoding="utf-8")
     tgt_text = TARGET.read_text(encoding="utf-8")
     source, target = json.loads(src_text), json.loads(tgt_text)
+    if args.vendor:
+        vendor(args.sportyr_json, source, args.vendor)
 
     for sport in args.add_sport:
         if sport not in source:
@@ -124,8 +162,17 @@ def main(argv=None):
     for sport in source:
         if sport not in target:
             print(f"warning: sport '{sport}' absent from sportypy; skipped")
+    drifted = []
     for sport, lg, key, mine, theirs in drift(source, target):
         print(f"drift: {sport}/{lg}/{key}: {mine!r} vs {theirs!r}")
+        if (sport, lg) not in drifted:
+            drifted.append((sport, lg))
+    if args.align:
+        for sport, lg in drifted:
+            key = next(k for k in target[sport] if norm(k) == norm(lg))
+            print(f"aligning: {sport}/{key}")
+            tgt_text = replace_entry(tgt_text, sport, key, entry_text(src_text, sport, lg))
+        target = json.loads(tgt_text)
 
     todo = {sp: lgs for sp, lgs in missing(source, target).items() if lgs}
     for sport, leagues in todo.items():

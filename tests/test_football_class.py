@@ -100,7 +100,7 @@ def test_nfl_params():
         "team_bench_length_back_side": 37.2639,
         "team_bench_area_border_thickness": 0.1111,
         "bench_shape": "trapezoid",
-        "field_bordered": True
+        "field_bordered": False
     }
 
     test_params = football_fields.NFLField().field_params
@@ -268,7 +268,7 @@ def test_cani_change_dimensions():
         "- team_bench_length_back_side (37.2639)\n"
         "- team_bench_area_border_thickness (0.1111)\n"
         "- bench_shape (trapezoid)\n"
-        "- field_bordered (True)\n"
+        "- field_bordered (False)\n"
         "\n"
         "These parameters may be updated with the update_field_params() "
         "method\n"

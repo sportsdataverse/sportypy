@@ -51,7 +51,7 @@ def test_mlb_params():
         "pitchers_plate_width": 0.5,
         "pitchers_plate_length": 2.0,
 
-        "base_side_length": 1.25,
+        "base_side_length": 1.5,
         "home_plate_edge_length": 1.4167,
 
         "infield_arc_radius": 95.0,
@@ -65,6 +65,7 @@ def test_mlb_params():
         "batters_box_width": 4.0,
         "batters_box_y_adj": 0.7083,
         "home_plate_side_to_batters_box": 0.5,
+        "catchers_box_shape": "rectangle",
         "catchers_box_depth": 8.0,
         "catchers_box_width": 3.5833,
 
@@ -210,7 +211,7 @@ def test_cani_change_dimensions():
         "- pitchers_plate_front_to_home_plate (60.5)\n"
         "- pitchers_plate_width (0.5)\n"
         "- pitchers_plate_length (2.0)\n"
-        "- base_side_length (1.25)\n"
+        "- base_side_length (1.5)\n"
         "- home_plate_edge_length (1.4167)\n"
         "- infield_arc_radius (95.0)\n"
         "- base_anchor_to_infield_grass_radius (13.0)\n"
@@ -221,6 +222,7 @@ def test_cani_change_dimensions():
         "- batters_box_width (4.0)\n"
         "- batters_box_y_adj (0.7083)\n"
         "- home_plate_side_to_batters_box (0.5)\n"
+        "- catchers_box_shape (rectangle)\n"
         "- catchers_box_depth (8.0)\n"
         "- catchers_box_width (3.5833)\n"
         "- backstop_radius (60.0)\n"
