@@ -312,6 +312,27 @@ class FootballField(BaseSurfacePlot):
             **field_updates
         }
 
+        # The features assume yards (yard lines every yard, the red zone at
+        # the 20, ...), so the field is built in yards and converted to the
+        # requested units at the end. Parameters passed in other units (e.g. by
+        # update_field_params() on a field in feet) are converted to yards
+        start_units = field_params.get("field_units", "")
+        if units.lower() != "default":
+            target_units = units.lower()
+        else:
+            target_units = start_units
+        if start_units in self.unit_conversions and start_units != "yd":
+            field_params = self._convert_field_params(
+                field_params,
+                start_units,
+                "yd"
+            )
+
+        # Keep the yard parameters the field is built from, so the update and
+        # reset methods rebuild from them instead of round-tripping the
+        # converted values through yards
+        self._yd_field_params = dict(field_params)
+
         # Set the passed parameters of the field to be the class' field_params
         # attribute
         self.field_params = field_params
@@ -1263,6 +1284,26 @@ class FootballField(BaseSurfacePlot):
 
         self.yardage_markers.reset_index(inplace = True, drop = True)
 
+        # Convert the field (built in yards) to the requested units
+        built_units = self.field_params.get("field_units", "")
+        if (
+            target_units in self.unit_conversions and
+            built_units in self.unit_conversions and
+            target_units != built_units
+        ):
+            scale = self._convert_units(1.0, built_units, target_units)
+            self.field_params = self._convert_field_params(
+                self.field_params,
+                built_units,
+                target_units
+            )
+            for feature in self._features + [self._surface_constraint]:
+                feature.feature_scale = scale
+            for col in ("marked_line", "dist_to_line"):
+                self.yardage_markers[col] = (
+                    self.yardage_markers[col].astype(float) * scale
+                )
+
         # Initialize all other features passed as keyword arguments
         for added_feature in added_features.values():
             self._initialize_feature(added_feature)
@@ -1680,8 +1721,9 @@ class FootballField(BaseSurfacePlot):
 
         # Re-instantiate the class with the new colors
         self._reinit(
-            field_updates = self.field_params,
-            color_updates = updated_colors
+            field_updates = self._yd_field_params,
+            color_updates = updated_colors,
+            units = self._units_kwarg()
         )
 
     def update_field_params(self, field_param_updates = {}, *args, **kwargs):
@@ -1702,20 +1744,28 @@ class FootballField(BaseSurfacePlot):
         -------
         Nothing, but the class is re-instantiated with the updated parameters
         """
-        # Start by getting the currently-used field parameters
-        current_field_params = self.field_params
-
-        # Create a new dictionary to hold the updated parameters via dictionary
-        # comprehension
-        updated_field_params = {
-            **current_field_params,
-            **field_param_updates
-        }
-
-        # Re-instantiate the class with the new parameters
+        # Re-instantiate the class with the new parameters, applied to the
+        # yard parameters the field was built from (updates are given in the
+        # field's current units)
+        built_units = self._yd_field_params.get("field_units", "")
+        current_units = self.field_params.get("field_units", "")
+        if (
+            current_units in self.unit_conversions and
+            built_units in self.unit_conversions and
+            current_units != built_units
+        ):
+            field_param_updates = self._convert_field_params(
+                field_param_updates,
+                current_units,
+                built_units
+            )
         self._reinit(
-            field_updates = updated_field_params,
-            color_updates = self.feature_colors
+            field_updates = {
+                **self._yd_field_params,
+                **field_param_updates
+            },
+            color_updates = self.feature_colors,
+            units = self._units_kwarg()
         )
 
     def reset_colors(self):
@@ -1754,8 +1804,9 @@ class FootballField(BaseSurfacePlot):
         }
 
         self._reinit(
-            field_updates = self.field_params,
-            color_updates = default_colors
+            field_updates = self._yd_field_params,
+            color_updates = default_colors,
+            units = self._units_kwarg()
         )
 
     def reset_field_params(self):
@@ -1772,8 +1823,43 @@ class FootballField(BaseSurfacePlot):
 
         self._reinit(
             field_updates = default_params,
-            color_updates = self.feature_colors
+            color_updates = self.feature_colors,
+            units = self._units_kwarg()
         )
+
+    def _convert_field_params(self, params, start_units, end_units):
+        """Convert every length in ``params`` from one unit to another.
+
+        Numbers (and numbers in lists) are converted; booleans and strings
+        (fonts, yard numbers) are kept. ``field_units`` is set to
+        ``end_units``
+        """
+        converted = {}
+        for k, v in params.items():
+            if isinstance(v, list):
+                converted[k] = [
+                    self._convert_units(i, start_units, end_units)
+                    if isinstance(i, (int, float)) and not isinstance(i, bool)
+                    else i
+                    for i in v
+                ]
+            elif isinstance(v, (int, float)) and not isinstance(v, bool):
+                converted[k] = self._convert_units(v, start_units, end_units)
+            else:
+                converted[k] = v
+        converted["field_units"] = end_units
+        return converted
+
+    def _units_kwarg(self):
+        """The ``units`` to rebuild the field in: its current units."""
+        return self.field_params.get("field_units", "") or "default"
+
+    def _yd(self, value):
+        """``value`` yards in the field's units."""
+        field_units = self.field_params.get("field_units", "")
+        if field_units in self.unit_conversions and field_units != "yd":
+            return self._convert_units(value, "yd", field_units)
+        return value
 
     def _get_plot_range_limits(self, display_range = "full", xlim = None,
                                ylim = None, for_plot = False,
@@ -1864,7 +1950,7 @@ class FootballField(BaseSurfacePlot):
 
             red_zone_start = (
                 (self.field_params.get("field_length", 0.0) / 2.0) -
-                20.0
+                self._yd(20.0)
             )
 
         # If it's for display (e.g. the draw() method), add in the necessary
@@ -1880,7 +1966,7 @@ class FootballField(BaseSurfacePlot):
                 self.field_params.get("minor_line_thickness", 0.0) +
                 # As sportyR's geom_football(): the league's apron padding
                 # (default 5)
-                self.field_params.get("extra_apron_padding", 5.0)
+                self.field_params.get("extra_apron_padding", self._yd(5.0))
             )
 
             half_field_width = (
@@ -1895,13 +1981,13 @@ class FootballField(BaseSurfacePlot):
                     0.0
                 ) +
                 self.field_params.get("minor_line_thickness", 0.0) +
-                self.field_params.get("extra_apron_padding", 5.0)
+                self.field_params.get("extra_apron_padding", self._yd(5.0))
             )
 
             red_zone_start = (
                 (self.field_params.get("field_length", 0.0) / 2.0) -
                 # As sportyR's geom_football(): the red zone starts at the 20
-                20.0
+                self._yd(20.0)
             )
 
         # Set the x limits of the plot if they are not provided

@@ -80,8 +80,7 @@ def test_update_and_reset_keep_state(cls, kwargs, prefix, op):
     assert (surface.x_trans, surface.y_trans) == (10.0, -5.0)
     assert surface.league_code == fresh.league_code
     params = getattr(surface, f"{prefix}_params")
-    # FootballField does not support ``units`` (its features assume yards)
-    assert params[f"{prefix}_units"] == ("yd" if issubclass(cls, FootballField) else "in")
+    assert params[f"{prefix}_units"] == "in"
     _same_params(params, getattr(fresh, f"{prefix}_params"))
 
 
@@ -94,8 +93,7 @@ def test_reset_after_update_keeps_league():
     assert field.field_params == SoftballField(league_code="ncaa").field_params
 
 
-# FootballField does not support ``units`` (its features assume yards)
-UNIT_CASES = [(c, i) for c, i in zip(CASES, IDS) if not issubclass(c[0], FootballField)]
+UNIT_CASES = list(zip(CASES, IDS))
 
 
 @pytest.mark.parametrize(
@@ -148,6 +146,24 @@ def test_feet_to_millimetres(unit):
     rink = HockeyRink(league_code="nhl")
     assert rink._convert_units(1.0, "ft", unit) == pytest.approx(304.8)
     assert HockeyRink(league_code="nhl", units=unit).rink_params["rink_length"] == pytest.approx(200.0 * 304.8)
+
+
+@pytest.mark.parametrize("units, factor", [("ft", 3.0), ("m", 0.9144), ("in", 36.0)])
+def test_football_field_honours_units(units, factor):
+    """Every football polygon (and the yard numbers) scales by the unit factor,
+    so the field looks the same in any units."""
+    from sportypy.surfaces.football import NFLField
+
+    yd, conv = NFLField(), NFLField(units=units)
+    assert conv.field_params["field_units"] == units
+    assert conv.field_params["field_length"] == pytest.approx(100.0 * factor)
+    assert len(yd._features) == len(conv._features)
+    for a, b in zip(yd._features, conv._features):
+        da, db = a._translate_feature(), b._translate_feature()
+        assert np.allclose(da["x"] * factor, db["x"]) and np.allclose(da["y"] * factor, db["y"])
+    assert np.allclose(yd.yardage_markers["marked_line"] * factor, conv.yardage_markers["marked_line"])
+    got = np.array(conv._get_plot_range_limits("redzone"))
+    assert np.allclose(got, np.array(yd._get_plot_range_limits("redzone")) * factor)
 
 
 def test_a_yard_is_three_feet():
