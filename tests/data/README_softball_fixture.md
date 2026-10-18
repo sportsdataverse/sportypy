@@ -6,7 +6,7 @@ Coordinates computed by sportyR's own R code for the NCAA softball field
 places them at.
 
 - sportyR checkout: `C:/Users/saiem/Documents/GitHub-Data/sdv-dev/wt-syr-quirks`, branch
-  `fix/geometry-quirks` (sportyR PR #68, final head), commit 00e364ad7916668a951ee1d008b64f77203d2e36
+  `fix/geometry-quirks` (sportyR PR #68, final head), commit 972da8ca0a7bef02b2be674bbe2f001275365cb6
   (see `provenance` in the JSON)
 - Captured 2026-10-18 (Rscript 4.6.1); loaded with `pkgload::load_all()`, not installed
 - Regenerate: `Rscript tools/softball_fixture.R <path to sportyR> tests/data/sportyr_softball_fixture.json`

@@ -26,7 +26,12 @@ summarise_layer <- function(layer) {
     x = x[idx],
     y = y[idx],
     fill = layer$aes_params$fill,
-    colour = layer$aes_params$colour
+    colour = layer$aes_params$colour,
+    box = if (all(c("x_min", "x_max", "y_min", "y_max") %in% names(layer$data))) {
+      as.list(layer$data[c("x_min", "x_max", "y_min", "y_max")])
+    } else {
+      NULL
+    }
   )
 }
 out <- list(
@@ -45,4 +50,17 @@ out <- list(
     )
   })
 )
+# Unit and translation cases (sportyR #74 / #76): the surface drawn in other
+# units and / or shifted, as geom_volleyball() draws it
+unit_cases <- list(
+  fivb_in_shifted = list(league = "fivb", court_units = "in", x_trans = 12, y_trans = -6)
+)
+out$unit_cases <- lapply(unit_cases, function(args) {
+  p <- do.call(geom_volleyball, args)
+  list(
+    args = args,
+    layers = unname(lapply(p$layers, summarise_layer)),
+    limits = list(x = p$coordinates$limits$x, y = p$coordinates$limits$y)
+  )
+})
 writeLines(jsonlite::toJSON(out, auto_unbox = TRUE, digits = NA, pretty = FALSE, na = "null"), out_path)
