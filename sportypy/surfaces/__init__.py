@@ -15,3 +15,15 @@ from .volleyball import FIVBCourt, USAVolleyballCourt, VolleyballCourt
 
 # softball's only package-level names are the two unique classes below
 from .softball import NCAASoftballField, SoftballField
+
+# lacrosse class names are all unique, so all are package-level names
+from .lacrosse import (
+    LacrosseField,
+    NCAAMLacrosseField,
+    NCAAWLacrosseField,
+    NLLField,
+    PLLField,
+    USAMLacrosseField,
+    USAWLacrosseField,
+    WorldLacrosseField,
+)

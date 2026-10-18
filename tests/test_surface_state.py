@@ -18,6 +18,7 @@ from sportypy.surfaces.basketball import BasketballCourt, NBACourt
 from sportypy.surfaces.curling import CurlingSheet
 from sportypy.surfaces.football import FootballField, NFHSField
 from sportypy.surfaces.hockey import HockeyRink
+from sportypy.surfaces.lacrosse import LacrosseField, NCAAWLacrosseField, NLLField
 from sportypy.surfaces.soccer import SoccerPitch
 from sportypy.surfaces.softball import NCAASoftballField, SoftballField
 from sportypy.surfaces.tennis import TennisCourt
@@ -42,6 +43,9 @@ CASES = [
     (SoccerPitch, {"league_code": "epl"}, "pitch"),
     (TennisCourt, {"league_code": "atp"}, "court"),
     (VolleyballCourt, {"league_code": "fivb"}, "court"),
+    (LacrosseField, {"league_code": "nll"}, "field"),
+    (NLLField, {}, "field"),
+    (NCAAWLacrosseField, {}, "field"),
 ]
 IDS = [c[0].__module__.split(".")[-1] + "." + c[0].__name__ for c in CASES]
 STATE = {"rotation": 90.0, "x_trans": 10.0, "y_trans": -5.0, "units": "in"}
