@@ -49,4 +49,18 @@ out <- list(
     )
   })
 )
+# Unit and translation cases (sportyR #74 / #76): the surface drawn in other
+# units and / or shifted, as geom_lacrosse() draws it
+unit_cases <- list(
+  nll_m_shifted = list(league = "nll", field_units = "m", x_trans = 3, y_trans = -2),
+  ncaaw_ft = list(league = "ncaaw", field_units = "ft")
+)
+out$unit_cases <- lapply(unit_cases, function(args) {
+  p <- do.call(geom_lacrosse, args)
+  list(
+    args = args,
+    layers = unname(lapply(p$layers, summarise_layer)),
+    limits = list(x = p$coordinates$limits$x, y = p$coordinates$limits$y)
+  )
+})
 writeLines(jsonlite::toJSON(out, auto_unbox = TRUE, digits = NA, pretty = FALSE, na = "null"), out_path)

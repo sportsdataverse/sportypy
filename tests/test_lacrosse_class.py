@@ -285,10 +285,11 @@ def test_penalty_box_fills_start_inside_the_boards():
 @pytest.mark.parametrize("cls", [lacrosse.NCAAWLacrosseField, lacrosse.USAWLacrosseField])
 def test_goal_fan_hash_marks_sit_on_the_arc_at_their_rotation(cls):
     """sportyR #62: each mark is placed at the angle it is rotated by,
-    phi = s / R; since #69, R = goal_fan_radius about the goal-line centre."""
+    phi = s / R; since #69 about the goal-line centre, and since #75 R is the
+    middle of the fan's line, goal_fan_radius - goal_fan_line_thickness / 2."""
     field = cls()
     p = field.field_params
-    r = p["goal_fan_radius"]
+    r = p["goal_fan_radius"] - p["goal_fan_line_thickness"] / 2
     cx = p["field_length"] / 2 - p["goal_line_center_to_end_line"]
     marks = [
         f
@@ -368,10 +369,13 @@ def test_womens_8m_arc_follows_the_rule(cls):
     # C (on the 10.6 m circle) lies on the 45-degree line from B
     c = np.argmax(np.where((dist > r - 1e-9) & (y > 0), x, -np.inf))
     assert (y[c] - gc) == pytest.approx(-(x[c] - gx), abs=1e-9)
+    # sportyR #75: the marks bisect the fan's line, so they sit at its middle
+    rm = r - p["goal_fan_line_thickness"] / 2
+    assert rm == pytest.approx(10.5495)
     marks = _right_copies(field, "GoalFanHashMark")
     for mark, s in zip(marks, p["goal_fan_hash_mark_separation_from_center"]):
-        phi = s / r
-        assert np.hypot(mark.x_anchor - gx, mark.y_anchor) == pytest.approx(r)
+        phi = s / rm
+        assert np.hypot(mark.x_anchor - gx, mark.y_anchor) == pytest.approx(rm)
         assert math.atan2(mark.y_anchor, mark.x_anchor - gx) == pytest.approx(math.pi - phi)
         assert mark.dims["rotational_angle"] == pytest.approx(-phi * 180 / math.pi)
 
