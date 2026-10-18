@@ -119,7 +119,9 @@ def vendor(src_path, source, out):
         "used to assert sportypy dimensions match sportyR. Regenerate with "
         "python tools/sync_dimensions.py <sportyR>/data-raw/surface-dimensions.json "
         "--vendor tests/data/sportyr_surface_dimensions.json"), **source}
-    Path(out).write_text(json.dumps(data, indent=2) + NL, encoding="utf-8", newline=NL)
+    # open(newline=) rather than Path.write_text(newline=), which needs Python 3.10
+    with open(out, "w", encoding="utf-8", newline=NL) as fh:
+        fh.write(json.dumps(data, indent=2) + NL)
 
 
 def add_sport(text, sport, block):
@@ -186,7 +188,8 @@ def main(argv=None):
     if args.check:
         return 1 if todo else 0
     json.loads(tgt_text)  # must still parse
-    TARGET.write_text(tgt_text, encoding="utf-8", newline="\n")
+    with open(TARGET, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(tgt_text)
     return 0
 
 
