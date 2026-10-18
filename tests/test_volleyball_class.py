@@ -603,3 +603,12 @@ def test_usa_volleyball_court_uses_its_own_dimensions():
     assert usav.court_params["free_zone_sideline"] == 3.0
     assert usav.court_params["free_zone_end_line"] == 4.5
     assert usav.court_params != fivb.court_params
+
+
+def test_drawn_court_lines_are_not_snapped():
+    """Lines thinner than a pixel must not snap to zero width: every drawn
+    feature patch has snapping turned off."""
+    ax = volleyball_courts.USAVolleyballCourt().draw()
+    patches = [p for p in ax.patches if p.get_visible()]
+    assert patches and all(p.get_snap() is False for p in patches)
+    plt.close("all")

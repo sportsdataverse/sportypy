@@ -149,11 +149,14 @@ class BaseFeature(ABC):
         # Get the polygon's data frame
         feature_df = self._translate_feature()
 
-        # Create a matplotlib.Polygon object that composes the feature
+        # Create a matplotlib.Polygon object that composes the feature. Pixel
+        # snapping is turned off: matplotlib snaps a rectilinear polygon's
+        # edges to the pixel grid, so a line thinner than a pixel (e.g. a
+        # volleyball or tennis line at screen size) would snap to zero width
         feature_polygon = plt.Polygon(
             feature_df,
             visible = self.visible,
-            **self.plot_kwargs
+            **{"snap": False, **self.plot_kwargs}
         )
 
         return feature_polygon
