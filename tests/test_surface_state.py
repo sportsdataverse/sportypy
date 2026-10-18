@@ -140,3 +140,11 @@ def test_baseball_full_range_matches_sportyr():
     assert ylim == pytest.approx(
         (-(p["backstop_radius"] + 5), p["center_field_distance"] + 5)
     )
+
+
+@pytest.mark.parametrize("unit", ["mm", "millimeters", "millimetre"])
+def test_feet_to_millimetres(unit):
+    """1 ft = 304.8 mm, whichever spelling of millimetres is used."""
+    rink = HockeyRink(league_code="nhl")
+    assert rink._convert_units(1.0, "ft", unit) == pytest.approx(304.8)
+    assert HockeyRink(league_code="nhl", units=unit).rink_params["rink_length"] == pytest.approx(200.0 * 304.8)
