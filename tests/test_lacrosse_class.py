@@ -427,3 +427,22 @@ def test_leagues_without_a_goal_fan_draw_no_fan(cls):
     assert fans and all(len(_xy(f)[0]) == 0 for f in fans)
     field.draw()
     plt.close("all")
+
+
+def test_update_colors_rederives_the_contrasting_marker():
+    """sportyR's rule after update_colors(): the #ffcb05 contrast default is
+    re-derived from the colours the user chose, not carried over."""
+    field = lacrosse.NCAAMLacrosseField()
+    assert field.feature_colors["center_face_off_marker"] == "#ffcb05"
+    field.update_colors({"center_line": "#ff0000"})
+    assert field.feature_colors["center_face_off_marker"] == "#ffffff"
+    field.update_colors({"center_line": "#ffffff"})
+    assert field.feature_colors["center_face_off_marker"] == "#ffcb05"
+    field.update_colors({"center_face_off_marker": "#123456"})
+    field.update_colors({"boards": "#000000"})
+    assert field.feature_colors["center_face_off_marker"] == "#123456"
+    field.update_field_params({"field_apron_thickness": 6.0})
+    assert field.feature_colors["center_face_off_marker"] == "#123456"
+    assert field.feature_colors["boards"] == "#000000"
+    field.reset_colors()
+    assert field.feature_colors["center_face_off_marker"] == "#ffcb05"

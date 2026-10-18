@@ -124,7 +124,10 @@ class LacrosseField(BaseSurfacePlot):
         p = self.field_params
         g = lambda key, default=0.0: p.get(key, default)  # noqa: E731
 
-        colors = {**DEFAULT_COLORS, **(color_updates or {})}
+        # The colours the user chose (kept so update/reset methods can re-derive
+        # the contrasting default below from them)
+        self._color_updates = dict(color_updates or {})
+        colors = {**DEFAULT_COLORS, **self._color_updates}
         # The contrasting colour applies only when the user chose no marker
         # colour and the marker would match the (possibly user-set) center line
         # (sportyR #65)
@@ -628,14 +631,14 @@ class LacrosseField(BaseSurfacePlot):
         """Re-draw the field's features with ``color_updates`` applied."""
         self._reinit(
             field_updates=self.field_params,
-            color_updates={**self.feature_colors, **(color_updates or {})},
+            color_updates={**self._color_updates, **(color_updates or {})},
         )
 
     def update_field_params(self, field_param_updates=None, *args, **kwargs):
         """Re-draw the field with ``field_param_updates`` applied."""
         self._reinit(
             field_updates={**self.field_params, **(field_param_updates or {})},
-            color_updates=self.feature_colors,
+            color_updates=self._color_updates,
         )
 
     def reset_colors(self):
@@ -646,7 +649,7 @@ class LacrosseField(BaseSurfacePlot):
         """Go back to the league's dimensions (in the field's current units)."""
         self._reinit(
             field_updates=self.league_dimensions.get(self.league_code, {}),
-            color_updates=self.feature_colors,
+            color_updates=self._color_updates,
         )
 
     def _get_plot_range_limits(
