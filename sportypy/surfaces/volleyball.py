@@ -191,6 +191,8 @@ class VolleyballCourt(BaseSurfacePlot):
         # Convert the court's units if needed
         if units.lower() != "default":
             for k, v in court_params.items():
+                if k in self._COUNT_PARAMS:
+                    continue
                 self.court_params[k] = self._convert_units(
                     v,
                     self.court_params["court_units"],

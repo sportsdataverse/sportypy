@@ -463,6 +463,9 @@ def test_unit_conversions():
     court_params_to_convert = test_court_to_convert.court_params
 
     for k, v in court_params_to_convert.items():
+        # Counts (e.g. dashes, repetitions) are not lengths and keep their value
+        if k in test_court_to_convert._COUNT_PARAMS:
+            continue
         court_params_to_convert[k] = test_court_to_convert._convert_units(
             v,
             "ft",

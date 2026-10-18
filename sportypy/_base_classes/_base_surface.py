@@ -540,6 +540,13 @@ class BaseSurface(ABC):
         # Retain only leagues in the desired sport
         self.league_dimensions = dimensions[sport.lower()]
 
+    # Parameters that count marks rather than measure lengths; converting the
+    # surface's units leaves them alone
+    _COUNT_PARAMS = frozenset({
+        "substitution_zone_rep_pattern",
+        "n_free_throw_circle_dashes",
+    })
+
     def _convert_units(self, value, start_unit, desired_unit):
         """Convert the units of the surface as required by the user.
 

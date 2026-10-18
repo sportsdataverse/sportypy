@@ -171,3 +171,20 @@ def test_a_yard_is_three_feet():
     rink = HockeyRink(league_code="nhl")
     assert rink._convert_units(1.0, "yd", "ft") == pytest.approx(3.0, rel=1e-15)
     assert rink._convert_units(100.0, "yards", "in") == pytest.approx(3600.0, rel=1e-15)
+
+
+@pytest.mark.parametrize(
+    "cls, kwargs, prefix, key",
+    [
+        (VolleyballCourt, {"league_code": "fivb"}, "court", "substitution_zone_rep_pattern"),
+        (BasketballCourt, {"league_code": "nba"}, "court", "n_free_throw_circle_dashes"),
+    ],
+)
+def test_counts_are_not_converted_with_units(cls, kwargs, prefix, key):
+    """A count (dashes, repetitions) is not a length: units leave it alone, so
+    the surface draws the same number of marks in any units."""
+    native = cls(**kwargs)
+    for units in ("in", "cm"):
+        converted = cls(**kwargs, units=units)
+        assert getattr(converted, f"{prefix}_params")[key] == getattr(native, f"{prefix}_params")[key]
+        assert len(converted._features) == len(native._features)

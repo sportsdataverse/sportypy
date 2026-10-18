@@ -382,6 +382,9 @@ def test_unit_conversions():
     court_params_to_convert = test_court_to_convert.court_params
 
     for k, v in court_params_to_convert.items():
+        # Counts (e.g. dashes, repetitions) are not lengths and keep their value
+        if k in test_court_to_convert._COUNT_PARAMS:
+            continue
         court_params_to_convert[k] = test_court_to_convert._convert_units(
             v,
             "m",
@@ -399,9 +402,9 @@ def test_unsupported_unit_conversions():
     This test should pass so long as the courts' coordinates do not change when
     a user wishes to use an unsupported unit
     """
-    # There are 13 parameters in an NCAA court
+    # There are 12 length parameters in an NCAA court (the substitution zone's
+    # repetition count is not converted)
     exp_unit_error_string = (
-        "foots is not currently a supported unit\n"
         "foots is not currently a supported unit\n"
         "foots is not currently a supported unit\n"
         "foots is not currently a supported unit\n"
