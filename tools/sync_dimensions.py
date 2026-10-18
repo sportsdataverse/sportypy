@@ -12,7 +12,8 @@ sportyR" (information only; the exit code is unchanged). A sport absent from
 sportypy is warned about and skipped.
 Keys keep sportypy's convention: sportyR's "little league" is "little_league"
 here, so keys are compared with "_" and " " treated as equal. "custom" is a
-sportyR-only template and is skipped.
+sportyR-only template and is skipped. ``--add-sport SPORT`` creates a sport
+sportypy lacks (first league written there, the rest by the normal path).
 """
 import argparse
 import json
@@ -35,7 +36,8 @@ def entry_text(text, sport, league):
     ind = len(lines[i]) - len(lines[i].lstrip())
     j = next(k for k in range(i, len(lines))
              if lines[k].rstrip(",") == " " * ind + "}")
-    step = ind // 3  # sportyR nests league at 3 levels (root>sport>league)
+    nxt = next(ln for ln in lines[i + 1:j] if ln.strip())
+    step = len(nxt) - len(nxt.lstrip()) - ind  # sportyR's indent width varies by sport
     out = []
     for ln in lines[i:j + 1]:
         pad = len(ln) - len(ln.lstrip())
@@ -88,15 +90,34 @@ def add_entry(text, sport, block):
     return "\n".join(lines)
 
 
+def add_sport(text, sport, block):
+    """Append a new sport holding one league block (the file ends in a closing brace)."""
+    body = text.rstrip()
+    assert body.endswith("}")
+    return body[:-1].rstrip() + f',{NL}{NL}    "{sport}": {{{NL}{block}{NL}    }}{NL}}}'
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("sportyr_json")
     ap.add_argument("--check", action="store_true", help="exit 1 if leagues are missing; write nothing")
+    ap.add_argument("--add-sport", action="append", default=[], metavar="SPORT",
+                    help="also create this sport (absent from sportypy) from sportyR; write mode only")
     args = ap.parse_args(argv)
+    if args.add_sport and args.check:
+        ap.error("--add-sport cannot be combined with --check")
 
     src_text = Path(args.sportyr_json).read_text(encoding="utf-8")
     tgt_text = TARGET.read_text(encoding="utf-8")
     source, target = json.loads(src_text), json.loads(tgt_text)
+
+    for sport in args.add_sport:
+        leagues = [lg for lg in source[sport] if lg != "custom"]
+        if sport in target or not leagues:
+            continue
+        print(f"adding sport: {sport}/{leagues[0]}")
+        tgt_text = add_sport(tgt_text, sport, entry_text(src_text, sport, leagues[0]))
+        target = json.loads(tgt_text)
 
     for sport in source:
         if sport not in target:

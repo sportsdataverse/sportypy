@@ -12,3 +12,6 @@ from .tennis import *
 # ``from sportypy.surfaces.volleyball import NCAACourt``.
 from . import volleyball
 from .volleyball import FIVBCourt, USAVolleyballCourt, VolleyballCourt
+
+# softball's only package-level names are the two unique classes below
+from .softball import NCAASoftballField, SoftballField
