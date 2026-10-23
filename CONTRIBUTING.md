@@ -72,7 +72,7 @@ Your request will be checked against the following points:
 
 - **Only Related Changes** &mdash; Before you submit your PR, make sure your PR only addresses *one* issue. If you want to fix multiple issues, please address them in separate PRs so that it's clear what change is being made in each PR. Please also be sure that your PR doesn't introduce any new bugs or break any existing code
 
-- **Code Style and File Naming** &mdash; Please follow the [ruff](https://docs.astral.sh/ruff/) settings in `ruff.toml` by running `uv run ruff check .` and `uv run ruff format .`. Maintaining consistent styling facilitates easier current maintenance and future development.
+- **Code Style and File Naming** &mdash; Please follow [the flake8 styleguide](https://flake8.pycqa.org/en/latest/). Maintaining consistent styling facilitates easier current maintenance and future development.
 
     Additionally, please keep consistent with the naming of new files, especially when adding a new sport. Files that contain a new sport's features should be added to the `sportypy/_features/` directory, and the base surface (and any child classes for specific leagues) to the `sportypy/surfaces` directory. Dimensions should be maintained in the `sportypy/data/raw/surface_dimensions.json` file. Please parameterize the surface to the best of your abilities, and ask with any questions!
 
