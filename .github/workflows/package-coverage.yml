@@ -16,7 +16,7 @@ jobs:
       run: uv sync --locked --no-default-groups --group test
 
     - name: Run tests and collect coverage
-      run: uv run pytest --cov=sportypy tests/ --cov-report=xml --cov-report=term
+      run: uv run --no-sync pytest --cov=sportypy tests/ --cov-report=xml --cov-report=term
 
     - name: Upload coverage reports to codecov.io
       uses: codecov/codecov-action@v5

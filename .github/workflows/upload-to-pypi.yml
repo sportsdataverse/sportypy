@@ -14,6 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     - uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: false
     - name: Build
       run: uv build
     - name: Publish
