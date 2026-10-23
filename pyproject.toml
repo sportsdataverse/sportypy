@@ -1,0 +1,69 @@
+[build-system]
+requires = ["uv_build>=0.11.16,<0.12"]
+build-backend = "uv_build"
+
+[project]
+name = "sportypy"
+version = "1.1.0"
+description = "Draw sports surfaces according to rulebook specifications"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [{ name = "Ross Drucker", email = "ross.a.drucker@gmail.com" }]
+maintainers = [{ name = "Ross Drucker", email = "ross.a.drucker@gmail.com" }]
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "matplotlib>=3.8",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Source = "https://github.com/sportsdataverse/sportypy"
+Docs = "https://sportypy.sportsdataverse.org/"
+"Bug Tracker" = "https://github.com/sportsdataverse/sportypy/issues"
+
+[dependency-groups]
+test = ["pytest", "pytest-cov"]
+lint = ["ruff"]
+docs = [
+    "sphinx",
+    "livereload",
+    "myst-parser",
+    "sphinx-markdown-builder",
+    "sphinx-bootstrap-theme",
+]
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    { include-group = "docs" },
+]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.uv.build-backend]
+# The package sits at the repo root rather than under src/
+module-root = ""
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::RuntimeWarning",
+    "ignore::UserWarning",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    # Skip any pass lines (e.g. a pass statement in an @abstractmethod)
+    "pass",
+    # Standard pragma
+    "pragma: no cover",
+]

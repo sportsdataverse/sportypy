@@ -1137,7 +1137,7 @@ class BaseSurfacePlot(BaseSurface):
         self._bound_surface(
             x,
             y,
-            contour_plot.collections,
+            contour_plot,
             ax,
             kwargs["transform"],
             is_constrained,

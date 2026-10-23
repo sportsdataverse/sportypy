@@ -7,11 +7,13 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 import os
 import sys
+from importlib.metadata import version as package_version
 import sphinx_bootstrap_theme
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "sportypy")))
 
 project = "sportypy"
-version = "1.0.0"
+# Read the version from the installed package so it matches pyproject.toml
+version = package_version("sportypy")
 copyright = "2022, Ross Drucker"
 author = "Ross Drucker"
 
