@@ -10,7 +10,7 @@ Follow](https://img.shields.io/twitter/follow/sportsdataverse?&label=%40sportsda
 
 As the field of sports analytics evolves, there's a growing need for methods to both track and visualize players throughout the game. This package aims to make this easy regardless of sport needed to be plotted.
 
-This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, lacrosse, soccer, softball, tennis, and volleyball in **Python**. For the **R** version of this package, click [here](https://github.com/sportsdataverse/sportyR).
+This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, lacrosse, soccer, softball, tennis, and volleyball in **Python**. The **R** version of this package is [`sportyR`](https://github.com/sportsdataverse/sportyR).
 
 For **JavaScript / TypeScript**, [`@sportsdataverse/sporty`](https://www.npmjs.com/package/@sportsdataverse/sporty) is the TypeScript port of `sportyR` and `sportypy` (`npm install @sportsdataverse/sporty`). It lives in the [sdvplot-js repo](https://github.com/sportsdataverse/sdvplot-js), and its docs are at [plot.sportsdataverse.org](https://plot.sportsdataverse.org/).
 

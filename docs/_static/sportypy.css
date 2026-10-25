@@ -8,12 +8,12 @@ body {
     color: #1b1611;
     font-size: 16px;
   }
-  
+
 a {
     /* Link colors */
     color: #ff552e;
 }
-  
+
 h1, h2, .h1, .h2 {
     /* Headers */
     font-family: "Roboto";
@@ -31,7 +31,7 @@ div.alert a, div.alert a:hover {
     border-color: #168733;
     color: #ffffff;
 }
-  
+
 .navbar-default .navbar-brand {
     color: #ffffff;
     font-size: 20px;
