@@ -1,0 +1,20 @@
+# Lint only. `ruff format` is deliberately not used: the package's style puts
+# spaces around keyword-argument equals signs (`ax = ax`), which the formatter
+# would rewrite in every file
+line-length = 79
+target-version = "py310"
+extend-exclude = ["docs/_build"]
+
+[lint]
+# ruff's defaults (pyflakes and the pycodestyle errors flake8 also reports)
+select = ["E4", "E7", "E9", "F"]
+
+[lint.per-file-ignores]
+# the package namespaces re-export their submodules on purpose
+"__init__.py" = ["F401", "F403"]
+# ponytail: `type(x) == ...` is kept where it is; switching to isinstance()
+# changes behaviour (a bool passes an int check), so it is its own change
+"sportypy/surfaces/basketball.py" = ["E721"]
+"sportypy/_base_classes/_base_surface.py" = ["E721"]
+# short names such as `l` are fine in the parity tests' coordinate loops
+"tests/*" = ["E741"]

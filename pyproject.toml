@@ -34,7 +34,10 @@ Docs = "https://sportypy.sportsdataverse.org/"
 
 [dependency-groups]
 test = ["pytest", "pytest-cov"]
-lint = ["ruff"]
+lint = [
+    "pre-commit>=4",
+    "ruff==0.15.12",
+]
 docs = [
     "sphinx",
     "livereload",
