@@ -4,7 +4,8 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # ubuntu-latest (26.04) has no Python 3.9 build for setup-python
+    runs-on: ubuntu-24.04
     name: Test sportypy (Python ${{ matrix.python-version }})
     strategy:
       fail-fast: false
