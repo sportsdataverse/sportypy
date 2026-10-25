@@ -46,7 +46,7 @@ def test_ncaa_params():
 
         "substitution_zone_dash_length": 0.15,
         "substitution_zone_dash_breaks": 0.20,
-        "substitution_zone_rep_pattern": "5",
+        "substitution_zone_rep_pattern": 5,
 
         "service_zone_mark_length": 0.15,
         "service_zone_mark_to_end_line": 0.20
@@ -382,6 +382,9 @@ def test_unit_conversions():
     court_params_to_convert = test_court_to_convert.court_params
 
     for k, v in court_params_to_convert.items():
+        # Counts (e.g. dashes, repetitions) are not lengths and keep their value
+        if k in test_court_to_convert._COUNT_PARAMS:
+            continue
         court_params_to_convert[k] = test_court_to_convert._convert_units(
             v,
             "m",
@@ -399,7 +402,8 @@ def test_unsupported_unit_conversions():
     This test should pass so long as the courts' coordinates do not change when
     a user wishes to use an unsupported unit
     """
-    # There are 13 parameters in an NCAA court
+    # There are 12 length parameters in an NCAA court (the substitution zone's
+    # repetition count is not converted)
     exp_unit_error_string = (
         "foots is not currently a supported unit\n"
         "foots is not currently a supported unit\n"
@@ -589,3 +593,25 @@ def test_display_range_none_empty_string():
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
+
+
+def test_usa_volleyball_court_uses_its_own_dimensions():
+    """USAVolleyballCourt draws the "usa volleyball" court (3 m / 4.5 m free
+    zone), not the FIVB one (5 m / 6.5 m)."""
+    usav = volleyball_courts.USAVolleyballCourt()
+    fivb = volleyball_courts.FIVBCourt()
+    entry = usav.league_dimensions["usa volleyball"]
+    assert usav.league_code == "usa volleyball"
+    assert usav.court_params == entry
+    assert usav.court_params["free_zone_sideline"] == 3.0
+    assert usav.court_params["free_zone_end_line"] == 4.5
+    assert usav.court_params != fivb.court_params
+
+
+def test_drawn_court_lines_are_not_snapped():
+    """Lines thinner than a pixel must not snap to zero width: every drawn
+    feature patch has snapping turned off."""
+    ax = volleyball_courts.USAVolleyballCourt().draw()
+    patches = [p for p in ax.patches if p.get_visible()]
+    assert patches and all(p.get_snap() is False for p in patches)
+    plt.close("all")

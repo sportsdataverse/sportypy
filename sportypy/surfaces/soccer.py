@@ -915,7 +915,7 @@ class SoccerPitch(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             pitch_updates = self.pitch_params,
             color_updates = updated_colors
         )
@@ -943,15 +943,19 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Create a new dictionary to hold the updated parameters via dictionary
         # comprehension
+        pitch_param_updates, units = self._split_units_update(
+            pitch_param_updates
+        )
         updated_pitch_params = {
             **current_pitch_params,
             **pitch_param_updates
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             pitch_updates = updated_pitch_params,
-            color_updates = self.feature_colors
+            color_updates = self.feature_colors,
+            **units
         )
 
     def reset_colors(self):
@@ -981,7 +985,7 @@ class SoccerPitch(BaseSurfacePlot):
             "goal": "#ffffff"
         }
 
-        self.__init__(
+        self._reinit(
             pitch_updates = self.pitch_params,
             color_updates = default_colors
         )
@@ -998,7 +1002,7 @@ class SoccerPitch(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             pitch_updates = default_params,
             color_updates = self.feature_colors
         )

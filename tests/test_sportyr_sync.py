@@ -1,0 +1,185 @@
+"""Tests for the sportyR-synced surfaces (PWHL rink, Curling Canada sheet,
+volleyball export) and tools/sync_dimensions.py.
+
+tests/data/sportyr_surface_dimensions.json holds verbatim sportyR entries
+(see its ``_provenance`` key); no sibling checkout is needed.
+"""
+
+import importlib.util
+import json
+from pathlib import Path
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import pytest
+
+import sportypy.surfaces as surfaces
+from sportypy.surfaces.curling import CurlingCanadaSheet
+from sportypy.surfaces.hockey import PWHLRink
+
+HERE = Path(__file__).parent
+SPORTYR = json.loads((HERE / "data/sportyr_surface_dimensions.json").read_text())
+
+
+def _drawn_patches(obj):
+    ax = obj.draw()
+    n = len(ax.patches) + len(ax.collections) + len(ax.lines)
+    plt.close("all")
+    return n
+
+
+def test_volleyball_exported_from_surfaces():
+    assert surfaces.FIVBCourt and surfaces.NCAACourt and surfaces.USAVolleyballCourt
+
+
+def test_pwhl_rink_matches_sportyr():
+    rink = PWHLRink()
+    assert rink.league_code == "pwhl"
+    for key, value in SPORTYR["hockey"]["pwhl"].items():
+        assert rink.rink_params[key] == value, key
+    assert _drawn_patches(rink) > 0
+
+
+def test_curling_canada_sheet_matches_sportyr():
+    sheet = CurlingCanadaSheet()
+    assert sheet.league_code == "curling canada"
+    for key, value in SPORTYR["curling"]["curling canada"].items():
+        assert sheet.sheet_params[key] == value, key
+    assert _drawn_patches(sheet) > 0
+
+
+def _sync_module():
+    spec = importlib.util.spec_from_file_location(
+        "sync_dimensions", HERE.parent / "tools/sync_dimensions.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_sync_check_is_clean_against_vendored_entries(tmp_path):
+    src = tmp_path / "dims.json"
+    src.write_text(json.dumps({k: v for k, v in SPORTYR.items() if k != "_provenance"}))
+    assert _sync_module().main([str(src), "--check"]) == 0
+
+
+def test_sync_check_detects_missing_league(tmp_path):
+    src = tmp_path / "dims.json"
+    src.write_text(json.dumps({"hockey": {"newleague": {"rink_units": "ft"}}}))
+    assert _sync_module().main([str(src), "--check"]) == 1
+
+
+def test_package_level_names_not_rebound_by_volleyball():
+    assert surfaces.NCAACourt.__module__ == "sportypy.surfaces.tennis"
+    assert surfaces.volleyball.NCAACourt.__module__ == "sportypy.surfaces.volleyball"
+    assert surfaces.FIVBCourt.__module__ == "sportypy.surfaces.volleyball"
+
+
+def test_sync_write_mode_adds_entry(tmp_path, monkeypatch, capsys):
+    mod = _sync_module()
+    target = tmp_path / "target.json"
+    target.write_text(json.dumps({"hockey": {"nhl": {"a": 1, "b": 2}}}, indent=4))
+    src = tmp_path / "src.json"
+    entry = SPORTYR["hockey"]["pwhl"]
+    src.write_text(json.dumps({
+        "hockey": {"nhl": {"a": 1, "b": 3}, "pwhl": entry}, "lacrosse": {"x": {}}}, indent=2))
+    monkeypatch.setattr(mod, "TARGET", target)
+    assert mod.main([str(src)]) == 0
+    out = capsys.readouterr().out
+    assert "drift: hockey/nhl/b: 2 vs 3" in out
+    assert "sport 'lacrosse' absent" in out
+    assert json.loads(target.read_text())["hockey"]["pwhl"] == entry
+    assert mod.main([str(src), "--check"]) == 0
+
+
+FOUR_SPACE_SRC = """{
+    "softball": {
+        "custom": {
+            "a": 0.0
+        },
+        "ncaa": {
+            "field_units": "ft",
+
+            "a": 1.5,
+            "nested": {
+                "b": 2
+            }
+        }
+    }
+}
+"""
+
+
+def test_entry_text_and_add_sport_keep_four_space_style():
+    mod = _sync_module()
+    block = mod.entry_text(FOUR_SPACE_SRC, "softball", "ncaa")
+    assert block.startswith('        "ncaa": {\n            "field_units": "ft",')
+    assert '\n                "b": 2\n' in block
+    target = '{\n    "hockey": {\n        "nhl": {\n            "a": 1\n        }\n    }\n}'
+    out = mod.add_sport(target, "softball", block)
+    assert json.loads(out)["softball"]["ncaa"] == json.loads(FOUR_SPACE_SRC)["softball"]["ncaa"]
+    assert json.loads(out)["hockey"] == {"nhl": {"a": 1}}
+    assert '\n    "softball": {\n        "ncaa": {\n            "field_units"' in out
+
+
+def test_add_sport_unknown_to_sportyr_is_a_usage_error(tmp_path, capsys):
+    src = tmp_path / "src.json"
+    src.write_text(json.dumps({"hockey": {}}))
+    with pytest.raises(SystemExit) as e:
+        _sync_module().main([str(src), "--add-sport", "curling2"])
+    assert e.value.code == 2
+    assert "curling2" in capsys.readouterr().err
+
+
+def test_sync_align_replaces_drifted_leagues(tmp_path, monkeypatch, capsys):
+    mod = _sync_module()
+    target = tmp_path / "target.json"
+    target.write_text(json.dumps({"baseball": {
+        "little_league": {"a": 1, "only_here": True},
+        "mlb": {"a": 1},
+        "pony": {"a": 5}}}, indent=4))
+    src = tmp_path / "src.json"
+    src.write_text(json.dumps({"baseball": {
+        "little league": {"a": 2, "new": [True, False]},
+        "mlb": {"a": 1},
+        "pony": {"a": "5"}}}, indent=2))
+    monkeypatch.setattr(mod, "TARGET", target)
+    assert mod.main([str(src), "--align"]) == 0
+    out = capsys.readouterr().out
+    assert "aligning: baseball/little_league" in out and "aligning: baseball/pony" in out
+    assert "aligning: baseball/mlb" not in out
+    got = json.loads(target.read_text())["baseball"]
+    # sportypy's key name is kept; the entry becomes sportyR's exactly
+    assert got == {"little_league": {"a": 2, "new": [True, False]},
+                   "mlb": {"a": 1}, "pony": {"a": "5"}}
+    assert mod.main([str(src), "--check"]) == 0
+    assert "drift:" not in capsys.readouterr().out
+
+
+def test_align_cannot_combine_with_check(tmp_path):
+    src = tmp_path / "src.json"
+    src.write_text(json.dumps({"hockey": {}}))
+    with pytest.raises(SystemExit) as e:
+        _sync_module().main([str(src), "--align", "--check"])
+    assert e.value.code == 2
+
+
+def test_surface_dimensions_have_no_drift_from_vendored_sportyr(capsys):
+    """Every league in the vendored sportyR entries equals sportypy's."""
+    import importlib.resources
+    mine = json.loads(importlib.resources.files("sportypy.data")
+                      .joinpath("surface_dimensions.json").read_text())
+    src = {k: v for k, v in SPORTYR.items() if k != "_provenance"}
+    assert list(_sync_module().drift(src, mine)) == []
+
+
+@pytest.mark.parametrize("flag", [["--align"], ["--vendor", "out.json"]])
+def test_write_only_flags_refuse_check(tmp_path, flag, capsys):
+    src = tmp_path / "src.json"
+    src.write_text(json.dumps({"hockey": {}}))
+    flag = [str(tmp_path / f) if f.endswith(".json") else f for f in flag]
+    with pytest.raises(SystemExit) as e:
+        _sync_module().main([str(src), *flag, "--check"])
+    assert e.value.code == 2
+    assert "cannot be combined with --check" in capsys.readouterr().err
+    assert not (tmp_path / "out.json").exists()
