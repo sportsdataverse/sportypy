@@ -66,4 +66,7 @@ def autoset_font_size(ax, txt, xy, width, height, *, transform = None,
     bbox = text.get_window_extent(fig.canvas.get_renderer())
     adjusted_size = (30 * fontsize) / bbox.width
 
+    # The text was only drawn to measure it; take it off the axes again
+    text.remove()
+
     return adjusted_size

@@ -343,6 +343,8 @@ class BasketballCourt(BaseSurfacePlot):
         # Convert the court's units if needed
         if units.lower() != "default":
             for k, v in court_params.items():
+                if k in self._COUNT_PARAMS:
+                    continue
                 self.court_params[k] = self._convert_units(
                     v,
                     self.court_params["court_units"],
@@ -2018,7 +2020,7 @@ class BasketballCourt(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             court_updates = self.court_params,
             color_updates = updated_colors
         )
@@ -2046,15 +2048,19 @@ class BasketballCourt(BaseSurfacePlot):
 
         # Create a new dictionary to hold the updated parameters via dictionary
         # comprehension
+        court_param_updates, units = self._split_units_update(
+            court_param_updates
+        )
         updated_court_params = {
             **current_court_params,
             **court_param_updates
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             court_updates = updated_court_params,
-            color_updates = self.feature_colors
+            color_updates = self.feature_colors,
+            **units
         )
 
     def reset_colors(self):
@@ -2095,7 +2101,7 @@ class BasketballCourt(BaseSurfacePlot):
             "net": "#ffffff"
         }
 
-        self.__init__(
+        self._reinit(
             court_updates = self.court_params,
             color_updates = default_colors
         )
@@ -2112,7 +2118,7 @@ class BasketballCourt(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             court_updates = default_params,
             color_updates = self.feature_colors
         )

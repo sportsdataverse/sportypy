@@ -793,3 +793,152 @@ def test_display_range_none_empty_string():
 
     assert isinstance(ax1, matplotlib.axes.SubplotBase)
     assert isinstance(ax2, matplotlib.axes.SubplotBase)
+
+
+def _border_outlines(field):
+    """The field-border and red-zone-border outline features."""
+    return [
+        f for f in field._features
+        if isinstance(
+            f,
+            (
+                football_features.FieldBorderOutline,
+                football_features.RedZoneBorderOutline
+            )
+        )
+    ]
+
+
+def test_bordered_fields_draw_a_white_border_outline():
+    """sportyR #67: the border and its outlines are always drawn;
+    field_bordered only picks the default outline colour (white on NCAA, NFHS
+    and NFL, transparent on CFL), and a user colour always wins."""
+    from matplotlib.colors import to_rgba
+    white = to_rgba("#ffffff")
+    clear = to_rgba("#ffffff00")
+    fields = {
+        "ncaa": football_fields.NCAAField(),
+        "nfhs11": football_fields.NFHSField(),
+        "nfl": football_fields.NFLField(),
+        "cfl": football_fields.CFLField()
+    }
+    tag = {
+        "field_border_outline": "#010203",
+        "red_zone_border_outline": "#010203"
+    }
+    for league, field in fields.items():
+        outlines = _border_outlines(field)
+        assert len(outlines) == 6, league
+        assert all(f.visible for f in outlines), league
+        want = clear if league == "cfl" else white
+        assert all(
+            to_rgba(f.plot_kwargs["facecolor"]) == want for f in outlines
+        ), league
+        # A user colour is drawn on every league, CFL included
+        tagged = type(field)(color_updates = tag)
+        ax = tagged.draw()
+        drawn = [
+            p for p in ax.patches
+            if p.get_visible()
+            and to_rgba(p.get_facecolor()) == to_rgba("#010203")
+        ]
+        assert len(drawn) == 6, league
+        plt.close("all")
+
+    for cls in (football_fields.NCAAField, football_fields.CFLField):
+        user = cls(color_updates = {"field_border_outline": "#ff0000"})
+        border = [
+            f for f in _border_outlines(user)
+            if isinstance(f, football_features.FieldBorderOutline)
+        ]
+        assert border and all(
+            f.visible and f.plot_kwargs["facecolor"] == "#ff0000"
+            for f in border
+        ), cls.__name__
+
+
+def test_cfl_reset_colors_keeps_the_outline_transparent():
+    """reset_colors() goes back to the league's default outline colour."""
+    from matplotlib.colors import to_rgba
+    field = football_fields.CFLField(
+        color_updates = {"field_border_outline": "#ff0000"}
+    )
+    field.reset_colors()
+    assert all(
+        to_rgba(f.plot_kwargs["facecolor"]) == to_rgba("#ffffff00")
+        for f in _border_outlines(field)
+    )
+
+
+def test_football_dimensions_follow_sportyr_66_67():
+    """sportyR #66 (NCAA coaching line 6 ft out) and #67 (field_bordered)."""
+    ncaa = football_fields.NCAAField().field_params
+    assert ncaa["restricted_area_width"] == 1.8889
+    for league in ("ncaa", "nfhs11", "nfhs9", "nfhs8", "nfhs6", "nfl"):
+        params = football_fields.FootballField(league_code = league).field_params
+        assert params["field_bordered"] is True, league
+    cfl = football_fields.CFLField().field_params
+    assert cfl["field_bordered"] is False
+
+
+def test_nfl_bench_corner_follows_the_slanted_side():
+    """sportyR #71: on a trapezoid bench the outer corner of the apron, the
+    field border and its outline follows the bench's slanted side (19.15 yd,
+    was 19.41); rectangular benches keep the field-side corner."""
+    import numpy as np
+    import pytest
+    nfl = football_fields.NFLField()
+    p = nfl.field_params
+    depth = (
+        p["field_width"] / 2 + p["boundary_line_thickness"] +
+        p["restricted_area_width"] + p["coaching_box_width"] +
+        p["team_bench_width"] + p["team_bench_area_border_thickness"]
+    )
+    t = p["field_border_thickness"]
+    feats = {type(f).__name__: f for f in nfl._features if f.x_reflection == 1}
+    for name in ("FieldApron", "FieldBorder"):
+        df = feats[name]._translate_feature()
+        top = df[np.isclose(df["y"], depth + t)]
+        assert top["x"].max() == pytest.approx(19.14685, abs = 1e-5), name
+    # the border's outer edge is parallel to the bench's slanted side
+    m = p["team_bench_width"] / (
+        (p["team_bench_length_back_side"] - p["team_bench_length_field_side"]) / 2
+    )
+    corner = 19.14685
+    x1 = p["team_bench_length_field_side"] / 2 + \
+        p["team_bench_area_border_thickness"] + t
+    y1 = depth - p["team_bench_width"] - p["team_bench_area_border_thickness"]
+    assert (depth + t - y1) / (corner - x1) == pytest.approx(m, rel = 1e-4)
+    ncaa = football_fields.NCAAField()
+    apron = next(
+        f for f in ncaa._features if type(f).__name__ == "FieldApron"
+    )._translate_feature()
+    assert apron["x"].iloc[1] == pytest.approx(31.4444, abs = 1e-4)
+
+
+def test_one_text_artist_per_yard_number():
+    """Sizing the yard numbers leaves no extra (tiny) text behind: the axes
+    hold exactly one text per yard number."""
+    nfl = football_fields.NFLField()
+    ax = nfl.draw()
+    assert len(ax.texts) == len(nfl.yardage_markers)
+    plt.close("all")
+
+
+def test_outline_defaults_follow_a_field_bordered_update():
+    """The derived outline colour follows field_bordered after
+    update_field_params(); a colour the user chose is kept."""
+    field = football_fields.CFLField()
+    assert field.feature_colors["field_border_outline"] == "#ffffff00"
+    field.update_field_params({"field_bordered": True})
+    assert field.feature_colors["field_border_outline"] == "#ffffff"
+    assert field.feature_colors["red_zone_border_outline"] == "#ffffff"
+    field.update_colors({"red_zone_border_outline": "#ff0000"})
+    field.update_field_params({"field_bordered": False})
+    assert field.feature_colors["field_border_outline"] == "#ffffff00"
+    assert field.feature_colors["red_zone_border_outline"] == "#ff0000"
+    field.reset_field_params()
+    assert field.feature_colors["field_border_outline"] == "#ffffff00"
+    assert field.feature_colors["red_zone_border_outline"] == "#ff0000"
+    field.reset_colors()
+    assert field.feature_colors["red_zone_border_outline"] == "#ffffff00"

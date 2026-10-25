@@ -468,6 +468,8 @@ def test_nfl_contour():
     plt.colorbar(contour_img, ax = ax, orientation = "horizontal")
 
     assert isinstance(ax, matplotlib.axes.Axes)
+    # the contour is clipped to the field (is_constrained defaults to True)
+    assert contour_img.get_clip_path() is not None
 
 
 def test_epl_contour():

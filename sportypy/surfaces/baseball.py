@@ -952,7 +952,7 @@ class BaseballField(BaseSurfacePlot):
         }
 
         # Re-instantiate the class with the new colors
-        self.__init__(
+        self._reinit(
             field_updates = self.field_params,
             color_updates = updated_colors
         )
@@ -980,15 +980,19 @@ class BaseballField(BaseSurfacePlot):
 
         # Create a new dictionary to hold the updated parameters via dictionary
         # comprehension
+        field_param_updates, units = self._split_units_update(
+            field_param_updates
+        )
         updated_field_params = {
             **current_field_params,
             **field_param_updates
         }
 
         # Re-instantiate the class with the new parameters
-        self.__init__(
+        self._reinit(
             field_updates = updated_field_params,
-            color_updates = self.feature_colors
+            color_updates = self.feature_colors,
+            **units
         )
 
     def reset_colors(self):
@@ -1013,7 +1017,7 @@ class BaseballField(BaseSurfacePlot):
             "running_lane": "#ffffff"
         }
 
-        self.__init__(
+        self._reinit(
             field_updates = self.field_params,
             color_updates = default_colors
         )
@@ -1030,7 +1034,7 @@ class BaseballField(BaseSurfacePlot):
         # Re-instantiate the class with the default parameters
         default_params = self.league_dimensions[self.league_code]
 
-        self.__init__(
+        self._reinit(
             field_updates = default_params,
             color_updates = self.feature_colors
         )
@@ -1126,33 +1130,37 @@ class BaseballField(BaseSurfacePlot):
         # thicknesses of external features (e.g. running lane and other out of
         # play features)
         if for_display:
+            # As sportyR's geom_baseball(): the full field spans the foul
+            # poles in x with no padding; every other edge is padded by 5 ft
+            # (converted when the field is drawn in other units)
+            pad = self._display_pad(5.0)
             left_field_distance_x = (
                 self.field_params.get("left_field_distance", 0.0) *
                 math.cos(3.0 * np.pi / 4.0)
-            ) + 5.0
+            )
             right_field_distance_x = (
                 self.field_params.get("right_field_distance", 0.0) *
                 math.cos(np.pi / 4.0)
-            ) + 5.0
+            )
             left_infield_distance_x = (
                 -self.field_params.get("infield_arc_radius", 0.0)
-            ) - 5.0
+            ) - pad
             right_infield_distance_x = (
                 self.field_params.get("infield_arc_radius", 0.0)
-            ) + 5.0
+            ) + pad
             backstop_radius_y = -(
                 self.field_params.get("backstop_radius", 0.0) +
-                5.0
+                pad
             )
             center_field_distance_y = self.field_params.get(
                 "center_field_distance",
                 0.0
-            ) + 5.0
+            ) + pad
             home_plate_circle_y = -(
                 self.field_params.get(
                     "home_plate_circle_radius",
                     0.0
-                ) + 5.0
+                ) + pad
             )
             infield_arc_y = (
                 self.field_params.get(
@@ -1160,7 +1168,7 @@ class BaseballField(BaseSurfacePlot):
                     0.0
                 ) +
                 self.field_params.get("infield_arc_radius", 0.0) +
-                5.0
+                pad
             )
 
         # Set the x limits of the plot if they are not provided

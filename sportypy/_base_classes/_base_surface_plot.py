@@ -1133,7 +1133,8 @@ class BaseSurfacePlot(BaseSurface):
             **kwargs
         )
 
-        # Bound the resulting plot to be inside the surface
+        # Bound the resulting plot to be inside the surface (from matplotlib
+        # 3.8 the ContourSet is itself a Collection)
         self._bound_surface(
             x,
             y,
