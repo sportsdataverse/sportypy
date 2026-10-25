@@ -53,7 +53,7 @@ uv sync --locked
 uv run --no-sync ruff check .
 uv run --no-sync pre-commit run --all-files
 uv run --no-sync pytest tests/
-uv run --no-sync sphinx-build -W --keep-going -b html docs <scratch dir>
+uv run --no-sync sphinx-build -W --keep-going -b html docs "${TMPDIR:-/tmp}/sportypy-docs"
 ```
 
 CI runs the same (`.github/workflows/`): `package-coverage` (tests, Python 3.10

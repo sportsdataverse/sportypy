@@ -10,9 +10,11 @@ file.
 ## Workflow
 
 - Use feature branches and pull requests; do not push to `main`.
-- Set up with `uv sync --locked`. The gates, as CI runs them:
+- Set up with `uv sync --locked`. The local gates:
   `uv run --no-sync ruff check .`, `uv run --no-sync pre-commit run --all-files`,
-  `uv run --no-sync pytest tests/` and a Sphinx build with `-W`.
+  `uv run --no-sync pytest tests/` and a Sphinx build with `-W`. CI also runs
+  zizmor on `upload-to-pypi.yml` and checks the built distributions
+  (`uv build`, `twine check --strict`, the wheel ships the data JSON).
 - Never let a `uv.lock` change ride into an unrelated commit.
 
 ## Commits
