@@ -1282,7 +1282,7 @@ class FootballField(BaseSurfacePlot):
             })
         ])
 
-        self.yardage_markers.reset_index(inplace = True, drop = True)
+        self.yardage_markers = self.yardage_markers.reset_index(drop = True)
 
         # Convert the field (built in yards) to the requested units
         built_units = self.field_params.get("field_units", "")
@@ -1744,6 +1744,12 @@ class FootballField(BaseSurfacePlot):
         -------
         Nothing, but the class is re-instantiated with the updated parameters
         """
+        # A field_units key asks for the field in other units: it is taken out
+        # of the update and passed as the units to rebuild in
+        field_param_updates, units = self._split_units_update(
+            field_param_updates
+        )
+
         # Re-instantiate the class with the new parameters, applied to the
         # yard parameters the field was built from (updates are given in the
         # field's current units)
@@ -1764,8 +1770,8 @@ class FootballField(BaseSurfacePlot):
                 **self._yd_field_params,
                 **field_param_updates
             },
-            color_updates = self.feature_colors,
-            units = self._units_kwarg()
+            color_updates = self._chosen_colors(),
+            units = units.get("units", self._units_kwarg())
         )
 
     def reset_colors(self):
@@ -1823,7 +1829,7 @@ class FootballField(BaseSurfacePlot):
 
         self._reinit(
             field_updates = default_params,
-            color_updates = self.feature_colors,
+            color_updates = self._chosen_colors(),
             units = self._units_kwarg()
         )
 
@@ -1849,6 +1855,24 @@ class FootballField(BaseSurfacePlot):
                 converted[k] = v
         converted["field_units"] = end_units
         return converted
+
+    def _chosen_colors(self):
+        """The field's colours less the outline colours derived from
+        ``field_bordered``, so a rebuild derives them again from the new
+        parameters. An outline colour that differs from the derived one was
+        chosen by the user and is kept"""
+        # ponytail: a chosen colour equal to the derived one is re-derived too
+        derived = (
+            "#ffffff" if self.field_params.get("field_bordered", False)
+            else "#ffffff00"
+        )
+        return {
+            k: v for k, v in self.feature_colors.items()
+            if not (
+                k in ("field_border_outline", "red_zone_border_outline") and
+                v == derived
+            )
+        }
 
     def _units_kwarg(self):
         """The ``units`` to rebuild the field in: its current units."""

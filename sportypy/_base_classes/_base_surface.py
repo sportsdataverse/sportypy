@@ -439,6 +439,36 @@ class BaseSurface(ABC):
                 return params, f"{name}_units"
         return {}, "units"
 
+    def _split_units_update(self, updates):
+        """Take a units key out of an ``update_*_params`` update.
+
+        The update's lengths are in the surface's current units; a units key
+        among them asks for the surface in other units. It is returned as the
+        ``units`` to rebuild with, so the saved lengths are converted rather
+        than relabelled
+
+        Parameters
+        ----------
+        updates : dict or None
+            The parameter updates passed to ``update_*_params``
+
+        Returns
+        -------
+        updates : dict
+            The updates without the units key
+
+        units : dict
+            ``{"units": <new units>}`` for a change of units, else empty
+        """
+        params, units_key = self._surface_params()
+        updates = dict(updates or {})
+        new_units = updates.pop(units_key, None)
+        if new_units is None or new_units == params.get(units_key):
+            return updates, {}
+        if new_units.lower() not in self.unit_conversions:
+            raise ValueError(f"{new_units} is not currently a supported unit")
+        return updates, {"units": new_units}
+
     def _reinit(self, **kwargs):
         """Re-run ``__init__`` as the ``update_*`` and ``reset_*`` methods do.
 

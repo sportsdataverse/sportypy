@@ -943,6 +943,9 @@ class SoccerPitch(BaseSurfacePlot):
 
         # Create a new dictionary to hold the updated parameters via dictionary
         # comprehension
+        pitch_param_updates, units = self._split_units_update(
+            pitch_param_updates
+        )
         updated_pitch_params = {
             **current_pitch_params,
             **pitch_param_updates
@@ -951,7 +954,8 @@ class SoccerPitch(BaseSurfacePlot):
         # Re-instantiate the class with the new parameters
         self._reinit(
             pitch_updates = updated_pitch_params,
-            color_updates = self.feature_colors
+            color_updates = self.feature_colors,
+            **units
         )
 
     def reset_colors(self):

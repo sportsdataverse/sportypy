@@ -933,6 +933,9 @@ class CurlingSheet(BaseSurfacePlot):
 
         # Create a new dictionary to hold the updated parameters via dictionary
         # comprehension
+        sheet_param_updates, units = self._split_units_update(
+            sheet_param_updates
+        )
         updated_sheet_params = {
             **current_sheet_params,
             **sheet_param_updates
@@ -941,7 +944,8 @@ class CurlingSheet(BaseSurfacePlot):
         # Re-instantiate the class with the new parameters
         self._reinit(
             sheet_updates = updated_sheet_params,
-            color_updates = self.feature_colors
+            color_updates = self.feature_colors,
+            **units
         )
 
     def reset_colors(self):

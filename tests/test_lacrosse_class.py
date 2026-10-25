@@ -450,3 +450,16 @@ def test_update_colors_rederives_the_contrasting_marker():
     assert field.feature_colors["boards"] == "#000000"
     field.reset_colors()
     assert field.feature_colors["center_face_off_marker"] == "#ffcb05"
+
+
+def test_scalar_and_array_limits_follow_the_base_surface_contract():
+    """A single ``xlim``/``ylim`` value is the lower bound (the upper bound is
+    the range's), as on every other surface; an array works like a tuple."""
+    field = lacrosse.NCAAMLacrosseField()
+    assert field._get_plot_range_limits(xlim=10.0) == ((10.0, 60.0), (-35.0, 35.0))
+    assert field._get_plot_range_limits(xlim=np.float64(10.0), ylim=-5.0) == ((10.0, 60.0), (-5.0, 35.0))
+    # a lower bound past the end of the range shows the whole range
+    assert field._get_plot_range_limits(xlim=80.0) == ((-60.0, 60.0), (-35.0, 35.0))
+    assert field._get_plot_range_limits(xlim=np.array([-5.0, 5.0])) == ((-5.0, 5.0), (-35.0, 35.0))
+    field.draw(xlim=10.0)
+    plt.close("all")

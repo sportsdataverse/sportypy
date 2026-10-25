@@ -636,9 +636,11 @@ class LacrosseField(BaseSurfacePlot):
 
     def update_field_params(self, field_param_updates=None, *args, **kwargs):
         """Re-draw the field with ``field_param_updates`` applied."""
+        field_param_updates, units = self._split_units_update(field_param_updates)
         self._reinit(
-            field_updates={**self.field_params, **(field_param_updates or {})},
+            field_updates={**self.field_params, **field_param_updates},
             color_updates=self._color_updates,
+            **units,
         )
 
     def reset_colors(self):
@@ -705,9 +707,22 @@ class LacrosseField(BaseSurfacePlot):
             )
             full_y = (-half_width, half_width)
 
-        x = (xlim[0] - self.x_trans, xlim[1] - self.x_trans) if xlim else full_x
-        y = (ylim[0] - self.y_trans, ylim[1] - self.y_trans) if ylim else full_y
+        x = _explicit_limits(xlim, self.x_trans, full_x)
+        y = _explicit_limits(ylim, self.y_trans, full_y)
         return (min(x), max(x)), (min(y), max(y))
+
+
+def _explicit_limits(lim, trans, full):
+    """A user's limit less the translation: a pair replaces the range, a single
+    value is its lower bound (the whole range when past its upper end), as
+    ``BaseSurface.set_plot_display_range`` documents."""
+    if lim is None:
+        return full
+    try:
+        return (lim[0] - trans, lim[1] - trans)
+    except (TypeError, IndexError):
+        lower = lim - trans
+        return (full[0] if lower >= full[1] else lower, full[1])
 
 
 class NCAAMLacrosseField(LacrosseField):

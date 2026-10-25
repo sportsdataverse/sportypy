@@ -188,3 +188,21 @@ def test_counts_are_not_converted_with_units(cls, kwargs, prefix, key):
         converted = cls(**kwargs, units=units)
         assert getattr(converted, f"{prefix}_params")[key] == getattr(native, f"{prefix}_params")[key]
         assert len(converted._features) == len(native._features)
+
+
+@pytest.mark.parametrize("cls, kwargs, prefix", CASES, ids=IDS)
+@pytest.mark.parametrize("start", [{}, {"units": "ft"}], ids=["native", "ft"])
+def test_units_key_in_an_update_converts_the_surface(cls, kwargs, prefix, start):
+    """A units key passed to update_*_params changes the surface's units: the
+    saved lengths are converted, never relabelled as the new unit."""
+    surface = cls(**kwargs, **start)
+    getattr(surface, f"update_{prefix}_params")({f"{prefix}_units": "cm"})
+    want = cls(**kwargs, units="cm")
+    _same_params(getattr(surface, f"{prefix}_params"), getattr(want, f"{prefix}_params"))
+    assert np.ravel(surface._get_plot_range_limits()) == pytest.approx(np.ravel(want._get_plot_range_limits()))
+
+
+def test_unknown_units_in_an_update_raise():
+    rink = HockeyRink(league_code="nhl")
+    with pytest.raises(ValueError, match="parsecs"):
+        rink.update_rink_params({"rink_units": "parsecs"})

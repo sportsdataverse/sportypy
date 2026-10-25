@@ -1498,6 +1498,9 @@ class HockeyRink(BaseSurfacePlot):
 
         # Create a new dictionary to hold the updated parameters via dictionary
         # comprehension
+        rink_param_updates, units = self._split_units_update(
+            rink_param_updates
+        )
         updated_rink_params = {
             **current_rink_params,
             **rink_param_updates
@@ -1506,7 +1509,8 @@ class HockeyRink(BaseSurfacePlot):
         # Re-instantiate the class with the new parameters
         self._reinit(
             rink_updates = updated_rink_params,
-            color_updates = self.feature_colors
+            color_updates = self.feature_colors,
+            **units
         )
 
     def reset_colors(self):

@@ -923,3 +923,22 @@ def test_one_text_artist_per_yard_number():
     ax = nfl.draw()
     assert len(ax.texts) == len(nfl.yardage_markers)
     plt.close("all")
+
+
+def test_outline_defaults_follow_a_field_bordered_update():
+    """The derived outline colour follows field_bordered after
+    update_field_params(); a colour the user chose is kept."""
+    field = football_fields.CFLField()
+    assert field.feature_colors["field_border_outline"] == "#ffffff00"
+    field.update_field_params({"field_bordered": True})
+    assert field.feature_colors["field_border_outline"] == "#ffffff"
+    assert field.feature_colors["red_zone_border_outline"] == "#ffffff"
+    field.update_colors({"red_zone_border_outline": "#ff0000"})
+    field.update_field_params({"field_bordered": False})
+    assert field.feature_colors["field_border_outline"] == "#ffffff00"
+    assert field.feature_colors["red_zone_border_outline"] == "#ff0000"
+    field.reset_field_params()
+    assert field.feature_colors["field_border_outline"] == "#ffffff00"
+    assert field.feature_colors["red_zone_border_outline"] == "#ff0000"
+    field.reset_colors()
+    assert field.feature_colors["red_zone_border_outline"] == "#ffffff00"

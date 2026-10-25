@@ -836,6 +836,9 @@ class TennisCourt(BaseSurfacePlot):
 
         # Create a new dictionary to hold the updated parameters via dictionary
         # comprehension
+        court_param_updates, units = self._split_units_update(
+            court_param_updates
+        )
         updated_court_params = {
             **current_court_params,
             **court_param_updates
@@ -844,7 +847,8 @@ class TennisCourt(BaseSurfacePlot):
         # Re-instantiate the class with the new parameters
         self._reinit(
             court_updates = updated_court_params,
-            color_updates = self.feature_colors
+            color_updates = self.feature_colors,
+            **units
         )
 
     def reset_colors(self):
