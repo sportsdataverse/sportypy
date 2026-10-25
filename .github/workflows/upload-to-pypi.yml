@@ -6,13 +6,18 @@ on:
     types: [created]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
+      with:
+        persist-credentials: false
     - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e  # v6.8.0
       with:
         enable-cache: false
@@ -22,4 +27,6 @@ jobs:
       env:
         UV_PUBLISH_USERNAME: ${{ secrets.PYPI_USERNAME }}
         UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: uv publish
+      # A PyPI trusted publisher (OIDC) would replace the stored credentials;
+      # it needs configuring on PyPI by the project owner first
+      run: uv publish  # zizmor: ignore[use-trusted-publishing]
