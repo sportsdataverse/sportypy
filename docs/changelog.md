@@ -53,8 +53,12 @@ Display ranges:
 - Thin lines no longer vanish: every feature is drawn with matplotlib's pixel snapping off, which snapped lines thinner than a pixel (volleyball and tennis lines at screen size) to zero width.
 - Football display ranges match `sportyR`'s `geom_football()`: the padding is the league's `extra_apron_padding` (2 yd for NCAA, NFL and CFL; was always 5 yd), the width includes the team-bench border, and the red-zone views start at the 20 (were the 22).
 - `FootballField` honours `units` (it ignored them): the field is built in yards and converted, so it looks the same in any units.
-- Unit conversions: `"mm"` is 304.8 per foot (was 340.8) and a yard is exactly a third of a foot (was 0.3333).
+- Unit conversions: `"mm"` is 304.8 per foot (was 340.8) and the feet-to-yards factor is exactly 1/3 (was 0.3333).
 - Lacrosse: `update_colors()` and the other update/reset methods re-derive the NCAA men's contrasting centre face-off colour from the colours you chose, as `sportyR` does (it was fixed at creation).
+- A units key in an update (`update_field_params({"field_units": "ft"})`, and the `court_`, `rink_`, `sheet_` and `pitch_` equivalents) converts the surface to those units; the saved lengths were relabelled as the new unit instead. An unknown unit raises `ValueError`.
+- Football: after `update_field_params({"field_bordered": ...})` the default outline colours follow the new `field_bordered`; an outline colour you chose is kept.
+- Lacrosse: a single `xlim`/`ylim` value is the lower bound of the display range (it raised `TypeError`), and a NumPy array works as a tuple does.
+- Football no longer uses pandas' deprecated `inplace` keyword (a `Pandas4Warning` on pandas 3.1).
 - Supported Python versions are 3.9 to 3.14 (classifiers, `python_requires`, tox); CI tests 3.9 and 3.14.
 - Volleyball and basketball in other units: the substitution-zone repetitions and free-throw-circle dashes are counts and are no longer scaled like lengths (a FIVB court in inches drew 196 dashes instead of 5).
 - Football in other units: the nudge of a top "1" in the Clarendon font is converted from yards; sizing the yard numbers no longer leaves an extra tiny text on the axes.

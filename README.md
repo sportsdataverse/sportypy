@@ -496,8 +496,9 @@ By regularly reporting issues, making very slight modifications, fixing typos, o
 
 ## Cheat sheet
 
-A printable one-page reference for `sportypy` — every surface class and the
-arguments that shape it — is available as a free PDF:
+A printable one-page reference for `sportypy` — the surface classes and the
+arguments that shape them, as of 1.1.0 (it predates the lacrosse and softball
+surfaces) — is available as a free PDF:
 
 📄 **[Download the sportypy cheat sheet (PDF)](https://sportsdataverse.org/cheatsheets/sportypy.pdf)**
 

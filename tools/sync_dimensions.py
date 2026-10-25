@@ -69,6 +69,13 @@ def flat(d, prefix=""):
     return out
 
 
+def typed(v):
+    """``v`` with each scalar's JSON type attached, so ``false`` != ``0`` and ``1`` != ``1.0``."""
+    if isinstance(v, list):
+        return [typed(x) for x in v]
+    return (type(v).__name__, v)
+
+
 def drift(source, target):
     """Yield (sport, league, key, sportypy_value, sportyr_value) differences."""
     for sport, leagues in source.items():
@@ -76,11 +83,11 @@ def drift(source, target):
             continue
         mine = {norm(k): v for k, v in target[sport].items()}
         for lg, entry in leagues.items():
-            if norm(lg) not in mine:
+            if lg == "custom" or norm(lg) not in mine:
                 continue
             a, b = flat(mine[norm(lg)]), flat(entry)
             for key in sorted(set(a) | set(b)):
-                if a.get(key, "<absent>") != b.get(key, "<absent>"):
+                if typed(a.get(key, "<absent>")) != typed(b.get(key, "<absent>")):
                     yield sport, lg, key, a.get(key, "<absent>"), b.get(key, "<absent>")
 
 

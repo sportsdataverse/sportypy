@@ -112,5 +112,5 @@ def test_display_limits_match_sportyr(league, display_range):
     """The display limits of each range equal geom_football()'s."""
     ref = LEAGUES[league]["range_limits"][display_range]
     xlim, ylim = FIELDS[league]()._get_plot_range_limits(display_range)
-    assert np.allclose(xlim, ref["x"], atol=TOL), (xlim, ref["x"])
-    assert np.allclose(ylim, ref["y"], atol=TOL), (ylim, ref["y"])
+    assert np.allclose(xlim, ref["x"], rtol=0, atol=TOL), (xlim, ref["x"])
+    assert np.allclose(ylim, ref["y"], rtol=0, atol=TOL), (ylim, ref["y"])
