@@ -32,7 +32,7 @@ summarise_layer <- function(layer) {
 }
 out <- list(
   provenance = list(
-    sportyR_path = normalizePath(sportyr, winslash = "/"),
+    sportyR_path = "<sportyR checkout>",  # the commit identifies it; a local path would leak
     sportyR_commit = system(paste("git -C", shQuote(sportyr), "rev-parse HEAD"), intern = TRUE),
     command = "Rscript tools/lacrosse_fixture.R <sportyR checkout> tests/data/sportyr_lacrosse_fixture.json",
     r_version = R.version.string

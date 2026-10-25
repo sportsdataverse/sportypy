@@ -36,7 +36,7 @@ anchors <- list(
   batters_box = c(p$home_plate_edge_length / 2 + p$home_plate_side_to_batters_box + p$batters_box_width / 2, 0)
 )
 out <- list(provenance = list(
-  sportyR_path = normalizePath(sportyr, winslash = "/"),
+  sportyR_path = "<sportyR checkout>",  # the commit identifies it; a local path would leak
     sportyR_commit = system(paste("git -C", shQuote(sportyr), "rev-parse HEAD"), intern = TRUE),
   command = "Rscript tools/softball_fixture.R <sportyR checkout> tests/data/sportyr_softball_fixture.json",
   r_version = R.version.string, league = "ncaa"),

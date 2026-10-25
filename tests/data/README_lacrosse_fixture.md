@@ -7,7 +7,7 @@ drawing order (point count; sums of x, y, x², y², xy over every point; every
 25th point plus the last; fill and outline colour), and the display limits of
 the `full`, `in_bounds_only`, `offense` and `defense` ranges.
 
-- sportyR checkout: `C:/Users/saiem/Documents/GitHub-Data/sdv-dev/wt-syr-quirks`, branch
+- sportyR checkout: `<sportyR checkout>`, branch
   `fix/geometry-quirks` (sportyR PR #68, final head), commit 972da8ca0a7bef02b2be674bbe2f001275365cb6
   (see `provenance` in the JSON)
 - Captured 2026-10-18 (Rscript 4.6.1); loaded with `pkgload::load_all()`, not installed
