@@ -1,0 +1,30 @@
+# Store and check out LF on every platform, so a Windows checkout does not turn
+# the LF that the tooling writes (ruff, uv, pre-commit, Python file writes) into
+# CRLF and every edit into a whole-file diff
+* text=auto eol=lf
+
+# cmd.exe needs CRLF
+*.bat      text eol=crlf
+
+# Binary assets: never apply text/eol normalization (it would corrupt them)
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.gif      binary
+*.ico      binary
+*.pdf      binary
+*.ttf      binary
+*.otf      binary
+*.eot      binary
+*.woff     binary
+*.woff2    binary
+*.zip      binary
+*.gz       binary
+
+# Machine-written: LF text, collapsed in review diffs
+uv.lock                          text eol=lf linguist-generated=true
+tests/data/sportyr_*_fixture.json  linguist-generated=true
+
+# The Sphinx build output committed under docs/_build is left byte-for-byte as
+# Sphinx wrote it (never renormalized) and collapsed in review diffs
+docs/_build/**                   -text linguist-generated=true
