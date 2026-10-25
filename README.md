@@ -1,5 +1,9 @@
 # sportypy <img src="https://raw.githubusercontent.com/sportsdataverse/sportypy/main/logos/sportypy-logo-200.png" align="right" width="120"/>
 
+[![PyPI](https://img.shields.io/pypi/v/sportypy?color=ff552e&logo=pypi&logoColor=white)](https://pypi.org/project/sportypy/)
+[![Python](https://img.shields.io/pypi/pyversions/sportypy?color=ff552e&logo=python&logoColor=white)](https://pypi.org/project/sportypy/)
+[![package-coverage](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/package-coverage.yml?branch=main&label=tests&logo=github)](https://github.com/sportsdataverse/sportypy/actions/workflows/package-coverage.yml)
+[![quality](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/quality.yml?branch=main&label=quality&logo=github)](https://github.com/sportsdataverse/sportypy/actions/workflows/quality.yml)
 [![codecov](https://img.shields.io/codecov/c/github/sportsdataverse/sportypy?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/sportsdataverse/sportypy)
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat&logo=github&color=ff552e)](https://github.com/sportsdataverse/sportypy/)
 [![Twitter
@@ -16,10 +20,16 @@ For **JavaScript / TypeScript**, [`@sportsdataverse/sporty`](https://www.npmjs.c
 
 ## Installation
 
-To install `sportypy` via `pip`, please run
+`sportypy` supports Python 3.10 and newer. To install it via `pip`, please run
 
 ```bash
 pip install sportypy
+```
+
+or, in a [`uv`](https://docs.astral.sh/uv/) project,
+
+```bash
+uv add sportypy
 ```
 
 ## Using the Package
@@ -463,9 +473,11 @@ nba.heatmap(
 
 ## License
 
-This package is released under the [GPL 3.0 License](https://github.com/sportsdataverse/sportypy/blob/master/LICENSE).
+This package is released under the [GPL 3.0 License](https://github.com/sportsdataverse/sportypy/blob/main/LICENSE).
 
 ## Contributions
+
+Contributions are welcome: [CONTRIBUTING.md](CONTRIBUTING.md) explains how to set up the development environment, run the checks and open a pull request.
 
 ### League Office
 
