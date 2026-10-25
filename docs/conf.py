@@ -6,14 +6,20 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 import os
+import re
 import sys
-from importlib.metadata import version as package_version
+from importlib.metadata import PackageNotFoundError, version as package_version
 import sphinx_bootstrap_theme
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "sportypy")))
 
 project = "sportypy"
-# Read the version from the installed package so it matches pyproject.toml
-version = package_version("sportypy")
+# Read the version from the installed package so it matches pyproject.toml;
+# a source checkout without sportypy installed reads pyproject.toml itself
+try:
+    version = package_version("sportypy")
+except PackageNotFoundError:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pyproject.toml"), encoding="utf-8") as f:
+        version = re.search(r'^version = "([^"]+)"', f.read(), re.M).group(1)
 copyright = "2022, Ross Drucker"
 author = "Ross Drucker"
 
