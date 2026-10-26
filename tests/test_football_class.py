@@ -870,7 +870,7 @@ def test_cfl_reset_colors_keeps_the_outline_transparent():
     )
 
 
-def test_football_dimensions_follow_sportyr_66_67():
+def test_football_ncaa_coaching_line_and_field_bordered():
     """NCAA coaching line 6 ft out and field_bordered."""
     ncaa = football_fields.NCAAField().field_params
     assert ncaa["restricted_area_width"] == 1.8889
