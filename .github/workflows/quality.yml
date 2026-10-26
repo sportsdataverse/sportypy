@@ -38,10 +38,6 @@ jobs:
       run: uv run --no-sync ruff check .
 
     - name: pre-commit hooks
-      # gen-docs-check needs the docs group (griffe); the website workflow
-      # runs that same check with it installed
-      env:
-        SKIP: gen-docs-check
       run: uv run --no-sync pre-commit run --all-files --show-diff-on-failure
 
     - name: zizmor (the workflow that holds the PyPI credentials)

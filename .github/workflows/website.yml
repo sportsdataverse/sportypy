@@ -1,6 +1,7 @@
-# The Docusaurus prototype in website/: the generated reference must match the
-# docstrings (tools/gen_docs.py --check), and the site must build with no
-# broken links. It is not deployed; the Sphinx site in docs/ still is
+# Builds the Docusaurus site in website/. `yarn build` first runs
+# tools/gen_docs.py (the prebuild script), which writes the API reference from
+# the docstrings, so a docstring that breaks the generator, or a page with a
+# broken link, fails here. Vercel deploys the same build
 name: website
 
 on:
@@ -40,12 +41,6 @@ jobs:
         enable-cache: true
         cache-dependency-glob: uv.lock
 
-    - name: Install sportypy and the docs group
-      run: uv sync --locked --no-default-groups --group docs
-
-    - name: The generated reference matches the docstrings
-      run: uv run --no-sync python tools/gen_docs.py --check
-
     - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5.0.0
       with:
         node-version: 22
@@ -56,6 +51,6 @@ jobs:
       working-directory: website
       run: npx --yes yarn@1.22.22 install --frozen-lockfile --non-interactive
 
-    - name: Build the site (fails on a broken link)
+    - name: Generate the reference and build the site (fails on a broken link)
       working-directory: website
       run: npx --yes yarn@1.22.22 build

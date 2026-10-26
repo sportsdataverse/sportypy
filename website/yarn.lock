@@ -2054,6 +2054,21 @@
   dependencies:
     tslib "^2.4.0"
 
+"@fontsource-variable/roboto-condensed@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/roboto-condensed/-/roboto-condensed-5.3.0.tgz#5988c08feb16389305143077fb237520c107fae7"
+  integrity sha512-RpYyF6G0h0nsVcCDLRIbZbK+l8cVDoe1PVbzvzVhtLzCiPqIEEGDs9xB9ZWPJawKS4bJzpKn42KgZFISF/AOuQ==
+
+"@fontsource-variable/roboto-mono@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/roboto-mono/-/roboto-mono-5.3.0.tgz#10c0f1c0c283a61fa1e0f24381a1e62ed6ad45fa"
+  integrity sha512-h5r+KY/6qy8JEOj33JgcrFO81YAnvrc1EAwMpl/EPJLb2OIvOy0/jmB5M7qs7x/uXk5JUP5Ux4LrkeOK7faHkQ==
+
+"@fontsource-variable/roboto@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/roboto/-/roboto-5.3.0.tgz#3ddf845c018b0ea9d15b36e06515d0ebdb02f49e"
+  integrity sha512-BoaaZiQf8fgtxv07KXkTwx1bKz/EoqIlTXq2OOKKXINxp6qXWdnlChqV+hSaDANS49yyUASFl3OVBMMDTCIHFA==
+
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"

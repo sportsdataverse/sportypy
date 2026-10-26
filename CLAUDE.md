@@ -22,11 +22,14 @@ this file holds the repo-specific ones.
 - `rule-books/`: the source rule books, for reference.
 - `docs/`: the Sphinx site (myst-parser Markdown, bootstrap theme). The built
   site is committed under `docs/_build`; never edit it by hand.
-- `website/`: a Docusaurus prototype of the site (not deployed). Its
-  `docs/reference/`, `docs/changelog.md` and `docs/getting-started.md` are
-  written by `tools/gen_docs.py` from the docstrings, `docs/changelog.md` and
-  the README; regenerate (`uv run python tools/gen_docs.py`), never edit them.
-  `--check` (a pre-commit hook and the `website` workflow) fails when stale.
+- `website/`: the Docusaurus site, in the SportsDataverse docs family
+  (`src/css/sdv-theme.css` is byte-identical to sdvplot's; sportypy's colors and
+  type are in `src/css/custom.css`). `yarn start` / `yarn build` first run
+  `tools/gen_docs.py`, which writes the API reference, the usage guide (from the
+  README), the News page (from `docs/changelog.md`) and the homepage's surface
+  drawings from the code. None of that is committed: change the docstring, the
+  README or the changelog, never a generated page. The `website` workflow and
+  Vercel build the same way.
 
 ## sportyR parity
 

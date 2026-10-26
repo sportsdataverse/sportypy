@@ -25,9 +25,9 @@ ignores:
   - ".venv/**"
   - "rule-books/**"
   - ".claude/**"
-  # written by tools/gen_docs.py from the docstrings, README.md and the changelog
+  # written by tools/gen_docs.py on every site build (never committed)
   - "website/docs/reference/**"
-  - "website/docs/changelog.md"
   - "website/docs/getting-started.md"
+  - "website/src/pages/CHANGELOG.md"
   - "website/node_modules/**"
   - "website/build/**"
