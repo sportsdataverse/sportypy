@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-slug: /
+sidebar_label: Introduction
 ---
 
 # sportypy
@@ -11,8 +11,8 @@ sheet it came from. It covers baseball, basketball, curling, football, hockey,
 lacrosse, soccer, softball, tennis and volleyball, with a class for each
 league's rule-book dimensions.
 
-It is the Python counterpart of [`sportyR`](https://github.com/sportsdataverse/sportyR)
-and keeps parity with it: the same leagues, dimensions, colours and display
+It is the Python counterpart of [`sportyR`](https://sportyR.sportsdataverse.org)
+and keeps parity with it: the same leagues, dimensions, colors and display
 ranges. For JavaScript and TypeScript, [`@sportsdataverse/sporty`](https://www.npmjs.com/package/@sportsdataverse/sporty)
 is the port of both.
 
@@ -30,12 +30,22 @@ or, in a [`uv`](https://docs.astral.sh/uv/) project,
 uv add sportypy
 ```
 
+## Draw a surface
+
+```python
+import matplotlib.pyplot as plt
+from sportypy.surfaces.hockey import NHLRink
+
+NHLRink().draw()
+plt.show()
+```
+
 ## Where to next
 
-- [Getting started](./getting-started.md): draw a surface, choose a display
-  range and units, and plot data on it.
-- [Surfaces](/category/surfaces): every sport's base class, its league classes
-  and their methods.
+- [Getting started](./getting-started.md): display ranges, units, rotation,
+  colors, and plotting data on a surface.
+- [API reference](./reference/index.md): every sport's base class, its league
+  classes and their methods, generated from the docstrings.
 - [Plotting and display](./reference/plotting.md): the plotting helpers
   (`scatter`, `heatmap`, `contour`, `hexbin`, `arrow`, ...) every surface has.
-- [Changelog](./changelog.md).
+- [News](pathname:///CHANGELOG): what changed in each release.

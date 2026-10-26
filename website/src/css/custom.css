@@ -1,30 +1,165 @@
-/* sportypy's orange (the README badges' #ff552e), shaded for links and buttons */
-/* Infima leaves the light background transparent, so a browser with a dark
-   canvas showed dark text on dark; set it (light theme only: :root would
-   also beat the dark theme's background, which loads first) */
-[data-theme='light'] {
-  --ifm-background-color: #ffffff;
-}
+/* stylelint-disable docusaurus/copyright-header */
+/*
+ * sportypy's own look, on top of the SportsDataverse family theme (sdv-theme.css, which loads first and is kept
+ * byte-identical to sdvplot's). The family supplies the structure: the navbar and its SDV mega-menu, the hero,
+ * the footer, cards, code blocks, alerts, the title underline. This file swaps in sportypy's colors and type, the
+ * same ones as sportyR and the old sportypy site:
+ *
+ *   deep green  #006838  the logo's outline: navbar, hero, primary (white text on it is 6.9:1)
+ *   turf green  #3cc456  the logo's fill, lightened for dark mode's primary (8.1:1 on the dark page)
+ *   orange      #e06000  sportyR's orange: the one accent (title underline); links use its darker
+ *                        #b84c00 in light mode (5.2:1) and #ff8a3d in dark mode (7.9:1)
+ *   ink         #1b1611  the old sportypy site's warm near-black text
+ *   type        Roboto (body), Roboto Condensed (titles), Roboto Mono (code), self-hosted
+ *
+ * Every text color here clears 4.5:1 on its surface; the accent (not text) clears 3:1.
+ */
 
+/* ---- tokens ---- */
 :root {
-  --ifm-color-primary: #e8431c;
-  --ifm-color-primary-dark: #d13c19;
-  --ifm-color-primary-darker: #c53918;
-  --ifm-color-primary-darkest: #a22f13;
-  --ifm-color-primary-light: #ea5533;
-  --ifm-color-primary-lighter: #eb5e3e;
-  --ifm-color-primary-lightest: #ef7b60;
-  --ifm-code-font-size: 95%;
+  /* the family theme's navbar / footer / hero surface and its accent, in sportypy's colors */
+  --sdv-navy: #006838;
+  --sdv-navy-border: #00552d;
+  --sdv-amber: #e06000;
+  --sdv-font-display: 'Roboto Condensed Variable', 'Roboto Variable', system-ui, sans-serif;
+
+  --ifm-font-family-base: 'Roboto Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ifm-font-family-monospace: 'Roboto Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-card-background-color: #ffffff;
+  --ifm-font-color-base: #1b1611;
+  --ifm-font-color-secondary: #57524a;
+  --ifm-color-content-secondary: #57524a;
+  --ifm-menu-color: #57524a;
+  --ifm-color-primary: #006838;
+  --ifm-color-primary-dark: #005e32;
+  --ifm-color-primary-darker: #00582f;
+  --ifm-color-primary-darkest: #004827;
+  --ifm-color-primary-light: #00723e;
+  --ifm-color-primary-lighter: #007841;
+  --ifm-color-primary-lightest: #00864a;
+  --ifm-link-color: #b84c00;
+  --ifm-link-hover-color: #8a3900;
+  --ifm-toc-border-color: #d5e3d8;
+  --ifm-table-border-color: #d5e3d8;
+  --ifm-color-emphasis-300: #d5e3d8;
+  --ifm-code-background: #edf5ef;
+  --ifm-table-stripe-background: #f3f8f4;
+  --ifm-menu-color-background-active: #edf5ef;
 }
 
-[data-theme='dark'] {
-  --ifm-color-primary: #ff6f4d;
-  --ifm-color-primary-dark: #ff582f;
-  --ifm-color-primary-darker: #ff4c21;
-  --ifm-color-primary-darkest: #f42d00;
-  --ifm-color-primary-light: #ff866b;
-  --ifm-color-primary-lighter: #ff9279;
-  --ifm-color-primary-lightest: #ffb4a2;
+html[data-theme='dark'] {
+  --ifm-background-color: #0c1611;
+  --ifm-background-surface-color: #13221a;
+  --ifm-card-background-color: #13221a;
+  --ifm-font-color-base: #e8efea;
+  --ifm-font-color-secondary: #9fb0a4;
+  --ifm-color-content-secondary: #9fb0a4;
+  --ifm-menu-color: #9fb0a4;
+  --ifm-color-primary: #3cc456;
+  --ifm-color-primary-dark: #35b54d;
+  --ifm-color-primary-darker: #32ab49;
+  --ifm-color-primary-darkest: #298d3c;
+  --ifm-color-primary-light: #52cb69;
+  --ifm-color-primary-lighter: #5ecf74;
+  --ifm-color-primary-lightest: #81da92;
+  --ifm-link-color: #ff8a3d;
+  --ifm-link-hover-color: #ffad75;
+  --ifm-toc-border-color: #24382b;
+  --ifm-table-border-color: #24382b;
+  --ifm-color-emphasis-300: #24382b;
+  --ifm-code-background: #18291f;
+  --ifm-table-stripe-background: #18291f;
+  --ifm-menu-color-background-active: #18291f;
+  --search-local-hit-active-color: #06120a;
+  --search-local-hit-background: #13221a;
+  --search-local-modal-background: #101d16;
+}
+
+/* ---- the wordmark: Roboto Condensed, no glow (the family's Bungee glow is sdv-py's and sdvplot's) ---- */
+html[data-theme] .navbar__title,
+.theme-doc-sidebar-container b {
+  font-family: var(--sdv-font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  animation: none;
+  text-shadow: none;
+}
+
+.theme-doc-sidebar-container b {
+  color: var(--ifm-font-color-base);
+}
+
+/* ---- navbar: the logo's deep green in both modes ---- */
+.navbar--dark {
+  --ifm-navbar-link-color: #cfe9d6;
+  --ifm-navbar-link-hover-color: #ffffff;
+  --ifm-navbar-search-input-background-color: #00552d;
+  --ifm-navbar-search-input-color: #ffffff;
+  --ifm-navbar-search-input-placeholder-color: #cfe9d6;
+  --ifm-menu-color: #cfe9d6;
+  --ifm-menu-color-active: #ffffff;
+  --ifm-menu-color-background-active: #00552d;
+  --search-local-input-active-border-color: #ffffff;
+}
+
+/* the active-page marker is white: orange on this green is under 3:1 */
+.navbar__link--active {
+  box-shadow: inset 0 -2px 0 #ffffff;
+}
+
+/* ---- footer: white in light mode, the dark page in dark mode (sdv-theme.css paints it the navbar color) ---- */
+html[data-theme='light'] .footer--dark {
+  --ifm-footer-background-color: #ffffff;
+  --ifm-footer-color: #57524a;
+  --ifm-footer-title-color: #1b1611;
+  --ifm-footer-link-color: #b84c00;
+  --ifm-footer-link-hover-color: #8a3900;
+  border-top-color: #d5e3d8;
+}
+
+html[data-theme='dark'] .footer--dark {
+  --ifm-footer-background-color: #0c1611;
+  --ifm-footer-color: #9fb0a4;
+  --ifm-footer-title-color: #e8efea;
+  --ifm-footer-link-color: #9fb0a4;
+  --ifm-footer-link-hover-color: #e8efea;
+  border-top-color: #24382b;
+}
+
+/* ---- home hero: a mown field in both modes (deep green with turf stripes), white type and buttons ---- */
+html[data-theme] .hero--primary {
+  --ifm-hero-background-color: #006838;
+  --ifm-hero-text-color: #ffffff;
+  background-image: repeating-linear-gradient(90deg, #006838 0 72px, #03703d 72px 144px);
+  border-bottom: 4px solid #e06000;
+}
+
+html[data-theme] .hero--primary .button.button--secondary:not(.button--outline),
+html[data-theme] .hero--primary .button.button--secondary:not(.button--outline):hover {
+  --ifm-button-background-color: #ffffff;
+  --ifm-button-border-color: #ffffff;
+  --ifm-button-color: #006838;
+  color: #006838;
+}
+
+html[data-theme] .hero--primary .button.button--secondary.button--outline:not(.button--active):not(:hover) {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* the hero title's underline is white: orange on the green hero is under 3:1 (the orange edge below carries it) */
+.hero__title::after {
+  background: #ffffff;
+}
+
+/* ---- images: in dark mode a figure sits on a light card ---- */
+html[data-theme='dark'] .markdown p > img:only-child:not(.sdv-img-dark) {
+  background: #e8efea;
 }
 
 /* long signatures wrap instead of scrolling */
