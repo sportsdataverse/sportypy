@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # keeps the SHA-pinned actions (setup-uv) and the tag-pinned ones current
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }
+    groups:
+      actions: { patterns: ["*"] }
+  - package-ecosystem: uv
+    directory: /
+    schedule: { interval: weekly }
+    groups:
+      python-deps: { patterns: ["*"] }

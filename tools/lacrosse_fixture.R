@@ -49,7 +49,7 @@ out <- list(
     )
   })
 )
-# Unit and translation cases (sportyR #74 / #76): the surface drawn in other
+# Unit and translation cases: the surface drawn in other
 # units and / or shifted, as geom_lacrosse() draws it
 unit_cases <- list(
   nll_m_shifted = list(league = "nll", field_units = "m", x_trans = 3, y_trans = -2),

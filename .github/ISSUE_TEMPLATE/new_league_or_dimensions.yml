@@ -1,0 +1,35 @@
+name: New league or wrong dimensions
+description: Request a sport or league, or report a dimension that does not match the rule book.
+title: "[surface] "
+labels: ["feature-request"]
+body:
+  - type: input
+    id: surface
+    attributes:
+      label: Sport and league
+      placeholder: "lacrosse, NCAA women's"
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: What should change?
+      description: The league to add, or the feature that is drawn wrongly and what it should be.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Rule book or source
+      description: A link to the rule book (and the rule or page number) that gives the dimension.
+    validations:
+      required: true
+  - type: dropdown
+    id: sportyr
+    attributes:
+      label: Does sportyR draw this league correctly?
+      options:
+        - "Not sure"
+        - "Yes: port it from sportyR"
+        - "No: it is wrong in sportyR too"
+        - "sportyR doesn't have it"

@@ -248,7 +248,7 @@ def test_exports_do_not_rebind_package_names():
     assert sportypy.GoalLine.__module__ == "sportypy._feature_classes.soccer"  # pre-existing winner
 
 
-# sportyR PR #68 fixes (issues #60-#65), each pinned on its own -------------
+# Geometry fixes, each pinned on its own ------------------------------------
 
 
 def _first(field, cls_name):
@@ -266,7 +266,7 @@ def _area(x, y):
 
 @pytest.mark.parametrize("cls", [lacrosse.NLLField, lacrosse.WorldLacrosseField])
 def test_neutral_zone_spans_restraining_lines(cls):
-    """sportyR #60: the zones read neutral_zone_length (85 ft)."""
+    """The zones read neutral_zone_length (85 ft)."""
     field = cls()
     x, _ = _xy(_first(field, "NeutralZone"))
     assert (x.min(), x.max()) == pytest.approx((-42.5, 42.5))
@@ -275,7 +275,7 @@ def test_neutral_zone_spans_restraining_lines(cls):
 
 
 def test_penalty_box_fills_start_inside_the_boards():
-    """sportyR #61: the fills are anchored with boards_thickness."""
+    """The fills are anchored with boards_thickness."""
     p = lacrosse.NLLField().field_params
     want = p["penalty_box_separation"] / 2 + p["boards_thickness"] + p["penalty_box_length"] / 2
     fills = [f for f in lacrosse.NLLField()._features if type(f).__name__ == "PenaltyBoxFill"]
@@ -284,8 +284,8 @@ def test_penalty_box_fills_start_inside_the_boards():
 
 @pytest.mark.parametrize("cls", [lacrosse.NCAAWLacrosseField, lacrosse.USAWLacrosseField])
 def test_goal_fan_hash_marks_sit_on_the_arc_at_their_rotation(cls):
-    """sportyR #62: each mark is placed at the angle it is rotated by,
-    phi = s / R; since #69 about the goal-line centre, and since #75 R is the
+    """Each mark is placed at the angle it is rotated by,
+    phi = s / R, about the goal-line centre, where R is the
     middle of the fan's line, goal_fan_radius - goal_fan_line_thickness / 2."""
     field = cls()
     p = field.field_params
@@ -307,7 +307,7 @@ def test_goal_fan_hash_marks_sit_on_the_arc_at_their_rotation(cls):
 
 @pytest.mark.parametrize("cls", [lacrosse.NLLField, lacrosse.WorldLacrosseField])
 def test_full_range_takes_in_benches_and_boxes(cls):
-    """sportyR #63: the box-lacrosse display reaches the benches' and
+    """The box-lacrosse display reaches the benches' and
     penalty boxes' outer walls (y +/- 48 ft), half fields too."""
     field = cls()
     for rng, xlim in [("full", (-105, 105)), ("offense", (0, 105)), ("defense", (-105, 0))]:
@@ -318,7 +318,7 @@ def test_full_range_takes_in_benches_and_boxes(cls):
 
 
 def test_goal_arc_without_thickness_is_a_line_not_a_block():
-    """sportyR #64: goal_arc_line_thickness defaults to 0."""
+    """Goal_arc_line_thickness defaults to 0."""
     field = lacrosse.NCAAMLacrosseField(
         field_updates={"goal_arc_radius": 15.0, "goal_arc_extension": 0.0}
     )
@@ -326,7 +326,7 @@ def test_goal_arc_without_thickness_is_a_line_not_a_block():
 
 
 def test_center_line_recolour_stops_the_contrasting_default():
-    """sportyR #65: the contrasting #ffcb05 applies only when the user chose
+    """The contrasting #ffcb05 applies only when the user chose
     no marker colour and the marker would match the (user's) center line."""
     field = lacrosse.NCAAMLacrosseField(color_updates={"center_line": "#ff0000"})
     assert field.feature_colors["center_face_off_marker"] == "#ffffff"
@@ -336,7 +336,7 @@ def test_center_line_recolour_stops_the_contrasting_default():
     assert both.feature_colors["center_face_off_marker"] == "#123456"
 
 
-# sportyR PR #68 at 00e364a (issues #69, #70, #72, goal-fan early return) ----
+# Goal-fan, two-point arc, penalty-box and goal-fan early-return fixes -------
 
 
 def _goal_x(p):
@@ -353,7 +353,7 @@ def _right_copies(field, cls_name):
 
 @pytest.mark.parametrize("cls", [lacrosse.NCAAWLacrosseField, lacrosse.USAWLacrosseField])
 def test_womens_8m_arc_follows_the_rule(cls):
-    """sportyR #69: two 45-degree lines from where the goal line extended
+    """Two 45-degree lines from where the goal line extended
     crosses the goal circle, joined by a 10.6 m arc about the goal-line
     centre; hash marks on that circle; goal-line-extended marks 0.305 m."""
     field = cls()
@@ -369,7 +369,7 @@ def test_womens_8m_arc_follows_the_rule(cls):
     # C (on the 10.6 m circle) lies on the 45-degree line from B
     c = np.argmax(np.where((dist > r - 1e-9) & (y > 0), x, -np.inf))
     assert (y[c] - gc) == pytest.approx(-(x[c] - gx), abs=1e-9)
-    # sportyR #75: the marks bisect the fan's line, so they sit at its middle
+    # The marks bisect the fan's line, so they sit at its middle
     rm = r - p["goal_fan_line_thickness"] / 2
     assert rm == pytest.approx(10.5495)
     marks = _right_copies(field, "GoalFanHashMark")
@@ -381,7 +381,7 @@ def test_womens_8m_arc_follows_the_rule(cls):
 
 
 def test_pll_two_point_arc_has_parallel_sides():
-    """sportyR #70: lines 13 yd from the goal-line centre, parallel to the
+    """Lines 13 yd from the goal-line centre, parallel to the
     sidelines, from the end line until 15 yd out, joined by a 15 yd arc."""
     field = lacrosse.PLLField()
     p = field.field_params
@@ -411,7 +411,7 @@ def test_goal_arc_falls_back_to_a_semicircle():
 
 @pytest.mark.parametrize("cls", [lacrosse.NLLField, lacrosse.WorldLacrosseField])
 def test_penalty_boxes_are_their_length_inside(cls):
-    """sportyR #72: each penalty box is penalty_box_length inside its walls,
+    """Each penalty box is penalty_box_length inside its walls,
     so the three interiors add up to 24 ft."""
     field = cls()
     p = field.field_params

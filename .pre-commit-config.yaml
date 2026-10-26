@@ -1,0 +1,58 @@
+# See https://pre-commit.com. `uv run pre-commit install` wires all three stages
+# (the commit-msg hook below needs its stage installed, not just pre-commit)
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
+
+# Bundled data, fixtures, rule books and the committed Sphinx build are kept
+# byte-for-byte; no hook rewrites them
+exclude: ^(docs/_build/|tests/data/|sportypy/data/|rule-books/|fonts/|logos/|img/)
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Kept in sync with the ruff pin in the lint dependency group of pyproject.toml
+    rev: v0.15.12
+    hooks:
+      - id: ruff-check
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-ast
+      - id: check-toml
+      - id: check-json
+      - id: check-yaml
+      - id: check-added-large-files
+        args: [--maxkb=5000]
+      - id: debug-statements
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-no-eval
+      - id: python-check-blanket-noqa
+      - id: text-unicode-replacement-char
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.38.2
+    hooks:
+      - id: check-github-workflows
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.24.0
+    hooks:
+      - id: markdownlint-cli2
+  - repo: local
+    hooks:
+      - id: conventional-commit-no-ai
+        name: conventional commit + no AI co-author
+        entry: python tools/hooks/check_commit_msg.py
+        language: system
+        stages: [commit-msg]
+      - id: uv-lock-check
+        name: uv.lock matches pyproject.toml
+        entry: uv lock --check
+        language: system
+        files: ^(pyproject\.toml|uv\.lock)$
+        pass_filenames: false

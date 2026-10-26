@@ -254,7 +254,7 @@ def goal_arc(
     line_thickness=0.0,
     goal_arc_parallel_line_to_center=None,
 ):
-    """The PLL two-point arc (sportyR #70, 2024 PLL Rulebook II.G).
+    """The PLL two-point arc (2024 PLL Rulebook II.G).
 
     Two lines parallel to the sidelines, ``goal_arc_parallel_line_to_center``
     from the goal-line centre, run from the end line until they are
@@ -284,7 +284,7 @@ def goal_arc(
 
 
 def goal_fan(goal_fan_radius=0.0, goal_circle_radius=0.0, line_thickness=0.0):
-    """The women's 8 m arc (sportyR #69, NCAA Women's Lacrosse Rule 1 Sec. 6).
+    """The women's 8 m arc (NCAA Women's Lacrosse Rule 1 Sec. 6).
 
     Two lines from where the goal line extended crosses the goal circle (B),
     at 45 degrees to the goal line extended, to an arc of ``goal_fan_radius``

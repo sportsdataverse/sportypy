@@ -15,7 +15,7 @@ def test_diamond_points():
             )
 
             return diamond_df
-    
+
     expected_diamond = pd.DataFrame({
         "x": [
             -0.5,

@@ -40,7 +40,7 @@ def test_nba_params():
         "court_apron_endline": 8.0,
         "court_apron_sideline": 5.0,
         "court_apron_to_boundary": 0.0,
-        
+
         "center_circle_radius": [6.0, 2.1667],
 
         "basket_center_to_baseline": 5.25,
@@ -92,7 +92,7 @@ def test_nba_params():
 
         "backboard_width": 6.0,
         "backboard_thickness": 0.171875,
-        
+
         "basket_ring_inner_radius": 0.75,
         "basket_ring_connector_width": 0.5833,
         "basket_ring_connector_extension": 0.5,

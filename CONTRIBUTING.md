@@ -56,7 +56,7 @@ Want to join `sportypy`'s team and help shape the package? Great! We're always r
 
 ## Becoming a Coach/General Manager - Pull Request Process
 
-To become a Cocah or General Manager, submit a [Pull Request](https://github.com/sportsdataverse/sportypy/pulls) (PR) on GitHub using this process:
+To become a Coach or General Manager, submit a [Pull Request](https://github.com/sportsdataverse/sportypy/pulls) (PR) on GitHub using this process:
 
 1) Create a branch in git and make the changes you wish to see implemented
 
@@ -72,9 +72,9 @@ Your request will be checked against the following points:
 
 - **Only Related Changes** &mdash; Before you submit your PR, make sure your PR only addresses *one* issue. If you want to fix multiple issues, please address them in separate PRs so that it's clear what change is being made in each PR. Please also be sure that your PR doesn't introduce any new bugs or break any existing code
 
-- **Code Style and File Naming** &mdash; Please follow [the flake8 styleguide](https://flake8.pycqa.org/en/latest/). Maintaining consistent styling facilitates easier current maintenance and future development.
+- **Code Style and File Naming** &mdash; Please follow the style of the surrounding code (keyword arguments are spaced, as in `ax = ax`, and docstrings are NumPy style). [ruff](https://docs.astral.sh/ruff/) checks it with the settings in `ruff.toml`: run `uv run ruff check .`. Maintaining consistent styling facilitates easier current maintenance and future development.
 
-    Additionally, please keep consistent with the naming of new files, especially when adding a new sport. Files that contain a new sport's features should be added to the `sportypy/_features/` directory, and the base surface (and any child classes for specific leagues) to the `sportypy/surfaces` directory. Dimensions should be maintained in the `sportypy/data/raw/surface_dimensions.json` file. Please parameterize the surface to the best of your abilities, and ask with any questions!
+    Additionally, please keep consistent with the naming of new files, especially when adding a new sport. Files that contain a new sport's features should be added to the `sportypy/_feature_classes/` directory, and the base surface (and any child classes for specific leagues) to the `sportypy/surfaces` directory. Dimensions should be maintained in the `sportypy/data/surface_dimensions.json` file (a league `sportyR` already has is copied from it with `tools/sync_dimensions.py`, not retyped). Please parameterize the surface to the best of your abilities, and ask with any questions!
 
 - **Documentation** &mdash; When introducing new code, please make sure you document it appropriately. Documentation comes in three main forms:
 
@@ -98,12 +98,14 @@ Your request will be checked against the following points:
 
 - **Testing** &mdash; `sportypy` relies upon extensive testing to ensure that the package runs smoothly. It currently has 100% code coverage, and your PR should ensure that this remains the case.
 
-    To test your coverage, be sure to have the `pytest` package installed and run the following commands:
+    To test your coverage, install [`uv`](https://docs.astral.sh/uv/) and run the following commands:
 
     ```bash
-    pip install pytest
-    pytest --cov=sportypy tests/ --cov-config=.coveragerc --cov-report=term
+    uv sync
+    uv run pytest --cov=sportypy tests/ --cov-report=term
     ```
+
+    Before you push, run the file checks CI does: `uv run pre-commit run --all-files` (ruff, whitespace and file checks, the workflow linters and markdownlint). `uv run pre-commit install` runs those on every commit and also installs the commit-message hook, which checks during `git commit` that the message follows [Conventional Commits](https://www.conventionalcommits.org/), such as `fix(hockey): ...` or `feat(lacrosse): ...`.
 
     This will show you where your new code lacks sufficient coverage, so please be sure to add tests in the `tests/` repository to make sure you're covered! For help on creating tests, please reach out to the League Office
 

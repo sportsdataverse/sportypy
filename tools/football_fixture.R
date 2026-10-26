@@ -56,7 +56,7 @@ out <- list(
     )
   })
 )
-# Unit and translation cases (sportyR #74 / #76): the surface drawn in other
+# Unit and translation cases: the surface drawn in other
 # units and / or shifted, as geom_football() draws it
 unit_cases <- list(
   nfl_shifted = list(league = "nfl", x_trans = 10, y_trans = -5),

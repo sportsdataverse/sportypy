@@ -1,5 +1,9 @@
 # sportypy <img src="https://raw.githubusercontent.com/sportsdataverse/sportypy/main/logos/sportypy-logo-200.png" align="right" width="120"/>
 
+[![PyPI](https://img.shields.io/pypi/v/sportypy?color=ff552e&logo=pypi&logoColor=white)](https://pypi.org/project/sportypy/)
+[![Python](https://img.shields.io/pypi/pyversions/sportypy?color=ff552e&logo=python&logoColor=white)](https://pypi.org/project/sportypy/)
+[![package-coverage](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/package-coverage.yml?branch=main&label=tests&logo=github)](https://github.com/sportsdataverse/sportypy/actions/workflows/package-coverage.yml)
+[![quality](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/quality.yml?branch=main&label=quality&logo=github)](https://github.com/sportsdataverse/sportypy/actions/workflows/quality.yml)
 [![codecov](https://img.shields.io/codecov/c/github/sportsdataverse/sportypy?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/sportsdataverse/sportypy)
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat&logo=github&color=ff552e)](https://github.com/sportsdataverse/sportypy/)
 [![Twitter
@@ -10,16 +14,22 @@ Follow](https://img.shields.io/twitter/follow/sportsdataverse?&label=%40sportsda
 
 As the field of sports analytics evolves, there's a growing need for methods to both track and visualize players throughout the game. This package aims to make this easy regardless of sport needed to be plotted.
 
-This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, lacrosse, soccer, softball, tennis, and volleyball in **Python**. For the **R** version of this package, click [here](https://github.com/sportsdataverse/sportyR).
+This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, lacrosse, soccer, softball, tennis, and volleyball in **Python**. The **R** version of this package is [`sportyR`](https://github.com/sportsdataverse/sportyR).
 
 For **JavaScript / TypeScript**, [`@sportsdataverse/sporty`](https://www.npmjs.com/package/@sportsdataverse/sporty) is the TypeScript port of `sportyR` and `sportypy` (`npm install @sportsdataverse/sporty`). It lives in the [sdvplot-js repo](https://github.com/sportsdataverse/sdvplot-js), and its docs are at [plot.sportsdataverse.org](https://plot.sportsdataverse.org/).
 
 ## Installation
 
-To install `sportypy` via `pip`, please run
+`sportypy` supports Python 3.10 and newer. To install it via `pip`, please run
 
 ```bash
 pip install sportypy
+```
+
+or, in a [`uv`](https://docs.astral.sh/uv/) project,
+
+```bash
+uv add sportypy
 ```
 
 ## Using the Package
@@ -463,9 +473,11 @@ nba.heatmap(
 
 ## License
 
-This package is released under the [GPL 3.0 License](https://github.com/sportsdataverse/sportypy/blob/master/LICENSE).
+This package is released under the [GPL 3.0 License](https://github.com/sportsdataverse/sportypy/blob/main/LICENSE).
 
 ## Contributions
+
+Contributions are welcome: [CONTRIBUTING.md](CONTRIBUTING.md) explains how to set up the development environment, run the checks and open a pull request.
 
 ### League Office
 

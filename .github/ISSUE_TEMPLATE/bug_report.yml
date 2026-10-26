@@ -1,0 +1,42 @@
+name: Bug report
+description: A surface draws wrongly, or a method raises or misbehaves.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: What you expected, and what you got instead. A screenshot helps for a drawing problem.
+    validations:
+      required: true
+  - type: textarea
+    id: reproducer
+    attributes:
+      label: Minimal reproducer
+      description: The smallest code that shows the problem.
+      render: python
+      placeholder: |
+        from sportypy.surfaces.hockey import NHLRink
+        NHLRink().draw(display_range = "offense")
+    validations:
+      required: true
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Full traceback (if any)
+      render: text
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: "Output of `python -c \"import importlib.metadata as m; print(m.version('sportypy'), m.version('matplotlib'))\"` and `python --version`"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I've searched [existing issues](https://github.com/sportsdataverse/sportypy/issues) and this isn't a duplicate.
+          required: true

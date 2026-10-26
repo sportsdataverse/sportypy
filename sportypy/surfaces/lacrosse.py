@@ -130,7 +130,7 @@ class LacrosseField(BaseSurfacePlot):
         colors = {**DEFAULT_COLORS, **self._color_updates}
         # The contrasting colour applies only when the user chose no marker
         # colour and the marker would match the (possibly user-set) center line
-        # (sportyR #65)
+        #
         if (
             g("center_face_off_marker_color_contrasting", False)
             and "center_face_off_marker" not in (color_updates or {})
@@ -451,12 +451,12 @@ class LacrosseField(BaseSurfacePlot):
         )
 
         # The goal fan's line runs from goal_fan_radius - t to goal_fan_radius
-        # about the goal-line centre (see goal_fan(), sportyR #69). The hash
+        # about the goal-line centre (see goal_fan()). The hash
         # marks bisect the arc, so they are centred on the line's middle,
-        # R = goal_fan_radius - t / 2 (sportyR #75); a mark at arc distance
+        # R = goal_fan_radius - t / 2; a mark at arc distance
         # ``separation`` from the fan's center sits theta = separation / R
         # radians from it, placed there and rotated by -theta, perpendicular to
-        # the arc (sportyR #62)
+        # the arc
         fan_r, circle_r = g("goal_fan_radius"), g("goal_circle_radius")
         mark_r = g("goal_fan_radius", 1.0) - g("goal_fan_line_thickness") / 2.0
         for separation in g("goal_fan_hash_mark_separation_from_center", []) or []:
@@ -666,7 +666,7 @@ class LacrosseField(BaseSurfacePlot):
 
         ``"full"`` (and any unknown range) is the field plus its apron and, on
         surfaces that have them, the player benches, penalty boxes and
-        off-field officials' box outside the boards (sportyR #63);
+        off-field officials' box outside the boards;
         ``"in_bounds_only"`` the field plus the boards' thickness; the half
         fields run from the center line out to the same extent. With
         ``for_plot`` (limits for plotted data) only the field is used. An

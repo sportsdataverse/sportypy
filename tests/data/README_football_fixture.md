@@ -8,7 +8,7 @@ the plot's x/y limits, and the limits of the `full`, `in_bounds_only`, `offense`
 `defense`, `redzone` and `dredzone` display ranges (`range_limits`).
 
 - sportyR checkout: `<sportyR checkout>`, branch
-  `fix/geometry-quirks` (sportyR PR #68, final head), commit 972da8ca0a7bef02b2be674bbe2f001275365cb6
+  `fix/geometry-quirks` commit 972da8ca0a7bef02b2be674bbe2f001275365cb6
   (see `provenance` in the JSON)
 - Captured 2026-10-18 (Rscript 4.6.1); loaded with `pkgload::load_all()`, not installed
 - Regenerate: `Rscript tools/football_fixture.R <path to sportyR> tests/data/sportyr_football_fixture.json`
@@ -18,4 +18,4 @@ the plot's x/y limits, and the limits of the `full`, `in_bounds_only`, `offense`
   (fully transparent, no outline) are the only polygons sportypy does not draw:
   it draws the numbers as text. Each display range's limits are compared too.
 - `unit_cases`: the same summaries for the surface drawn in other units and / or
-  shifted (sportyR #74 / #76), compared in tests/test_unit_parity.py.
+  shifted, compared in tests/test_unit_parity.py.

@@ -1,37 +1,43 @@
 name: package-coverage
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
 
 jobs:
   build:
-    # ubuntu-latest (26.04) has no Python 3.9 build for setup-python
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     name: Test sportypy (Python ${{ matrix.python-version }})
     strategy:
       fail-fast: false
       matrix:
-        # The oldest supported Python with the pinned requirements, and the
-        # newest with the latest releases of the dependencies
-        python-version: ['3.9', '3.14']
+        # The oldest and newest supported Pythons, from the lockfile
+        python-version: ['3.10', '3.14']
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-python@v6
+    - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e  # v6.8.0
       with:
         python-version: ${{ matrix.python-version }}
+        enable-cache: true
+        cache-dependency-glob: uv.lock
 
-    - name: Install requirements
-      if: matrix.python-version == '3.9'
-      run: pip install -r requirements.txt
-
-    - name: Install pytest, pytest-cov, and coverage
-      run: python -m pip install pytest pytest-cov coverage
-
-    - name: Install sportypy
-      run: python -m pip install .
+    - name: Install sportypy and test dependencies
+      run: uv sync --locked --no-default-groups --group test
 
     - name: Run tests and collect coverage
-      run: pytest --cov=sportypy tests/ --cov-config=.coveragerc --cov-report=xml --cov-report=term
+      run: uv run --no-sync pytest --cov=sportypy tests/ --cov-report=xml --cov-report=term
 
     - name: Upload coverage reports to codecov.io
-      if: matrix.python-version == '3.9'
-      uses: codecov/codecov-action@v5
+      if: matrix.python-version == '3.10'
+      uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac  # v5.5.5

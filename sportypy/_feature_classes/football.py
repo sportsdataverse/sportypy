@@ -16,7 +16,7 @@ def _slanted_bench(bench_shape, team_bench_width, back_side, field_side):
     """Whether the bench has slanted sides (e.g. a trapezoid), as sportyR.
 
     On a slanted bench the outer corner of the apron, the field border and its
-    outline follows the bench's side (sportyR #71); otherwise it sits straight
+    outline follows the bench's side; otherwise it sits straight
     above the field-side corner.
     """
     return (

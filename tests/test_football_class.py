@@ -810,7 +810,7 @@ def _border_outlines(field):
 
 
 def test_bordered_fields_draw_a_white_border_outline():
-    """sportyR #67: the border and its outlines are always drawn;
+    """The border and its outlines are always drawn;
     field_bordered only picks the default outline colour (white on NCAA, NFHS
     and NFL, transparent on CFL), and a user colour always wins."""
     from matplotlib.colors import to_rgba
@@ -870,8 +870,8 @@ def test_cfl_reset_colors_keeps_the_outline_transparent():
     )
 
 
-def test_football_dimensions_follow_sportyr_66_67():
-    """sportyR #66 (NCAA coaching line 6 ft out) and #67 (field_bordered)."""
+def test_football_ncaa_coaching_line_and_field_bordered():
+    """NCAA coaching line 6 ft out and field_bordered."""
     ncaa = football_fields.NCAAField().field_params
     assert ncaa["restricted_area_width"] == 1.8889
     for league in ("ncaa", "nfhs11", "nfhs9", "nfhs8", "nfhs6", "nfl"):
@@ -882,7 +882,7 @@ def test_football_dimensions_follow_sportyr_66_67():
 
 
 def test_nfl_bench_corner_follows_the_slanted_side():
-    """sportyR #71: on a trapezoid bench the outer corner of the apron, the
+    """On a trapezoid bench the outer corner of the apron, the
     field border and its outline follows the bench's slanted side (19.15 yd,
     was 19.41); rectangular benches keep the field-side corner."""
     import numpy as np
