@@ -10,6 +10,7 @@ on:
       - "website/**"
       - "sportypy/**"
       - "tools/gen_docs.py"
+      - "examples/notebooks/**"
       - "README.md"
       - "docs/changelog.md"
       - "pyproject.toml"
