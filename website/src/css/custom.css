@@ -1,0 +1,33 @@
+/* sportypy's orange (the README badges' #ff552e), shaded for links and buttons */
+/* Infima leaves the light background transparent, so a browser with a dark
+   canvas showed dark text on dark; set it (light theme only: :root would
+   also beat the dark theme's background, which loads first) */
+[data-theme='light'] {
+  --ifm-background-color: #ffffff;
+}
+
+:root {
+  --ifm-color-primary: #e8431c;
+  --ifm-color-primary-dark: #d13c19;
+  --ifm-color-primary-darker: #c53918;
+  --ifm-color-primary-darkest: #a22f13;
+  --ifm-color-primary-light: #ea5533;
+  --ifm-color-primary-lighter: #eb5e3e;
+  --ifm-color-primary-lightest: #ef7b60;
+  --ifm-code-font-size: 95%;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #ff6f4d;
+  --ifm-color-primary-dark: #ff582f;
+  --ifm-color-primary-darker: #ff4c21;
+  --ifm-color-primary-darkest: #f42d00;
+  --ifm-color-primary-light: #ff866b;
+  --ifm-color-primary-lighter: #ff9279;
+  --ifm-color-primary-lightest: #ffb4a2;
+}
+
+/* long signatures wrap instead of scrolling */
+.theme-doc-markdown pre code {
+  white-space: pre-wrap;
+}
