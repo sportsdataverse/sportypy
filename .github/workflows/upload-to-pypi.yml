@@ -29,4 +29,6 @@ jobs:
         UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       # A PyPI trusted publisher (OIDC) would replace the stored credentials;
       # it needs configuring on PyPI by the project owner first
-      run: uv publish  # zizmor: ignore[use-trusted-publishing]
+      # --check-url skips files PyPI already has, so a re-run after a partial upload
+      # publishes only the missing distributions
+      run: uv publish --check-url https://pypi.org/simple/  # zizmor: ignore[use-trusted-publishing]
