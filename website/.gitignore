@@ -9,3 +9,6 @@ docs/getting-started.md
 src/pages/CHANGELOG.md
 src/data/home.json
 static/img/home/
+docs/cookbooks/
+docs/cookbooks.md
+static/img/cookbooks/

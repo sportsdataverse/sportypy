@@ -190,6 +190,7 @@ const config: Config = {
           items: [
             {label: 'Get started', to: '/docs/intro'},
             {label: 'Usage guide', to: '/docs/getting-started'},
+            {label: 'Cookbooks', to: '/docs/cookbooks'},
             {label: 'API reference', to: '/docs/reference/'},
             {label: 'Plotting and display', to: '/docs/reference/plotting'},
             {label: 'News', to: '/CHANGELOG'},

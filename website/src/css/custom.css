@@ -166,3 +166,43 @@ html[data-theme='dark'] .markdown p > img:only-child:not(.sdv-img-dark) {
 .theme-doc-markdown pre code {
   white-space: pre-wrap;
 }
+
+/* ---- cookbooks overview: the gallery tools/gen_docs.py writes from the notebooks' figures ---- */
+.cookbook-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.cookbook-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-card-background-color);
+  color: var(--ifm-font-color-base);
+  text-decoration: none !important;
+  transition: border-color 0.15s ease;
+}
+
+.cookbook-card:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base);
+}
+
+.cookbook-card img {
+  width: 100%;
+  height: 11rem;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+  background: #ffffff;
+  border-radius: calc(var(--ifm-global-radius) / 2);
+}
+
+.cookbook-card span {
+  font-size: 0.875rem;
+  color: var(--ifm-font-color-secondary);
+}

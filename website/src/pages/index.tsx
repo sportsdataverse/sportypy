@@ -170,6 +170,37 @@ function Surfaces(): ReactNode {
   );
 }
 
+// A figure from each cookbook, from the notebooks in examples/notebooks/ (the cells tagged "gallery")
+function Cookbooks(): ReactNode {
+  const baseUrl = useBaseUrl('/');
+  if (!home.cookbooks?.length) {
+    return null;
+  }
+  return (
+    <section className={styles.section}>
+      <div className="container">
+        <h2>Cookbooks</h2>
+        <p>
+          Real analyses, start to finish: sportsdataverse-py loads the data, sdvplot brings the team colors and
+          logos, and sportypy draws the surface and bins the data onto it. <Link to="/docs/cookbooks">See them
+          all</Link>.
+        </p>
+        <ul className={styles.surfaces}>
+          {home.cookbooks.map((c) => (
+            <li key={c.img} className={styles.surface}>
+              <Link to={c.href} className={styles.surfaceLink}>
+                <img src={`${baseUrl}${c.img.slice(1)}`} alt={c.alt} loading="lazy" />
+                <span className={styles.surfaceName}>{c.title}</span>
+                <span className={styles.surfaceMeta}>{c.cookbook}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
@@ -178,6 +209,7 @@ export default function Home(): ReactNode {
       <main>
         <TryIt />
         <Surfaces />
+        <Cookbooks />
         <section className={styles.features}>
           <div className="container">
             <div className="row">
