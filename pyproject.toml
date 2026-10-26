@@ -44,6 +44,7 @@ docs = [
     "myst-parser",
     "sphinx-markdown-builder",
     "sphinx-bootstrap-theme",
+    "griffe>=2.3.0",
 ]
 dev = [
     { include-group = "test" },
