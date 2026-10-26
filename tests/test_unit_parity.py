@@ -1,4 +1,4 @@
-"""Surfaces drawn in other units and shifted, against sportyR (#74, #76).
+"""Surfaces drawn in other units and shifted, against sportyR.
 
 sportyR draws a surface in its rule book's units, scales the finished plot to
 the requested units, and moves the surface by ``x_trans`` / ``y_trans`` (in the
@@ -98,7 +98,7 @@ def test_display_limits_match_sportyr(sport, case):
 
 @pytest.mark.parametrize("case", ["nfl_shifted", "nfl_m_shifted"])
 def test_yard_numbers_follow_units_and_translation(case):
-    """sportyR #76: the yard numbers' boxes are translated once and scaled with
+    """The yard numbers' boxes are translated once and scaled with
     the units. sportypy's numbers sit at the boxes' x centres (moved by the
     translation). In y, sportyR's box is 1.5 number heights tall from the
     numbers' bottom edge, so its centre is a quarter number height further

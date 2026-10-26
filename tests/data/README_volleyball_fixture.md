@@ -6,7 +6,7 @@ order (geom; point count; sums of x, y, x², y², xy over every point; every 25t
 point plus the last; fill and outline colour), and the plot's x/y limits.
 
 - sportyR checkout: `<sportyR checkout>`, branch
-  `fix/geometry-quirks` (sportyR PR #68, final head), commit 972da8ca0a7bef02b2be674bbe2f001275365cb6
+  `fix/geometry-quirks` commit 972da8ca0a7bef02b2be674bbe2f001275365cb6
   (see `provenance` in the JSON)
 - Captured 2026-10-18 (Rscript 4.6.1); loaded with `pkgload::load_all()`, not installed
 - Regenerate: `Rscript tools/volleyball_fixture.R <path to sportyR> tests/data/sportyr_volleyball_fixture.json`
@@ -14,4 +14,4 @@ point plus the last; fill and outline colour), and the plot's x/y limits.
 - tests/test_volleyball_parity.py pairs every sportyR polygon with one sportypy
   feature point for point (1e-9) and checks its fill.
 - `unit_cases`: the same summaries for the surface drawn in other units and / or
-  shifted (sportyR #74 / #76), compared in tests/test_unit_parity.py.
+  shifted, compared in tests/test_unit_parity.py.
