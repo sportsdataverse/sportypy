@@ -22,6 +22,11 @@ this file holds the repo-specific ones.
 - `rule-books/`: the source rule books, for reference.
 - `docs/`: the Sphinx site (myst-parser Markdown, bootstrap theme). The built
   site is committed under `docs/_build`; never edit it by hand.
+- `website/`: a Docusaurus prototype of the site (not deployed). Its
+  `docs/reference/`, `docs/changelog.md` and `docs/getting-started.md` are
+  written by `tools/gen_docs.py` from the docstrings, `docs/changelog.md` and
+  the README; regenerate (`uv run python tools/gen_docs.py`), never edit them.
+  `--check` (a pre-commit hook and the `website` workflow) fails when stale.
 
 ## sportyR parity
 

@@ -1,0 +1,61 @@
+# The Docusaurus prototype in website/: the generated reference must match the
+# docstrings (tools/gen_docs.py --check), and the site must build with no
+# broken links. It is not deployed; the Sphinx site in docs/ still is
+name: website
+
+on:
+  pull_request:
+    paths: &website-paths
+      - "website/**"
+      - "sportypy/**"
+      - "tools/gen_docs.py"
+      - "README.md"
+      - "docs/changelog.md"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/website.yml"
+  push:
+    branches: [main]
+    paths: *website-paths
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: docusaurus build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e  # v6.8.0
+      with:
+        python-version: '3.13'
+        enable-cache: true
+        cache-dependency-glob: uv.lock
+
+    - name: Install sportypy and the docs group
+      run: uv sync --locked --no-default-groups --group docs
+
+    - name: The generated reference matches the docstrings
+      run: uv run --no-sync python tools/gen_docs.py --check
+
+    - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5.0.0
+      with:
+        node-version: 22
+        cache: yarn
+        cache-dependency-path: website/yarn.lock
+
+    - name: Install the site's dependencies
+      working-directory: website
+      run: npx --yes yarn@1.22.22 install --frozen-lockfile --non-interactive
+
+    - name: Build the site (fails on a broken link)
+      working-directory: website
+      run: npx --yes yarn@1.22.22 build

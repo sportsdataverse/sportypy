@@ -50,6 +50,12 @@ repos:
         entry: python tools/hooks/check_commit_msg.py
         language: system
         stages: [commit-msg]
+      - id: gen-docs-check
+        name: website reference is current (tools/gen_docs.py --check)
+        entry: uv run --no-sync python tools/gen_docs.py --check
+        language: system
+        files: ^(sportypy/.*\.py|tools/gen_docs\.py|README\.md|docs/changelog\.md|website/docs/.*)$
+        pass_filenames: false
       - id: uv-lock-check
         name: uv.lock matches pyproject.toml
         entry: uv lock --check
