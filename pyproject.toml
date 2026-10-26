@@ -46,6 +46,14 @@ docs = [
     "sphinx-bootstrap-theme",
     "griffe>=2.3.0",
 ]
+# Runs the notebooks in examples/notebooks/ (live data). Not in dev, so CI and the docs build never install it:
+# uv run --group cookbook jupyter nbconvert --to notebook --execute --inplace examples/notebooks/*.ipynb
+cookbook = [
+    "sportsdataverse>=0.1.4",
+    "sdvplot[surfaces]>=0.1.1",
+    "ipykernel",
+    "nbconvert>=7",
+]
 dev = [
     { include-group = "test" },
     { include-group = "lint" },
