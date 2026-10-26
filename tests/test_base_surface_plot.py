@@ -469,7 +469,9 @@ def test_nfl_contour():
 
     assert isinstance(ax, matplotlib.axes.Axes)
     # the contour is clipped to the field (is_constrained defaults to True)
+    # to the field itself, not to matplotlib's default axes patch
     assert contour_img.get_clip_path() is not None
+    assert contour_img.get_clip_path()._patch is not ax.patch
 
 
 def test_epl_contour():
