@@ -7,7 +7,7 @@ name: docs-build
 
 on:
   pull_request:
-    paths: &docs-paths
+    paths:
       - "docs/**"
       - "sportypy/**"
       - "tools/gen_docs.py"
