@@ -2,9 +2,9 @@
 # (the commit-msg hook below needs its stage installed, not just pre-commit)
 default_install_hook_types: [pre-commit, commit-msg, pre-push]
 
-# Bundled data, fixtures, rule books and the committed Sphinx build are kept
-# byte-for-byte; no hook rewrites them
-exclude: ^(docs/_build/|tests/data/|sportypy/data/|rule-books/|fonts/|logos/|img/)
+# Bundled data, fixtures and rule books are kept byte-for-byte; no hook
+# rewrites them
+exclude: ^(tests/data/|sportypy/data/|rule-books/|fonts/|logos/|img/)
 
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit

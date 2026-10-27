@@ -16,7 +16,7 @@ It writes:
   surface inherits
 - website/docs/reference/index.md: the reference overview
 - website/docs/getting-started.md: the README's usage sections
-- website/src/pages/CHANGELOG.md: docs/changelog.md (the canonical changelog)
+- website/src/pages/CHANGELOG.md: CHANGELOG.md (the canonical changelog)
 - website/src/data/home.json and website/static/img/home/<sport>.png: the
   homepage's version, sports, cookbook figures and a drawing of each sport's
   surface
@@ -335,10 +335,10 @@ def reference_index(sports: list[dict]) -> str:
 
 
 def changelog_page() -> str:
-    body = (ROOT / "docs" / "changelog.md").read_text(encoding="utf-8")
+    body = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     return (
         "---\ntitle: News\n---\n\n"
-        + HEADER.format("docs/changelog.md")
+        + HEADER.format("CHANGELOG.md")
         + "\n"
         + body
     )

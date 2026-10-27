@@ -17,6 +17,6 @@ indent_size = 2
 [*.bat]
 end_of_line = crlf
 
-[{docs/_build/**,tests/data/**,sportypy/data/**}]
+[{tests/data/**,sportypy/data/**}]
 trim_trailing_whitespace = false
 insert_final_newline = false

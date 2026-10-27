@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 // sportypy's own colors and type (src/css/custom.css): the logo's greens, sportyR's orange, Roboto.
 //
 // Everything under docs/reference/, docs/getting-started.md, src/pages/CHANGELOG.md, src/data/home.json and
-// static/img/home/ is written by tools/gen_docs.py from the docstrings, the README and docs/changelog.md. The
+// static/img/home/ is written by tools/gen_docs.py from the docstrings, the README and CHANGELOG.md. The
 // prestart and prebuild scripts run it, so `yarn start` and `yarn build` always show the current code; none of
 // it is committed. Only intro.md, the homepage and the theme files are hand-written.
 

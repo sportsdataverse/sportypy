@@ -22,7 +22,7 @@
 
 ## Documentation
 
-- [ ] `docs/changelog.md` bullet under the next version (a user-visible change)
+- [ ] `CHANGELOG.md` bullet under the next version (a user-visible change)
 - [ ] Docstrings, and the `docs/` pages for a new sport or league
 - [ ] `CLAUDE.md` / `.github/copilot-instructions.md` (only if a convention changes)
 

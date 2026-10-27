@@ -24,7 +24,3 @@
 # Machine-written: LF text, collapsed in review diffs
 uv.lock                          text eol=lf linguist-generated=true
 tests/data/sportyr_*_fixture.json  linguist-generated=true
-
-# The Sphinx build output committed under docs/_build is left byte-for-byte as
-# Sphinx wrote it (never renormalized) and collapsed in review diffs
-docs/_build/**                   -text linguist-generated=true

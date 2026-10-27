@@ -12,7 +12,7 @@ on:
       - "tools/gen_docs.py"
       - "examples/notebooks/**"
       - "README.md"
-      - "docs/changelog.md"
+      - "CHANGELOG.md"
       - "pyproject.toml"
       - "uv.lock"
       - ".github/workflows/website.yml"

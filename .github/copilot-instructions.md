@@ -21,7 +21,7 @@ file.
 
 Conventional Commits. No AI co-author trailers or "Generated with" footers.
 Stage explicit paths. A user-visible change gets a bullet in
-`docs/changelog.md` under the next version.
+`CHANGELOG.md` under the next version.
 
 ## Code
 

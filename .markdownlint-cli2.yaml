@@ -7,13 +7,13 @@ config:
   MD024:
     siblings_only: true
   # HTML for the README's logo, badges and star-history <picture>, and the
-  # admonition <div>s and rules the Sphinx pages use
+  # <div>s and rules the docs pages use
   MD033:
     allowed_elements: [a, img, br, sub, sup, details, summary, picture, source, div, span, strong, code, hr]
   # Bold lead-ins ("**League Office** —") are list content, not headings
   MD036: false
-  # The README's first line is a heading with the logo inline; Sphinx pages
-  # carry their title in a directive
+  # The README's first line is a heading with the logo inline; docs pages
+  # carry their title in front matter
   MD041: false
   # Badges and the logo have no alt text by long-standing convention
   MD045: false
@@ -21,7 +21,6 @@ config:
   MD060: false
 
 ignores:
-  - "docs/_build/**"
   - ".venv/**"
   - "rule-books/**"
   - ".claude/**"
