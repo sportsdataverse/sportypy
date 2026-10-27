@@ -1,4 +1,4 @@
-# Static checks: ruff, the pre-commit hooks, zizmor on the publishing workflow,
+# Static checks: ruff, the pre-commit hooks, zizmor on the publishing workflows,
 # and a build of the sdist and wheel. No tests (package-coverage runs those)
 name: quality
 
@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e  # v6.8.0
+    - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884  # v10.3.0
       with:
         python-version: '3.13'
         enable-cache: true
@@ -40,8 +40,8 @@ jobs:
     - name: pre-commit hooks
       run: uv run --no-sync pre-commit run --all-files --show-diff-on-failure
 
-    - name: zizmor (the workflow that holds the PyPI credentials)
-      run: uvx zizmor@1.30.1 --offline .github/workflows/upload-to-pypi.yml
+    - name: zizmor (the workflows that publish to PyPI and gh-pages)
+      run: uvx zizmor@1.30.1 --offline .github/workflows/upload-to-pypi.yml .github/workflows/docs-deploy.yml
 
   build:
     name: build sdist + wheel
@@ -50,7 +50,7 @@ jobs:
     - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e  # v6.8.0
+    - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884  # v10.3.0
       with:
         enable-cache: true
         cache-dependency-glob: uv.lock
