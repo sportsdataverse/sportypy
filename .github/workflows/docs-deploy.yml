@@ -1,0 +1,69 @@
+# Builds the Docusaurus site from main and publishes it to the gh-pages branch
+# as a single orphan commit (no history growth). Vercel serves that branch as
+# plain static files (production branch gh-pages, every other branch's build
+# skipped), so the build runs here, not on Vercel. docs/static/vercel.json is
+# copied to the branch root and carries the redirects from the old Sphinx URLs.
+name: docs-deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "sportypy/**"
+      - "tools/gen_docs.py"
+      - "examples/notebooks/**"
+      - "README.md"
+      - "CHANGELOG.md"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/docs-deploy.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: docs-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    name: build and publish to gh-pages
+    # workflow_dispatch can be launched from any branch; only main publishes
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
+      with:
+        # The job holds contents:write but the build runs third-party yarn
+        # scripts; the publish step passes its token explicitly instead
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e  # v6.8.0
+      with:
+        python-version: '3.13'
+        enable-cache: true
+        cache-dependency-glob: uv.lock
+
+    - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5.0.0
+      with:
+        node-version: 22
+        cache: yarn
+        cache-dependency-path: docs/yarn.lock
+
+    - name: Install the site's dependencies
+      working-directory: docs
+      run: npx --yes yarn@1.22.22 install --frozen-lockfile --non-interactive
+
+    - name: Generate the reference and build the site
+      working-directory: docs
+      run: npx --yes yarn@1.22.22 build
+
+    - name: Publish to gh-pages
+      uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453  # v4.1.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/build
+        # One commit: each deploy replaces the last
+        force_orphan: true
