@@ -65,6 +65,10 @@ Display ranges:
 - Football in other units: the nudge of a top "1" in the Clarendon font is converted from yards; sizing the yard numbers no longer leaves an extra tiny text on the axes.
 - Surfaces in other units and shifted match `sportyR`'s for lacrosse, football and volleyball (tests/test_unit_parity.py).
 
+### Documentation
+
+- The docs site (sportypy.sportsdataverse.org) is rebuilt with Docusaurus in the SportsDataverse docs family, and its API reference is generated from the docstrings on every build. It adds two cookbooks (NBA shot quality, NHL expected goals) with sportsdataverse-py data and sdvplot colours. The Sphinx site is retired; its old addresses (`/surfaces/hockey/nhl.html` and so on) redirect to the matching reference page.
+
 ## `sportypy` 1.1.0
 
 - Added volleyball support

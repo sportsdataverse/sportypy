@@ -20,21 +20,25 @@ this file holds the repo-specific ones.
 - `sportypy/data/surface_dimensions.json`: every league's rule-book dimensions,
   in the league's own units. `unit_conversions.json`: the conversion table.
 - `rule-books/`: the source rule books, for reference.
-- `docs/`: the Sphinx site (myst-parser Markdown, bootstrap theme). The built
-  site is committed under `docs/_build`; never edit it by hand.
-- `website/`: the Docusaurus site, in the SportsDataverse docs family
-  (`src/css/sdv-theme.css` is byte-identical to sdvplot's; sportypy's colors and
-  type are in `src/css/custom.css`). `yarn start` / `yarn build` first run
-  `tools/gen_docs.py`, which writes the API reference, the usage guide (from the
-  README), the News page (from `docs/changelog.md`) and the homepage's surface
-  drawings from the code. None of that is committed: change the docstring, the
-  README or the changelog, never a generated page. The `website` workflow and
-  Vercel build the same way.
+- `docs/`: the Docusaurus site (sportypy.sportsdataverse.org), in the
+  SportsDataverse docs family (`src/css/sdv-theme.css` is byte-identical to
+  sdvplot's; sportypy's colors and type are in `src/css/custom.css`).
+  `yarn start` / `yarn build` first run `tools/gen_docs.py`, which writes the API
+  reference, the usage guide (from the README), the News page (from
+  `CHANGELOG.md`) and the homepage's surface drawings from the code. None of
+  that is committed: change the docstring, the README or the changelog, never a
+  generated page.
+- Publishing: `docs-build` builds the site on pull requests; `docs-deploy`
+  builds `main` and publishes it to the `gh-pages` branch (one orphan commit).
+  Vercel serves `gh-pages` as static files and builds nothing (production
+  branch `gh-pages`; an ignored-build step skips every other branch).
+  `docs/static/vercel.json` lands at the branch root and redirects the old
+  Sphinx URLs (`/surfaces/hockey/nhl.html` and so on).
 - `examples/notebooks/`: the cookbooks (sportypy with sportsdataverse-py data
   and sdvplot colors). They load live data, so they are committed WITH their
   outputs and executed by hand, never in CI:
   `uv run --group cookbook jupyter nbconvert --to notebook --execute --inplace examples/notebooks/<name>.ipynb`.
-  `gen_docs.py` turns each into a page under `website/docs/cookbooks/` and
+  `gen_docs.py` turns each into a page under `docs/docs/cookbooks/` and
   fails the build on one not run top to bottom (execution counts 1..n) or with
   an error output. Print polars frames (`ASCII_MARKDOWN`) so they become tables;
   tag a figure's cell `gallery` for the overview and homepage. On this Windows
@@ -71,23 +75,23 @@ uv sync --locked
 uv run --no-sync ruff check .
 uv run --no-sync pre-commit run --all-files
 uv run --no-sync pytest tests/
-uv run --no-sync sphinx-build -W --keep-going -b html docs "${TMPDIR:-/tmp}/sportypy-docs"
+(cd docs && yarn install --frozen-lockfile && yarn build)  # fails on a broken link
 ```
 
 CI runs the same (`.github/workflows/`): `package-coverage` (tests, Python 3.10
-and 3.14), `quality` (ruff, pre-commit, zizmor, build), `docs` (Sphinx).
+and 3.14), `quality` (ruff, pre-commit, zizmor, build), `docs-build` (the
+site, on pull requests) and `docs-deploy` (`main` to `gh-pages`).
 `uv run` can re-lock: check `git status` and never let a `uv.lock` change ride
 into an unrelated commit (`uv lock --check` is a pre-commit hook).
 
 ## Release
 
 1. Bump `version` in `pyproject.toml` and add the version's section to
-   `docs/changelog.md` (one bullet per user-visible change).
+   `CHANGELOG.md` (one bullet per user-visible change).
 2. Merge to `main`, then create the GitHub Release `vX.Y.Z`: that runs
    `upload-to-pypi.yml` (`uv build` + `uv publish`).
 
 ## Windows
 
-`.gitattributes` keeps text files LF in the index and the checkout (`make.bat`
-is CRLF). If a diff shows every line of a file changed, it is a line-ending
+`.gitattributes` keeps text files LF in the index and the checkout. If a diff shows every line of a file changed, it is a line-ending
 flip: check `git diff --ignore-cr-at-eol` before committing.

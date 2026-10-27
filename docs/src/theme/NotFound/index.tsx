@@ -6,7 +6,7 @@ import Heading from '@theme/Heading';
 
 // The site's 404 page, as on the other SportsDataverse docs sites (sdvplot's, ejected with
 // `docusaurus swizzle @docusaurus/theme-classic NotFound --eject`). The old Sphinx site's URLs
-// (/surfaces/hockey/nhl.html and so on) land here.
+// (/surfaces/hockey/nhl.html and so on) are redirected by static/vercel.json; anything else lands here.
 export default function NotFound(): ReactNode {
   return (
     <>
