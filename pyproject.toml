@@ -39,11 +39,6 @@ lint = [
     "ruff==0.15.12",
 ]
 docs = [
-    "sphinx",
-    "livereload",
-    "myst-parser",
-    "sphinx-markdown-builder",
-    "sphinx-bootstrap-theme",
     "griffe>=2.3.0",
 ]
 # Runs the notebooks in examples/notebooks/ (live data). Not in dev, so CI and the docs build never install it:
