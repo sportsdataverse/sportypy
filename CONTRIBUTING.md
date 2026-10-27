@@ -78,19 +78,9 @@ Your request will be checked against the following points:
 
 - **Documentation** &mdash; When introducing new code, please make sure you document it appropriately. Documentation comes in three main forms:
 
-  - Docstrings for classes and their sub-methods. These should include markdown syntax as the documentation page for the package website uses markdown rendering
+  - Docstrings for classes and their sub-methods, in NumPy style. The package website's API reference is built from them: a new sport, league class or method appears there once its docstring exists, with no page to write by hand. Preview the site with `yarn start` in `docs/` (it needs Node 20+ and [uv](https://docs.astral.sh/uv/)).
 
-  - In the `docs/` subdirectory which renders the package website. Be sure to add your sport and any supported leagues/child classes to the following files:
-
-    - `docs/features/{your sport}.md` &mdash; A file to document the features for the sport you're adding
-
-    - `docs/surfaces/{your sport}/{league name}.md` &mdash; One file per league, meant as the simplest interface to the package
-
-    - `docs/surfaces/{your sport}.md` &mdash; Be sure to add a new file here to document your sport, listing all of the leagues alphabetically. These should reference the files in the bullet above
-
-    - `docs/features.md` &mdash; Please add your sport alphabetically in the list following the existing examples
-
-    - `docs/surfaces.md` &mdash; Please add your sport alphabetically in the list following the existing examples
+  - A bullet in `CHANGELOG.md` under the next version for any user-visible change. It becomes the site's News page.
 
   - In-line/in-file comments throughout the code that explain what your code is trying to achieve
 

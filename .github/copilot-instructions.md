@@ -12,7 +12,8 @@ file.
 - Use feature branches and pull requests; do not push to `main`.
 - Set up with `uv sync --locked`. The local gates:
   `uv run --no-sync ruff check .`, `uv run --no-sync pre-commit run --all-files`,
-  `uv run --no-sync pytest tests/` and a Sphinx build with `-W`. CI also runs
+  `uv run --no-sync pytest tests/` and the docs site build (`yarn build` in
+  `docs/`, which fails on a broken link). CI also runs
   zizmor on `upload-to-pypi.yml` and checks the built distributions
   (`uv build`, `twine check --strict`, the wheel ships the data JSON).
 - Never let a `uv.lock` change ride into an unrelated commit.
@@ -21,7 +22,7 @@ file.
 
 Conventional Commits. No AI co-author trailers or "Generated with" footers.
 Stage explicit paths. A user-visible change gets a bullet in
-`docs/changelog.md` under the next version.
+`CHANGELOG.md` under the next version.
 
 ## Code
 
@@ -41,5 +42,7 @@ Stage explicit paths. A user-visible change gets a bullet in
 
 ## Generated files
 
-Never hand-edit `docs/_build/**` (the committed Sphinx build), the sportyR
-fixtures under `tests/data/` or `uv.lock`.
+Never hand-edit the sportyR fixtures under `tests/data/` or `uv.lock`. The
+docs site's API reference, usage guide, News page and cookbook pages are written
+by `tools/gen_docs.py` on every build and are not committed: change the
+docstring, the README, `CHANGELOG.md` or the notebook instead.

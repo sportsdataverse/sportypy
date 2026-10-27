@@ -1,0 +1,56 @@
+# Builds the Docusaurus site in docs/ on every pull request that could change
+# it, without deploying. `yarn build` first runs tools/gen_docs.py (the prebuild
+# script), which writes the API reference from the docstrings, so a docstring
+# that breaks the generator, or a page with a broken link, fails here.
+# docs-deploy.yml builds main the same way and publishes it to gh-pages.
+name: docs-build
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "sportypy/**"
+      - "tools/gen_docs.py"
+      - "examples/notebooks/**"
+      - "README.md"
+      - "CHANGELOG.md"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/docs-build.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: docusaurus build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884  # v10.3.0
+      with:
+        python-version: '3.13'
+        enable-cache: true
+        cache-dependency-glob: uv.lock
+
+    - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5.0.0
+      with:
+        node-version: 24
+        cache: yarn
+        cache-dependency-path: docs/yarn.lock
+
+    - name: Install the site's dependencies
+      working-directory: docs
+      run: npx --yes yarn@1.22.22 install --frozen-lockfile --non-interactive
+
+    - name: Generate the reference and build the site (fails on a broken link)
+      working-directory: docs
+      run: npx --yes yarn@1.22.22 build
