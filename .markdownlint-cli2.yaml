@@ -25,3 +25,11 @@ ignores:
   - ".venv/**"
   - "rule-books/**"
   - ".claude/**"
+  # written by tools/gen_docs.py on every site build (never committed)
+  - "website/docs/reference/**"
+  - "website/docs/getting-started.md"
+  - "website/docs/cookbooks/**"
+  - "website/docs/cookbooks.md"
+  - "website/src/pages/CHANGELOG.md"
+  - "website/node_modules/**"
+  - "website/build/**"

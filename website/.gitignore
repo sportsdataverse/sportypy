@@ -1,0 +1,14 @@
+node_modules/
+build/
+.docusaurus/
+.cache-loader/
+
+# Written by tools/gen_docs.py on every `yarn start` / `yarn build` (never committed)
+docs/reference/
+docs/getting-started.md
+src/pages/CHANGELOG.md
+src/data/home.json
+static/img/home/
+docs/cookbooks/
+docs/cookbooks.md
+static/img/cookbooks/

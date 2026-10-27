@@ -22,6 +22,24 @@ this file holds the repo-specific ones.
 - `rule-books/`: the source rule books, for reference.
 - `docs/`: the Sphinx site (myst-parser Markdown, bootstrap theme). The built
   site is committed under `docs/_build`; never edit it by hand.
+- `website/`: the Docusaurus site, in the SportsDataverse docs family
+  (`src/css/sdv-theme.css` is byte-identical to sdvplot's; sportypy's colors and
+  type are in `src/css/custom.css`). `yarn start` / `yarn build` first run
+  `tools/gen_docs.py`, which writes the API reference, the usage guide (from the
+  README), the News page (from `docs/changelog.md`) and the homepage's surface
+  drawings from the code. None of that is committed: change the docstring, the
+  README or the changelog, never a generated page. The `website` workflow and
+  Vercel build the same way.
+- `examples/notebooks/`: the cookbooks (sportypy with sportsdataverse-py data
+  and sdvplot colors). They load live data, so they are committed WITH their
+  outputs and executed by hand, never in CI:
+  `uv run --group cookbook jupyter nbconvert --to notebook --execute --inplace examples/notebooks/<name>.ipynb`.
+  `gen_docs.py` turns each into a page under `website/docs/cookbooks/` and
+  fails the build on one not run top to bottom (execution counts 1..n) or with
+  an error output. Print polars frames (`ASCII_MARKDOWN`) so they become tables;
+  tag a figure's cell `gallery` for the overview and homepage. On this Windows
+  box a global Jupyter config loads a missing nbextensions preprocessor: set
+  `JUPYTER_CONFIG_DIR` to an empty folder when executing.
 
 ## sportyR parity
 
