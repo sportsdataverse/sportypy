@@ -1,7 +1,7 @@
 // Runs tools/gen_docs.py before `yarn start` and `yarn build` (the prestart and
 // prebuild scripts), so the reference is rebuilt from the docstrings on every
-// build: locally, in CI and on Vercel. It needs uv; where uv is missing (the
-// Vercel build image) it installs it with pip first.
+// build: locally and in CI. It needs uv; where uv is missing it installs it with
+// pip first.
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';

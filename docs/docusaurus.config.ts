@@ -78,7 +78,7 @@ const config: Config = {
           editUrl: ({docPath}) =>
             /^reference\/|^getting-started\.md$/.test(docPath)
               ? undefined
-              : `https://github.com/sportsdataverse/sportypy/edit/main/website/docs/${docPath}`,
+              : `https://github.com/sportsdataverse/sportypy/edit/main/docs/docs/${docPath}`,
         },
         // No blog: release notes live on the News page (the changelog)
         blog: false,

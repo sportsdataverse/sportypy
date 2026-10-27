@@ -3,27 +3,27 @@
 Usage:
     python tools/gen_docs.py
 
-`yarn start` and `yarn build` in website/ run this first (website/scripts/
+`yarn start` and `yarn build` in docs/ run this first (docs/scripts/
 gen-docs.mjs), so the site is rebuilt from the docstrings on every build:
-locally, in CI and on Vercel. Nothing it writes is committed (website/
+locally and in CI (the docs workflow). Nothing it writes is committed (docs/
 .gitignore lists it), so there is no generated file to keep in step by hand.
 
 It writes:
-- website/docs/reference/surfaces/<sport>.md: the sport's base class, a table of
+- docs/docs/reference/surfaces/<sport>.md: the sport's base class, a table of
   its league classes (with each one's league_code) and its public methods
-- website/docs/reference/features/<sport>.md: the features a surface is drawn from
-- website/docs/reference/plotting.md: the plotting and display methods every
+- docs/docs/reference/features/<sport>.md: the features a surface is drawn from
+- docs/docs/reference/plotting.md: the plotting and display methods every
   surface inherits
-- website/docs/reference/index.md: the reference overview
-- website/docs/getting-started.md: the README's usage sections
-- website/src/pages/CHANGELOG.md: CHANGELOG.md (the canonical changelog)
-- website/src/data/home.json and website/static/img/home/<sport>.png: the
+- docs/docs/reference/index.md: the reference overview
+- docs/docs/getting-started.md: the README's usage sections
+- docs/src/pages/CHANGELOG.md: CHANGELOG.md (the canonical changelog)
+- docs/src/data/home.json and docs/static/img/home/<sport>.png: the
   homepage's version, sports, cookbook figures and a drawing of each sport's
   surface
-- website/docs/cookbooks/<notebook>.md and website/static/img/cookbooks/: a
+- docs/docs/cookbooks/<notebook>.md and docs/static/img/cookbooks/: a
   page per notebook in examples/notebooks/, from its saved outputs (notebooks
   are executed by hand, not here: they load live data), and
-  website/docs/cookbooks.md, their overview and gallery
+  docs/docs/cookbooks.md, their overview and gallery
 
 The docstrings are NumPy style and are parsed with griffe. A new sport or league
 appears once its module or class exists.
@@ -43,7 +43,7 @@ from pathlib import Path
 import griffe
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE = ROOT / "website"
+SITE = ROOT / "docs"
 DOCS = SITE / "docs"
 REF = DOCS / "reference"
 HOME_IMG = SITE / "static" / "img" / "home"
