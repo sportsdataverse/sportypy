@@ -86,10 +86,13 @@ into an unrelated commit (`uv lock --check` is a pre-commit hook).
 
 ## Release
 
-1. Bump `version` in `pyproject.toml` and add the version's section to
-   `CHANGELOG.md` (one bullet per user-visible change).
-2. Merge to `main`, then create the GitHub Release `vX.Y.Z`: that runs
-   `upload-to-pypi.yml` (`uv build` + `uv publish`).
+Releases are cut by `release.yml` (semantic-release, config in `.releaserc.json`)
+on every push to `main`. The conventional-commit types decide the bump: `fix` and
+`perf` patch, `feat` minor, `!` or `BREAKING CHANGE:` major, anything else none.
+It runs `uv version` (`pyproject.toml` and `uv.lock`), prepends the notes to
+`CHANGELOG.md`, pushes a `chore(release)` commit and the `vX.Y.Z` tag, and creates
+the GitHub Release, which runs `upload-to-pypi.yml` (`uv build` + `uv publish`).
+Never bump the version or edit the generated changelog entries by hand.
 
 ## Windows
 

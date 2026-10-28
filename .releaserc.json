@@ -1,0 +1,18 @@
+{
+    "branches": ["main"],
+    "tagFormat": "v${version}",
+    "plugins": [
+        ["@semantic-release/commit-analyzer", {"preset": "conventionalcommits"}],
+        ["@semantic-release/release-notes-generator", {"preset": "conventionalcommits"}],
+        ["@semantic-release/changelog", {"changelogFile": "CHANGELOG.md", "changelogTitle": "# Changelog"}],
+        ["@semantic-release/exec", {"prepareCmd": "uv version ${nextRelease.version}"}],
+        [
+            "@semantic-release/git",
+            {
+                "assets": ["pyproject.toml", "uv.lock", "CHANGELOG.md"],
+                "message": "chore(release): v${nextRelease.version} [skip ci]"
+            }
+        ],
+        "@semantic-release/github"
+    ]
+}
