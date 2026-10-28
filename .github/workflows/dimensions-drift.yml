@@ -6,7 +6,8 @@
 #
 # The check lives in tools/sync_dimensions.py. It prints a "drift:" line for each
 # differing value and a "missing:" line for each absent league, but exits 1 only
-# for missing leagues, so this workflow fails on either line. It runs weekly (a
+# for missing leagues, so this workflow fails on either line, and on the
+# "warning:" line for a whole sport that sportypy lacks. It runs weekly (a
 # failed scheduled run emails the repo admins), on pull requests that touch the
 # dimensions or the tool, and on demand.
 name: dimensions-drift
@@ -32,19 +33,24 @@ jobs:
   check:
     name: sportypy vs sportyR dimensions
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       with:
         persist-credentials: false
 
     - name: Fetch sportyR's surface dimensions
-      run: curl --fail --silent --show-error --location --output "$RUNNER_TEMP/sportyr-dimensions.json" https://raw.githubusercontent.com/sportsdataverse/sportyR/main/data-raw/surface-dimensions.json
+      run: curl --fail --silent --show-error --location --connect-timeout 15 --max-time 60 --output "$RUNNER_TEMP/sportyr-dimensions.json" https://raw.githubusercontent.com/sportsdataverse/sportyR/main/data-raw/surface-dimensions.json
 
     # tools/sync_dimensions.py uses only the standard library
     - name: Compare
+      # an explicit bash shell turns on pipefail, so a crash in the tool fails
+      # the step instead of being hidden by tee
+      shell: bash
       run: |
         python3 tools/sync_dimensions.py "$RUNNER_TEMP/sportyr-dimensions.json" --check | tee "$RUNNER_TEMP/drift.txt"
-        if grep -qE '^(drift|missing):' "$RUNNER_TEMP/drift.txt"; then
+        # "warning:" is the tool's note that sportyR has a sport sportypy lacks
+        if grep -qE '^(drift|missing|warning):' "$RUNNER_TEMP/drift.txt"; then
           echo "::error::sportypy's dimensions differ from sportyR's; run tools/sync_dimensions.py with --align"
           exit 1
         fi
