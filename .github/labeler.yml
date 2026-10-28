@@ -37,7 +37,7 @@ volleyball:
 # Areas
 ci:
   - changed-files:
-      - any-glob-to-any-file: [".github/**", ".releaserc.json", ".pre-commit-config.yaml", "ruff.toml", ".markdownlint-cli2.yaml", "tools/hooks/**"]
+      - any-glob-to-any-file: [".github/**", ".releaserc.json", "codecov.yml", ".pre-commit-config.yaml", "ruff.toml", ".markdownlint-cli2.yaml", "tools/hooks/**"]
 tests:
   - changed-files:
       - any-glob-to-any-file: ["tests/**"]
