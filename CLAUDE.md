@@ -49,8 +49,9 @@ this file holds the repo-specific ones.
 
 - New leagues and dimension changes come from sportyR's
   `data-raw/surface-dimensions.json` through `tools/sync_dimensions.py`
-  (`--check` reports drift; `--align` replaces drifted leagues). Do not retype
-  values.
+  (`--check` reports drift; `--align` replaces drifted leagues). The
+  `dimensions-drift` workflow runs `--check` weekly and fails on drift. Do not
+  retype values.
 - `tests/data/sportyr_*_fixture.json` are what sportyR's own `geom_*()` draws,
   captured by `tools/<sport>_fixture.R` from a sportyR checkout (the README
   beside each fixture says how). They are generated: regenerate, never edit.
