@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.2](https://github.com/sportsdataverse/sportypy/compare/v1.2.1...v1.2.2) (2026-10-28)
+
+### Performance Improvements
+
+* **base:** draw circles with 1000 points, as sportyR does, instead of 10000 ([#31](https://github.com/sportsdataverse/sportypy/issues/31)) ([ea9b31e](https://github.com/sportsdataverse/sportypy/commit/ea9b31e101388eb9ded5359a7393560072002491))
+
 ## [1.2.1](https://github.com/sportsdataverse/sportypy/compare/v1.2.0...v1.2.1) (2026-10-28)
 
 ### Bug Fixes
