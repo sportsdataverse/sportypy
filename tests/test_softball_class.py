@@ -192,3 +192,5 @@ def test_additional_feature():
     # the added base is initialized and drawn, on top of the field's features
     assert len(field._features) == len(plain._features) + 1
     assert len(ax.patches) == len(plain_ax.patches) + 1
+    plt.close(plain_ax.figure)
+    plt.close(ax.figure)

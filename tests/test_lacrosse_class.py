@@ -506,3 +506,5 @@ def test_added_constrained_feature_is_drawn_and_clipped():
     assert len(field._features) == len(plain._features) + 1
     assert len(ax.patches) == len(plain_ax.patches) + 1
     assert ax.patches[-1].get_clip_path() is not None
+    plt.close(plain_ax.figure)
+    plt.close(ax.figure)
