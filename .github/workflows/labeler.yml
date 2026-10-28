@@ -71,6 +71,10 @@ jobs:
   label-issue:
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
+    # edits to one issue are labeled in order, so a stale run cannot finish last
+    concurrency:
+      group: label-issue-${{ github.event.issue.number }}
+      cancel-in-progress: false
     permissions:
       issues: write
     steps:
@@ -95,6 +99,9 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.payload.issue.number
             };
+            // Add the new label first, so a failure part-way leaves the issue
+            // labeled rather than unlabeled
+            await github.rest.issues.addLabels({ ...issue, labels: [label] });
             // The two request labels are mutually exclusive, so if the
             // dropdown answer was edited, drop the label for the old answer
             const current = context.payload.issue.labels.map((l) => l.name);
@@ -103,4 +110,3 @@ jobs:
                 await github.rest.issues.removeLabel({ ...issue, name: other });
               }
             }
-            await github.rest.issues.addLabels({ ...issue, labels: [label] });
