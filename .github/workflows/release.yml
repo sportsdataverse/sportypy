@@ -47,7 +47,7 @@ jobs:
     # The release commit itself carries [skip ci], but guard against loops anyway
     if: "!startsWith(github.event.head_commit.message, 'chore(release):')"
     steps:
-      - name: Create GitHub App token
+      - name: 🔑 Create the GitHub App token
         id: app-token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510  # v3
         with:
@@ -59,7 +59,8 @@ jobs:
           permission-issues: write
           permission-pull-requests: write
 
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - name: 📥 Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           # Check out main's current head rather than the triggering SHA, so a
           # run that queued behind another release isn't left behind main
@@ -69,16 +70,18 @@ jobs:
           # semantic-release pushes with GITHUB_TOKEN below, not the checkout token
           persist-credentials: false
 
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+      - name: 🟢 Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
         with:
           node-version: 24
 
       # `uv version` (run by the exec plugin) bumps pyproject.toml and uv.lock
-      - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
+      - name: 📦 Set up uv
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
         with:
           enable-cache: false
 
-      - name: Resolve app bot identity
+      - name: 🤖 Resolve the app bot identity
         id: bot
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
@@ -88,7 +91,7 @@ jobs:
           echo "name=${APP_SLUG}[bot]" >> "$GITHUB_OUTPUT"
           echo "email=${user_id}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
 
-      - name: Run semantic-release
+      - name: 🚀 Run semantic-release
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           GIT_AUTHOR_NAME: ${{ steps.bot.outputs.name }}

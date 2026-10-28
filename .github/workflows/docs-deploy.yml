@@ -35,31 +35,34 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+    - name: 📥 Check out the repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       with:
         # The job holds contents:write but the build runs third-party yarn
         # scripts; the publish step passes its token explicitly instead
         persist-credentials: false
-    - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
+    - name: 📦 Set up uv
+      uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
       with:
         python-version: '3.13'
         # No caches in the job that publishes: a cache a pull request wrote could
         # otherwise reach the live site
         enable-cache: false
 
-    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+    - name: 🟢 Set up Node.js
+      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
       with:
         node-version: 24
 
-    - name: Install the site's dependencies
+    - name: 📦 Install the site's dependencies
       working-directory: docs
       run: npx --yes yarn@1.22.22 install --frozen-lockfile --non-interactive
 
-    - name: Generate the reference and build the site
+    - name: 🔨 Generate the reference and build the site
       working-directory: docs
       run: npx --yes yarn@1.22.22 build
 
-    - name: Publish to gh-pages
+    - name: 🚀 Publish to gh-pages
       uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453  # v4.1.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}

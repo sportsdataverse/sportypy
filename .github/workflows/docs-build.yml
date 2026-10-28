@@ -32,25 +32,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+    - name: 📥 Check out the repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
+    - name: 📦 Set up uv
+      uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
       with:
         python-version: '3.13'
         enable-cache: true
         cache-dependency-glob: uv.lock
 
-    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+    - name: 🟢 Set up Node.js
+      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
       with:
         node-version: 24
         cache: yarn
         cache-dependency-path: docs/yarn.lock
 
-    - name: Install the site's dependencies
+    - name: 📦 Install the site's dependencies
       working-directory: docs
       run: npx --yes yarn@1.22.22 install --frozen-lockfile --non-interactive
 
-    - name: Generate the reference and build the site (fails on a broken link)
+    - name: 🔨 Generate the reference and build the site (fails on a broken link)
       working-directory: docs
       run: npx --yes yarn@1.22.22 build
