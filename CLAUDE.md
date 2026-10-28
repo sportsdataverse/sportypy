@@ -89,7 +89,8 @@ into an unrelated commit (`uv lock --check` is a pre-commit hook).
 
 Releases are cut by `release.yml` (semantic-release, config in `.releaserc.json`)
 on every push to `main`. The conventional-commit types decide the bump: `fix` and
-`perf` patch, `feat` minor, `!` or `BREAKING CHANGE:` major, anything else none.
+`perf` patch, `feat` minor, `!` or `BREAKING CHANGE:` major, a revert of a
+released commit patch, anything else none.
 It runs `uv version` (`pyproject.toml` and `uv.lock`), prepends the notes to
 `CHANGELOG.md`, pushes a `chore(release)` commit and the `vX.Y.Z` tag, and creates
 the GitHub Release, which runs `upload-to-pypi.yml` (`uv build` + `uv publish`).
