@@ -41,3 +41,9 @@ jobs:
     - name: Upload coverage reports to codecov.io
       if: matrix.python-version == '3.10'
       uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5  # v7.1.1
+      with:
+        # The action does not read repo secrets on its own. A pull request from a
+        # fork gets an empty token, which Codecov accepts for forks
+        token: ${{ secrets.CODECOV_TOKEN }}
+        # Fail the job on a rejected upload, so a missing report is not silent
+        fail_ci_if_error: true
