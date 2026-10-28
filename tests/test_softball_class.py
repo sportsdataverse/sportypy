@@ -97,7 +97,7 @@ def _sweep(ring, c=(0.0, 0.0)):
 
 
 def test_pitchers_circle_matches_sportyr():
-    # sportyR draws 1000 points per ring, sportypy 10000: compare endpoints, radius, direction, sweep
+    # compare endpoints, radius, direction and sweep of each ring
     circle = _of(NCAASoftballField(), sf.PitchersCircle)[0]
     assert circle.y_anchor == pytest.approx(ANCH["pitchers_circle"][1], abs=TOL)
     got, ref = _rings(circle._get_centered_feature()), _rings(pd.DataFrame(FEAT["pitchers_circle"]))

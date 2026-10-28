@@ -11,5 +11,6 @@ places them at.
 - Captured 2026-10-18 (Rscript 4.6.1); loaded with `pkgload::load_all()`, not installed
 - Regenerate: `Rscript tools/softball_fixture.R <path to sportyR> tests/data/sportyr_softball_fixture.json`
   (or set `SPORTYR_PATH` and pass only the output path)
-- sportyR draws circles with 1000 points, sportypy with 10000, so circular
-  features are compared by ring endpoints and radius, not point by point.
+- sportyR and sportypy both draw circles with 1000 points, but circular
+  features are still compared by ring endpoints, radius, direction and sweep,
+  not point by point.

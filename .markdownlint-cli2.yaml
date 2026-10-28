@@ -3,6 +3,8 @@ config:
   default: true
   # Prose, tables, long URLs and badge HTML routinely run past any line limit
   MD013: false
+  # The release workflow writes "*" bullets; older entries use "-"
+  MD004: false
   # Per-release changelog sections repeat "Fixes" / "New surfaces" headings
   MD024:
     siblings_only: true

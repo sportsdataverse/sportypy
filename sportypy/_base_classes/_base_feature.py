@@ -169,7 +169,7 @@ class BaseFeature(ABC):
         return feature_polygon
 
     @staticmethod
-    def create_circle(center = (0.0, 0.0), npoints = 10000, r = 1.0,
+    def create_circle(center = (0.0, 0.0), npoints = 1000, r = 1.0,
                       start = 0.0, end = 2.0):
         """Generate a data frame that contains the points that form a circle.
 
