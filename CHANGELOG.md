@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.1](https://github.com/sportsdataverse/sportypy/compare/v1.2.0...v1.2.1) (2026-10-28)
+
+### Bug Fixes
+
+* **plot:** support matplotlib 3.8+ contour sets and axes types ([e0d214a](https://github.com/sportsdataverse/sportypy/commit/e0d214a17c54b6a5e2ad57992054f935695955aa))
+
 ## `sportypy` 1.2.0
 
 Brings `sportypy` in line with `sportyR` 2.3.0 and its geometry fixes.
