@@ -9,7 +9,7 @@ exclude: ^(tests/data/|sportypy/data/|rule-books/|fonts/|logos/|img/)
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Kept in sync with the ruff pin in the lint dependency group of pyproject.toml
-    rev: v0.15.12
+    rev: v0.17.2
     hooks:
       - id: ruff-check
   - repo: https://github.com/pre-commit/pre-commit-hooks
