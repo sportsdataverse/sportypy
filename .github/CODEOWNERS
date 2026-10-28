@@ -1,0 +1,35 @@
+# Each sport's maintainer is automatically requested to review PRs that change
+# that sport's surface, feature or test files. Owners must have write access to
+# the repository. GitHub never requests a review from a PR's author.
+# Syntax: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+/sportypy/surfaces/baseball.py                @rossdrucker
+/sportypy/_feature_classes/baseball.py        @rossdrucker
+/tests/test_baseball_*.py                     @rossdrucker
+/sportypy/surfaces/basketball.py              @rossdrucker
+/sportypy/_feature_classes/basketball.py      @rossdrucker
+/tests/test_basketball_*.py                   @rossdrucker
+/sportypy/surfaces/curling.py                 @rossdrucker
+/sportypy/_feature_classes/curling.py         @rossdrucker
+/tests/test_curling_*.py                      @rossdrucker
+/sportypy/surfaces/football.py                @rossdrucker
+/sportypy/_feature_classes/football.py        @rossdrucker
+/tests/test_football_*.py                     @rossdrucker
+/sportypy/surfaces/hockey.py                  @rossdrucker
+/sportypy/_feature_classes/hockey.py          @rossdrucker
+/tests/test_hockey_*.py                       @rossdrucker
+/sportypy/surfaces/lacrosse.py                @rossdrucker
+/sportypy/_feature_classes/lacrosse.py        @rossdrucker
+/tests/test_lacrosse_*.py                     @rossdrucker
+/sportypy/surfaces/soccer.py                  @rossdrucker
+/sportypy/_feature_classes/soccer.py          @rossdrucker
+/tests/test_soccer_*.py                       @rossdrucker
+/sportypy/surfaces/softball.py                @rossdrucker
+/sportypy/_feature_classes/softball.py        @rossdrucker
+/tests/test_softball_*.py                     @rossdrucker
+/sportypy/surfaces/tennis.py                  @rossdrucker
+/sportypy/_feature_classes/tennis.py          @rossdrucker
+/tests/test_tennis_*.py                       @rossdrucker
+/sportypy/surfaces/volleyball.py              @rossdrucker
+/sportypy/_feature_classes/volleyball.py      @rossdrucker
+/tests/test_volleyball_*.py                   @rossdrucker
