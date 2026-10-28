@@ -5,6 +5,7 @@
 
 import io
 import sys
+import pytest
 import matplotlib
 import matplotlib.pyplot as plt
 import sportypy.surfaces.football as football_fields
@@ -942,3 +943,16 @@ def test_outline_defaults_follow_a_field_bordered_update():
     assert field.feature_colors["red_zone_border_outline"] == "#ff0000"
     field.reset_colors()
     assert field.feature_colors["red_zone_border_outline"] == "#ffffff00"
+
+
+def test_field_params_in_other_units_are_built_in_yards():
+    """Parameters passed in feet are converted to yards to build the field."""
+    yards = football_fields.NFLField()
+    feet_params = yards._convert_field_params(
+        yards._yd_field_params, "yd", "ft"
+    )
+    feet_params["field_units"] = "ft"
+    field = football_fields.FootballField(field_updates = feet_params)
+    assert field._yd_field_params["field_length"] == pytest.approx(
+        yards._yd_field_params["field_length"]
+    )
