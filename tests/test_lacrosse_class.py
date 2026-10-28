@@ -479,6 +479,7 @@ def test_goal_arc_without_parallel_lines_is_a_semicircle():
         goal_arc_radius=10.0,
         goal_arc_parallel_line_to_center=10.0,
     )
+    assert len(default) > 0
     assert default.equals(explicit)
 
 
@@ -497,7 +498,11 @@ def test_added_constrained_feature_is_drawn_and_clipped():
         "edgecolor": None,
         "zorder": 1,
     }
+    plain = lacrosse.PLLField()
+    plain_ax = plain.draw()
     field = lacrosse.PLLField(new_feature_1=constraint)
     ax = field.draw()
-    assert isinstance(ax, matplotlib.axes.Axes)
-    assert any(f.is_constrained for f in field._features)
+    # the added feature is initialized, drawn last, and clipped to the field
+    assert len(field._features) == len(plain._features) + 1
+    assert len(ax.patches) == len(plain_ax.patches) + 1
+    assert ax.patches[-1].get_clip_path() is not None
