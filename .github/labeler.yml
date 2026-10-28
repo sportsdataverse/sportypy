@@ -1,0 +1,62 @@
+# Labels applied to pull requests by the labeler workflow, based on the files
+# they change. Labels are only added, never removed, so manual labels stick
+# Format: https://github.com/actions/labeler#create-githublabeleryml
+
+# Sports: the sport's surface, feature and test files
+baseball:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/baseball.py", "sportypy/_feature_classes/baseball.py", "tests/test_baseball_*.py"]
+basketball:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/basketball.py", "sportypy/_feature_classes/basketball.py", "tests/test_basketball_*.py"]
+curling:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/curling.py", "sportypy/_feature_classes/curling.py", "tests/test_curling_*.py"]
+football:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/football.py", "sportypy/_feature_classes/football.py", "tests/test_football_*.py", "tests/data/sportyr_football_fixture.json"]
+hockey:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/hockey.py", "sportypy/_feature_classes/hockey.py", "tests/test_hockey_*.py"]
+lacrosse:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/lacrosse.py", "sportypy/_feature_classes/lacrosse.py", "tests/test_lacrosse_*.py", "tests/data/sportyr_lacrosse_fixture.json"]
+soccer:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/soccer.py", "sportypy/_feature_classes/soccer.py", "tests/test_soccer_*.py"]
+softball:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/softball.py", "sportypy/_feature_classes/softball.py", "tests/test_softball_*.py", "tests/data/sportyr_softball_fixture.json"]
+tennis:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/tennis.py", "sportypy/_feature_classes/tennis.py", "tests/test_tennis_*.py"]
+volleyball:
+  - changed-files:
+      - any-glob-to-any-file: ["sportypy/surfaces/volleyball.py", "sportypy/_feature_classes/volleyball.py", "tests/test_volleyball_*.py", "tests/data/sportyr_volleyball_fixture.json"]
+
+# Areas
+ci:
+  - changed-files:
+      - any-glob-to-any-file: [".github/**", ".releaserc.json", "codecov.yml", ".pre-commit-config.yaml", "ruff.toml", ".markdownlint-cli2.yaml", "tools/hooks/**"]
+tests:
+  - changed-files:
+      - any-glob-to-any-file: ["tests/**"]
+# Applied when ANY changed file is a docs file, or when ALL changed files are
+# CHANGELOG.md or docs. CHANGELOG.md only counts on its own because the
+# release workflow rewrites it
+docs:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - "docs/**"
+              - "examples/notebooks/**"
+              - "README.md"
+              - "CONTRIBUTING.md"
+              - "CODE-OF-CONDUCT.md"
+          - any-glob-to-all-files:
+              - "docs/**"
+              - "examples/notebooks/**"
+              - "README.md"
+              - "CONTRIBUTING.md"
+              - "CODE-OF-CONDUCT.md"
+              - "CHANGELOG.md"

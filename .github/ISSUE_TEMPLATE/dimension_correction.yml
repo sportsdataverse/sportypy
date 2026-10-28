@@ -1,0 +1,54 @@
+name: Dimension correction
+description: A surface feature's size, position or shape does not match the rule book.
+title: "[dimensions] "
+labels: ["dimension correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        sportypy draws every surface from its league's rule book, so corrections need a source. The current values for any league are in `sportypy/data/surface_dimensions.json`. If sportyR draws the same value, it is fixed there first and then ported here.
+  - type: input
+    id: league
+    attributes:
+      label: Sport and league
+      placeholder: "lacrosse, NCAA women's"
+    validations:
+      required: true
+  - type: input
+    id: feature
+    attributes:
+      label: Affected feature
+      description: The feature that is wrong, e.g. the coaching box, the goal crease, the three-point line.
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What sportypy draws now
+      description: The current measurement or placement, and the code you used to see it.
+    validations:
+      required: true
+  - type: textarea
+    id: correct
+    attributes:
+      label: What the rule book says
+      description: The correct measurement or placement.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source
+      description: The rule book edition, rule number, and a link (or a page reference or diagram) for the correct value.
+    validations:
+      required: true
+  - type: dropdown
+    id: sportyr
+    attributes:
+      label: Does sportyR draw this correctly?
+      options:
+        - "Not sure"
+        - "Yes: port it from sportyR"
+        - "No: it is wrong in sportyR too"
+    validations:
+      required: true

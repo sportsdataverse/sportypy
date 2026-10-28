@@ -49,8 +49,9 @@ this file holds the repo-specific ones.
 
 - New leagues and dimension changes come from sportyR's
   `data-raw/surface-dimensions.json` through `tools/sync_dimensions.py`
-  (`--check` reports drift; `--align` replaces drifted leagues). Do not retype
-  values.
+  (`--check` reports drift; `--align` replaces drifted leagues). The
+  `dimensions-drift` workflow runs `--check` weekly and fails on drift. Do not
+  retype values.
 - `tests/data/sportyr_*_fixture.json` are what sportyR's own `geom_*()` draws,
   captured by `tools/<sport>_fixture.R` from a sportyR checkout (the README
   beside each fixture says how). They are generated: regenerate, never edit.
@@ -86,10 +87,14 @@ into an unrelated commit (`uv lock --check` is a pre-commit hook).
 
 ## Release
 
-1. Bump `version` in `pyproject.toml` and add the version's section to
-   `CHANGELOG.md` (one bullet per user-visible change).
-2. Merge to `main`, then create the GitHub Release `vX.Y.Z`: that runs
-   `upload-to-pypi.yml` (`uv build` + `uv publish`).
+Releases are cut by `release.yml` (semantic-release, config in `.releaserc.json`)
+on every push to `main`. The conventional-commit types decide the bump: `fix` and
+`perf` patch, `feat` minor, `!` or `BREAKING CHANGE:` major, a revert of a
+released commit patch, anything else none.
+It runs `uv version` (`pyproject.toml` and `uv.lock`), prepends the notes to
+`CHANGELOG.md`, pushes a `chore(release)` commit and the `vX.Y.Z` tag, and creates
+the GitHub Release, which runs `upload-to-pypi.yml` (`uv build` + `uv publish`).
+Never bump the version or edit the generated changelog entries by hand.
 
 ## Windows
 

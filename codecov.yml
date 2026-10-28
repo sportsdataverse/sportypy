@@ -1,0 +1,28 @@
+# Codecov settings: https://docs.codecov.com/docs/codecov-yaml
+# package-coverage.yml uploads the Python 3.10 run's coverage.xml, and the
+# Codecov app turns it into the codecov/project and codecov/patch checks and the
+# PR comment below
+coverage:
+  precision: 2
+  range: [90, 100]
+  status:
+    project:
+      default:
+        # compare with the base commit; tolerate a 1% dip from refactors
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        # CONTRIBUTING / the PR template ask for new code to be covered
+        target: 95%
+
+comment:
+  layout: "condensed_header, diff, condensed_files, condensed_footer"
+  require_changes: true
+
+# Only sportypy/ is measured (pytest --cov=sportypy), but the generated docs
+# site and the bundled data are never package code
+ignore:
+  - "docs/**"
+  - "tools/**"
+  - "examples/**"

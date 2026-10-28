@@ -22,46 +22,50 @@ jobs:
     name: ruff + pre-commit + zizmor
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+    - name: 📥 Check out the repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
+    - name: 📦 Set up uv
+      uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
       with:
         python-version: '3.13'
         enable-cache: true
         cache-dependency-glob: uv.lock
 
-    - name: Install the lint group
+    - name: 📦 Install the lint group
       run: uv sync --locked --no-default-groups --group lint
 
-    - name: ruff
+    - name: 🔍 Lint with ruff
       run: uv run --no-sync ruff check .
 
-    - name: pre-commit hooks
+    - name: 🪝 Run the pre-commit hooks
       run: uv run --no-sync pre-commit run --all-files --show-diff-on-failure
 
-    - name: zizmor (the workflows that publish to PyPI and gh-pages)
-      run: uvx zizmor@1.30.1 --offline .github/workflows/upload-to-pypi.yml .github/workflows/docs-deploy.yml
+    - name: 🛡️ Audit the release and publish workflows with zizmor
+      run: uvx zizmor@1.30.1 --offline .github/workflows/release.yml .github/workflows/upload-to-pypi.yml .github/workflows/docs-deploy.yml
 
   build:
     name: build sdist + wheel
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+    - name: 📥 Check out the repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
+    - name: 📦 Set up uv
+      uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
       with:
         enable-cache: true
         cache-dependency-glob: uv.lock
 
-    - name: Build
+    - name: 🔨 Build the sdist and wheel
       run: uv build
 
-    - name: Check the distributions' metadata
+    - name: 📋 Check the distributions' metadata
       run: uvx twine check --strict dist/*
 
-    - name: The wheel ships the surface dimensions
+    - name: 🗂️ Check the wheel ships the surface dimensions
       run: |
         unzip -l dist/*.whl | grep -q 'sportypy/data/surface_dimensions.json'
         unzip -l dist/*.whl | grep -q 'sportypy/data/unit_conversions.json'

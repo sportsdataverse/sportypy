@@ -1,0 +1,52 @@
+name: New sport or league
+description: Request (or offer to build) a sport or league sportypy does not draw yet.
+title: "[new] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Want to build it yourself? See the [contributing guide](https://github.com/sportsdataverse/sportypy/blob/main/CONTRIBUTING.md). New leagues and dimensions come from sportyR's `surface-dimensions.json`, so a league that sportyR draws is quickest to add.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you requesting?
+      options:
+        - A new league for a sport sportypy already supports
+        - A new sport
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Sport and league
+      placeholder: "cricket, ICC"
+    validations:
+      required: true
+  - type: textarea
+    id: rules
+    attributes:
+      label: Rule book
+      description: A link to the rule book (or the section with the surface's dimensions) the drawing should follow.
+    validations:
+      required: true
+  - type: dropdown
+    id: sportyr
+    attributes:
+      label: Does sportyR draw it?
+      options:
+        - "Not sure"
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: How you would use it, features that make this surface unusual, or reference images.
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: I would like to build this myself and open a pull request
