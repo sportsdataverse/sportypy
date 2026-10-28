@@ -172,3 +172,25 @@ def test_export_does_not_rebind_package_names():
     assert surfaces.NCAAField.__module__ == "sportypy.surfaces.football"  # pre-existing winner
     assert surfaces.NCAACourt.__module__ == "sportypy.surfaces.tennis"
     assert issubclass(NCAASoftballField, SoftballField)
+
+
+def test_additional_feature():
+    safety_base = {
+        "class": sf.Base,
+        "x_anchor": 10.0,
+        "y_anchor": 10.0,
+        "base_side_length": 1.25,
+        "visible": True,
+        "facecolor": "#c8102e",
+        "edgecolor": None,
+        "zorder": 1,
+    }
+    plain = NCAASoftballField()
+    plain_ax = plain.draw()
+    field = NCAASoftballField(new_feature_1=safety_base)
+    ax = field.draw()
+    # the added base is initialized and drawn, on top of the field's features
+    assert len(field._features) == len(plain._features) + 1
+    assert len(ax.patches) == len(plain_ax.patches) + 1
+    plt.close(plain_ax.figure)
+    plt.close(ax.figure)

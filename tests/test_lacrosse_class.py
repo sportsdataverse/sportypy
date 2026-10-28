@@ -23,6 +23,7 @@ import pytest
 from matplotlib.colors import to_rgba
 
 import sportypy
+import sportypy._feature_classes.lacrosse as lacrosse_features
 import sportypy.surfaces as surfaces
 from sportypy.surfaces import lacrosse
 from sportypy.surfaces.lacrosse import DEFAULT_COLORS, LacrosseField
@@ -463,3 +464,47 @@ def test_scalar_and_array_limits_follow_the_base_surface_contract():
     assert field._get_plot_range_limits(xlim=np.array([-5.0, 5.0])) == ((-5.0, 5.0), (-35.0, 35.0))
     field.draw(xlim=10.0)
     plt.close("all")
+
+
+def test_cani_plot_leagues_unknown_league(capsys):
+    lacrosse.PLLField().cani_plot_leagues("xyz")
+    assert "XYZ does not come with sportypy" in capsys.readouterr().out
+
+
+def test_goal_arc_without_parallel_lines_is_a_semicircle():
+    # With no parallel-line distance the lines are goal_arc_radius out
+    default = lacrosse_features.goal_arc(goal_arc_extension=2.0, goal_arc_radius=10.0)
+    explicit = lacrosse_features.goal_arc(
+        goal_arc_extension=2.0,
+        goal_arc_radius=10.0,
+        goal_arc_parallel_line_to_center=10.0,
+    )
+    assert len(default) > 0
+    assert default.equals(explicit)
+
+
+def test_face_off_marker_with_an_unknown_shape_is_empty():
+    assert len(lacrosse_features.face_off_marker(shape="triangle")) == 0
+
+
+def test_added_constrained_feature_is_drawn_and_clipped():
+    constraint = {
+        "class": lacrosse_features.FieldConstraint,
+        "field_length": 100.0,
+        "field_width": 50.0,
+        "is_constrained": True,
+        "visible": True,
+        "facecolor": "#ffffff00",
+        "edgecolor": None,
+        "zorder": 1,
+    }
+    plain = lacrosse.PLLField()
+    plain_ax = plain.draw()
+    field = lacrosse.PLLField(new_feature_1=constraint)
+    ax = field.draw()
+    # the added feature is initialized, drawn last, and clipped to the field
+    assert len(field._features) == len(plain._features) + 1
+    assert len(ax.patches) == len(plain_ax.patches) + 1
+    assert ax.patches[-1].get_clip_path() is not None
+    plt.close(plain_ax.figure)
+    plt.close(ax.figure)

@@ -21,3 +21,15 @@ def test_base_surface():
     test_subclass = TestSubclass()
 
     assert isinstance(test_subclass, TestSubclass)
+
+
+def test_surface_params_without_a_params_attribute():
+    """Test that a surface with no ``*_params`` attribute has empty params.
+
+    The fallback returns an empty dict and the generic ``units`` key
+    """
+    class TestSubclass(BaseSurface):
+        def _get_plot_range_limits(self):
+            pass
+
+    assert TestSubclass()._surface_params() == ({}, "units")
