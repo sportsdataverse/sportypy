@@ -15,7 +15,6 @@ body:
     attributes:
       label: Proposed solution
       description: How you would like it to work. Example code for the new behaviour is welcome.
-      render: python
     validations:
       required: true
   - type: textarea

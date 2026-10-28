@@ -26,7 +26,6 @@ body:
     attributes:
       label: What sportypy draws now
       description: The current measurement or placement, and the code you used to see it.
-      render: python
     validations:
       required: true
   - type: textarea
