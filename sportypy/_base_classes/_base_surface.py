@@ -540,9 +540,9 @@ class BaseSurface(ABC):
         allows this conversion to occur for any surface
         """
         # Load in the units that are convertable
-        with importlib.resources.open_text(
-            "sportypy.data", "unit_conversions.json"
-        ) as f:
+        with importlib.resources.files("sportypy.data").joinpath(
+                "unit_conversions.json"
+        ).open(encoding = "utf-8") as f:
             self.unit_conversions = json.load(f)
 
     def _load_preset_dimensions(self, sport):
@@ -562,9 +562,9 @@ class BaseSurface(ABC):
         be called in the child classes to set league-defined parameters
         """
         # Load the pre-defined dimensions from the JSON file
-        with importlib.resources.open_text(
-                "sportypy.data", "surface_dimensions.json"
-        ) as f:
+        with importlib.resources.files("sportypy.data").joinpath(
+                "surface_dimensions.json"
+        ).open(encoding = "utf-8") as f:
             dimensions = json.load(f)
 
         # Retain only leagues in the desired sport
