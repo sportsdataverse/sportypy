@@ -21,8 +21,8 @@ file.
 ## Commits
 
 Conventional Commits. No AI co-author trailers or "Generated with" footers.
-Stage explicit paths. A user-visible change gets a bullet in
-`CHANGELOG.md` under the next version.
+Stage explicit paths. Do not edit `CHANGELOG.md`: the release workflow
+writes it from the commit messages.
 
 ## Code
 
