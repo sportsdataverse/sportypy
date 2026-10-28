@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.3](https://github.com/sportsdataverse/sportypy/compare/v1.2.2...v1.2.3) (2026-10-28)
+
+### Bug Fixes
+
+* **base:** read the bundled data with importlib.resources.files instead of the deprecated open_text ([#32](https://github.com/sportsdataverse/sportypy/issues/32)) ([a558f94](https://github.com/sportsdataverse/sportypy/commit/a558f94aea7f789bb8d2cef630962d04fbd320f6))
+
 ## [1.2.2](https://github.com/sportsdataverse/sportypy/compare/v1.2.1...v1.2.2) (2026-10-28)
 
 ### Performance Improvements
