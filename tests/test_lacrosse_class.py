@@ -524,3 +524,14 @@ def test_rectangular_zones_tile_the_field_without_overlapping():
     assert (nzone["x"].min(), nzone["x"].max()) == (-5.0, 5.0)
     assert (ozone["x"].min(), ozone["x"].max()) == (5.0, 50.0)
 
+
+@pytest.mark.parametrize("white", ["white", "#FFFFFF", "#ffffffff", (1.0, 1.0, 1.0)])
+def test_contrasting_marker_matches_the_center_line_by_rendered_colour(white):
+    """Every spelling of white renders as the default #ffffff marker."""
+    field = lacrosse.NCAAMLacrosseField(color_updates={"center_line": white})
+    assert field.feature_colors["center_face_off_marker"] == "#ffcb05"
+
+
+def test_center_line_rendering_differently_keeps_the_white_marker():
+    field = lacrosse.NCAAMLacrosseField(color_updates={"center_line": "#123456"})
+    assert field.feature_colors["center_face_off_marker"] == "#ffffff"

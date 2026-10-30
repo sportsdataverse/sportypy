@@ -10,6 +10,7 @@ Lacrosse (box).
 import math
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import same_color
 from matplotlib.transforms import Affine2D
 
 import sportypy._feature_classes.lacrosse as lacrosse_features
@@ -129,12 +130,12 @@ class LacrosseField(BaseSurfacePlot):
         self._color_updates = dict(color_updates or {})
         colors = {**DEFAULT_COLORS, **self._color_updates}
         # The contrasting colour applies only when the user chose no marker
-        # colour and the marker would match the (possibly user-set) center line
-        #
+        # colour and the marker would render the same as the (possibly
+        # user-set) center line, whatever the spelling ("white", "#FFFFFF")
         if (
             g("center_face_off_marker_color_contrasting", False)
             and "center_face_off_marker" not in (color_updates or {})
-            and colors["center_face_off_marker"] == colors["center_line"]
+            and same_color(colors["center_face_off_marker"], colors["center_line"])
         ):
             colors["center_face_off_marker"] = CONTRASTING_CENTER_FACE_OFF_MARKER
         self.feature_colors = colors
