@@ -1746,8 +1746,14 @@ class GoalFrame(BaseHockeyFeature):
 
         # Compute the location of the point to use to trace out the rounded
         # corners of the goal
-        goal_arc_center_x = self.goal_depth - self.feature_radius
-        goal_arc_center_y = (self.goal_back_width / 2.0) - self.feature_radius
+        goal_arc_center_x = (
+            self.goal_depth - self.feature_radius - self.post_diameter
+        )
+        goal_arc_center_y = (
+            (self.goal_back_width / 2.0) -
+            self.feature_radius +
+            (self.post_diameter / 2.0)
+        )
 
         # Trace the path of the goal frame, starting with the exterior
         goal_frame_df = pd.concat([
@@ -1852,8 +1858,14 @@ class GoalFrameFill(BaseHockeyFeature):
 
         # Compute the location of the point to use to trace out the rounded
         # corners of the goal
-        goal_arc_center_x = self.goal_depth - self.feature_radius
-        goal_arc_center_y = (self.goal_back_width / 2.0) - self.feature_radius
+        goal_arc_center_x = (
+            self.goal_depth - self.feature_radius - self.post_diameter
+        )
+        goal_arc_center_y = (
+            (self.goal_back_width / 2.0) -
+            self.feature_radius +
+            (self.post_diameter / 2.0)
+        )
 
         # Trace the path of the goal frame, starting with the exterior
         goal_frame_fill_df = pd.concat([
