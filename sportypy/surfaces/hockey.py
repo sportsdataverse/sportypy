@@ -1011,10 +1011,7 @@ class HockeyRink(BaseSurfacePlot):
                 self.rink_params.get("board_thickness", 0.0) +
                 (self.rink_params.get("penalty_box_length", 0.0) / 2.0)
             ),
-            "y_anchor": -(
-                (self.rink_params.get("rink_width", 0.0) / 2.0) -
-                self.rink_params.get("board_thickness", 0.0)
-            ),
+            "y_anchor": -(self.rink_params.get("rink_width", 0.0) / 2.0),
             "reflect_x": False,
             "reflect_y": False,
             "is_constrained": False,
@@ -1047,10 +1044,7 @@ class HockeyRink(BaseSurfacePlot):
                 self.rink_params.get("board_thickness", 0.0) +
                 (self.rink_params.get("penalty_box_length", 0.0) / 2.0)
             ),
-            "y_anchor": -(
-                (self.rink_params.get("rink_width", 0.0) / 2.0) -
-                self.rink_params.get("board_thickness", 0.0)
-            ),
+            "y_anchor": -(self.rink_params.get("rink_width", 0.0) / 2.0),
             "reflect_x": False,
             "reflect_y": False,
             "is_constrained": False,
@@ -1141,10 +1135,7 @@ class HockeyRink(BaseSurfacePlot):
         penalty_box_outline_params = {
             "class": hockey_features.PenaltyBoxOutline,
             "x_anchor": 0.0,
-            "y_anchor": -(
-                (self.rink_params.get("rink_width", 0.0) / 2.0) -
-                self.rink_params.get("board_thickness", 0.0)
-            ),
+            "y_anchor": -(self.rink_params.get("rink_width", 0.0) / 2.0),
             "reflect_x": True,
             "reflect_y": False,
             "is_constrained": False,

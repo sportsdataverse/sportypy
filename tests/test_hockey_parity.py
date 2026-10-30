@@ -4,10 +4,7 @@ tests/data/sportyr_hockey_fixture.json holds, for each league, every polygon
 layer sportyR draws (see tests/data/README_hockey_fixture.md). Each sportypy
 feature is paired with one sportyR polygon: the same point count, the same
 coordinate sums and moments, and the same sampled points (every 25th and the
-last), to 1e-9.
-
-Some hockey features still differ from sportyR (they did before sportyR 2.4);
-``DRIFT`` lists them, so that the rest of each rink is held to sportyR.
+last), to 1e-9. Every feature and every polygon must find its match.
 """
 
 import itertools
@@ -24,13 +21,6 @@ from tests.test_football_parity import _matches
 FIX = json.loads((Path(__file__).parent / "data/sportyr_hockey_fixture.json").read_text())
 LEAGUES = FIX["leagues"]
 
-# Features sportypy draws differently from sportyR, all from before sportyR
-# 2.4: the penalty boxes
-DRIFT = {
-    "PenaltyBoxFill",
-    "PenaltyBoxOutline",
-}
-
 
 def _xy(feature, x_trans=0.0, y_trans=0.0):
     df = feature._translate_feature()
@@ -38,7 +28,6 @@ def _xy(feature, x_trans=0.0, y_trans=0.0):
 
 
 def _check(rink, layers, x_trans=0.0, y_trans=0.0, where=""):
-    drift = set(DRIFT)
     feats = [f for f in rink._features if f.visible and f._shows()]
     xy = [_xy(f, x_trans, y_trans) for f in feats]
     used, matched = set(), set()
@@ -80,14 +69,15 @@ def _check(rink, layers, x_trans=0.0, y_trans=0.0, where=""):
                 ), f"{where} {type(feats[j]).__name__}"
 
     unmatched = sorted(
-        {type(feats[j]).__name__ for j in range(len(feats)) if j not in used} - drift
+        {type(feats[j]).__name__ for j in range(len(feats)) if j not in used}
     )
     assert unmatched == [], f"{where}: unlike sportyR: {unmatched}"
 
     # A shape that is its own mirror image (centred on the rink's centre line)
-    # may be drawn twice by one package and once by the other (sportyR draws
-    # the centre faceoff spot twice); such a copy matches the other's mirror. A feature drawn at both ends of the
-    # rink is not its own mirror image, so each end must match on its own
+    # may be drawn twice by sportyR and once by sportypy (the centre faceoff
+    # spot); sportyR's second copy matches the mirror of sportypy's one. A
+    # feature drawn at both ends of the rink is not its own mirror image, so
+    # each end must match on its own
     def mirror(j):
         return 2 * x_trans - xy[j][0], xy[j][1]
 
@@ -104,17 +94,9 @@ def _check(rink, layers, x_trans=0.0, y_trans=0.0, where=""):
             _matches(mirror(j), layers[k]) for j in used & centred
         ):
             matched.add(k)
-    for j in centred - used:
-        if any(_matches(mirror(j), layers[k]) for k in matched):
-            used.add(j)
 
-    # Every other sportyR polygon left unmatched is one of the drifted
-    # features: as many of them, in the same fills
-    left = sorted(layers[k]["fill"] for k in range(len(layers)) if k not in matched)
-    drifted = sorted(
-        feats[j].plot_kwargs["facecolor"] for j in range(len(feats)) if j not in used
-    )
-    assert left == drifted, f"{where}: sportyR polygons with no match"
+    left = sorted(k for k in range(len(layers)) if k not in matched)
+    assert left == [], f"{where}: sportyR polygons with no match: {left}"
 
 
 @pytest.mark.parametrize("league", list(LEAGUES))
