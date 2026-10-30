@@ -361,16 +361,19 @@ def goal_frame(
     goal_frame_opening_interior=0.0, goal_post_thickness=0.0, goal_depth=0.0
 ):
     w, t = goal_frame_opening_interior, goal_post_thickness
+    # The frame closes on its first point, so it is one simple ring
     return _df(
         [0.0, goal_depth - t, 0.0, 0.0, goal_depth, 0.0, 0.0],
-        [w / 2.0, 0.0, -w / 2.0, -w / 2.0 - t, 0.0, w / 2.0 + t, 0.0],
+        [w / 2.0, 0.0, -w / 2.0, -w / 2.0 - t, 0.0, w / 2.0 + t, w / 2.0],
     )
 
 
 def goal_net(goal_frame_opening_interior=0.0, goal_post_thickness=0.0, goal_depth=0.0):
     w = goal_frame_opening_interior
+    # The net closes on its first point, so it is one simple ring
     return _df(
-        [0.0, goal_depth - goal_post_thickness, 0.0, 0.0], [w / 2.0, 0.0, -w / 2.0, w]
+        [0.0, goal_depth - goal_post_thickness, 0.0, 0.0],
+        [w / 2.0, 0.0, -w / 2.0, w / 2.0],
     )
 
 
@@ -387,8 +390,9 @@ def player_bench_outline(
     bench_area_outline_thickness=0.0, bench_length=0.0, bench_depth=0.0
 ):
     t, L, d = bench_area_outline_thickness, bench_length, bench_depth
+    # The outline closes on its first point, so it is one simple ring
     return _df(
-        [-t, -t, L + t, L + t, L, L, 0.0, 0.0, t],
+        [-t, -t, L + t, L + t, L, L, 0.0, 0.0, -t],
         [t, 2.0 * t + d, 2.0 * t + d, t, t, t + d, t + d, t, t],
     )
 

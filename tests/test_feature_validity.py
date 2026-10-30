@@ -8,8 +8,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import pytest
 from matplotlib.colors import to_rgba
 
+import sportypy._feature_classes.lacrosse as lacrosse_features
 from sportypy._base_classes._base_feature import BaseFeature
 from sportypy.surfaces.lacrosse import NCAAMLacrosseField
 
@@ -68,6 +70,31 @@ def test_split_rings_and_has_area_read_back_to_back_rings():
     # a path that never closes is kept as one trailing ring
     assert len(split_rings(_df([0, 1, 1], [0, 0, 1]))) == 1
     assert len(split_rings(_df([0], [0]))) == 1
+
+
+@pytest.mark.parametrize(
+    "fn, kwargs",
+    [
+        (
+            lacrosse_features.goal_frame,
+            {"goal_frame_opening_interior": 6.0, "goal_post_thickness": 0.125, "goal_depth": 7.0},
+        ),
+        (
+            lacrosse_features.goal_net,
+            {"goal_frame_opening_interior": 6.0, "goal_post_thickness": 0.125, "goal_depth": 7.0},
+        ),
+        (
+            lacrosse_features.player_bench_outline,
+            {"bench_area_outline_thickness": 0.5, "bench_length": 30.0, "bench_depth": 6.0},
+        ),
+    ],
+)
+def test_lacrosse_goal_and_bench_outlines_close_on_their_first_point(fn, kwargs):
+    df = fn(**kwargs)
+    ring = _ring(df)
+    assert np.allclose(ring[0], ring[-1])
+    assert len(split_rings(df)) == 1
+    assert count_crossings(ring) == 0
 
 
 def test_features_with_no_area_and_no_outline_are_not_drawn():

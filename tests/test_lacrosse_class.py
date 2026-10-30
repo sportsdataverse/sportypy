@@ -51,7 +51,7 @@ def _layers(field):
     (-x, -y), (x, -y); sportypy creates those copies as (x, y), (x, -y),
     (-x, y), (-x, -y).
     """
-    feats = list(field._features)
+    feats = [f for f in field._features if f._shows()]
     out, i = [], 0
     while i < len(feats):
         f = feats[i]
