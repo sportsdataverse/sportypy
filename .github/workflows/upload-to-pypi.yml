@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -25,12 +25,35 @@ jobs:
         enable-cache: false
     - name: 🔨 Build the sdist and wheel
       run: uv build
+    - name: 📤 Keep the distributions for the publish job
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      with:
+        name: dist
+        path: dist/
+        if-no-files-found: error
+
+  publish:
+    # A separate job, so the build backend never runs with id-token: write
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # PyPI trusted publishing: uv publish trades this job's OIDC token for an upload token
+      id-token: write
+
+    steps:
+    - name: 📥 Fetch the distributions
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
+      with:
+        name: dist
+        path: dist/
+    - name: 📦 Set up uv
+      uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e  # v10.3.2
+      with:
+        enable-cache: false
     - name: 🚀 Publish to PyPI
-      env:
-        UV_PUBLISH_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      # A PyPI trusted publisher (OIDC) would replace the stored credentials;
-      # it needs configuring on PyPI by the project owner first
+      # Authenticates through the trusted publisher configured on PyPI for this
+      # workflow file, so no PyPI credentials are stored in the repo
       # --check-url skips files PyPI already has, so a re-run after a partial upload
       # publishes only the missing distributions
-      run: uv publish --check-url https://pypi.org/simple/  # zizmor: ignore[use-trusted-publishing]
+      run: uv publish --check-url https://pypi.org/simple/
