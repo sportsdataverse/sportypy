@@ -78,7 +78,7 @@ Your request will be checked against the following points:
 
 - **Documentation** &mdash; When introducing new code, please make sure you document it appropriately. Documentation comes in three main forms:
 
-  - Docstrings for classes and their sub-methods, in NumPy style. The package website's API reference is built from them: a new sport, league class or method appears there once its docstring exists, with no page to write by hand. Preview the site with `yarn start` in `docs/` (it needs Node 18 or newer, CI uses 24, and [uv](https://docs.astral.sh/uv/)).
+  - Docstrings for classes and their sub-methods, in NumPy style. The package website's API reference is built from them: a new sport, league class or method appears there once its docstring exists, with no page to write by hand. Preview the site with `yarn start` in `docs/` (it needs Node 20 or newer, CI uses 24, and [uv](https://docs.astral.sh/uv/)).
 
   - [Conventional Commit](https://www.conventionalcommits.org/) messages and pull request title, such as `fix(hockey): ...` or `feat(lacrosse): ...`. The release workflow (semantic-release) writes the release notes and `CHANGELOG.md` from the commit messages that land on `main` (with a squash merge, the pull request title), so do not edit `CHANGELOG.md` by hand. It becomes the site's News page.
 
