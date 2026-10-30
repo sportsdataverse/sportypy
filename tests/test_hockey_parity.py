@@ -25,9 +25,8 @@ FIX = json.loads((Path(__file__).parent / "data/sportyr_hockey_fixture.json").re
 LEAGUES = FIX["leagues"]
 
 # Features sportypy draws differently from sportyR, all from before sportyR
-# 2.4: the referee's crease and the penalty boxes
+# 2.4: the penalty boxes
 DRIFT = {
-    "RefereeCrease",
     "PenaltyBoxFill",
     "PenaltyBoxOutline",
 }
@@ -87,8 +86,7 @@ def _check(rink, layers, x_trans=0.0, y_trans=0.0, where=""):
 
     # A shape that is its own mirror image (centred on the rink's centre line)
     # may be drawn twice by one package and once by the other (sportyR draws
-    # the centre faceoff spot twice, sportypy the referee's crease); such a
-    # copy matches the other's mirror. A feature drawn at both ends of the
+    # the centre faceoff spot twice); such a copy matches the other's mirror. A feature drawn at both ends of the
     # rink is not its own mirror image, so each end must match on its own
     def mirror(j):
         return 2 * x_trans - xy[j][0], xy[j][1]
