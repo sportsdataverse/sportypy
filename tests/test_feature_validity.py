@@ -77,6 +77,7 @@ def test_split_rings_and_has_area_read_back_to_back_rings():
     assert len(split_rings(_df([0], [0]))) == 1
 
 
+
 def test_nhl_trapezoid_is_two_simple_strips_from_the_goal_line():
     df = hockey_features.GoaltendersRestrictedArea(
         rink_length=200.0,
@@ -243,3 +244,28 @@ def test_features_with_no_area_and_no_outline_are_not_drawn():
     ax = field.draw()
     assert not [p for p in ax.patches if p.get_facecolor() == to_rgba("#123456")]
     plt.close("all")
+
+
+@pytest.mark.parametrize(
+    "league, cls_name, inside",
+    [("ohl", "GoalCreaseOutline", (-3.0, 0.0)), ("nhl", "GoaltendersRestrictedArea", (5.0, 0.0))],
+)
+def test_separate_rings_are_drawn_without_joining_them(league, cls_name, inside):
+    """Each ring of a feature made of separate rings is its own sub-path, so
+    the space between the rings (here, a point between them) is not filled."""
+    feature = next(
+        f
+        for f in HockeyRink(league_code=league)._features
+        if type(f).__name__ == cls_name and f.x_anchor > 0
+    )
+    fig, ax = plt.subplots(figsize=(4, 4), dpi=100)
+    feature.draw(ax, ax.transData)
+    x = feature.x_anchor + inside[0] * feature.x_reflection
+    ax.set_xlim(x - 10, x + 10)
+    ax.set_ylim(-10, 10)
+    ax.axis("off")
+    fig.canvas.draw()
+    image = np.asarray(fig.canvas.buffer_rgba())
+    px, py = ax.transData.transform((x, inside[1]))
+    assert tuple(image[int(image.shape[0] - py), int(px)][:3]) == (255, 255, 255)
+    plt.close(fig)

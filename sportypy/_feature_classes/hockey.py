@@ -1027,11 +1027,21 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 ]
             })
 
-            goal_crease_outline_df = pd.concat([
-                arc_band_df,
+            upper_l_mark_df = self._reflect(
                 lower_l_mark_df,
-                self._reflect(lower_l_mark_df, over_x = True, over_y = False)
-            ])
+                over_x = True,
+                over_y = False
+            )
+
+            # Give each ring its own group so that the plot does not join them
+            goal_crease_outline_df = pd.concat(
+                [arc_band_df, lower_l_mark_df, upper_l_mark_df],
+                ignore_index = True
+            )
+            goal_crease_outline_df["group"] = np.repeat(
+                [1, 2, 3],
+                [len(arc_band_df), len(lower_l_mark_df), len(upper_l_mark_df)]
+            )
 
         else:
             goal_crease_outline_df = pd.DataFrame({
@@ -1239,9 +1249,6 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
             ]
         })
 
-        # ponytail: one path holds both strips (matplotlib draws one polygon
-        # per feature); the step between them runs along the goal line and
-        # has no area
         trapezoid_df = pd.concat(
             [
                 upper_strip_df,
@@ -1249,6 +1256,9 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
             ],
             ignore_index = True
         )
+
+        # Give each strip its own group so that the plot does not join them
+        trapezoid_df["group"] = np.repeat([1, 2], len(upper_strip_df))
 
         # See note above for an explanation of why the absolute value is used
         # here
