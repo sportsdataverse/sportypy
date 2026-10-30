@@ -22,8 +22,8 @@
 
 ## Documentation
 
-- [ ] `CHANGELOG.md` bullet under the next version (a user-visible change)
-- [ ] Docstrings, and the `docs/` pages for a new sport or league
+- [ ] The PR title and commits are Conventional Commits (`fix(hockey): ...`): semantic-release writes the release notes and `CHANGELOG.md` from the messages that land on `main`, so `CHANGELOG.md` is not edited by hand
+- [ ] Docstrings (the site's API reference is generated from them)
 - [ ] `CLAUDE.md` / `.github/copilot-instructions.md` (only if a convention changes)
 
 ## Checklist
