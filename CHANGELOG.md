@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.5](https://github.com/sportsdataverse/sportypy/compare/v1.2.4...v1.2.5) (2026-10-30)
+
+### Bug Fixes
+
+* **hockey:** match sportyR 2.4.5 on goal frames, creases, referee crease and penalty boxes ([#37](https://github.com/sportsdataverse/sportypy/issues/37)) ([c8f4a8d](https://github.com/sportsdataverse/sportypy/commit/c8f4a8d8cd3898732f0b14a07e9d1cb16250cd50))
+
 ## [1.2.4](https://github.com/sportsdataverse/sportypy/compare/v1.2.3...v1.2.4) (2026-10-30)
 
 ### Bug Fixes
