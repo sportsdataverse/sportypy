@@ -1123,11 +1123,34 @@ class GoalCreaseFill(BaseHockeyFeature):
         except ZeroDivisionError:
             theta = 0.0
 
+        # The nhl98 fill stops short of the outline's notches, which cut into
+        # the crease from its straight sides
         if self.crease_style.lower() == "nhl98":
             goal_crease_fill_df = pd.concat([
                 pd.DataFrame({
-                    "x": [0.0],
-                    "y": [half_crease_width - self.feature_thickness]
+                    "x": [
+                        0.0,
+                        -self.notch_dist_x,
+                        -self.notch_dist_x,
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -(self.notch_dist_x + self.feature_thickness)
+                    ],
+
+                    "y": [
+                        half_crease_width - self.feature_thickness,
+                        half_crease_width - self.feature_thickness,
+                        (
+                            half_crease_width -
+                            self.feature_thickness -
+                            self.notch_width
+                        ),
+                        (
+                            half_crease_width -
+                            self.feature_thickness -
+                            self.notch_width
+                        ),
+                        half_crease_width - self.feature_thickness
+                    ]
                 }),
 
                 self.create_circle(
@@ -1138,16 +1161,42 @@ class GoalCreaseFill(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    "x": [0.0],
-                    "y": [-half_crease_width + self.feature_thickness]
+                    "x": [
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -self.notch_dist_x,
+                        -self.notch_dist_x,
+                        0.0,
+                        0.0
+                    ],
+
+                    "y": [
+                        -half_crease_width + self.feature_thickness,
+                        (
+                            -half_crease_width +
+                            self.feature_thickness +
+                            self.notch_width
+                        ),
+                        (
+                            -half_crease_width +
+                            self.feature_thickness +
+                            self.notch_width
+                        ),
+                        -half_crease_width + self.feature_thickness,
+                        -half_crease_width + self.feature_thickness,
+                        half_crease_width - self.feature_thickness
+                    ]
                 })
             ])
 
+        # The ushl1 fill is the NHL-style crease inside the outer semi-circle:
+        # its straight sides run back from the crease length at the crease's
+        # full width
         elif self.crease_style.lower() == "ushl1":
             goal_crease_fill_df = pd.concat([
                 pd.DataFrame({
-                    "x": [0.0],
-                    "y": [half_crease_width - self.feature_thickness]
+                    "x": [0.0, -self.crease_length],
+                    "y": [half_crease_width, half_crease_width]
                 }),
 
                 self.create_circle(
@@ -1158,8 +1207,8 @@ class GoalCreaseFill(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    "x": [0.0],
-                    "y": [-half_crease_width + self.feature_thickness]
+                    "x": [-self.crease_length, 0.0],
+                    "y": [-half_crease_width, -half_crease_width]
                 })
             ])
 

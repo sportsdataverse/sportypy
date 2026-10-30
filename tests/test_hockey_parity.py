@@ -25,10 +25,9 @@ FIX = json.loads((Path(__file__).parent / "data/sportyr_hockey_fixture.json").re
 LEAGUES = FIX["leagues"]
 
 # Features sportypy draws differently from sportyR, all from before sportyR
-# 2.4: the crease fill and (nhl98 and ushl1 styles) the crease outline, the
-# referee's crease and the penalty boxes
+# 2.4: the crease outline (nhl98 and ushl1 styles), the referee's crease and
+# the penalty boxes
 DRIFT = {
-    "GoalCreaseFill",
     "RefereeCrease",
     "PenaltyBoxFill",
     "PenaltyBoxOutline",
