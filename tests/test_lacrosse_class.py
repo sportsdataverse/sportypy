@@ -152,10 +152,12 @@ def test_display_limits_match_sportyr(league, display_range):
 
 @pytest.mark.parametrize("league", list(LEAGUES))
 def test_draws(league):
-    ax = CLASSES[league]().draw()
+    field = CLASSES[league]()
+    ax = field.draw()
     ref = LEAGUES[league]["limits"]["full"]
     assert np.allclose(ax.get_xlim(), ref["x"]) and np.allclose(ax.get_ylim(), ref["y"])
-    assert len(ax.patches) > len(LEAGUES[league]["layers"])  # + the surface constraint
+    # every feature that shows, + the surface constraint
+    assert len(ax.patches) == sum(f._shows() for f in field._features) + 1
     plt.close("all")
 
 

@@ -83,7 +83,13 @@ def test_every_polygon_matches_sportyr(sport, case):
             case,
             k,
         )
-    extra = [type(feats[j]).__name__ for j in range(len(feats)) if j not in used]
+    # sportyR leaves out a feature with no area and no visible outline; one it
+    # outlines in its own colour (and sportypy does not) may be in either
+    extra = [
+        type(feats[j]).__name__
+        for j in range(len(feats))
+        if j not in used and feats[j]._shows()
+    ]
     assert extra == [], f"{case}: drawn by sportypy only: {extra}"
 
 
