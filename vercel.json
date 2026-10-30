@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {"source": "/surfaces/:sport([a-z]+)/:league([^/]+)\\.html", "destination": "/docs/reference/surfaces/:sport", "permanent": true},
+    {"source": "/surfaces/:sport([a-z]+)\\.html", "destination": "/docs/reference/surfaces/:sport", "permanent": true},
+    {"source": "/features/:sport([a-z]+)\\.html", "destination": "/docs/reference/features/:sport", "permanent": true},
+    {"source": "/:page(surfaces|features|genindex|py-modindex|search)\\.html", "destination": "/docs/reference/", "permanent": true},
+    {"source": "/changelog.html", "destination": "/CHANGELOG", "permanent": true}
+  ]
+}
