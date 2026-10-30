@@ -81,6 +81,10 @@ def _check(rink, layers, x_trans=0.0, y_trans=0.0, where=""):
         if pair is not None:
             used.update(pair)
             matched.add(k)
+            for j in pair:
+                assert to_rgba(feats[j].plot_kwargs["facecolor"]) == to_rgba(
+                    layer["fill"]
+                ), f"{where} {type(feats[j]).__name__}"
 
     unmatched = sorted(
         {type(feats[j]).__name__ for j in range(len(feats)) if j not in used} - drift

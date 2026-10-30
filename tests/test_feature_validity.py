@@ -284,7 +284,7 @@ def test_separate_rings_are_drawn_without_joining_them(league, cls_name, inside)
         if type(f).__name__ == cls_name and f.x_anchor > 0
     )
     fig, ax = plt.subplots(figsize=(4, 4), dpi=100)
-    feature.draw(ax, ax.transData)
+    assert feature.draw(ax, ax.transData) in ax.patches
     x = feature.x_anchor + inside[0] * feature.x_reflection
     ax.set_xlim(x - 10, x + 10)
     ax.set_ylim(-10, 10)
