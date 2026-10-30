@@ -1,6 +1,7 @@
 """Feature polygons are simple closed rings, as in sportyR's
 tests/testthat/test-feature-validity.R."""
 
+import math
 
 import matplotlib
 
@@ -95,6 +96,55 @@ def test_lacrosse_goal_and_bench_outlines_close_on_their_first_point(fn, kwargs)
     assert np.allclose(ring[0], ring[-1])
     assert len(split_rings(df)) == 1
     assert count_crossings(ring) == 0
+
+
+@pytest.mark.parametrize("league", ["ncaam", "ncaaw", "usaw"])
+def test_lacrosse_goal_mouth_stubs_end_on_the_inner_arc(league):
+    p = NCAAMLacrosseField().league_dimensions[league]
+    r, t = p["goal_mouth_radius"], p["goal_mouth_line_thickness"]
+    df = lacrosse_features.goal_mouth(r, t, p.get("goal_mouth_semi_circle_separation", 0.0))
+    ring = _ring(df)
+    assert np.allclose(ring[0], ring[-1])
+    assert all(count_crossings(rg) == 0 for rg in split_rings(df))
+    assert has_area(df)
+    on_inner_edge = np.abs(df["x"] + t) < 1e-9
+    on_inner_arc = np.abs(np.hypot(df["x"], df["y"]) - (r - t)) < 1e-9
+    assert int((on_inner_edge & on_inner_arc).sum()) == 2
+
+
+def _goal_mouth_area(radius, thickness, separation):
+    """The half annulus plus the parts of the stubs inside its hole."""
+    inner = radius - thickness
+    if inner <= 0:
+        return math.pi * radius**2 / 2
+    c = -min(thickness, math.sqrt(max(inner**2 - separation**2, 0)))
+
+    def antiderivative(x):  # of the inner arc's height, sqrt(inner^2 - x^2)
+        return x * math.sqrt(inner**2 - x**2) / 2 + inner**2 * math.asin(x / inner) / 2
+
+    stub = 2 * (antiderivative(0) - antiderivative(c) + separation * c)
+    return math.pi * (radius**2 - inner**2) / 2 + stub
+
+
+@pytest.mark.parametrize(
+    "radius, thickness, separation",
+    [
+        (1, 0.6, 0.2),  # thick band
+        (1, 0.6, 0),  # thick band, no separation
+        (14.6, 0.101, 14.4995),  # separation past the stub's edge
+        (3, 0.1, 2.95),  # separation past the inner arc
+        (1, 1.2, 0.3),  # thicker than the radius
+    ],
+)
+def test_custom_goal_mouths_are_the_band_and_stubs_union(radius, thickness, separation):
+    df = lacrosse_features.goal_mouth(radius, thickness, separation)
+    ring = _ring(df)
+    assert np.allclose(ring[0], ring[-1])
+    assert len(split_rings(df)) == 1
+    assert count_crossings(ring) == 0
+    assert _area(ring) == pytest.approx(
+        _goal_mouth_area(radius, thickness, separation), rel=1e-4
+    )
 
 
 def test_features_with_no_area_and_no_outline_are_not_drawn():

@@ -344,13 +344,36 @@ def goal_mouth(
     goal_mouth_radius=0.0, line_thickness=0.0, goal_mouth_semi_circle_separation=0.0
 ):
     r, t, s = goal_mouth_radius, line_thickness, goal_mouth_semi_circle_separation
-    return _bind(
+    # The goal mouth is the union of the half annulus and the straight stubs
+    # along the goal line extended (x in [-t, 0], |y| at least s). The hole
+    # inside it is bounded by the inner arc and each stub's edge, and its
+    # corners are where the stub's inner edge (x = -t) or its end (|y| = s)
+    # first meets the inner arc. The inner arc is cut back to start and end at
+    # those corners so that the band does not cross itself
+    inner_radius = r - t
+    corner_x = -min(t, math.sqrt(max(inner_radius**2 - s**2, 0.0)))
+    corner_y = math.sqrt(max(inner_radius**2 - corner_x**2, 0.0))
+
+    # With no hole left (the line is thicker than the inner radius and the
+    # stubs meet), the goal mouth is the solid half disk
+    if inner_radius <= 0 or corner_y == 0:
+        return _bind(_circle((0.0, 0.0), 0.5, 1.5, r), _df([0.0], [r]))
+
+    # The angle, in units of pi, between the bottom of the inner arc and the
+    # hole's corner
+    inner_arc_offset = math.asin(-corner_x / inner_radius) / math.pi
+    df = _bind(
         _df([0.0, 0.0], [s, r]),
         _circle((0.0, 0.0), 0.5, 1.5, r),
-        _df([0.0, 0.0, -t, -t], [-r, -s, -s, -r + t]),
-        _circle((0.0, 0.0), 1.5, 0.5, r - t),
-        _df([-t, -t, 0.0], [r - t, s, s]),
+        _df([0.0, 0.0, corner_x], [-r, -s, -s]),
+        _circle((0.0, 0.0), 1.5 - inner_arc_offset, 0.5 + inner_arc_offset, inner_radius),
+        _df([corner_x, 0.0], [s, s]),
     )
+
+    # Where a corner lies on the inner arc or the goal line extended, it
+    # repeats the point next to it, so repeated points are dropped
+    step = np.abs(np.diff(df[["x", "y"]].to_numpy(), axis=0)).sum(axis=1)
+    return df[np.concatenate(([True], step >= 1e-12))].reset_index(drop=True)
 
 
 def below_goal_marking(below_goal_marking_radius=0.0):

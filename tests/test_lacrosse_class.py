@@ -109,7 +109,8 @@ def _arc_stats(x, y, cx, cy):
         ("nll", "GoalCircle", 1),
         ("ncaam", "GoalCircle", 1),
         ("world lacrosse", "CenterCircle", 0),
-        ("ncaaw", "GoalMouth", 2),
+        # the goal mouth drops the arc's first point, which repeats the stub's end
+        ("ncaaw", "GoalMouth", 1),
     ],
 )
 def test_circles_radius_direction_sweep(league, cls_name, first):
