@@ -51,6 +51,20 @@ def count_crossings(ring, tol=1e-9):
     return crossings
 
 
+def count_reversals(ring, tol=1e-9):
+    """Vertices where a ring turns straight back along the edge it came in on
+    (a retraced edge), as sportyR's test helper of the same name."""
+    if np.any(np.abs(ring[0] - ring[-1]) > tol):
+        ring = np.vstack([ring, ring[:1]])
+    vertices = ring[:-1]
+    incoming = vertices - np.roll(vertices, 1, axis=0)
+    outgoing = np.roll(vertices, -1, axis=0) - vertices
+    cross = incoming[:, 0] * outgoing[:, 1] - incoming[:, 1] * outgoing[:, 0]
+    dot = (incoming * outgoing).sum(axis=1)
+    lengths = np.hypot(*incoming.T) * np.hypot(*outgoing.T)
+    return int(np.sum((np.abs(cross) <= tol * lengths) & (dot < 0)))
+
+
 def _area(ring):
     x, y = ring[:, 0], ring[:, 1]
     return abs(np.sum(x[:-1] * y[1:] - x[1:] * y[:-1])) / 2
@@ -77,6 +91,14 @@ def test_split_rings_and_has_area_read_back_to_back_rings():
     assert len(split_rings(_df([0], [0]))) == 1
 
 
+def test_ring_checks_catch_crossed_and_retraced_rings():
+    bow_tie = _ring(_df([0, 1, 1, 0, 0], [0, 1, 0, 1, 0]))
+    assert count_crossings(bow_tie) == 1
+    retraced = _ring(_df([0, 2, 1, 1, 0], [0, 0, 0, 1, 0]))
+    assert count_reversals(retraced) == 1
+    assert count_reversals(_ring(BaseFeature.create_square(2))) == 0
+
+
 
 def test_nhl_trapezoid_is_two_simple_strips_from_the_goal_line():
     df = hockey_features.GoaltendersRestrictedArea(
@@ -89,6 +111,7 @@ def test_nhl_trapezoid_is_two_simple_strips_from_the_goal_line():
     rings = split_rings(df)
     assert [len(r) for r in rings] == [5, 5]
     assert [count_crossings(r) for r in rings] == [0, 0]
+    assert [count_reversals(r) for r in rings] == [0, 0]
 
 
 def test_nhl_crease_inner_arc_meets_the_inner_straight_sides():
@@ -219,6 +242,7 @@ def test_custom_goal_mouths_are_the_band_and_stubs_union(radius, thickness, sepa
     assert np.allclose(ring[0], ring[-1])
     assert len(split_rings(df)) == 1
     assert count_crossings(ring) == 0
+    assert count_reversals(ring) == 0
     assert _area(ring) == pytest.approx(
         _goal_mouth_area(radius, thickness, separation), rel=1e-4
     )

@@ -46,14 +46,15 @@ def _check(rink, layers, x_trans=0.0, y_trans=0.0, where=""):
         drift.add("GoalCreaseOutline")
     feats = [f for f in rink._features if f.visible and f._shows()]
     xy = [_xy(f, x_trans, y_trans) for f in feats]
-    used, refs = set(), list(range(len(layers)))
-    for k in refs:
+    used, matched = set(), set()
+    for k in range(len(layers)):
         hit = next(
             (j for j in range(len(feats)) if j not in used and _matches(xy[j], layers[k])),
             None,
         )
         if hit is not None:
             used.add(hit)
+            matched.add(k)
             assert to_rgba(feats[hit].plot_kwargs["facecolor"]) == to_rgba(
                 layers[k]["fill"]
             ), f"{where} {type(feats[hit]).__name__}"
@@ -77,11 +78,33 @@ def _check(rink, layers, x_trans=0.0, y_trans=0.0, where=""):
         )
         if pair is not None:
             used.update(pair)
+            matched.add(k)
 
     unmatched = sorted(
         {type(feats[j]).__name__ for j in range(len(feats)) if j not in used} - drift
     )
     assert unmatched == [], f"{where}: unlike sportyR: {unmatched}"
+
+    # A shape that is its own mirror image may be drawn twice by one package
+    # and once by the other (sportyR draws the centre faceoff spot twice,
+    # sportypy the referee's crease); such a copy matches the other's mirror
+    def mirror(j):
+        return 2 * x_trans - xy[j][0], xy[j][1]
+
+    for k in range(len(layers)):
+        if k not in matched and any(_matches(mirror(j), layers[k]) for j in used):
+            matched.add(k)
+    for j in range(len(feats)):
+        if j not in used and any(_matches(mirror(j), layers[k]) for k in matched):
+            used.add(j)
+
+    # Every other sportyR polygon left unmatched is one of the drifted
+    # features: as many of them, in the same fills
+    left = sorted(layers[k]["fill"] for k in range(len(layers)) if k not in matched)
+    drifted = sorted(
+        feats[j].plot_kwargs["facecolor"] for j in range(len(feats)) if j not in used
+    )
+    assert left == drifted, f"{where}: sportyR polygons with no match"
 
 
 @pytest.mark.parametrize("league", list(LEAGUES))
