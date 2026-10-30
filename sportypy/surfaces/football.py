@@ -2241,7 +2241,7 @@ class CFLField(FootballField):
 
 
 class NCAAField(FootballField):
-    """A subclass of ``FootballField`` specific to the CFL.
+    """A subclass of ``FootballField`` specific to the NCAA.
 
     See ``FootballField`` class documentation for full description.
     """
@@ -2257,9 +2257,25 @@ class NCAAField(FootballField):
 
 
 class NFHSField(FootballField):
-    """A subclass of ``FootballField`` specific to the NFHS.
+    """``FootballField`` for the NFHS; ``n_players`` is 11, 9, 8 or 6.
+
+    The four NFHS (high school) fields share this class:
+    ``NFHSField()`` is the 11-player field (league code ``nfhs11``), and
+    ``NFHSField(n_players = 9)``, ``NFHSField(n_players = 8)`` and
+    ``NFHSField(n_players = 6)`` are the others (``nfhs9``, ``nfhs8`` and
+    ``nfhs6``).
 
     See ``FootballField`` class documentation for full description.
+
+    Parameters
+    ----------
+    n_players : int
+        The number of players per side: ``11``, ``9``, ``8`` or ``6``. Any
+        other value draws the 11-player field. The default is ``11``
+
+    field_updates : dict
+        Updates to the field's parameters, as for ``FootballField``. The
+        default is an empty dictionary
     """
 
     def __init__(self, n_players = 11, field_updates = {}, *args, **kwargs):
