@@ -12,7 +12,8 @@ outline colour).
 - Regenerate: `Rscript tools/hockey_fixture.R <path to sportyR> tests/data/sportyr_hockey_fixture.json`
   (or set `SPORTYR_PATH` and pass only the output path)
 - tests/test_hockey_parity.py pairs every sportypy feature with one sportyR
-  polygon point for point (1e-9) and checks its fill, except the features it
-  lists in `DRIFT`, which sportypy still draws differently from sportyR.
+  polygon (same point count, coordinate sums and moments, and sampled points,
+  to 1e-9) and checks its fill, except the features it lists in `DRIFT`, which
+  sportypy still draws differently from sportyR.
 - `unit_cases`: the same summaries for the NHL rink drawn in metres and
   shifted, compared in the same test file.

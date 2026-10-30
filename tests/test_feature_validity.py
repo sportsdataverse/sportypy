@@ -170,6 +170,7 @@ def test_hockey_fixed_features_are_simple_rings(league):
             seen.add(type(f).__name__)
             for ring in split_rings(f._get_centered_feature()):
                 assert count_crossings(ring) == 0, (league, type(f).__name__)
+                assert count_reversals(ring) == 0, (league, type(f).__name__)
     assert seen == names
 
 
