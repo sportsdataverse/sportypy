@@ -1193,9 +1193,9 @@ class GoalCreaseFill(BaseHockeyFeature):
                 })
             ])
 
-        # The ushl1 fill is the NHL-style crease inside the outer semi-circle:
-        # its straight sides run back from the crease length at the crease's
-        # full width
+        # The ushl1 fill is the NHL-style crease: its straight sides run back
+        # from the crease length at the crease's full width, as sportyR draws
+        # it (so their far ends can poke just past the outer semi-circle)
         elif self.crease_style.lower() == "ushl1":
             goal_crease_fill_df = pd.concat([
                 pd.DataFrame({
@@ -1767,12 +1767,14 @@ class GoalFrame(BaseHockeyFeature):
         The interior distance between the goalposts
 
     goal_back_width : float
-        The exterior distance between the widest part of the goal frame's
-        footprint
+        The width of the back of the goal frame, measured to the centre of the
+        back pipe: as in sportyR, the drawn frame reaches ``post_diameter / 2``
+        beyond it on each side
 
     goal_depth : float
-        The depth of the goal frame from the center of the goal line to the
-        exterior of the back pipe of the goal frame
+        The depth of the goal frame from the center of the goal line: as in
+        sportyR, the drawn back edge of the frame sits ``post_diameter`` in
+        front of it
 
     post_diameter : float
         The diameter of the posts of the goal frame
@@ -1879,12 +1881,14 @@ class GoalFrameFill(BaseHockeyFeature):
         The interior distance between the goalposts
 
     goal_back_width : float
-        The exterior distance between the widest part of the goal frame's
-        footprint
+        The width of the back of the goal frame, measured to the centre of the
+        back pipe: as in sportyR, the drawn frame reaches ``post_diameter / 2``
+        beyond it on each side
 
     goal_depth : float
-        The depth of the goal frame from the center of the goal line to the
-        exterior of the back pipe of the goal frame
+        The depth of the goal frame from the center of the goal line: as in
+        sportyR, the drawn back edge of the frame sits ``post_diameter`` in
+        front of it
 
     post_diameter : float
         The diameter of the posts of the goal frame
