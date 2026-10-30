@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.4](https://github.com/sportsdataverse/sportypy/compare/v1.2.3...v1.2.4) (2026-10-30)
+
+### Bug Fixes
+
+* geometry parity with sportyR 2.4.5 ([#36](https://github.com/sportsdataverse/sportypy/issues/36)) ([9f93713](https://github.com/sportsdataverse/sportypy/commit/9f9371352cc9b8adc3607c426255b68e57b1b51a)), closes [sportsdataverse/sportyR#79](https://github.com/sportsdataverse/sportyR/issues/79) [sportsdataverse/sportyR#89](https://github.com/sportsdataverse/sportyR/issues/89) [sportsdataverse/sportyR#92](https://github.com/sportsdataverse/sportyR/issues/92) [sportsdataverse/sportyR#94](https://github.com/sportsdataverse/sportyR/issues/94) [#ffcb05](https://github.com/sportsdataverse/sportypy/issues/ffcb05) [sportsdataverse/sportyR#90](https://github.com/sportsdataverse/sportyR/issues/90)
+
 ## [1.2.3](https://github.com/sportsdataverse/sportypy/compare/v1.2.2...v1.2.3) (2026-10-28)
 
 ### Bug Fixes
