@@ -239,8 +239,13 @@ def split_surface(
 def surface_page(sport: str, module: griffe.Module, position: int) -> str:
     base, leagues = split_surface(module)
     title = sport.capitalize()
+    description = (
+        f"The {sport} surfaces sportypy draws: {base.name}, one class per "
+        "league with its rule-book dimensions, and their methods."
+    )
     lines = [
-        f"---\ntitle: {title}\nsidebar_position: {position}\n---\n",
+        f"---\ntitle: {title}\nsidebar_position: {position}\n"
+        f"description: {json.dumps(description)}\n---\n",
         DOCSTRINGS,
         f"# {title}\n",
         f"`from sportypy.surfaces.{sport} import {base.name}`\n",
@@ -275,8 +280,15 @@ def surface_page(sport: str, module: griffe.Module, position: int) -> str:
 
 def feature_page(sport: str, module: griffe.Module, position: int) -> str:
     title = sport.capitalize()
+    # explicit, so the snippet keeps the module name's underscores (an
+    # excerpt of the page would drop them as Markdown emphasis)
+    description = (
+        f"The features a {sport} surface is drawn from, in "
+        f"sportypy._feature_classes.{sport}."
+    )
     lines = [
-        f"---\ntitle: {title}\nsidebar_position: {position}\n---\n",
+        f"---\ntitle: {title}\nsidebar_position: {position}\n"
+        f"description: {json.dumps(description)}\n---\n",
         DOCSTRINGS,
         f"# {title} features\n",
         f"The features a {sport} surface is drawn from (`sportypy._feature_classes.{sport}`).\n",
@@ -313,7 +325,7 @@ def plotting_page(pkg: griffe.Module) -> str:
 
 def reference_index(sports: list[dict]) -> str:
     rows = "\n".join(
-        f"| [{s['title']}](./surfaces/{s['sport']}.md) | `{s['base']}` | {s['leagues']} |"
+        f"| [{s['title']}](./surfaces/{s['sport']}.md) | `{s['base']}` | {s['classes']} |"
         for s in sports
     )
     return (
@@ -337,7 +349,8 @@ def reference_index(sports: list[dict]) -> str:
 def changelog_page() -> str:
     body = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     return (
-        "---\ntitle: News\n---\n\n"
+        "---\ntitle: News\n"
+        'description: "What changed in each sportypy release."\n---\n\n'
         + HEADER.format("CHANGELOG.md")
         + "\n"
         + body
@@ -351,7 +364,9 @@ def getting_started_page() -> str:
     start = readme.index("## Using the Package")
     end = readme.index("## Follow the SportsDataverse")
     return (
-        "---\ntitle: Getting started\nsidebar_position: 2\n---\n\n"
+        "---\ntitle: Getting started\nsidebar_position: 2\n"
+        'description: "How to draw a sportypy surface, change its colors, '
+        'dimensions, units and view, and plot data on it."\n---\n\n'
         + HEADER.format("README.md")
         + "\n# Getting started\n\n"
         + readme[start:end].rstrip()
@@ -526,6 +541,13 @@ def build() -> dict[Path, str]:
         DOCS / "getting-started.md": getting_started_page(),
         SITE / "src" / "pages" / "CHANGELOG.md": changelog_page(),
     }
+    # every league surface, from the dimensions file: NFHSField alone draws
+    # four football surfaces (n_players 11, 9, 8 and 6)
+    dimensions = json.loads(
+        (ROOT / "sportypy" / "data" / "surface_dimensions.json").read_text(
+            encoding="utf-8"
+        )
+    )
     sports = []
     for i, (sport, module) in enumerate(
         sorted(pkg["surfaces"].modules.items()), start=1
@@ -539,7 +561,8 @@ def build() -> dict[Path, str]:
                 "sport": sport,
                 "title": sport.capitalize(),
                 "base": base.name,
-                "leagues": len(leagues),
+                "classes": len(leagues),
+                "leagues": len(dimensions.get(sport, leagues)),
                 "example": HOME_LEAGUE.get(sport)
                 if HOME_LEAGUE.get(sport) in names
                 else names[0],

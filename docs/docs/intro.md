@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 sidebar_label: Introduction
+description: "sportypy draws regulation, to-scale playing surfaces for ten sports with matplotlib, so tracking and play-by-play data can be plotted on the field, court, rink or sheet it came from."
 ---
 
 # sportypy
