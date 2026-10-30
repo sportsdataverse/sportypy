@@ -13,7 +13,6 @@ outline colour).
   (or set `SPORTYR_PATH` and pass only the output path)
 - tests/test_hockey_parity.py pairs every sportypy feature with one sportyR
   polygon (same point count, coordinate sums and moments, and sampled points,
-  to 1e-9) and checks its fill, except the features it lists in `DRIFT`, which
-  sportypy still draws differently from sportyR.
+  to 1e-9) and checks its fill; every sportyR polygon must be matched.
 - `unit_cases`: the same summaries for the NHL rink drawn in metres and
   shifted, compared in the same test file.

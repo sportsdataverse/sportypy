@@ -808,7 +808,8 @@ class GoalCreaseOutline(BaseHockeyFeature):
                         -self.notch_dist_x,
                         -self.notch_dist_x,
                         -(self.notch_dist_x + self.feature_thickness),
-                        -(self.notch_dist_x + self.feature_thickness)
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -self.crease_length
                     ],
 
                     "y": [
@@ -826,6 +827,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                             self.feature_thickness +
                             self.notch_width
                         ),
+                        -half_crease_width + self.feature_thickness,
                         -half_crease_width + self.feature_thickness
                     ]
                 }),
@@ -839,6 +841,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
                 pd.DataFrame({
                     "x": [
+                        -self.crease_length,
                         -(self.notch_dist_x + self.feature_thickness),
                         -(self.notch_dist_x + self.feature_thickness),
                         -self.notch_dist_x,
@@ -848,6 +851,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                     ],
 
                     "y": [
+                        half_crease_width - self.feature_thickness,
                         half_crease_width - self.feature_thickness,
                         (
                             half_crease_width -
@@ -886,13 +890,13 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
                 pd.DataFrame({
                     "x": [
-                        -self.notch_dist_x,
+                        -(self.notch_dist_x + self.feature_thickness),
                         0.0,
                         0.0,
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -(self.notch_dist_x + self.feature_thickness),
                         -self.notch_dist_x,
-                        -self.notch_dist_x
+                        -self.notch_dist_x,
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -(self.notch_dist_x + self.feature_thickness)
                     ],
 
                     "y": [
@@ -923,13 +927,13 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
                 pd.DataFrame({
                     "x": [
-                        -self.notch_dist_x,
-                        -self.notch_dist_x,
                         -(self.notch_dist_x + self.feature_thickness),
                         -(self.notch_dist_x + self.feature_thickness),
+                        -self.notch_dist_x,
+                        -self.notch_dist_x,
                         0.0,
                         0.0,
-                        -self.notch_dist_x
+                        -(self.notch_dist_x + self.feature_thickness)
                     ],
 
                     "y":[
@@ -1123,11 +1127,34 @@ class GoalCreaseFill(BaseHockeyFeature):
         except ZeroDivisionError:
             theta = 0.0
 
+        # The nhl98 fill stops short of the outline's notches, which cut into
+        # the crease from its straight sides
         if self.crease_style.lower() == "nhl98":
             goal_crease_fill_df = pd.concat([
                 pd.DataFrame({
-                    "x": [0.0],
-                    "y": [half_crease_width - self.feature_thickness]
+                    "x": [
+                        0.0,
+                        -self.notch_dist_x,
+                        -self.notch_dist_x,
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -(self.notch_dist_x + self.feature_thickness)
+                    ],
+
+                    "y": [
+                        half_crease_width - self.feature_thickness,
+                        half_crease_width - self.feature_thickness,
+                        (
+                            half_crease_width -
+                            self.feature_thickness -
+                            self.notch_width
+                        ),
+                        (
+                            half_crease_width -
+                            self.feature_thickness -
+                            self.notch_width
+                        ),
+                        half_crease_width - self.feature_thickness
+                    ]
                 }),
 
                 self.create_circle(
@@ -1138,16 +1165,42 @@ class GoalCreaseFill(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    "x": [0.0],
-                    "y": [-half_crease_width + self.feature_thickness]
+                    "x": [
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -self.notch_dist_x,
+                        -self.notch_dist_x,
+                        0.0,
+                        0.0
+                    ],
+
+                    "y": [
+                        -half_crease_width + self.feature_thickness,
+                        (
+                            -half_crease_width +
+                            self.feature_thickness +
+                            self.notch_width
+                        ),
+                        (
+                            -half_crease_width +
+                            self.feature_thickness +
+                            self.notch_width
+                        ),
+                        -half_crease_width + self.feature_thickness,
+                        -half_crease_width + self.feature_thickness,
+                        half_crease_width - self.feature_thickness
+                    ]
                 })
             ])
 
+        # The ushl1 fill is the NHL-style crease: its straight sides run back
+        # from the crease length at the crease's full width, as sportyR draws
+        # it (so their far ends can poke just past the outer semi-circle)
         elif self.crease_style.lower() == "ushl1":
             goal_crease_fill_df = pd.concat([
                 pd.DataFrame({
-                    "x": [0.0],
-                    "y": [half_crease_width - self.feature_thickness]
+                    "x": [0.0, -self.crease_length],
+                    "y": [half_crease_width, half_crease_width]
                 }),
 
                 self.create_circle(
@@ -1158,8 +1211,8 @@ class GoalCreaseFill(BaseHockeyFeature):
                 ),
 
                 pd.DataFrame({
-                    "x": [0.0],
-                    "y": [-half_crease_width + self.feature_thickness]
+                    "x": [-self.crease_length, 0.0],
+                    "y": [-half_crease_width, -half_crease_width]
                 })
             ])
 
@@ -1714,12 +1767,14 @@ class GoalFrame(BaseHockeyFeature):
         The interior distance between the goalposts
 
     goal_back_width : float
-        The exterior distance between the widest part of the goal frame's
-        footprint
+        The width of the back of the goal frame, measured to the centre of the
+        back pipe: as in sportyR, the drawn frame reaches ``post_diameter / 2``
+        beyond it on each side
 
     goal_depth : float
-        The depth of the goal frame from the center of the goal line to the
-        exterior of the back pipe of the goal frame
+        The depth of the goal frame from the center of the goal line: as in
+        sportyR, the drawn back edge of the frame sits ``post_diameter`` in
+        front of it
 
     post_diameter : float
         The diameter of the posts of the goal frame
@@ -1746,8 +1801,14 @@ class GoalFrame(BaseHockeyFeature):
 
         # Compute the location of the point to use to trace out the rounded
         # corners of the goal
-        goal_arc_center_x = self.goal_depth - self.feature_radius
-        goal_arc_center_y = (self.goal_back_width / 2.0) - self.feature_radius
+        goal_arc_center_x = (
+            self.goal_depth - self.feature_radius - self.post_diameter
+        )
+        goal_arc_center_y = (
+            (self.goal_back_width / 2.0) -
+            self.feature_radius +
+            (self.post_diameter / 2.0)
+        )
 
         # Trace the path of the goal frame, starting with the exterior
         goal_frame_df = pd.concat([
@@ -1820,12 +1881,14 @@ class GoalFrameFill(BaseHockeyFeature):
         The interior distance between the goalposts
 
     goal_back_width : float
-        The exterior distance between the widest part of the goal frame's
-        footprint
+        The width of the back of the goal frame, measured to the centre of the
+        back pipe: as in sportyR, the drawn frame reaches ``post_diameter / 2``
+        beyond it on each side
 
     goal_depth : float
-        The depth of the goal frame from the center of the goal line to the
-        exterior of the back pipe of the goal frame
+        The depth of the goal frame from the center of the goal line: as in
+        sportyR, the drawn back edge of the frame sits ``post_diameter`` in
+        front of it
 
     post_diameter : float
         The diameter of the posts of the goal frame
@@ -1852,8 +1915,14 @@ class GoalFrameFill(BaseHockeyFeature):
 
         # Compute the location of the point to use to trace out the rounded
         # corners of the goal
-        goal_arc_center_x = self.goal_depth - self.feature_radius
-        goal_arc_center_y = (self.goal_back_width / 2.0) - self.feature_radius
+        goal_arc_center_x = (
+            self.goal_depth - self.feature_radius - self.post_diameter
+        )
+        goal_arc_center_y = (
+            (self.goal_back_width / 2.0) -
+            self.feature_radius +
+            (self.post_diameter / 2.0)
+        )
 
         # Trace the path of the goal frame, starting with the exterior
         goal_frame_fill_df = pd.concat([
