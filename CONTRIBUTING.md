@@ -100,3 +100,7 @@ Your request will be checked against the following points:
     This will show you where your new code lacks sufficient coverage, so please be sure to add tests in the `tests/` repository to make sure you're covered! For help on creating tests, please reach out to the League Office
 
 Although this seems like a lot of work and a big hassle, the League Office doesn't expect perfection and is on hand to help out as needed.
+
+## Releases (maintainers)
+
+Releases are automatic: every push to `main` runs semantic-release, which picks the version from the Conventional Commit types since the last tag, writes `CHANGELOG.md`, tags and creates the GitHub Release; the release runs `upload-to-pypi.yml`, which publishes to PyPI through a trusted publisher. The PyPI side of that setup, and how to publish a release whose upload failed (dispatch `upload-to-pypi.yml` on `main`; never re-run an old run or dispatch on an old tag), are in the Release section of [CLAUDE.md](https://github.com/sportsdataverse/sportypy/blob/main/CLAUDE.md#release).
