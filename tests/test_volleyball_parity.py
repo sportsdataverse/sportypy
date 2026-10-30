@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 from matplotlib.colors import to_rgba
-from tests.test_football_parity import _matches
+from tests.test_football_parity import _hairline, _matches
 
 import sportypy.surfaces.volleyball as volleyball
 
@@ -49,8 +49,9 @@ def test_every_polygon_matches_sportyr(league):
         assert to_rgba(feat.plot_kwargs["facecolor"]) == to_rgba(ref["fill"]), (
             f"{league} polygon {k} ({type(feat).__name__})"
         )
-    # sportyR leaves out a feature with no area and no visible outline; one it
-    # outlines in its own colour (and sportypy does not) may be in either
+        # no feature sportyR draws only as an outline (see test_football_parity)
+        assert not _hairline(feat, ref), f"{league} polygon {k}"
+    # sportyR leaves out a feature with no area and no visible outline
     extra = [
         type(feats[j]).__name__
         for j in range(len(feats))

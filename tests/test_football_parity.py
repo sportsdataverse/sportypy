@@ -33,6 +33,29 @@ FIELDS = {
 }
 TOL = 1e-9
 
+# Zero-width features sportyR still draws, as a hairline in their own outline
+# colour (sportyR outlines every football feature), but sportypy, which draws
+# no outlines, does not. Each lies along the outer edge of a white sideline (or,
+# for the field border, over the green apron), so the plots look the same
+_HAIRLINES = ["FieldBorder"] * 2
+HAIRLINES = {
+    **{f"nfhs{n}": _HAIRLINES for n in (11, 9, 8, 6)},
+    "cfl": sorted(
+        _HAIRLINES
+        + ["RestrictedArea", "CoachingBox", "TeamBenchArea", "TeamBenchAreaOutline"] * 2
+    ),
+}
+
+
+def _hairline(feat, ref):
+    """sportyR draws ``ref`` only as its outline, which sportypy leaves out."""
+    colour = ref.get("colour")
+    return (
+        not feat._shows()
+        and colour is not None
+        and to_rgba(colour)[3] == 1
+    )
+
 
 def _split(layers):
     """sportyR's polygons, less each yard number's text box.
@@ -77,7 +100,7 @@ def test_every_polygon_matches_sportyr(league):
         xy.append((df["x"].to_numpy(float), df["y"].to_numpy(float)))
 
     polys, _ = _split(LEAGUES[league]["layers"])
-    used = set()
+    used, hairlines = set(), []
     for k, ref in enumerate(polys):
         hit = next(
             (j for j in range(len(feats)) if j not in used and _matches(xy[j], ref)),
@@ -88,8 +111,10 @@ def test_every_polygon_matches_sportyr(league):
         feat = feats[hit]
         where = f"{league} polygon {k} ({type(feat).__name__})"
         assert to_rgba(feat.plot_kwargs["facecolor"]) == to_rgba(ref["fill"]), where
-    # sportyR leaves out a feature with no area and no visible outline; one it
-    # outlines in its own colour (and sportypy does not) may be in either
+        if _hairline(feat, ref):
+            hairlines.append(type(feat).__name__)
+    assert sorted(hairlines) == HAIRLINES.get(league, []), league
+    # sportyR leaves out a feature with no area and no visible outline
     extra = [
         type(feats[j]).__name__
         for j in range(len(feats))

@@ -20,7 +20,7 @@ from matplotlib.colors import to_rgba
 import sportypy.surfaces.football as football
 import sportypy.surfaces.lacrosse as lacrosse
 import sportypy.surfaces.volleyball as volleyball
-from tests.test_football_parity import TOL, _matches
+from tests.test_football_parity import TOL, _hairline, _matches
 
 DATA = Path(__file__).parent / "data"
 FIX = {
@@ -83,8 +83,9 @@ def test_every_polygon_matches_sportyr(sport, case):
             case,
             k,
         )
-    # sportyR leaves out a feature with no area and no visible outline; one it
-    # outlines in its own colour (and sportypy does not) may be in either
+        # no feature sportyR draws only as an outline (see test_football_parity)
+        assert not _hairline(feats[hit], layer), (case, k)
+    # sportyR leaves out a feature with no area and no visible outline
     extra = [
         type(feats[j]).__name__
         for j in range(len(feats))
