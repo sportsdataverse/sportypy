@@ -13,6 +13,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from abc import ABC, abstractmethod
+from matplotlib.colors import to_rgba
+from matplotlib.patches import PathPatch
+from matplotlib.path import Path
 
 
 class BaseFeature(ABC):
@@ -149,22 +152,39 @@ class BaseFeature(ABC):
 
         Returns
         -------
-        feature_polygon : matplotlib Polygon
-            An object from matplotlib's Polygon class that contains the polygon
-            that represents the desired feature
+        feature_polygon : matplotlib Polygon or matplotlib PathPatch
+            A matplotlib Polygon that contains the polygon that represents the
+            desired feature, or, for a feature made of separate rings (marked
+            by a ``group`` column), a PathPatch with one sub-path per ring
         """
         # Get the polygon's data frame
         feature_df = self._translate_feature()
 
-        # Create a matplotlib.Polygon object that composes the feature. Pixel
-        # snapping is turned off: matplotlib snaps a rectilinear polygon's
-        # edges to the pixel grid, so a line thinner than a pixel (e.g. a
-        # volleyball or tennis line at screen size) would snap to zero width
-        feature_polygon = plt.Polygon(
-            feature_df,
-            visible = self.visible,
-            **{"snap": False, **self.plot_kwargs}
-        )
+        # Pixel snapping is turned off: matplotlib snaps a rectilinear
+        # polygon's edges to the pixel grid, so a line thinner than a pixel
+        # (e.g. a volleyball or tennis line at screen size) would snap to zero
+        # width
+        kwargs = {"visible": self.visible, "snap": False, **self.plot_kwargs}
+
+        # A feature made of separate closed rings marks each ring's points
+        # with a "group" (as sportyR's polygon groups), so that the patch does
+        # not join one ring to the next and fill the space between them. Each
+        # ring is turned to wind the same way, so that where two rings overlap
+        # their windings add and the overlap is filled, as sportyR fills each
+        # group on its own
+        if "group" in feature_df:
+            rings = []
+            for _, ring in feature_df.groupby("group", sort = False):
+                xy = ring[["x", "y"]].to_numpy(dtype = float)
+                x, y = xy[:, 0], xy[:, 1]
+                if np.sum(x[:-1] * y[1:] - x[1:] * y[:-1]) < 0:
+                    xy = xy[::-1]
+                rings.append(Path(xy, closed = True))
+            return PathPatch(Path.make_compound_path(*rings), **kwargs)
+
+        # Otherwise, create a matplotlib.Polygon object that composes the
+        # feature
+        feature_polygon = plt.Polygon(feature_df, **kwargs)
 
         return feature_polygon
 
@@ -402,7 +422,9 @@ class BaseFeature(ABC):
         -------
         patch : matplotlib.patches.Patch
             The patch object that contains the feature. The patch is added to
-            the Axes object
+            the Axes object, unless the feature has no area and no visible
+            outline: ``sportyR`` leaves such a feature out (e.g. a line that
+            has no thickness in a given league), since it would not show up
         """
         # Set the transformation to be data coordinates if none is passed
         if not transform:
@@ -411,13 +433,124 @@ class BaseFeature(ABC):
         # Get the feature's matplotlib.Polygon
         patch = self.create_feature_mpl_polygon()
 
-        # Add the patch to the Axes object
-        patch = ax.add_patch(patch)
+        # Add the patch to the Axes object if it would show up
+        if self._shows():
+            patch = ax.add_patch(patch)
 
         # Set the transformation of the patch
         patch.set_transform(transform)
 
         return patch
+
+    @staticmethod
+    def _split_rings(df, tolerance = 1e-9):
+        """Split a feature's coordinates into its closed rings.
+
+        A feature's data frame can hold several closed rings back to back,
+        where each ring ends on the point it started from. Repeated
+        consecutive points are dropped first, so a ring that sits on a single
+        point does not split into pieces. This is ``sportyR``'s
+        ``split_rings()``
+
+        Parameters
+        ----------
+        df : pandas.DataFrame
+            A data frame with ``x`` and ``y`` columns
+
+        tolerance : float
+            The distance below which two points are the same point. The
+            default is ``1e-9``
+
+        Returns
+        -------
+        rings : list of numpy.ndarray
+            One ``(n, 2)`` array of ``x`` and ``y`` coordinates per ring
+        """
+        coords = df[["x", "y"]].to_numpy(dtype = float)
+        if len(coords) < 2:
+            return [coords]
+
+        # Drop each point that repeats the one before it
+        is_repeat = np.abs(np.diff(coords, axis = 0)).sum(axis = 1) < tolerance
+        coords = coords[np.concatenate(([True], ~is_repeat))]
+
+        # A feature that sits on one point is a single ring of that point
+        if len(coords) == 1:
+            return [coords]
+
+        rings = []
+        ring_start = 0
+        for i in range(1, len(coords)):
+            # A ring ends when the path is back at the ring's first point
+            if i > ring_start and np.all(
+                np.abs(coords[i] - coords[ring_start]) < tolerance
+            ):
+                rings.append(coords[ring_start:i + 1])
+                ring_start = i + 1
+
+        # Keep any trailing path that never closed on its first point
+        if ring_start < len(coords) - 1:
+            rings.append(coords[ring_start:])
+
+        return rings
+
+    @classmethod
+    def _has_area(cls, df, tolerance = 1e-9):
+        """Check whether a feature's coordinates enclose any area.
+
+        Sums the unsigned area (shoelace formula) of each ring, so rings that
+        wind in opposite directions do not cancel. A zero-width ring, a line or
+        a single point has no area. This is ``sportyR``'s ``has_area()``,
+        except that a ring that does not end on its first point is closed, as
+        it is when drawn
+
+        Parameters
+        ----------
+        df : pandas.DataFrame
+            A data frame with ``x`` and ``y`` columns
+
+        tolerance : float
+            The area at or below which a feature has no area. The default is
+            ``1e-9``
+
+        Returns
+        -------
+        has_area : bool
+            Whether at least one ring of the feature has area
+        """
+        if len(df) < 3:
+            return False
+
+        for ring in cls._split_rings(df):
+            x, y = ring[:, 0], ring[:, 1]
+            # The last term closes a ring that does not end on its first
+            # point, as the drawn polygon does; it is zero for a closed ring.
+            # sportyR leaves it out, so it would skip an open ring with area
+            area = abs(
+                np.sum(x[:-1] * y[1:] - x[1:] * y[:-1]) + x[-1] * y[0] - x[0] * y[-1]
+            ) / 2
+            if area > tolerance:
+                return True
+
+        return False
+
+    def _shows(self):
+        """Check whether drawing the feature would show anything.
+
+        ``sportyR`` leaves out a feature with no area and no visible outline
+        (e.g. a line that has no thickness in a given league), since it would
+        not show up anyway
+
+        Returns
+        -------
+        shows : bool
+            Whether the feature has area or a visible outline
+        """
+        edgecolor = self.plot_kwargs.get("edgecolor")
+        if edgecolor is not None and to_rgba(edgecolor)[3] > 0:
+            return True
+
+        return self._has_area(self._get_centered_feature())
 
     def _reflect(self, df, over_x = False, over_y = True):
         """Reflect a data frame's coordinates over the desired axes.

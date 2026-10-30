@@ -66,7 +66,10 @@ def defensive_zone(
             _circle((-center_x, -center_y), 1.0, 1.5, corner_radius),
             _df([-nzone_length / 2.0] * 2, [-half_width, half_width]),
         )
-    return _rect(-field_length / 2.0, 0.0, -field_width / 2.0, field_width / 2.0)
+    # A rectangular zone stops at the neutral zone's edge, as the oval one does
+    return _rect(
+        -field_length / 2.0, -nzone_length / 2.0, -field_width / 2.0, field_width / 2.0
+    )
 
 
 def neutral_zone(nzone_length=0.0, field_width=0.0):
@@ -92,7 +95,10 @@ def offensive_zone(
             _circle((center_x, -center_y), 0.0, -0.5, corner_radius),
             _df([nzone_length / 2.0] * 2, [-half_width, half_width]),
         )
-    return _rect(0.0, field_length / 2.0, -field_width / 2.0, field_width / 2.0)
+    # A rectangular zone stops at the neutral zone's edge, as the oval one does
+    return _rect(
+        nzone_length / 2.0, field_length / 2.0, -field_width / 2.0, field_width / 2.0
+    )
 
 
 def field_apron(
@@ -344,13 +350,36 @@ def goal_mouth(
     goal_mouth_radius=0.0, line_thickness=0.0, goal_mouth_semi_circle_separation=0.0
 ):
     r, t, s = goal_mouth_radius, line_thickness, goal_mouth_semi_circle_separation
-    return _bind(
+    # The goal mouth is the union of the half annulus and the straight stubs
+    # along the goal line extended (x in [-t, 0], |y| at least s). The hole
+    # inside it is bounded by the inner arc and each stub's edge, and its
+    # corners are where the stub's inner edge (x = -t) or its end (|y| = s)
+    # first meets the inner arc. The inner arc is cut back to start and end at
+    # those corners so that the band does not cross itself
+    inner_radius = r - t
+    corner_x = -min(t, math.sqrt(max(inner_radius**2 - s**2, 0.0)))
+    corner_y = math.sqrt(max(inner_radius**2 - corner_x**2, 0.0))
+
+    # With no hole left (the line is thicker than the inner radius and the
+    # stubs meet), the goal mouth is the solid half disk
+    if inner_radius <= 0 or corner_y == 0:
+        return _bind(_circle((0.0, 0.0), 0.5, 1.5, r), _df([0.0], [r]))
+
+    # The angle, in units of pi, between the bottom of the inner arc and the
+    # hole's corner
+    inner_arc_offset = math.asin(-corner_x / inner_radius) / math.pi
+    df = _bind(
         _df([0.0, 0.0], [s, r]),
         _circle((0.0, 0.0), 0.5, 1.5, r),
-        _df([0.0, 0.0, -t, -t], [-r, -s, -s, -r + t]),
-        _circle((0.0, 0.0), 1.5, 0.5, r - t),
-        _df([-t, -t, 0.0], [r - t, s, s]),
+        _df([0.0, 0.0, corner_x], [-r, -s, -s]),
+        _circle((0.0, 0.0), 1.5 - inner_arc_offset, 0.5 + inner_arc_offset, inner_radius),
+        _df([corner_x, 0.0], [s, s]),
     )
+
+    # Where a corner lies on the inner arc or the goal line extended, it
+    # repeats the point next to it, so repeated points are dropped
+    step = np.abs(np.diff(df[["x", "y"]].to_numpy(), axis=0)).sum(axis=1)
+    return df[np.concatenate(([True], step >= 1e-12))].reset_index(drop=True)
 
 
 def below_goal_marking(below_goal_marking_radius=0.0):
@@ -361,16 +390,19 @@ def goal_frame(
     goal_frame_opening_interior=0.0, goal_post_thickness=0.0, goal_depth=0.0
 ):
     w, t = goal_frame_opening_interior, goal_post_thickness
+    # The frame closes on its first point, so it is one simple ring
     return _df(
         [0.0, goal_depth - t, 0.0, 0.0, goal_depth, 0.0, 0.0],
-        [w / 2.0, 0.0, -w / 2.0, -w / 2.0 - t, 0.0, w / 2.0 + t, 0.0],
+        [w / 2.0, 0.0, -w / 2.0, -w / 2.0 - t, 0.0, w / 2.0 + t, w / 2.0],
     )
 
 
 def goal_net(goal_frame_opening_interior=0.0, goal_post_thickness=0.0, goal_depth=0.0):
     w = goal_frame_opening_interior
+    # The net closes on its first point, so it is one simple ring
     return _df(
-        [0.0, goal_depth - goal_post_thickness, 0.0, 0.0], [w / 2.0, 0.0, -w / 2.0, w]
+        [0.0, goal_depth - goal_post_thickness, 0.0, 0.0],
+        [w / 2.0, 0.0, -w / 2.0, w / 2.0],
     )
 
 
@@ -387,8 +419,9 @@ def player_bench_outline(
     bench_area_outline_thickness=0.0, bench_length=0.0, bench_depth=0.0
 ):
     t, L, d = bench_area_outline_thickness, bench_length, bench_depth
+    # The outline closes on its first point, so it is one simple ring
     return _df(
-        [-t, -t, L + t, L + t, L, L, 0.0, 0.0, t],
+        [-t, -t, L + t, L + t, L, L, 0.0, 0.0, -t],
         [t, 2.0 * t + d, 2.0 * t + d, t, t, t + d, t + d, t, t],
     )
 

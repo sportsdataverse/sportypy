@@ -51,7 +51,7 @@ def _layers(field):
     (-x, -y), (x, -y); sportypy creates those copies as (x, y), (x, -y),
     (-x, y), (-x, -y).
     """
-    feats = list(field._features)
+    feats = [f for f in field._features if f._shows()]
     out, i = [], 0
     while i < len(feats):
         f = feats[i]
@@ -109,7 +109,8 @@ def _arc_stats(x, y, cx, cy):
         ("nll", "GoalCircle", 1),
         ("ncaam", "GoalCircle", 1),
         ("world lacrosse", "CenterCircle", 0),
-        ("ncaaw", "GoalMouth", 2),
+        # the goal mouth drops the arc's first point, which repeats the stub's end
+        ("ncaaw", "GoalMouth", 1),
     ],
 )
 def test_circles_radius_direction_sweep(league, cls_name, first):
@@ -152,10 +153,12 @@ def test_display_limits_match_sportyr(league, display_range):
 
 @pytest.mark.parametrize("league", list(LEAGUES))
 def test_draws(league):
-    ax = CLASSES[league]().draw()
+    field = CLASSES[league]()
+    ax = field.draw()
     ref = LEAGUES[league]["limits"]["full"]
     assert np.allclose(ax.get_xlim(), ref["x"]) and np.allclose(ax.get_ylim(), ref["y"])
-    assert len(ax.patches) > len(LEAGUES[league]["layers"])  # + the surface constraint
+    # every feature that shows, + the surface constraint
+    assert len(ax.patches) == sum(f._shows() for f in field._features) + 1
     plt.close("all")
 
 
@@ -508,3 +511,27 @@ def test_added_constrained_feature_is_drawn_and_clipped():
     assert ax.patches[-1].get_clip_path() is not None
     plt.close(plain_ax.figure)
     plt.close(ax.figure)
+
+
+def test_rectangular_zones_tile_the_field_without_overlapping():
+    """The rectangular defensive and offensive zones stop at the neutral
+    zone's edges, as the oval ones do."""
+    args = {"field_length": 100.0, "field_width": 60.0, "nzone_length": 10.0}
+    dzone = lacrosse_features.defensive_zone(**args)
+    nzone = lacrosse_features.neutral_zone(nzone_length=10.0, field_width=60.0)
+    ozone = lacrosse_features.offensive_zone(**args)
+    assert (dzone["x"].min(), dzone["x"].max()) == (-50.0, -5.0)
+    assert (nzone["x"].min(), nzone["x"].max()) == (-5.0, 5.0)
+    assert (ozone["x"].min(), ozone["x"].max()) == (5.0, 50.0)
+
+
+@pytest.mark.parametrize("white", ["white", "#FFFFFF", "#ffffffff", (1.0, 1.0, 1.0)])
+def test_contrasting_marker_matches_the_center_line_by_rendered_colour(white):
+    """Every spelling of white renders as the default #ffffff marker."""
+    field = lacrosse.NCAAMLacrosseField(color_updates={"center_line": white})
+    assert field.feature_colors["center_face_off_marker"] == "#ffcb05"
+
+
+def test_center_line_rendering_differently_keeps_the_white_marker():
+    field = lacrosse.NCAAMLacrosseField(color_updates={"center_line": "#123456"})
+    assert field.feature_colors["center_face_off_marker"] == "#ffffff"

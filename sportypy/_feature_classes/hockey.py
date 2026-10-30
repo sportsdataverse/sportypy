@@ -769,6 +769,21 @@ class GoalCreaseOutline(BaseHockeyFeature):
         except ZeroDivisionError:
             theta = 0.0
 
+        # The inner arc meets the inner straight sides of the crease, which are
+        # inset by the line's thickness, so it starts at its own angle
+        inner_radius = self.feature_radius - self.feature_thickness
+        if (
+            inner_radius <= 0 or
+            abs((half_crease_width - self.feature_thickness) / inner_radius) > 1
+        ):
+            inner_theta = theta
+        else:
+            inner_theta = (
+                math.acos(
+                    (half_crease_width - self.feature_thickness) / inner_radius
+                ) / np.pi
+            )
+
         # nhl98 crease style: cut-off semi-circle (utilized in most North
         # American leagues, e.g. NHL, AHL)
         if self.crease_style.lower() == "nhl98":
@@ -817,9 +832,9 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
                 self.create_circle(
                     center = (0.0, 0.0),
-                    start = 1.5 - theta,
-                    end = 0.5 + theta,
-                    r = self.feature_radius - self.feature_thickness
+                    start = 1.5 - inner_theta,
+                    end = 0.5 + inner_theta,
+                    r = inner_radius
                 ),
 
                 pd.DataFrame({
@@ -958,9 +973,10 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
         # nhl92 crease style: full semi-circle outline with two L-shaped marks
         # adjoining the semi-circle, but not extending back towards the goal
-        # line
+        # line. The semi-circle's band and each L-mark are separate closed
+        # rings, so that no ring crosses itself or another
         elif self.crease_style.lower() == "nhl92":
-            goal_crease_outline_df = pd.concat([
+            arc_band_df = pd.concat([
                 self.create_circle(
                     center = (0.0, 0.0),
                     start = 0.5,
@@ -971,96 +987,61 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 self.create_circle(
                     center = (0.0, 0.0),
                     start = 1.5,
-                    end = 1.5 - theta,
-                    r = self.feature_radius - self.feature_thickness
-                ),
-
-                pd.DataFrame({
-                    "x": [
-                        -self.notch_dist_x,
-                        -self.notch_dist_x + self.notch_width,
-                        -self.notch_dist_x + self.notch_width,
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -self.notch_dist_x,
-                        -self.notch_dist_x
-                    ],
-
-                    "y": [
-                        -half_crease_width,
-                        -half_crease_width,
-                        -half_crease_width + self.feature_thickness,
-                        -half_crease_width + self.feature_thickness,
-                        (
-                            -half_crease_width +
-                            self.feature_thickness +
-                            self.notch_width
-                        ),
-                        (
-                            -half_crease_width +
-                            self.feature_thickness +
-                            self.notch_width
-                        ),
-                        -half_crease_width
-                    ]
-                }),
-
-                self.create_circle(
-                    center = (0.0, 0.0),
-                    start = 1.5 - theta,
-                    end = 0.5 + theta,
-                    r = self.feature_radius - self.feature_thickness
-                ),
-
-                pd.DataFrame({
-                    "x": [
-                        -self.notch_dist_x,
-                        -self.notch_dist_x,
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -self.notch_dist_x + self.notch_width,
-                        -self.notch_dist_x + self.notch_width,
-                        -self.notch_dist_x
-                    ],
-
-                    "y":[
-                        half_crease_width,
-                        (
-                            half_crease_width -
-                            self.notch_width -
-                            self.feature_thickness
-                        ),
-                        (
-                            half_crease_width -
-                            self.notch_width -
-                            self.feature_thickness
-                        ),
-                        half_crease_width - self.feature_thickness,
-                        half_crease_width - self.feature_thickness,
-                        half_crease_width,
-                        half_crease_width
-                    ]
-                }),
-
-                self.create_circle(
-                    center = (0.0, 0.0),
-                    start = 0.5 + theta,
                     end = 0.5,
-                    r = self.feature_radius - self.feature_thickness
+                    r = max(inner_radius, 0.0)
                 ),
 
                 pd.DataFrame({
-                    "x": [
-                        0.0,
-                        0.0
-                    ],
-
-                    "y": [
-                        self.feature_radius - self.feature_thickness,
-                        self.feature_radius
-                    ]
+                    "x": [0.0],
+                    "y": [self.feature_radius]
                 })
             ])
+
+            lower_l_mark_df = pd.DataFrame({
+                "x": [
+                    -self.notch_dist_x - self.feature_thickness,
+                    -self.notch_dist_x + self.notch_width,
+                    -self.notch_dist_x + self.notch_width,
+                    -self.notch_dist_x,
+                    -self.notch_dist_x,
+                    -self.notch_dist_x - self.feature_thickness,
+                    -self.notch_dist_x - self.feature_thickness
+                ],
+
+                "y": [
+                    -half_crease_width,
+                    -half_crease_width,
+                    -half_crease_width + self.feature_thickness,
+                    -half_crease_width + self.feature_thickness,
+                    (
+                        -half_crease_width +
+                        self.feature_thickness +
+                        self.notch_width
+                    ),
+                    (
+                        -half_crease_width +
+                        self.feature_thickness +
+                        self.notch_width
+                    ),
+                    -half_crease_width
+                ]
+            })
+
+            upper_l_mark_df = self._reflect(
+                lower_l_mark_df,
+                over_x = True,
+                over_y = False
+            )
+
+            # Give each ring its own group so that the plot does not join them
+            goal_crease_outline_df = pd.concat(
+                [arc_band_df, lower_l_mark_df, upper_l_mark_df],
+                ignore_index = True
+            )
+            goal_crease_outline_df["group"] = np.repeat(
+                [1, 2, 3],
+                [len(arc_band_df), len(lower_l_mark_df), len(upper_l_mark_df)]
+            )
 
         else:
             goal_crease_outline_df = pd.DataFrame({
@@ -1243,17 +1224,16 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
         half_short_base_width = self.short_base_width / 2.0
         half_long_base_width = self.long_base_width / 2.0
 
-        # Now trace out the trapezoid. NOTE: The absolute value is used here to
-        # always force the calculation to be done for the right side of the ice
-        # (in TV view), which will be adjusted as necessary in the feature's
-        # _translate_feature() method
-        trapezoid_df = pd.DataFrame({
+        # Now trace out the trapezoid. It is made of two parallelogram strips
+        # (one on each side of the net) that start on the goal line and run to
+        # the boards. The strips are separate closed rings so that neither
+        # ring crosses or retraces itself. NOTE: The absolute value is used
+        # here to always force the calculation to be done for the right side
+        # of the ice (in TV view), which will be adjusted as necessary in the
+        # feature's _translate_feature() method
+        upper_strip_df = pd.DataFrame({
             "x": [
                 abs(self.x_anchor),
-                self.rink_length / 2.0,
-                self.rink_length / 2.0,
-                abs(self.x_anchor) - (self.feature_thickness / 2.0),
-                abs(self.x_anchor) - (self.feature_thickness / 2.0),
                 self.rink_length / 2.0,
                 self.rink_length / 2.0,
                 abs(self.x_anchor),
@@ -1265,13 +1245,20 @@ class GoaltendersRestrictedArea(BaseHockeyFeature):
                 half_long_base_width,
                 half_long_base_width - self.feature_thickness,
                 half_short_base_width - self.feature_thickness,
-                -half_short_base_width + self.feature_thickness,
-                -half_long_base_width + self.feature_thickness,
-                -half_long_base_width,
-                -half_short_base_width,
                 half_short_base_width
             ]
         })
+
+        trapezoid_df = pd.concat(
+            [
+                upper_strip_df,
+                self._reflect(upper_strip_df, over_x = True, over_y = False)
+            ],
+            ignore_index = True
+        )
+
+        # Give each strip its own group so that the plot does not join them
+        trapezoid_df["group"] = np.repeat([1, 2], len(upper_strip_df))
 
         # See note above for an explanation of why the absolute value is used
         # here
@@ -1306,6 +1293,8 @@ class CenterFaceoffCircle(BaseHockeyFeature):
                 r = self.feature_radius
             ),
 
+            # The band steps in to the inner circle and closes on its first
+            # point, so it is one simple ring
             pd.DataFrame({
                 "x": [
                     0.0,
@@ -1314,7 +1303,7 @@ class CenterFaceoffCircle(BaseHockeyFeature):
 
                 "y": [
                     -self.feature_radius,
-                    -self.feature_radius - self.feature_thickness
+                    -self.feature_radius + self.feature_thickness
                 ]
             }),
 
@@ -1323,7 +1312,12 @@ class CenterFaceoffCircle(BaseHockeyFeature):
                 start = 1.5,
                 end = 0.5,
                 r = self.feature_radius - self.feature_thickness
-            )
+            ),
+
+            pd.DataFrame({
+                "x": [0.0],
+                "y": [self.feature_radius]
+            })
         ])
 
         return faceoff_circle_df
