@@ -152,9 +152,10 @@ class BaseFeature(ABC):
 
         Returns
         -------
-        feature_polygon : matplotlib Polygon
-            An object from matplotlib's Polygon class that contains the polygon
-            that represents the desired feature
+        feature_polygon : matplotlib Polygon or matplotlib PathPatch
+            A matplotlib Polygon that contains the polygon that represents the
+            desired feature, or, for a feature made of separate rings (marked
+            by a ``group`` column), a PathPatch with one sub-path per ring
         """
         # Get the polygon's data frame
         feature_df = self._translate_feature()
@@ -167,13 +168,19 @@ class BaseFeature(ABC):
 
         # A feature made of separate closed rings marks each ring's points
         # with a "group" (as sportyR's polygon groups), so that the patch does
-        # not join one ring to the next and fill the space between them
+        # not join one ring to the next and fill the space between them. Each
+        # ring is turned to wind the same way, so that where two rings overlap
+        # their windings add and the overlap is filled, as sportyR fills each
+        # group on its own
         if "group" in feature_df:
-            path = Path.make_compound_path(*(
-                Path(ring[["x", "y"]].to_numpy(dtype = float), closed = True)
-                for _, ring in feature_df.groupby("group", sort = False)
-            ))
-            return PathPatch(path, **kwargs)
+            rings = []
+            for _, ring in feature_df.groupby("group", sort = False):
+                xy = ring[["x", "y"]].to_numpy(dtype = float)
+                x, y = xy[:, 0], xy[:, 1]
+                if np.sum(x[:-1] * y[1:] - x[1:] * y[:-1]) < 0:
+                    xy = xy[::-1]
+                rings.append(Path(xy, closed = True))
+            return PathPatch(Path.make_compound_path(*rings), **kwargs)
 
         # Otherwise, create a matplotlib.Polygon object that composes the
         # feature

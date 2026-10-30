@@ -294,3 +294,28 @@ def test_separate_rings_are_drawn_without_joining_them(league, cls_name, inside)
     px, py = ax.transData.transform((x, inside[1]))
     assert tuple(image[int(image.shape[0] - py), int(px)][:3]) == (255, 255, 255)
     plt.close(fig)
+
+
+def test_overlapping_rings_are_each_filled():
+    """Each ring is filled on its own, as each of sportyR's polygon groups is:
+    trapezoid strips narrow enough to overlap at the goal line fill where they
+    overlap (as one path, their opposite windings left it empty)."""
+    feature = hockey_features.GoaltendersRestrictedArea(
+        rink_length=200.0,
+        feature_thickness=1.0,
+        short_base_width=0.5,
+        long_base_width=28.0,
+        x_anchor=89.0,
+        facecolor="#000000",
+    )
+    fig, ax = plt.subplots(figsize=(4, 4), dpi=100)
+    assert feature.draw(ax, ax.transData) in ax.patches
+    ax.set_xlim(88.5, 89.7)
+    ax.set_ylim(-0.6, 0.6)
+    ax.axis("off")
+    fig.canvas.draw()
+    image = np.asarray(fig.canvas.buffer_rgba())
+    # both strips cover (89.1, 0)
+    px, py = ax.transData.transform((89.1, 0.0))
+    assert tuple(image[int(image.shape[0] - py), int(px)][:3]) == (0, 0, 0)
+    plt.close(fig)
