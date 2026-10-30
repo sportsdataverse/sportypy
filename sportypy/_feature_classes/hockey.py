@@ -808,7 +808,8 @@ class GoalCreaseOutline(BaseHockeyFeature):
                         -self.notch_dist_x,
                         -self.notch_dist_x,
                         -(self.notch_dist_x + self.feature_thickness),
-                        -(self.notch_dist_x + self.feature_thickness)
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -self.crease_length
                     ],
 
                     "y": [
@@ -826,6 +827,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                             self.feature_thickness +
                             self.notch_width
                         ),
+                        -half_crease_width + self.feature_thickness,
                         -half_crease_width + self.feature_thickness
                     ]
                 }),
@@ -839,6 +841,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
                 pd.DataFrame({
                     "x": [
+                        -self.crease_length,
                         -(self.notch_dist_x + self.feature_thickness),
                         -(self.notch_dist_x + self.feature_thickness),
                         -self.notch_dist_x,
@@ -848,6 +851,7 @@ class GoalCreaseOutline(BaseHockeyFeature):
                     ],
 
                     "y": [
+                        half_crease_width - self.feature_thickness,
                         half_crease_width - self.feature_thickness,
                         (
                             half_crease_width -
@@ -886,13 +890,13 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
                 pd.DataFrame({
                     "x": [
-                        -self.notch_dist_x,
+                        -(self.notch_dist_x + self.feature_thickness),
                         0.0,
                         0.0,
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -(self.notch_dist_x + self.feature_thickness),
                         -self.notch_dist_x,
-                        -self.notch_dist_x
+                        -self.notch_dist_x,
+                        -(self.notch_dist_x + self.feature_thickness),
+                        -(self.notch_dist_x + self.feature_thickness)
                     ],
 
                     "y": [
@@ -923,13 +927,13 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
                 pd.DataFrame({
                     "x": [
-                        -self.notch_dist_x,
-                        -self.notch_dist_x,
                         -(self.notch_dist_x + self.feature_thickness),
                         -(self.notch_dist_x + self.feature_thickness),
+                        -self.notch_dist_x,
+                        -self.notch_dist_x,
                         0.0,
                         0.0,
-                        -self.notch_dist_x
+                        -(self.notch_dist_x + self.feature_thickness)
                     ],
 
                     "y":[
