@@ -511,3 +511,16 @@ def test_added_constrained_feature_is_drawn_and_clipped():
     assert ax.patches[-1].get_clip_path() is not None
     plt.close(plain_ax.figure)
     plt.close(ax.figure)
+
+
+def test_rectangular_zones_tile_the_field_without_overlapping():
+    """The rectangular defensive and offensive zones stop at the neutral
+    zone's edges, as the oval ones do."""
+    args = {"field_length": 100.0, "field_width": 60.0, "nzone_length": 10.0}
+    dzone = lacrosse_features.defensive_zone(**args)
+    nzone = lacrosse_features.neutral_zone(nzone_length=10.0, field_width=60.0)
+    ozone = lacrosse_features.offensive_zone(**args)
+    assert (dzone["x"].min(), dzone["x"].max()) == (-50.0, -5.0)
+    assert (nzone["x"].min(), nzone["x"].max()) == (-5.0, 5.0)
+    assert (ozone["x"].min(), ozone["x"].max()) == (5.0, 50.0)
+

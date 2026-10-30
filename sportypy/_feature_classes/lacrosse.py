@@ -66,7 +66,10 @@ def defensive_zone(
             _circle((-center_x, -center_y), 1.0, 1.5, corner_radius),
             _df([-nzone_length / 2.0] * 2, [-half_width, half_width]),
         )
-    return _rect(-field_length / 2.0, 0.0, -field_width / 2.0, field_width / 2.0)
+    # A rectangular zone stops at the neutral zone's edge, as the oval one does
+    return _rect(
+        -field_length / 2.0, -nzone_length / 2.0, -field_width / 2.0, field_width / 2.0
+    )
 
 
 def neutral_zone(nzone_length=0.0, field_width=0.0):
@@ -92,7 +95,10 @@ def offensive_zone(
             _circle((center_x, -center_y), 0.0, -0.5, corner_radius),
             _df([nzone_length / 2.0] * 2, [-half_width, half_width]),
         )
-    return _rect(0.0, field_length / 2.0, -field_width / 2.0, field_width / 2.0)
+    # A rectangular zone stops at the neutral zone's edge, as the oval one does
+    return _rect(
+        nzone_length / 2.0, field_length / 2.0, -field_width / 2.0, field_width / 2.0
+    )
 
 
 def field_apron(
