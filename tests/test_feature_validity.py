@@ -12,8 +12,10 @@ import pandas as pd
 import pytest
 from matplotlib.colors import to_rgba
 
+import sportypy._feature_classes.hockey as hockey_features
 import sportypy._feature_classes.lacrosse as lacrosse_features
 from sportypy._base_classes._base_feature import BaseFeature
+from sportypy.surfaces.hockey import HockeyRink
 from sportypy.surfaces.lacrosse import NCAAMLacrosseField
 
 split_rings = BaseFeature._split_rings
@@ -71,6 +73,59 @@ def test_split_rings_and_has_area_read_back_to_back_rings():
     # a path that never closes is kept as one trailing ring
     assert len(split_rings(_df([0, 1, 1], [0, 0, 1]))) == 1
     assert len(split_rings(_df([0], [0]))) == 1
+
+
+def test_nhl_trapezoid_is_two_simple_strips_from_the_goal_line():
+    df = hockey_features.GoaltendersRestrictedArea(
+        rink_length=200.0,
+        feature_thickness=2 / 12,
+        short_base_width=22.0,
+        long_base_width=28.0,
+        x_anchor=89.0,
+    )._get_centered_feature()
+    rings = split_rings(df)
+    assert [len(r) for r in rings] == [5, 5]
+    assert [count_crossings(r) for r in rings] == [0, 0]
+
+
+def test_nhl_crease_inner_arc_meets_the_inner_straight_sides():
+    crease = hockey_features.GoalCreaseOutline(
+        feature_radius=6.0,
+        feature_thickness=2 / 12,
+        crease_style="nhl98",
+        crease_length=4.5,
+        crease_width=8.0,
+        notch_dist_x=4.0,
+        notch_width=0.5,
+    )
+    df = crease._get_centered_feature()
+    # the inner arc starts and ends on the inner straight sides
+    inner = 6.0 - 2 / 12
+    on_side = np.abs(np.abs(df["y"]) - (4.0 - 2 / 12)) < 1e-9
+    on_arc = np.abs(np.hypot(df["x"], df["y"]) - inner) < 1e-9
+    assert int((on_side & on_arc).sum()) == 2
+
+
+def test_center_faceoff_circle_closes_on_its_first_point():
+    df = hockey_features.CenterFaceoffCircle(
+        feature_radius=15.0, feature_thickness=2 / 12
+    )._get_centered_feature()
+    ring = _ring(df)
+    assert np.allclose(ring[0], ring[-1], atol=1e-9)
+    assert count_crossings(ring) == 0
+    assert len(split_rings(df)) == 1
+
+
+@pytest.mark.parametrize("league", ["nhl", "ohl", "ushl"])
+def test_hockey_fixed_features_are_simple_rings(league):
+    names = {"GoaltendersRestrictedArea", "CenterFaceoffCircle", "PlayerBenchOutline"}
+    seen = set()
+    for f in HockeyRink(league_code=league)._features:
+        if type(f).__name__ in names:
+            seen.add(type(f).__name__)
+            for ring in split_rings(f._get_centered_feature()):
+                assert count_crossings(ring) == 0, (league, type(f).__name__)
+    assert seen == names
 
 
 @pytest.mark.parametrize(
