@@ -20,6 +20,8 @@
 
 ## `sportypy` 1.2.0
 
+Versions 1.1.0 to 1.2.2 never reached PyPI: 1.1.0 was never tagged, 1.2.0 was tagged without a release, and the 1.2.1 and 1.2.2 uploads failed. 1.2.3 is the first release on PyPI since 1.0.0, and it carries everything below.
+
 Brings `sportypy` in line with `sportyR` 2.3.0 and its geometry fixes.
 
 ### New surfaces (ported from `sportyR`)
@@ -77,14 +79,16 @@ Display ranges:
 - Football: after `update_field_params({"field_bordered": ...})` the default outline colours follow the new `field_bordered`; an outline colour you chose is kept.
 - Lacrosse: a single `xlim`/`ylim` value is the lower bound of the display range (it raised `TypeError`), and a NumPy array works as a tuple does.
 - Football no longer uses pandas' deprecated `inplace` keyword (a `Pandas4Warning` on pandas 3.1).
-- Supported Python versions are 3.10 to 3.14 (Python 3.9 reached end of life); CI tests 3.10 and 3.14.
-- Packaging moved to `pyproject.toml` with the `uv_build` backend (`setup.py`, `requirements.txt` and `tox.ini` are gone), and matplotlib 3.8 or newer is required.
 - Volleyball and basketball in other units: the substitution-zone repetitions and free-throw-circle dashes are counts and are no longer scaled like lengths (a FIVB court in inches drew 196 dashes instead of 5).
 - Football in other units: the nudge of a top "1" in the Clarendon font is converted from yards; sizing the yard numbers no longer leaves an extra tiny text on the axes.
 - Surfaces in other units and shifted match `sportyR`'s for lacrosse, football and volleyball (tests/test_unit_parity.py).
 
-### Documentation
+### Packaging and documentation (first released in 1.2.1)
 
+These came after the `v1.2.0` tag, whose `setup.py` still allowed Python 3.9, and shipped in 1.2.1:
+
+- Supported Python versions are 3.10 to 3.14 (Python 3.9 reached end of life); CI tests 3.10 and 3.14.
+- Packaging moved to `pyproject.toml` with the `uv_build` backend (`setup.py`, `requirements.txt` and `tox.ini` are gone), and matplotlib 3.8 or newer is required.
 - The docs site (sportypy.sportsdataverse.org) is rebuilt with Docusaurus in the SportsDataverse docs family, and its API reference is generated from the docstrings on every build. It adds two cookbooks (NBA shot quality, NHL expected goals) with sportsdataverse-py data and sdvplot colours. The Sphinx site is retired; its old addresses (`/surfaces/hockey/nhl.html` and so on) redirect to the matching reference page.
 
 ## `sportypy` 1.1.0

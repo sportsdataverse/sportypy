@@ -18,7 +18,23 @@ dependencies = [
     "pandas",
     "matplotlib>=3.8",
 ]
+keywords = [
+    "sports",
+    "sports-analytics",
+    "visualization",
+    "matplotlib",
+    "court",
+    "field",
+    "rink",
+    "pitch",
+    "sportsdataverse",
+]
 classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Matplotlib",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Visualization",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -31,6 +47,7 @@ classifiers = [
 Source = "https://github.com/sportsdataverse/sportypy"
 Docs = "https://sportypy.sportsdataverse.org/"
 "Bug Tracker" = "https://github.com/sportsdataverse/sportypy/issues"
+Changelog = "https://sportypy.sportsdataverse.org/CHANGELOG"
 
 [dependency-groups]
 test = ["pytest", "pytest-cov"]

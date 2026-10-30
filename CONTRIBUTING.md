@@ -16,7 +16,7 @@ There's many ways that you can contribute to `sportypy`. If you want a more comp
 
 ### Be A Fan - Love the Package
 
-Think that `sportypy` is awesome? Want to share the awesome plots and gifs you made with it? Let others discover it by telling them in person, tagging the project on [Twitter](https://www.twitter.com/sportypy), or writing a blog post about your experience with it!
+Think that `sportypy` is awesome? Want to share the awesome plots and gifs you made with it? Let others discover it by telling them in person, tagging [@SportsDataverse](https://x.com/SportsDataverse) on X or [Bluesky](https://bsky.app/profile/sportsdataverse.org), or writing a blog post about your experience with it!
 
 If you're using `sportypy` in an academic context, please do your best to cite the package as well.
 
@@ -26,7 +26,7 @@ Like any good sports organization, `sportypy` does its best to scout for itself 
 
 1) Please double check the [README](https://www.github.com/sportsdataverse/sportypy) and the [Issues](https://github.com/sportsdataverse/sportypy/issues) pages to be sure that your problem hasn't already been solved. This isn't meant to stop you from reporting your problem, but rather to be sure that it's a new one so it can be properly addressed.
 
-2) Title your issue with a clear description of what you're looking for. Titling your Issue "This is weird..." doesn't give as good of an idea of what you're after as titling your Issue "NCAA Football hashmarks are out of place." Even better if you can prefix/tag your Issue with `bug` or `feature-request`
+2) Title your issue with a clear description of what you're looking for. Titling your Issue "This is weird..." doesn't give as good of an idea of what you're after as titling your Issue "NCAA Football hashmarks are out of place." The [issue templates](https://github.com/sportsdataverse/sportypy/issues/new/choose) (bug report, feature request, dimension correction, new sport or league) add the title prefix and label for you
 
 3) Spend some time creating a detailed explanation, with a reproducible example, of the problem you're having. Without being able to understand the issue, it's even harder to find what's causing it to occur. Do your best to make sure your code is well-formatted and easy for others to read:
 
@@ -78,9 +78,9 @@ Your request will be checked against the following points:
 
 - **Documentation** &mdash; When introducing new code, please make sure you document it appropriately. Documentation comes in three main forms:
 
-  - Docstrings for classes and their sub-methods, in NumPy style. The package website's API reference is built from them: a new sport, league class or method appears there once its docstring exists, with no page to write by hand. Preview the site with `yarn start` in `docs/` (it needs Node 20+ and [uv](https://docs.astral.sh/uv/)).
+  - Docstrings for classes and their sub-methods, in NumPy style. The package website's API reference is built from them: a new sport, league class or method appears there once its docstring exists, with no page to write by hand. Preview the site with `yarn start` in `docs/` (it needs Node 20 or newer, CI uses 24, and [uv](https://docs.astral.sh/uv/)).
 
-  - A bullet in `CHANGELOG.md` under the next version for any user-visible change. It becomes the site's News page.
+  - [Conventional Commit](https://www.conventionalcommits.org/) messages and pull request title, such as `fix(hockey): ...` or `feat(lacrosse): ...`. The release workflow (semantic-release) writes the release notes and `CHANGELOG.md` from the commit messages that land on `main` (with a squash merge, the pull request title), so do not edit `CHANGELOG.md` by hand. It becomes the site's News page.
 
   - In-line/in-file comments throughout the code that explain what your code is trying to achieve
 
@@ -91,7 +91,7 @@ Your request will be checked against the following points:
     To test your coverage, install [`uv`](https://docs.astral.sh/uv/) and run the following commands:
 
     ```bash
-    uv sync
+    uv sync --locked
     uv run pytest --cov=sportypy tests/ --cov-report=term
     ```
 
@@ -100,3 +100,7 @@ Your request will be checked against the following points:
     This will show you where your new code lacks sufficient coverage, so please be sure to add tests in the `tests/` repository to make sure you're covered! For help on creating tests, please reach out to the League Office
 
 Although this seems like a lot of work and a big hassle, the League Office doesn't expect perfection and is on hand to help out as needed.
+
+## Releases (maintainers)
+
+Releases are automatic: every push to `main` runs semantic-release, which picks the version from the Conventional Commit types since the last tag, writes `CHANGELOG.md`, tags and creates the GitHub Release; the release runs `upload-to-pypi.yml`, which publishes to PyPI through a trusted publisher. The PyPI side of that setup, and how to publish a release whose upload failed (dispatch `upload-to-pypi.yml` on `main`; never re-run an old run or dispatch on an old tag), are in the Release section of [CLAUDE.md](https://github.com/sportsdataverse/sportypy/blob/main/CLAUDE.md#release).

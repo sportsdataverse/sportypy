@@ -14,7 +14,7 @@ file.
   `uv run --no-sync ruff check .`, `uv run --no-sync pre-commit run --all-files`,
   `uv run --no-sync pytest tests/` and the docs site build (`yarn build` in
   `docs/`, which fails on a broken link). CI also runs
-  zizmor on `upload-to-pypi.yml` and checks the built distributions
+  zizmor on the release, publish and docs-deploy workflows and checks the built distributions
   (`uv build`, `twine check --strict`, the wheel ships the data JSON).
 - Never let a `uv.lock` change ride into an unrelated commit.
 
@@ -22,7 +22,8 @@ file.
 
 Conventional Commits. No AI co-author trailers or "Generated with" footers.
 Stage explicit paths. Do not edit `CHANGELOG.md`: the release workflow
-writes it from the commit messages.
+(semantic-release) writes it from the commit messages that land on `main`
+(with a squash merge, the PR title).
 
 ## Code
 
@@ -45,4 +46,9 @@ writes it from the commit messages.
 Never hand-edit the sportyR fixtures under `tests/data/` or `uv.lock`. The
 docs site's API reference, usage guide, News page and cookbook pages are written
 by `tools/gen_docs.py` on every build and are not committed: change the
-docstring, the README, `CHANGELOG.md` or the notebook instead.
+docstring, the README or the notebook instead (the News page comes from
+`CHANGELOG.md`, which the release workflow writes).
+
+The cookbooks in `examples/notebooks/` load live data, so they are executed
+by hand and committed WITH their outputs; never strip a notebook's outputs
+(the docs build fails on a notebook not run top to bottom).

@@ -29,7 +29,9 @@ this file holds the repo-specific ones.
   that is committed: change the docstring, the README or the changelog, never a
   generated page.
 - Publishing: `docs-build` builds the site on pull requests; `docs-deploy`
-  builds `main` and publishes it to the `gh-pages` branch (one orphan commit).
+  builds `main` and publishes it to the `gh-pages` branch (one orphan commit),
+  on a push to `main` that touches the site's sources and when a GitHub
+  Release is published (the `[skip ci]` release commit starts no push run).
   Vercel serves `gh-pages` as static files and builds nothing (production
   branch `gh-pages`; an ignored-build step skips every other branch).
   `docs/static/vercel.json` lands at the branch root and redirects the old
@@ -41,8 +43,8 @@ this file holds the repo-specific ones.
   `gen_docs.py` turns each into a page under `docs/docs/cookbooks/` and
   fails the build on one not run top to bottom (execution counts 1..n) or with
   an error output. Print polars frames (`ASCII_MARKDOWN`) so they become tables;
-  tag a figure's cell `gallery` for the overview and homepage. On this Windows
-  box a global Jupyter config loads a missing nbextensions preprocessor: set
+  tag a figure's cell `gallery` for the overview and homepage. If a global
+  Jupyter config breaks nbconvert (e.g. it loads a missing preprocessor), set
   `JUPYTER_CONFIG_DIR` to an empty folder when executing.
 
 ## sportyR parity
@@ -95,6 +97,23 @@ It runs `uv version` (`pyproject.toml` and `uv.lock`), prepends the notes to
 `CHANGELOG.md`, pushes a `chore(release)` commit and the `vX.Y.Z` tag, and creates
 the GitHub Release, which runs `upload-to-pypi.yml` (`uv build` + `uv publish`).
 Never bump the version or edit the generated changelog entries by hand.
+
+The upload authenticates with a PyPI trusted publisher (no PyPI token in the
+repo). It is configured on pypi.org under sportypy, Settings, Publishing, as a
+GitHub publisher with owner `sportsdataverse`, repository `sportypy`, workflow
+`upload-to-pypi.yml` and no environment (the `publish` job declares none; a
+publisher with an environment fails with `invalid-publisher`).
+
+If a release's upload fails, publish it by dispatching the workflow on `main`:
+`gh workflow run upload-to-pypi.yml --ref main`. That builds the version
+`main`'s `pyproject.toml` holds, so first check that it is still the release's
+version and that nothing since the tag changed the package
+(`git diff vX.Y.Z main -- sportypy pyproject.toml`; docstrings and metadata
+only is fine). `--check-url` skips files PyPI already has, so a retry is
+safe. Never "Re-run" an old failed run or dispatch on an old tag: a run and a
+tag carry the workflow file as it was then, and every tag up to v1.2.3
+predates the trusted publisher (#34) and still uploads with the retired
+password secrets.
 
 ## Windows
 

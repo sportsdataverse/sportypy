@@ -15,7 +15,7 @@ it with its outputs (the site build fails on a notebook that was not):
 uv run --group cookbook jupyter nbconvert --to notebook --execute --inplace examples/notebooks/nba-shot-quality.ipynb
 ```
 
-Or open it with `uv run --group cookbook jupyter lab`, restart the kernel and
+Or open it with `uv run --group cookbook --with jupyterlab jupyter lab`, restart the kernel and
 run all cells. A notebook's `metadata.sportypy` holds its sidebar `label`,
 `position` and `description`; tag a figure's cell `gallery` to put that figure
 on the cookbooks overview and the homepage.
