@@ -13,6 +13,10 @@ jobs:
   deploy:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # PyPI trusted publishing: uv publish trades this job's OIDC token for an upload token
+      id-token: write
 
     steps:
     - name: 📥 Check out the repository
@@ -26,11 +30,8 @@ jobs:
     - name: 🔨 Build the sdist and wheel
       run: uv build
     - name: 🚀 Publish to PyPI
-      env:
-        UV_PUBLISH_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      # A PyPI trusted publisher (OIDC) would replace the stored credentials;
-      # it needs configuring on PyPI by the project owner first
+      # Authenticates through the trusted publisher configured on PyPI for this
+      # workflow file, so no PyPI credentials are stored in the repo
       # --check-url skips files PyPI already has, so a re-run after a partial upload
       # publishes only the missing distributions
-      run: uv publish --check-url https://pypi.org/simple/  # zizmor: ignore[use-trusted-publishing]
+      run: uv publish --check-url https://pypi.org/simple/
