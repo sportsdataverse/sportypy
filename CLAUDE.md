@@ -29,7 +29,9 @@ this file holds the repo-specific ones.
   that is committed: change the docstring, the README or the changelog, never a
   generated page.
 - Publishing: `docs-build` builds the site on pull requests; `docs-deploy`
-  builds `main` and publishes it to the `gh-pages` branch (one orphan commit).
+  builds `main` and publishes it to the `gh-pages` branch (one orphan commit),
+  on a push to `main` that touches the site's sources and when a GitHub
+  Release is published (the `[skip ci]` release commit starts no push run).
   Vercel serves `gh-pages` as static files and builds nothing (production
   branch `gh-pages`; an ignored-build step skips every other branch).
   `docs/static/vercel.json` lands at the branch root and redirects the old

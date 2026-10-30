@@ -3,6 +3,12 @@
 # plain static files (production branch gh-pages, every other branch's build
 # skipped), so the build runs here, not on Vercel. docs/static/vercel.json is
 # copied to the branch root and carries the redirects from the old Sphinx URLs.
+#
+# It also runs when a GitHub Release is published. The release commit carries
+# [skip ci], so it starts no push workflow, and it is the only commit that
+# changes the version and the News page: without this trigger the site stays a
+# release behind. A release run builds main (not the tag), so publishing a
+# release for an old tag never puts old docs live.
 name: docs-deploy
 
 on:
@@ -18,6 +24,8 @@ on:
       - "pyproject.toml"
       - "uv.lock"
       - ".github/workflows/docs-deploy.yml"
+  release:
+    types: [published]
   workflow_dispatch:
 
 concurrency:
@@ -30,14 +38,18 @@ permissions:
 jobs:
   build-deploy:
     name: build and publish to gh-pages
-    # workflow_dispatch can be launched from any branch; only main publishes
-    if: github.ref == 'refs/heads/main'
+    # workflow_dispatch can be launched from any branch; only main publishes.
+    # A release run's ref is its tag, but it checks out main below
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
     - name: 📥 Check out the repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       with:
+        # A release run builds main's head (which includes the release commit);
+        # push and dispatch runs keep the default, the triggering commit
+        ref: ${{ github.event_name == 'release' && 'main' || '' }}
         # The job holds contents:write but the build runs third-party yarn
         # scripts; the publish step passes its token explicitly instead
         persist-credentials: false
@@ -53,6 +65,8 @@ jobs:
       uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
       with:
         node-version: 24
+        # No cache here either (see setup-uv above)
+        package-manager-cache: false
 
     - name: 📦 Install the site's dependencies
       working-directory: docs
