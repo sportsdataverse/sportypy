@@ -973,9 +973,10 @@ class GoalCreaseOutline(BaseHockeyFeature):
 
         # nhl92 crease style: full semi-circle outline with two L-shaped marks
         # adjoining the semi-circle, but not extending back towards the goal
-        # line
+        # line. The semi-circle's band and each L-mark are separate closed
+        # rings, so that no ring crosses itself or another
         elif self.crease_style.lower() == "nhl92":
-            goal_crease_outline_df = pd.concat([
+            arc_band_df = pd.concat([
                 self.create_circle(
                     center = (0.0, 0.0),
                     start = 0.5,
@@ -986,95 +987,50 @@ class GoalCreaseOutline(BaseHockeyFeature):
                 self.create_circle(
                     center = (0.0, 0.0),
                     start = 1.5,
-                    end = 1.5 - theta,
-                    r = self.feature_radius - self.feature_thickness
-                ),
-
-                pd.DataFrame({
-                    "x": [
-                        -self.notch_dist_x,
-                        -self.notch_dist_x + self.notch_width,
-                        -self.notch_dist_x + self.notch_width,
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -self.notch_dist_x,
-                        -self.notch_dist_x
-                    ],
-
-                    "y": [
-                        -half_crease_width,
-                        -half_crease_width,
-                        -half_crease_width + self.feature_thickness,
-                        -half_crease_width + self.feature_thickness,
-                        (
-                            -half_crease_width +
-                            self.feature_thickness +
-                            self.notch_width
-                        ),
-                        (
-                            -half_crease_width +
-                            self.feature_thickness +
-                            self.notch_width
-                        ),
-                        -half_crease_width
-                    ]
-                }),
-
-                self.create_circle(
-                    center = (0.0, 0.0),
-                    start = 1.5 - theta,
-                    end = 0.5 + theta,
-                    r = self.feature_radius - self.feature_thickness
-                ),
-
-                pd.DataFrame({
-                    "x": [
-                        -self.notch_dist_x,
-                        -self.notch_dist_x,
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -(self.notch_dist_x + self.feature_thickness),
-                        -self.notch_dist_x + self.notch_width,
-                        -self.notch_dist_x + self.notch_width,
-                        -self.notch_dist_x
-                    ],
-
-                    "y":[
-                        half_crease_width,
-                        (
-                            half_crease_width -
-                            self.notch_width -
-                            self.feature_thickness
-                        ),
-                        (
-                            half_crease_width -
-                            self.notch_width -
-                            self.feature_thickness
-                        ),
-                        half_crease_width - self.feature_thickness,
-                        half_crease_width - self.feature_thickness,
-                        half_crease_width,
-                        half_crease_width
-                    ]
-                }),
-
-                self.create_circle(
-                    center = (0.0, 0.0),
-                    start = 0.5 + theta,
                     end = 0.5,
-                    r = self.feature_radius - self.feature_thickness
+                    r = max(inner_radius, 0.0)
                 ),
 
                 pd.DataFrame({
-                    "x": [
-                        0.0,
-                        0.0
-                    ],
-
-                    "y": [
-                        self.feature_radius - self.feature_thickness,
-                        self.feature_radius
-                    ]
+                    "x": [0.0],
+                    "y": [self.feature_radius]
                 })
+            ])
+
+            lower_l_mark_df = pd.DataFrame({
+                "x": [
+                    -self.notch_dist_x - self.feature_thickness,
+                    -self.notch_dist_x + self.notch_width,
+                    -self.notch_dist_x + self.notch_width,
+                    -self.notch_dist_x,
+                    -self.notch_dist_x,
+                    -self.notch_dist_x - self.feature_thickness,
+                    -self.notch_dist_x - self.feature_thickness
+                ],
+
+                "y": [
+                    -half_crease_width,
+                    -half_crease_width,
+                    -half_crease_width + self.feature_thickness,
+                    -half_crease_width + self.feature_thickness,
+                    (
+                        -half_crease_width +
+                        self.feature_thickness +
+                        self.notch_width
+                    ),
+                    (
+                        -half_crease_width +
+                        self.feature_thickness +
+                        self.notch_width
+                    ),
+                    -half_crease_width
+                ]
+            })
+
+            goal_crease_outline_df = pd.concat([
+                arc_band_df,
+                lower_l_mark_df,
+                self._reflect(lower_l_mark_df, over_x = True, over_y = False)
             ])
 
         else:

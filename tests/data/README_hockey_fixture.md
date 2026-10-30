@@ -6,7 +6,7 @@ x, y, x², y², xy over every point; every 25th point plus the last; fill and
 outline colour).
 
 - sportyR checkout: `<sportyR checkout>`, `main` commit
-  69e371b5b278c8afa7db2ded1eeeba4083f87647 (sportyR 2.4.1)
+  e021040cbdd9d7c3562051316ccc76d31c6ac0dc (sportyR 2.4.5)
   (see `provenance` in the JSON)
 - Captured 2026-10-30 (Rscript 4.6.1); loaded with `pkgload::load_all()`, not installed
 - Regenerate: `Rscript tools/hockey_fixture.R <path to sportyR> tests/data/sportyr_hockey_fixture.json`

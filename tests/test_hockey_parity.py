@@ -23,8 +23,8 @@ FIX = json.loads((Path(__file__).parent / "data/sportyr_hockey_fixture.json").re
 LEAGUES = FIX["leagues"]
 
 # Features sportypy draws differently from sportyR, all from before sportyR
-# 2.4: the goal frame and its fill, the crease fill and outline, the referee's
-# crease and the penalty boxes
+# 2.4: the goal frame and its fill, the crease fill and (nhl98 and ushl1
+# styles) the crease outline, the referee's crease and the penalty boxes
 DRIFT = {
     "GoalFrame",
     "GoalFrameFill",
@@ -41,7 +41,9 @@ def _xy(feature, x_trans=0.0, y_trans=0.0):
 
 
 def _check(rink, layers, x_trans=0.0, y_trans=0.0, where=""):
-    drift = set(DRIFT) | {"GoalCreaseOutline"}
+    drift = set(DRIFT)
+    if rink.rink_params.get("goal_crease_style") != "nhl92":
+        drift.add("GoalCreaseOutline")
     feats = [f for f in rink._features if f.visible and f._shows()]
     xy = [_xy(f, x_trans, y_trans) for f in feats]
     used, refs = set(), list(range(len(layers)))

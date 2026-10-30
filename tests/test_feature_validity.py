@@ -106,6 +106,23 @@ def test_nhl_crease_inner_arc_meets_the_inner_straight_sides():
     assert int((on_side & on_arc).sum()) == 2
 
 
+def test_nhl92_crease_is_its_arc_band_and_two_l_marks():
+    df = hockey_features.GoalCreaseOutline(
+        feature_radius=6.0,
+        feature_thickness=2 / 12,
+        crease_style="nhl92",
+        crease_width=8.0,
+        notch_dist_x=4.0,
+        notch_width=0.5,
+    )._get_centered_feature()
+    rings = split_rings(df)
+    assert [len(r) for r in rings] == [2001, 7, 7]
+    assert [count_crossings(r) for r in rings] == [0, 0, 0]
+    # the band is the half annulus between the two radii
+    inner = 6.0 - 2 / 12
+    assert _area(rings[0]) == pytest.approx(math.pi * (36 - inner**2) / 2, rel=1e-5)
+
+
 def test_center_faceoff_circle_closes_on_its_first_point():
     df = hockey_features.CenterFaceoffCircle(
         feature_radius=15.0, feature_thickness=2 / 12
@@ -119,6 +136,8 @@ def test_center_faceoff_circle_closes_on_its_first_point():
 @pytest.mark.parametrize("league", ["nhl", "ohl", "ushl"])
 def test_hockey_fixed_features_are_simple_rings(league):
     names = {"GoaltendersRestrictedArea", "CenterFaceoffCircle", "PlayerBenchOutline"}
+    if league == "ohl":
+        names.add("GoalCreaseOutline")
     seen = set()
     for f in HockeyRink(league_code=league)._features:
         if type(f).__name__ in names:
