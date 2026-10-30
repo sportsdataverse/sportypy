@@ -481,7 +481,9 @@ class BaseFeature(ABC):
 
         Sums the unsigned area (shoelace formula) of each ring, so rings that
         wind in opposite directions do not cancel. A zero-width ring, a line or
-        a single point has no area. This is ``sportyR``'s ``has_area()``
+        a single point has no area. This is ``sportyR``'s ``has_area()``,
+        except that a ring that does not end on its first point is closed, as
+        it is when drawn
 
         Parameters
         ----------
@@ -502,7 +504,12 @@ class BaseFeature(ABC):
 
         for ring in cls._split_rings(df):
             x, y = ring[:, 0], ring[:, 1]
-            area = abs(np.sum(x[:-1] * y[1:] - x[1:] * y[:-1])) / 2
+            # The last term closes a ring that does not end on its first
+            # point, as the drawn polygon does; it is zero for a closed ring.
+            # sportyR leaves it out, so it would skip an open ring with area
+            area = abs(
+                np.sum(x[:-1] * y[1:] - x[1:] * y[:-1]) + x[-1] * y[0] - x[0] * y[-1]
+            ) / 2
             if area > tolerance:
                 return True
 

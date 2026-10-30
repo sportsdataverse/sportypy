@@ -70,6 +70,8 @@ def test_split_rings_and_has_area_read_back_to_back_rings():
     assert len(split_rings(_df([1, 1, 1], [2, 2, 2]))) == 1
     assert not has_area(_df([1, 1, 1], [2, 2, 2]))
     assert not has_area(BaseFeature.create_rectangle(-100, 100, 0, 0))
+    # a ring that does not end on its first point is closed, as it is drawn
+    assert has_area(_df([1, 2, 3], [1, 1, 2]))
     # a path that never closes is kept as one trailing ring
     assert len(split_rings(_df([0, 1, 1], [0, 0, 1]))) == 1
     assert len(split_rings(_df([0], [0]))) == 1
