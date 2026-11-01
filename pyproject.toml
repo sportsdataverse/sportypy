@@ -53,7 +53,7 @@ Changelog = "https://sportypy.sportsdataverse.org/CHANGELOG"
 test = ["pytest", "pytest-cov"]
 lint = [
     "pre-commit>=4",
-    "ruff==0.17.2",
+    "ruff==0.17.3",
 ]
 docs = [
     "griffe>=2.3.0",
