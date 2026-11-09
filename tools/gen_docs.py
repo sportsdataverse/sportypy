@@ -359,17 +359,18 @@ def changelog_page() -> str:
 
 def getting_started_page() -> str:
     """The README's usage sections, from "Using the Package" up to the
-    community links, so the guide on the site is the README's."""
+    Documentation footer, so the guide on the site is the README's."""
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    start = readme.index("## Using the Package")
-    end = readme.index("## Follow the SportsDataverse")
+    # headings may be bold (the README standard) or plain
+    start = re.search(r"^## (\*\*)?Using the Package", readme, flags=re.M).start()
+    end = re.search(r"^## (\*\*)?Documentation", readme, flags=re.M).start()
     return (
         "---\ntitle: Getting started\nsidebar_position: 2\n"
         'description: "How to draw a sportypy surface, change its colors, '
         'dimensions, units and view, and plot data on it."\n---\n\n'
         + HEADER.format("README.md")
         + "\n# Getting started\n\n"
-        + readme[start:end].rstrip()
+        + re.sub(r"^(#{1,2}) \*\*(.+)\*\*$", r"\1 \2", readme[start:end].rstrip(), flags=re.M)
         + "\n"
     )
 
