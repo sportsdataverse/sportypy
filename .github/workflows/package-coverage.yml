@@ -47,5 +47,7 @@ jobs:
         # The action does not read repo secrets on its own. A pull request from a
         # fork gets an empty token, which Codecov accepts for forks
         token: ${{ secrets.CODECOV_TOKEN }}
-        # Fail the job on a rejected upload, so a missing report is not silent
-        fail_ci_if_error: true
+        # Fail the job on a rejected upload, so a missing report is not silent.
+        # Dependabot runs can't read CODECOV_TOKEN and Codecov rejects a tokenless
+        # upload to a protected branch, so for them a failed upload only warns.
+        fail_ci_if_error: ${{ github.actor != 'dependabot[bot]' }}
