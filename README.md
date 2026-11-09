@@ -1,24 +1,31 @@
-# sportypy <img src="https://raw.githubusercontent.com/sportsdataverse/sportypy/main/logos/sportypy-logo-200.png" align="right" width="120"/>
+# **sportypy** <a href='https://sportypy.sportsdataverse.org/'><img alt="sportypy logo" src='https://raw.githubusercontent.com/sportsdataverse/sportypy/main/logos/sportypy-logo-200.png' align="right" width="120"/></a>
 
-[![PyPI](https://img.shields.io/pypi/v/sportypy?color=ff552e&logo=pypi&logoColor=white)](https://pypi.org/project/sportypy/)
-[![Python](https://img.shields.io/pypi/pyversions/sportypy?color=ff552e&logo=python&logoColor=white)](https://pypi.org/project/sportypy/)
-[![package-coverage](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/package-coverage.yml?branch=main&label=tests&logo=github)](https://github.com/sportsdataverse/sportypy/actions/workflows/package-coverage.yml)
-[![quality](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/quality.yml?branch=main&label=quality&logo=github)](https://github.com/sportsdataverse/sportypy/actions/workflows/quality.yml)
-[![codecov](https://img.shields.io/codecov/c/github/sportsdataverse/sportypy?color=ff552e&label=codecov&logo=codecov)](https://codecov.io/gh/sportsdataverse/sportypy)
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat&logo=github&color=ff552e)](https://github.com/sportsdataverse/sportypy/)
-[![npm](https://img.shields.io/npm/v/@sportsdataverse/sporty?label=sporty&logo=npm&style=flat&color=ff552e)](https://www.npmjs.com/package/@sportsdataverse/sporty)
+Scale drawings of playing surfaces, drawn to rulebook specifications, for plotting tracking and play-by-play data in Python.
+
+<!-- badges: start -->
+[![PyPI](https://img.shields.io/pypi/v/sportypy?label=sportypy&logo=python&style=for-the-badge)](https://pypi.org/project/sportypy/)
+[![Python](https://img.shields.io/pypi/pyversions/sportypy?logo=python&logoColor=white&style=for-the-badge)](https://pypi.org/project/sportypy/)
+[![Downloads](https://img.shields.io/pypi/dm/sportypy?style=for-the-badge)](https://pypistats.org/packages/sportypy)
+[![Total downloads](https://img.shields.io/pepy/dt/sportypy?style=for-the-badge)](https://pepy.tech/projects/sportypy)
+[![npm (sporty)](https://img.shields.io/npm/v/@sportsdataverse/sporty?label=sporty&logo=npm&style=for-the-badge)](https://www.npmjs.com/package/@sportsdataverse/sporty)
+[![Dev version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsportsdataverse%2Fsportypy%2Fmain%2Fpyproject.toml&query=%24.project.version&label=dev&logo=github&style=for-the-badge)](https://github.com/sportsdataverse/sportypy/)
+[![tests](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/package-coverage.yml?branch=main&label=tests&logo=github&style=for-the-badge)](https://github.com/sportsdataverse/sportypy/actions/workflows/package-coverage.yml?query=branch%3Amain)
+[![quality](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/quality.yml?branch=main&label=quality&logo=github&style=for-the-badge)](https://github.com/sportsdataverse/sportypy/actions/workflows/quality.yml?query=branch%3Amain)
+[![dimensions-drift](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/dimensions-drift.yml?branch=main&label=dimensions-drift&logo=github&style=for-the-badge)](https://github.com/sportsdataverse/sportypy/actions/workflows/dimensions-drift.yml?query=branch%3Amain)
+[![Codecov](https://img.shields.io/codecov/c/github/sportsdataverse/sportypy?logo=codecov&style=for-the-badge)](https://app.codecov.io/gh/sportsdataverse/sportypy)
+[![docs](https://img.shields.io/github/actions/workflow/status/sportsdataverse/sportypy/docs-deploy.yml?branch=main&label=docs&logo=github&style=for-the-badge)](https://sportypy.sportsdataverse.org)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=for-the-badge&logo=github)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg?style=for-the-badge)](https://github.com/sportsdataverse/sportypy/blob/main/LICENSE)
+[![Contributors](https://img.shields.io/github/contributors/sportsdataverse/sportypy?style=for-the-badge)](https://github.com/sportsdataverse/sportypy/graphs/contributors)
+[![GitHub stars](https://img.shields.io/github/stars/sportsdataverse/sportypy?logo=github&style=for-the-badge)](https://github.com/sportsdataverse/sportypy)
+[![X Follow](https://img.shields.io/twitter/follow/SportsDataverse?color=blue&label=%40SportsDataverse&logo=x&style=for-the-badge)](https://x.com/SportsDataverse)
+<!-- badges: end -->
 
 As the field of sports analytics evolves, there's a growing need for methods to both track and visualize players throughout the game. This package aims to make this easy regardless of sport needed to be plotted.
 
 This repository contains code necessary to draw scale versions of playing surfaces to visualize play-by-play data for baseball, basketball, curling, football, hockey, lacrosse, soccer, softball, tennis, and volleyball in **Python**. The **R** version of this package is [`sportyR`](https://github.com/sportsdataverse/sportyR).
 
-For **JavaScript / TypeScript**, [`@sportsdataverse/sporty`](https://www.npmjs.com/package/@sportsdataverse/sporty) is the TypeScript port of `sportyR` and `sportypy` (`npm install @sportsdataverse/sporty`). It lives in the [sdvplot-js repo](https://github.com/sportsdataverse/sdvplot-js), and its docs are at [plot.sportsdataverse.org](https://plot.sportsdataverse.org/).
-
-In Python, `sportypy` pairs with two other SportsDataverse packages: [`sportsdataverse-py`](https://py.sportsdataverse.org/) (`pip install sportsdataverse`) loads the play-by-play and shot data, and [`sdvplot`](https://sdvplot.sportsdataverse.org/) (`pip install "sdvplot[surfaces]"`) draws these surfaces in team colors and moves provider coordinates onto them. The [cookbooks](https://sportypy.sportsdataverse.org/docs/cookbooks) use all three.
-
-**Documentation:** [sportypy.sportsdataverse.org](https://sportypy.sportsdataverse.org/) has a guide, the [API reference](https://sportypy.sportsdataverse.org/docs/reference/) for every surface class, and the [changelog](https://sportypy.sportsdataverse.org/CHANGELOG).
-
-## Installation
+## **Installation**
 
 `sportypy` supports Python 3.10 and newer. To install it via `pip`, please run
 
@@ -32,7 +39,7 @@ or, in a [`uv`](https://docs.astral.sh/uv/) project,
 uv add sportypy
 ```
 
-## Using the Package
+## **Using the Package**
 
 Each league that is supported by `sportypy` has its own class in its respective sport under the `surfaces` submodule. The one exception is high school football: the 11-, 9-, 8- and 6-player NFHS fields are all `NFHSField`, chosen with `n_players` (see Surface Units below). As an example, you can instantiate an NHL rink like so:
 
@@ -79,7 +86,7 @@ The `draw()` method then takes:
 
 Some class names exist in several sports (e.g. `NCAACourt` in basketball, tennis and volleyball; `NCAAField` and `NFHSField` in baseball and football). The package-level `sportypy.surfaces.<name>` resolves to only one of them, so always import colliding names from their sport module, e.g. `from sportypy.surfaces.volleyball import NCAACourt`.
 
-## TV View and Display Ranges
+## **TV View and Display Ranges**
 
 ### TV View
 
@@ -117,7 +124,7 @@ WCFSheet().draw(display_range = "house")
 
 ![Curling house rendered from World Curling Federation sheet](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/curling-house.png)
 
-## Surface Units
+## **Surface Units**
 
 Each league's surface has a standardized unit of measure in which the plot is created, and is standardized by the primary units specified in their respective rule books. They are as follows (and any explanation is in parentheses):
 
@@ -189,7 +196,7 @@ NFHSField(n_players = 6).draw()
 
 However, since the data that is supplied may come in various units of measure, the plots are able to be generated in the data's units. This is done with the `units` argument to the class constructor, or via the `{surface_name}_updates` attribute in the class constructor, using the `{surface_name}_units` key (e.g. `NHLRink(rink_updates = {"rink_units": "in"})`). The features themselves will look visually identical, but the underlying coordinate grid will change.
 
-## Examples
+## **Examples**
 
 Some examples to help navigate the package:
 
@@ -230,7 +237,7 @@ NCAACourt(
 
 ![sportypy-rendered Illini basketball court (sans logos/branding)](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/custom-ncaa-court.png)
 
-## Adding Analyses and Plotting Data
+## **Adding Analyses and Plotting Data**
 
 In addition to just creating the baseline plots, `sportypy` has several methods to display analyses on top of the surfaces that the classes create. The syntax is meant to wrap `matplotlib` methods.
 
@@ -473,24 +480,53 @@ nba_court.heatmap(
 
 ![Ayo Dosunmu's rookie season heat map](https://raw.githubusercontent.com/sportsdataverse/sportypy/main/img/ayo-dosunmu-rookie-shot-chart.png)
 
-## Follow the SportsDataverse (@SportsDataverse) on X and star this repo
+## **Documentation**
+
+The [**`sportypy`** documentation website](https://sportypy.sportsdataverse.org/) has a guide, the
+[API reference](https://sportypy.sportsdataverse.org/docs/reference/) for every surface class, and the
+[cookbooks](https://sportypy.sportsdataverse.org/docs/cookbooks). Release notes are in the
+[changelog](https://sportypy.sportsdataverse.org/CHANGELOG).
+
+## **Companion packages**
+
+For **JavaScript / TypeScript**, [`@sportsdataverse/sporty`](https://www.npmjs.com/package/@sportsdataverse/sporty) is the TypeScript port of `sportyR` and `sportypy` (`npm install @sportsdataverse/sporty`). It lives in the [sdvplot-js repo](https://github.com/sportsdataverse/sdvplot-js), and its docs are at [plot.sportsdataverse.org](https://plot.sportsdataverse.org/).
+
+In Python, `sportypy` pairs with two other SportsDataverse packages: [`sportsdataverse-py`](https://py.sportsdataverse.org/) (`pip install sportsdataverse`) loads the play-by-play and shot data, and [`sdvplot`](https://sdvplot.sportsdataverse.org/) (`pip install "sdvplot[surfaces]"`) draws these surfaces in team colors and moves provider coordinates onto them. The [cookbooks](https://sportypy.sportsdataverse.org/docs/cookbooks) use all three.
+
+## **The SportsDataverse**
+
+[**`sportypy`**](https://sportypy.sportsdataverse.org/) is part of the [SportsDataverse](https://sportsdataverse.org/), a set of
+open-source packages for sports data.
+
+| Package | Sport / Scope |
+| --- | --- |
+| [**sportsdataverse-py**](https://py.sportsdataverse.org/) | SportsDataverse data for Python: NFL, CFB, NBA, WNBA, MBB, WBB, MLB, NHL, PWHL, soccer and more |
+| [**sdvplot**](https://sdvplot.sportsdataverse.org/) | Team logos, wordmarks, headshots and colors for Python plots and tables |
+| [**sportyR**](https://sportyR.sportsdataverse.org/) | The R version of this package |
+| [**sdvplot-js**](https://plot.sportsdataverse.org/) | The JavaScript port: `@sportsdataverse/sdvplot`, `@sportsdataverse/sporty` and `@sportsdataverse/sdvtables` on npm |
+| [**sportsdataverse-R**](https://r.sportsdataverse.org/) · [**sportsdataverse.js**](https://js.sportsdataverse.org/) | R and Node.js |
+
+See the full ecosystem at [sportsdataverse.org](https://sportsdataverse.org/).
+
+## **Follow the [SportsDataverse](https://x.com/SportsDataverse) on X and star this repo**
 
 [![X Follow](https://img.shields.io/twitter/follow/SportsDataverse?color=blue&label=%40SportsDataverse&logo=x&style=for-the-badge)](https://x.com/SportsDataverse)
 
 [![GitHub stars](https://img.shields.io/github/stars/sportsdataverse/sportypy.svg?color=eee&logo=github&style=for-the-badge&label=Star%20sportypy&maxAge=2592000)](https://github.com/sportsdataverse/sportypy)
 
-<a href="https://github.com/sportsdataverse/sportypy/stargazers">
+<a href="https://github.com/sportsdataverse/sportypy">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sportsdataverse/sportypy/star-history/star-history-dark.svg">
     <img alt="Star history of sportsdataverse/sportypy" src="https://raw.githubusercontent.com/sportsdataverse/sportypy/star-history/star-history.png" width="600">
   </picture>
 </a>
 
-## License
+## **Our Authors**
 
-This package is released under the [GPL 3.0 License](https://github.com/sportsdataverse/sportypy/blob/main/LICENSE).
+- [Ross Drucker](https://github.com/rossdrucker)
+  <a href="https://github.com/rossdrucker" target="_blank"><img src="https://img.shields.io/github/followers/rossdrucker?color=eee&logo=Github&style=for-the-badge" alt="@rossdrucker"/></a>
 
-## Contributions
+## **Contributions**
 
 Contributions are welcome: [CONTRIBUTING.md](https://github.com/sportsdataverse/sportypy/blob/main/CONTRIBUTING.md) explains how to set up the development environment, run the checks and open a pull request.
 
@@ -523,7 +559,18 @@ Notice something for a sport that already exists, but isn't quite right? Join th
 
 By regularly reporting issues, making very slight modifications, fixing typos, or just helping others navigate their own issues, you're able to join the Scout Team!
 
-## Cheat sheet
+## **Special Thanks**
+
+### Acknowledgements
+
+Much of the underlying code structure in `sportypy` was directly influenced and inspired by [The Bucketless](https://github.com/the-bucketless)'s work on the [hockey_rink](https://github.com/the-bucketless/hockey_rink) package. This package is meant to extend the capability that `hockey_rink` provides hockey analysts to analysts of a wider variety of sports
+
+### `sportypy` Logo Artist
+
+The `sportypy` logo was created by Lindsey Kelso. Check her out on [Instagram](http://Instagram.com/kelsokreationsbylindsey)!
+
+<!-- cheatsheet-section -->
+## **Cheat sheet**
 
 A printable one-page reference for `sportypy` — the surface classes and the
 arguments that shape them — is available as a free PDF. It predates the
@@ -534,7 +581,12 @@ lacrosse and softball surfaces, the PWHL rink and the Curling Canada sheet:
 Light and dark, US Letter landscape. Every SportsDataverse package has one —
 browse them all at **[sportsdataverse.org/cheatsheets](https://sportsdataverse.org/cheatsheets)**.
 
-## Citation
+## **Code of Conduct**
+
+Please note that the sportypy project is released with a [Contributor Code of Conduct](https://github.com/sportsdataverse/sportypy/blob/main/CODE-OF-CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
+
+## **Citations**
 
 To cite `sportypy` in publications, use:
 
@@ -548,10 +600,6 @@ To cite `sportypy` in publications, use:
 }
 ```
 
-### Acknowledgements
+## **License**
 
-Much of the underlying code structure in `sportypy` was directly influenced and inspired by [The Bucketless](https://github.com/the-bucketless)'s work on the [hockey_rink](https://github.com/the-bucketless/hockey_rink) package. This package is meant to extend the capability that `hockey_rink` provides hockey analysts to analysts of a wider variety of sports
-
-### `sportypy` Logo Artist
-
-The `sportypy` logo was created by Lindsey Kelso. Check her out on [Instagram](http://Instagram.com/kelsokreationsbylindsey)!
+This package is released under the [GPL 3.0 License](https://github.com/sportsdataverse/sportypy/blob/main/LICENSE).
