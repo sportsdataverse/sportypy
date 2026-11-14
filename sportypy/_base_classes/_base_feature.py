@@ -239,13 +239,18 @@ class BaseFeature(ABC):
         # quarter index picks them from a repeating cycle of four
         cos_theta = np.cos(theta)
         sin_theta = np.sin(theta)
-        quarters = np.round(turns * 2)
-        on_axis = np.isfinite(turns) & np.isclose(
-            turns * 2, quarters, rtol = 0.0, atol = 1e-12
+        doubled_turns = turns * 2
+        quarters = np.round(doubled_turns)
+        # Only snap a value that is a quarter point up to floating point
+        # rounding (a few ulps), so an angle that is genuinely close to, but
+        # not on, an axis keeps its trigonometric coordinates
+        on_axis = np.isfinite(doubled_turns) & np.isclose(
+            doubled_turns, quarters, rtol = 0.0, atol = 1e-14
         )
-        # A non-finite angle is not an axis point: it keeps its NaN result,
-        # and its quarter is zeroed so the integer cast below is safe
-        quarter_index = np.where(on_axis, quarters, 0).astype(int) % 4
+        # A non-finite angle is not an axis point: it keeps its NaN result.
+        # The quarter is reduced modulo four while still a float, so that the
+        # integer cast cannot overflow on a very large angle
+        quarter_index = np.mod(np.where(on_axis, quarters, 0.0), 4).astype(int)
         cos_theta = np.where(
             on_axis, np.array([1.0, 0.0, -1.0, 0.0])[quarter_index], cos_theta
         )

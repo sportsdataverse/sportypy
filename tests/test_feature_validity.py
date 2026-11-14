@@ -364,3 +364,14 @@ def test_create_circle_does_not_snap_non_finite_angles():
         circle = BaseFeature.create_circle(start=0.0, end=np.inf, npoints=3)
     # an infinite angle stays NaN rather than becoming an axis point
     assert circle.isna().all().all()
+
+
+def test_create_circle_snaps_only_rounding_error_to_the_axes():
+    # 4e-13 turns off the top is a real angle, not a rounding error: at a
+    # large radius it is far from the axis and must keep its coordinates
+    near = BaseFeature.create_circle(start=0.5 + 4e-13, end=0.5 + 4e-13, npoints=1, r=1e12)
+    assert near.x.iloc[0] == pytest.approx(-1.2566, abs=1e-3)
+    # a very large finite angle must not overflow the quarter lookup
+    with np.errstate(all="ignore"):
+        huge = BaseFeature.create_circle(start=1e20, end=1e20, npoints=1)
+    assert np.isfinite(huge).all().all()
