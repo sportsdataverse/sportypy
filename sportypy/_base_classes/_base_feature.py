@@ -244,10 +244,11 @@ class BaseFeature(ABC):
         # Only snap a value that is a quarter point up to floating point
         # rounding (a few ulps), so an angle that is genuinely close to, but
         # not on, an axis keeps its trigonometric coordinates
-        on_axis = np.isfinite(doubled_turns) & np.isclose(
+        on_axis = np.isfinite(theta) & np.isclose(
             doubled_turns, quarters, rtol = 0.0, atol = 1e-14
         )
-        # A non-finite angle is not an axis point: it keeps its NaN result.
+        # A non-finite angle (including a finite number of turns whose radians
+        # overflow) is not an axis point: it keeps its NaN result.
         # The quarter is reduced modulo four while still a float, so that the
         # integer cast cannot overflow on a very large angle
         quarter_index = np.mod(np.where(on_axis, quarters, 0.0), 4).astype(int)

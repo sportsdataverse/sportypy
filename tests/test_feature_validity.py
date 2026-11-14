@@ -375,3 +375,10 @@ def test_create_circle_snaps_only_rounding_error_to_the_axes():
     with np.errstate(all="ignore"):
         huge = BaseFeature.create_circle(start=1e20, end=1e20, npoints=1)
     assert np.isfinite(huge).all().all()
+
+
+def test_create_circle_does_not_snap_angles_whose_radians_overflow():
+    # 6e307 turns is finite, but times pi it overflows to infinity
+    with np.errstate(all="ignore"):
+        circle = BaseFeature.create_circle(start=6e307, end=6e307, npoints=1)
+    assert circle.isna().all().all()
