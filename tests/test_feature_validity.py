@@ -354,6 +354,7 @@ def test_odzone_faceoff_circle_has_no_seam_off_the_axes():
     assert circles
     for f in circles:
         df = f._get_centered_feature()
+        assert len(df) > 0
         # no x within rounding error of, but not on, the y axis
         near = df.x[(df.x.abs() < 1e-9) & (df.x != 0.0)]
         assert near.empty
@@ -382,3 +383,12 @@ def test_create_circle_does_not_snap_angles_whose_radians_overflow():
     with np.errstate(all="ignore"):
         circle = BaseFeature.create_circle(start=6e307, end=6e307, npoints=1)
     assert circle.isna().all().all()
+
+
+def test_create_circle_snaps_exact_quarter_turns_only():
+    # one ulp above a quarter turn is a real angle, so it is not snapped
+    just_past = float(np.nextafter(0.5, 1.0))
+    circle = BaseFeature.create_circle(start=just_past, end=just_past, npoints=1)
+    assert circle.x.iloc[0] != 0.0
+    exact = BaseFeature.create_circle(start=0.5, end=0.5, npoints=1)
+    assert exact.x.iloc[0] == 0.0
