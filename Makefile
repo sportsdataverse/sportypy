@@ -14,6 +14,8 @@ lint:  ## Run ruff and pre-commit hooks
 	uv run --no-sync pre-commit run --all-files
 
 test:  ## Run the test suite
-	uv run --no-sync pytest tests/
+	uv run --no-sync pytest --cov=sportypy tests/ --cov-report=term
 
-check: lint test  ## Run lint then tests
+check:  ## Run lint, then tests (always in that order, even with make -j)
+	$(MAKE) lint
+	$(MAKE) test

@@ -82,8 +82,8 @@ uv run --no-sync pytest tests/
 ```
 
 `make install` is `uv sync --locked`: run it after cloning, after `uv.lock`
-changes (a pull or branch switch), or when `.venv` is missing or broken (a
-moved repo leaves stale absolute paths in it). `make lint`, `make test` and
+changes (a pull or branch switch), or when `.venv` is missing or broken (after
+moving the repo, `rm -rf .venv` first: it keeps stale absolute paths). `make lint`, `make test` and
 `make check` wrap the `ruff`, `pre-commit` and `pytest` lines above.
 
 CI runs the same (`.github/workflows/`): `package-coverage` (tests, Python 3.10
