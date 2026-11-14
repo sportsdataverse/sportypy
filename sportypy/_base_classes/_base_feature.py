@@ -240,8 +240,12 @@ class BaseFeature(ABC):
         cos_theta = np.cos(theta)
         sin_theta = np.sin(theta)
         quarters = np.round(turns * 2)
-        on_axis = np.isclose(turns * 2, quarters, rtol = 0.0, atol = 1e-12)
-        quarter_index = quarters.astype(int) % 4
+        on_axis = np.isfinite(turns) & np.isclose(
+            turns * 2, quarters, rtol = 0.0, atol = 1e-12
+        )
+        # A non-finite angle is not an axis point: it keeps its NaN result,
+        # and its quarter is zeroed so the integer cast below is safe
+        quarter_index = np.where(on_axis, quarters, 0).astype(int) % 4
         cos_theta = np.where(
             on_axis, np.array([1.0, 0.0, -1.0, 0.0])[quarter_index], cos_theta
         )

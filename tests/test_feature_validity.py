@@ -357,3 +357,10 @@ def test_odzone_faceoff_circle_has_no_seam_off_the_axes():
         # no x within rounding error of, but not on, the y axis
         near = df.x[(df.x.abs() < 1e-9) & (df.x != 0.0)]
         assert near.empty
+
+
+def test_create_circle_does_not_snap_non_finite_angles():
+    with np.errstate(invalid="ignore"):
+        circle = BaseFeature.create_circle(start=0.0, end=np.inf, npoints=3)
+    # an infinite angle stays NaN rather than becoming an axis point
+    assert circle.isna().all().all()
