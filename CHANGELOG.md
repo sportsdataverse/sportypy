@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.6](https://github.com/sportsdataverse/sportypy/compare/v1.2.5...v1.2.6) (2026-11-14)
+
+### Bug Fixes
+
+* **base:** snap create_circle to exact quarter points ([#42](https://github.com/sportsdataverse/sportypy/issues/42)) ([1c54264](https://github.com/sportsdataverse/sportypy/commit/1c5426493ec1c682ae50aecc820cce8eb16316ce))
+
 ## [1.2.5](https://github.com/sportsdataverse/sportypy/compare/v1.2.4...v1.2.5) (2026-10-30)
 
 ### Bug Fixes
