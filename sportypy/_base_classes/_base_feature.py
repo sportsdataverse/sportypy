@@ -229,14 +229,32 @@ class BaseFeature(ABC):
         # starting and ending angles. They should be multiplied by pi to be in
         # radians. This vector represents the angle through which the circle is
         # traced
-        theta = np.linspace(start * np.pi, end * np.pi, npoints)
+        turns = np.linspace(start, end, npoints)
+        theta = turns * np.pi
+
+        # cos(pi / 2) is 6.1e-17 rather than 0, so two arcs that meet on an
+        # axis would miss each other by a rounding error, and a half ring
+        # would not close on its own first point. Like sportyR's cospi() and
+        # sinpi(), use the exact values at every multiple of pi / 2: the
+        # quarter index picks them from a repeating cycle of four
+        cos_theta = np.cos(theta)
+        sin_theta = np.sin(theta)
+        quarters = np.round(turns * 2)
+        on_axis = np.isclose(turns * 2, quarters, rtol = 0.0, atol = 1e-12)
+        quarter_index = quarters.astype(int) % 4
+        cos_theta = np.where(
+            on_axis, np.array([1.0, 0.0, -1.0, 0.0])[quarter_index], cos_theta
+        )
+        sin_theta = np.where(
+            on_axis, np.array([0.0, 1.0, 0.0, -1.0])[quarter_index], sin_theta
+        )
 
         # Create the vectors x and y that represent the circle (or arc of a
         # circle) to be created. This is a translation away from the center
         # across r, then rotated by cos(angle) and sin(angle) for x and y
         # respectively.
-        x = center[0] + (r * np.cos(theta))
-        y = center[1] + (r * np.sin(theta))
+        x = center[0] + (r * cos_theta)
+        y = center[1] + (r * sin_theta)
 
         circle_pts = pd.DataFrame({
             "x": x,
