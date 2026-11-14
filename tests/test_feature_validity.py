@@ -342,6 +342,7 @@ def test_nod_faceoff_spot_ring_closes_each_half_on_its_first_point():
     # the ring and its reflection are two halves, each exactly closed (not
     # just within the split tolerance), as a validator or triangulator needs
     half = len(df) // 2
+    assert half > 0
     for ring in (_ring(df.iloc[:half]), _ring(df.iloc[half:])):
         assert tuple(ring[0]) == tuple(ring[-1])
         assert count_crossings(ring) == 0
@@ -392,3 +393,11 @@ def test_create_circle_snaps_exact_quarter_turns_only():
     assert circle.x.iloc[0] != 0.0
     exact = BaseFeature.create_circle(start=0.5, end=0.5, npoints=1)
     assert exact.x.iloc[0] == 0.0
+
+
+def test_standalone_circle_helper_shares_the_exact_quarter_points():
+    from sportypy._base_functions import _base_shapes
+
+    arc = _base_shapes.circle(d=30.0, start=0.5, end=1.5)
+    assert tuple(arc.iloc[0]) == (0.0, 15.0)
+    assert tuple(arc.iloc[-1]) == (0.0, -15.0)

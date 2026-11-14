@@ -2,8 +2,9 @@
 
 @author: Ross Drucker
 """
-import numpy as np
 import pandas as pd
+
+from sportypy._base_classes._base_feature import BaseFeature
 
 
 def circle(center = (0.0, 0.0), npoints = 1000, d = 2.0, start = 0.0,
@@ -36,23 +37,16 @@ def circle(center = (0.0, 0.0), npoints = 1000, d = 2.0, start = 0.0,
     circle_df : pandas.DataFrame
         The circle's coordinate points
     """
-    # Create a vector of numbers that are evenly spaced apart between the
-    # starting and ending angles. They should be multiplied by pi to be in
-    # radians. This vector represents the angle through which the circle is
-    # traced
-    pts = np.linspace(start * np.pi, end * np.pi, npoints)
-
-    # Create the vectors x and y that represent the circle (or arc of a circle)
-    # to be created. This is a translation away from the center across (d/2),
-    # then rotated by cos(angle) and sin(angle) for x and y respectively.
-    x = center[0] + ((d / 2.0) * np.cos(pts))
-    y = center[1] + ((d / 2.0) * np.sin(pts))
-
-    # Combine points into data frame for output
-    circle_df = pd.DataFrame({
-        "x": x,
-        "y": y
-    })
+    # Delegate to the feature classes' circle generator, so that both circle
+    # builders share one implementation, including its exact values at the
+    # quarter points (an arc ending on an axis has no rounding seam)
+    circle_df = BaseFeature.create_circle(
+        center = center,
+        npoints = npoints,
+        r = d / 2.0,
+        start = start,
+        end = end
+    )
 
     return circle_df
 
