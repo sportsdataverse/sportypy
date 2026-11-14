@@ -229,14 +229,40 @@ class BaseFeature(ABC):
         # starting and ending angles. They should be multiplied by pi to be in
         # radians. This vector represents the angle through which the circle is
         # traced
-        theta = np.linspace(start * np.pi, end * np.pi, npoints)
+        turns = np.linspace(start, end, npoints)
+        theta = turns * np.pi
+
+        # cos(pi / 2) is 6.1e-17 rather than 0, so two arcs that meet on an
+        # axis would miss each other by a rounding error, and a half ring
+        # would not close on its own first point. Like sportyR's cospi() and
+        # sinpi(), use the exact values at every multiple of pi / 2: the
+        # quarter index picks them from a repeating cycle of four
+        cos_theta = np.cos(theta)
+        sin_theta = np.sin(theta)
+        doubled_turns = turns * 2
+        quarters = np.round(doubled_turns)
+        # Only snap an angle that is exactly a multiple of pi / 2, as sportyR's
+        # cospi() and sinpi() do. An angle that is merely close to an axis
+        # keeps its trigonometric coordinates. A non-finite angle (including
+        # a finite number of turns whose radians overflow) is not an axis
+        # point: it keeps its NaN result.
+        on_axis = np.isfinite(theta) & (doubled_turns == quarters)
+        # The quarter is reduced modulo four while still a float, so that the
+        # integer cast cannot overflow on a very large angle
+        quarter_index = np.mod(np.where(on_axis, quarters, 0.0), 4).astype(int)
+        cos_theta = np.where(
+            on_axis, np.array([1.0, 0.0, -1.0, 0.0])[quarter_index], cos_theta
+        )
+        sin_theta = np.where(
+            on_axis, np.array([0.0, 1.0, 0.0, -1.0])[quarter_index], sin_theta
+        )
 
         # Create the vectors x and y that represent the circle (or arc of a
         # circle) to be created. This is a translation away from the center
         # across r, then rotated by cos(angle) and sin(angle) for x and y
         # respectively.
-        x = center[0] + (r * np.cos(theta))
-        y = center[1] + (r * np.sin(theta))
+        x = center[0] + (r * cos_theta)
+        y = center[1] + (r * sin_theta)
 
         circle_pts = pd.DataFrame({
             "x": x,

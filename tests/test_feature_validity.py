@@ -319,3 +319,85 @@ def test_overlapping_rings_are_each_filled():
     px, py = ax.transData.transform((89.1, 0.0))
     assert tuple(image[int(image.shape[0] - py), int(px)][:3]) == (0, 0, 0)
     plt.close(fig)
+
+
+def test_create_circle_is_exact_at_the_quarter_points():
+    # cos(pi / 2) is 6.1e-17 and sin(pi) is 1.2e-16 unless the axis points are
+    # snapped, so an arc that starts or ends on an axis would be off it
+    top_to_bottom = BaseFeature.create_circle(start=0.5, end=1.5, r=15.0)
+    assert tuple(top_to_bottom.iloc[0]) == (0.0, 15.0)
+    assert tuple(top_to_bottom.iloc[-1]) == (0.0, -15.0)
+    # a full turn starts and ends on the +x axis with no rounding error
+    full = BaseFeature.create_circle(r=2.0, center=(1.0, 1.0))
+    assert tuple(full.iloc[0]) == (3.0, 1.0)
+    assert tuple(full.iloc[-1]) == (3.0, 1.0)
+    # off-axis points are still on the circle
+    assert np.allclose(np.hypot(full.x - 1.0, full.y - 1.0), 2.0)
+
+
+def test_nod_faceoff_spot_ring_closes_each_half_on_its_first_point():
+    df = hockey_features.NODZoneFaceoffSpotRing(
+        feature_radius=1.0, feature_thickness=2 / 12
+    )._get_centered_feature().reset_index(drop=True)
+    # the ring and its reflection are two halves, each exactly closed (not
+    # just within the split tolerance), as a validator or triangulator needs
+    half = len(df) // 2
+    assert half > 0
+    for ring in (_ring(df.iloc[:half]), _ring(df.iloc[half:])):
+        assert tuple(ring[0]) == tuple(ring[-1])
+        assert count_crossings(ring) == 0
+        assert _area(ring) > 0
+
+
+def test_odzone_faceoff_circle_has_no_seam_off_the_axes():
+    rink = HockeyRink(league_code="nhl")
+    circles = [f for f in rink._features if type(f).__name__ == "ODZoneFaceoffCircle"]
+    assert circles
+    for f in circles:
+        df = f._get_centered_feature()
+        assert len(df) > 0
+        # no x within rounding error of, but not on, the y axis
+        near = df.x[(df.x.abs() < 1e-9) & (df.x != 0.0)]
+        assert near.empty
+
+
+def test_create_circle_does_not_snap_non_finite_angles():
+    with np.errstate(invalid="ignore"):
+        circle = BaseFeature.create_circle(start=0.0, end=np.inf, npoints=3)
+    # an infinite angle stays NaN rather than becoming an axis point
+    assert circle.isna().all().all()
+
+
+def test_create_circle_snaps_only_rounding_error_to_the_axes():
+    # 4e-13 turns off the top is a real angle, not a rounding error: at a
+    # large radius it is far from the axis and must keep its coordinates
+    near = BaseFeature.create_circle(start=0.5 + 4e-13, end=0.5 + 4e-13, npoints=1, r=1e12)
+    assert near.x.iloc[0] == pytest.approx(-1.2566, abs=1e-3)
+    # a very large finite angle must not overflow the quarter lookup
+    with np.errstate(all="ignore"):
+        huge = BaseFeature.create_circle(start=1e20, end=1e20, npoints=1)
+    assert np.isfinite(huge).all().all()
+
+
+def test_create_circle_does_not_snap_angles_whose_radians_overflow():
+    # 6e307 turns is finite, but times pi it overflows to infinity
+    with np.errstate(all="ignore"):
+        circle = BaseFeature.create_circle(start=6e307, end=6e307, npoints=1)
+    assert circle.isna().all().all()
+
+
+def test_create_circle_snaps_exact_quarter_turns_only():
+    # one ulp above a quarter turn is a real angle, so it is not snapped
+    just_past = float(np.nextafter(0.5, 1.0))
+    circle = BaseFeature.create_circle(start=just_past, end=just_past, npoints=1)
+    assert circle.x.iloc[0] != 0.0
+    exact = BaseFeature.create_circle(start=0.5, end=0.5, npoints=1)
+    assert exact.x.iloc[0] == 0.0
+
+
+def test_standalone_circle_helper_shares_the_exact_quarter_points():
+    from sportypy._base_functions import _base_shapes
+
+    arc = _base_shapes.circle(d=30.0, start=0.5, end=1.5)
+    assert tuple(arc.iloc[0]) == (0.0, 15.0)
+    assert tuple(arc.iloc[-1]) == (0.0, -15.0)
