@@ -81,6 +81,11 @@ uv run --no-sync pytest tests/
 (cd docs && yarn install --frozen-lockfile && yarn build)  # fails on a broken link
 ```
 
+`make install` is `uv sync --locked`: run it after cloning, after `uv.lock`
+changes (a pull or branch switch), or when `.venv` is missing or broken (after
+moving the repo, `rm -rf .venv` first: it keeps stale absolute paths). `make lint`, `make test` and
+`make check` wrap the `ruff`, `pre-commit` and `pytest` lines above.
+
 CI runs the same (`.github/workflows/`): `package-coverage` (tests, Python 3.10
 and 3.14), `quality` (ruff, pre-commit, zizmor, build), `docs-build` (the
 site, on pull requests) and `docs-deploy` (`main` to `gh-pages`).
