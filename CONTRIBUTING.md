@@ -95,6 +95,8 @@ Your request will be checked against the following points:
     uv run pytest --cov=sportypy tests/ --cov-report=term
     ```
 
+    The `Makefile` wraps these steps. Run `make install` once after cloning, and again whenever `uv.lock` changes (for example after pulling or switching branches), or when `.venv` is missing or broken (for example after moving the repo to a new folder). It creates `.venv` from `uv.lock`, the same as `uv sync --locked`. `make lint` runs ruff and the pre-commit hooks, `make test` runs the tests, `make check` runs both, and `make help` lists the targets.
+
     Before you push, run the file checks CI does: `uv run pre-commit run --all-files` (ruff, whitespace and file checks, the workflow linters and markdownlint). `uv run pre-commit install` runs those on every commit and also installs the commit-message hook, which checks during `git commit` that the message follows [Conventional Commits](https://www.conventionalcommits.org/), such as `fix(hockey): ...` or `feat(lacrosse): ...`.
 
     This will show you where your new code lacks sufficient coverage, so please be sure to add tests in the `tests/` repository to make sure you're covered! For help on creating tests, please reach out to the League Office
